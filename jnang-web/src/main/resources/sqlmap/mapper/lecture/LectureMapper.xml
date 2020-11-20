@@ -316,9 +316,26 @@
 		
 		<!-- 이사장 전용 /lecture/class -->
 		<select id="classGroupList" resultType="java.util.HashMap" parameterType="java.util.HashMap">
-			select * from class_group  cg order by sort , seq
+			select
+			 (select COMNM from cominfo where COMCD = t1.COMCD) as COMNM ,
+			 t1.COMCD ,
+			 ifnull(t2.class_group ,'기타') as class_nm,
+			 t1.cd,
+			 t1.CD_NM
+			FROM cot_grpcd t1 left join class_group t2 on t1.ITEM5 = t2.seq and t2.use_yn =1
+			WHERE t1.USE_YN = 'Y'  AND t1.GRP_CD = 'CM_SPORTS_CD' and t2.seq = #{CT1}
+			group by t1.COMCD 
+			ORDER BY COMNM 
 		</select>
 		
+		<!-- 이사장 전용 종목별 리스트/lecture/class -->
+		<select id="lecclassList" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+			select * 
+			from program_item t1 
+			left join cot_grpcd t2 on t1.COMCD = t2.COMCD and t1.SPORTS_CD = t2.cd
+			where t2.ITEM5 = #{CT1}
+		</select>
+	
 		
 		
 		

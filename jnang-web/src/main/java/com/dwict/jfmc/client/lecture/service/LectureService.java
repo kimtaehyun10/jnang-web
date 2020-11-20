@@ -21,5 +21,6 @@ public interface LectureService {
 	
 	//종목 그룹 가져오기
 	List<Map<String, Object>> classGroupList(HttpServletRequest request);
-
+	//이사장 전용 종목 강좌 리스트
+	List<Map<String, Object>> lecClassList(HttpServletRequest request);
 }

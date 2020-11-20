@@ -99,5 +99,11 @@ public class LectureRestController {
 	public List<Map<String, Object>> rentGroupList(HttpServletRequest request) {
 		return service.classGroupList(request);
 	}
-
+	//이사장 전용 종목별 검색 종목 출력
+	@PostMapping(value = "/lecture/classList")
+	public List<Map<String, Object>> lecClassList(HttpServletRequest request) {
+		return service.lecClassList(request);
+	}
+	
+	
 }

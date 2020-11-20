@@ -78,7 +78,15 @@ public class LectureServiceImpl implements LectureService {
 
 	}
 	
-	
+	//이사장 전용 종목별 검색 종목 출력
+	@Override
+	public List<Map<String, Object>> lecClassList(HttpServletRequest request) {
+		
+		Map<String, Object> param = new HashMap<>();
+		param.put("ct1", request.getParameter("ct1"));
+		return mapper.lecClassList(param);
+
+	}
 	
 	/*
 	 * 장바구니 담기
