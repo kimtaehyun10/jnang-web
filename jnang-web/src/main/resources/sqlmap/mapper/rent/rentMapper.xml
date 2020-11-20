@@ -165,12 +165,14 @@
 			 ,mem_addr2 	=	 #{mem_addr2} 	
 	</insert>
 
-	<insert id="rentSave" parameterType="java.util.HashMap" >
+	<insert id="rentSave" parameterType="java.util.HashMap">
 		INSERT INTO  rent_app ( 
 			  COMCD 
  			 ,RENT 
 			 ,PART_CD 
 			 ,PLACE_CD 
+			 ,PLACE_TAB
+			 ,PLACE_TIME_SEQ
 			 ,APP_DATE 
 			 ,MEM_NO 
 			 ,BOSSNM 
@@ -213,9 +215,11 @@
 			 ,#{RENT} 
 			 ,#{PART_CD} 
 			 ,#{PLACE_CD} 
+			 ,#{PLACE_TAB}
+			 ,#{TIME_SEQ}
 			 ,#{APP_DATE} 
 			 ,#{MEM_NO} 
-			 ,#{BOSSNM} 
+			 ,#{MEM_NM} 
 			 ,#{BIZNO} 
 			 ,#{COM_NM} 
 			 ,#{PERSON_YN} 
@@ -230,7 +234,7 @@
 			 ,#{EDATE} 
 			 ,#{RENT_READY} 
 			 ,#{ETC} 
-			 ,10
+			 ,5
 			 ,#{RENT_TYPE} 
 			 ,#{DISPLAY_YN} 
 			 ,#{SALE_AMT} 
@@ -251,6 +255,10 @@
 			 ,#{PRODUCT_CNT} 
 			 ,#{PRODUCT_SIZE} 
 		)
+		
+		<selectKey keyProperty='RENT_IDX' resultType='int' order='AFTER'>
+			select RENT_IDX from rent_app where MEM_NO = #{MEM_NO}  and APP_TYPE = 5 and PLACE_TIME_SEQ = #{TIME_SEQ} limit 1 
+		</selectKey>
 	</insert>
 
 
@@ -259,38 +267,38 @@
 	<!-- 달력에 표시될 예약가능/ 예약 불가능 -->
 	<select id="getRentCalendar" parameterType="java.util.HashMap" resultType="java.util.HashMap">
 		select 
-			jnimc.up_rent_day_cnt('0',8) as tot
-			,jnimc.up_rent_day_cnt(#{YYMM}01,#{PLACE_CD}) as d1
-			,jnimc.up_rent_day_cnt(#{YYMM}02,#{PLACE_CD}) as d2
-			,jnimc.up_rent_day_cnt(#{YYMM}03,#{PLACE_CD}) as d3
-			,jnimc.up_rent_day_cnt(#{YYMM}04,#{PLACE_CD}) as d4
-			,jnimc.up_rent_day_cnt(#{YYMM}05,#{PLACE_CD}) as d5
-			,jnimc.up_rent_day_cnt(#{YYMM}06,#{PLACE_CD}) as d6
-			,jnimc.up_rent_day_cnt(#{YYMM}07,#{PLACE_CD}) as d7
-			,jnimc.up_rent_day_cnt(#{YYMM}08,#{PLACE_CD}) as d8
-			,jnimc.up_rent_day_cnt(#{YYMM}09,#{PLACE_CD}) as d9
-			,jnimc.up_rent_day_cnt(#{YYMM}10,#{PLACE_CD}) as d10
-			,jnimc.up_rent_day_cnt(#{YYMM}11,#{PLACE_CD}) as d11
-			,jnimc.up_rent_day_cnt(#{YYMM}12,#{PLACE_CD}) as d12
-			,jnimc.up_rent_day_cnt(#{YYMM}13,#{PLACE_CD}) as d13
-			,jnimc.up_rent_day_cnt(#{YYMM}14,#{PLACE_CD}) as d14
-			,jnimc.up_rent_day_cnt(#{YYMM}15,#{PLACE_CD}) as d15
-			,jnimc.up_rent_day_cnt(#{YYMM}16,#{PLACE_CD}) as d16
-			,jnimc.up_rent_day_cnt(#{YYMM}17,#{PLACE_CD}) as d17
-			,jnimc.up_rent_day_cnt(#{YYMM}18,#{PLACE_CD}) as d18
-			,jnimc.up_rent_day_cnt(#{YYMM}19,#{PLACE_CD}) as d19
-			,jnimc.up_rent_day_cnt(#{YYMM}20,#{PLACE_CD}) as d20
-			,jnimc.up_rent_day_cnt(#{YYMM}21,#{PLACE_CD}) as d21
-			,jnimc.up_rent_day_cnt(#{YYMM}22,#{PLACE_CD}) as d22
-			,jnimc.up_rent_day_cnt(#{YYMM}23,#{PLACE_CD}) as d23
-			,jnimc.up_rent_day_cnt(#{YYMM}24,#{PLACE_CD}) as d24
-			,jnimc.up_rent_day_cnt(#{YYMM}25,#{PLACE_CD}) as d25
-			,jnimc.up_rent_day_cnt(#{YYMM}26,#{PLACE_CD}) as d26
-			,jnimc.up_rent_day_cnt(#{YYMM}27,#{PLACE_CD}) as d27
-			,jnimc.up_rent_day_cnt(#{YYMM}28,#{PLACE_CD}) as d28
-			,jnimc.up_rent_day_cnt(#{YYMM}29,#{PLACE_CD}) as d29
-			,jnimc.up_rent_day_cnt(#{YYMM}30,#{PLACE_CD}) as d30	
-			,jnimc.up_rent_day_cnt(#{YYMM}31,#{PLACE_CD}) as d31	
+			jnimc.up_rent_day_cnt('0',0,8) as tot
+			,concat (jnimc.up_rent_day_cnt(#{YYMM},'01',#{PLACE_CD}),'/'
+			,jnimc.up_rent_day_cnt(#{YYMM},'02',#{PLACE_CD}),'/'
+			,jnimc.up_rent_day_cnt(#{YYMM},'03',#{PLACE_CD}),'/'
+			,jnimc.up_rent_day_cnt(#{YYMM},'04',#{PLACE_CD}),'/'
+			,jnimc.up_rent_day_cnt(#{YYMM},'05',#{PLACE_CD}),'/' 
+			,jnimc.up_rent_day_cnt(#{YYMM},'06',#{PLACE_CD}),'/' 
+			,jnimc.up_rent_day_cnt(#{YYMM},'07',#{PLACE_CD}),'/' 
+			,jnimc.up_rent_day_cnt(#{YYMM},'08',#{PLACE_CD}),'/' 
+			,jnimc.up_rent_day_cnt(#{YYMM},'09',#{PLACE_CD}),'/' 
+			,jnimc.up_rent_day_cnt(#{YYMM},'10',#{PLACE_CD}),'/' 
+			,jnimc.up_rent_day_cnt(#{YYMM},'11',#{PLACE_CD}),'/' 
+			,jnimc.up_rent_day_cnt(#{YYMM},'12',#{PLACE_CD}),'/' 
+			,jnimc.up_rent_day_cnt(#{YYMM},'13',#{PLACE_CD}),'/' 
+			,jnimc.up_rent_day_cnt(#{YYMM},'14',#{PLACE_CD}),'/' 
+			,jnimc.up_rent_day_cnt(#{YYMM},'15',#{PLACE_CD}),'/' 
+			,jnimc.up_rent_day_cnt(#{YYMM},'16',#{PLACE_CD}),'/' 
+			,jnimc.up_rent_day_cnt(#{YYMM},'17',#{PLACE_CD}),'/' 
+			,jnimc.up_rent_day_cnt(#{YYMM},'18',#{PLACE_CD}),'/' 
+			,jnimc.up_rent_day_cnt(#{YYMM},'19',#{PLACE_CD}),'/' 
+			,jnimc.up_rent_day_cnt(#{YYMM},'20',#{PLACE_CD}),'/' 
+			,jnimc.up_rent_day_cnt(#{YYMM},'21',#{PLACE_CD}),'/' 
+			,jnimc.up_rent_day_cnt(#{YYMM},'22',#{PLACE_CD}),'/' 
+			,jnimc.up_rent_day_cnt(#{YYMM},'23',#{PLACE_CD}),'/' 
+			,jnimc.up_rent_day_cnt(#{YYMM},'24',#{PLACE_CD}),'/' 
+			,jnimc.up_rent_day_cnt(#{YYMM},'25',#{PLACE_CD}),'/' 
+			,jnimc.up_rent_day_cnt(#{YYMM},'26',#{PLACE_CD}),'/' 
+			,jnimc.up_rent_day_cnt(#{YYMM},'27',#{PLACE_CD}),'/' 
+			,jnimc.up_rent_day_cnt(#{YYMM},'28',#{PLACE_CD}),'/' 
+			,jnimc.up_rent_day_cnt(#{YYMM},'29',#{PLACE_CD}),'/' 
+			,jnimc.up_rent_day_cnt(#{YYMM},'30',#{PLACE_CD}),'/' 
+			,jnimc.up_rent_day_cnt(#{YYMM},'31',#{PLACE_CD}),'/') as days
 	
 	</select>
 

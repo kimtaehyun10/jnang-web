@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.dwict.jfmc.client.com.model.Paging;
 import com.dwict.jfmc.client.lecture.model.ComInfo;
@@ -135,6 +136,7 @@ public class RentServiceImpl implements RentService {
 			return null;
 		}
 		obj.put("param", param);
+		obj.put("PLACE_TAB", arrParam[1]);
 	
 		
 		return obj;
@@ -156,36 +158,47 @@ public class RentServiceImpl implements RentService {
 
 	//대관 신청 저장
 	@Override
+	@Transactional
 	public int rentSave(Map<String, Object> requestMap, HttpServletRequest request) {
 
+		//예약일
+		String RESERVE_DATE = request.getParameter("ymd");
+		//선택된 배열 저장값
+		String [] arrayTmp = request.getParameterValues("tseq"); 
+
+		//대관 값 가져오기
+		Map<String, Object> maps = rentConfig(request);
+		
 		try {
 			final Account account = (Account) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			final String MEM_ID = account.getUsername();
 			final String MEM_NO = account.getMemNo();
 			final String MEM_NM = account.getMemNm();
 
-			requestMap.put("MEM_NM", MEM_NM);
-			requestMap.put("MEM_NO", MEM_NO);			
+			maps.put("MEM_NM", MEM_NM);
+			maps.put("MEM_NO", MEM_NO);	
+			
 		} catch (final Exception ex)
 		{
 			return -999;
 		}
+		
+		
+		maps.put("COM_NM", "");
+		maps.put("TEL", "");
+		maps.put("RESERVE_DATE", RESERVE_DATE); //예약일
 
-		try {
-
-			//체육센터/신청code 분리저장 위해서
-			final String rentData = (String) requestMap.get("RENT_LIST");
-			final String [] arryRent = (rentData +"/////").split("/");
-			requestMap.put("COMCD", arryRent[0]);
-			requestMap.put("PLACE_CD", arryRent[1]);
-			requestMap.put("PART_CD", arryRent[2]);
-			requestMap.put("SALE_AMT", arryRent[3]);
-
-		} catch (final Exception ex)
-		{
-			return 0;
+		int rtn = 1;
+		for (int ii = 0 ; ii < arrayTmp.length; ii++) {
+			
+			maps.put("TIME_SEQ", arrayTmp[ii]);
+			rtn =  mapper.rentSave(maps);
+			if (rtn == 0) {
+				return 0;
+			}
 		}
-		return mapper.rentSave(requestMap);
+		
+		return rtn;
 	}
 
 

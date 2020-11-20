@@ -4,24 +4,30 @@
 * @author 
 * @version 1.21
 */
-
+var rntYMD;
 function send() {
+	var chkCnt = $("input:checkbox[name='tseq']:checked").length;
+	if (chkCnt == 0) {
+		alert("신청하실 시간을 선택하세요.")
+		return false;
+	}
 	
-	if (confirm("\n 대관 신청  하시겠습니까?\n ")) {
+	if (confirm("\n 총 [ "+ chkCnt +" ] 건 선택\n\n              대관 신청  하시겠습니까?\n ")) {
 		
 	} else {
 		return false;	
 	}
-	
-	$.post('/rent/save', $("#frm1").serialize() , function(data){
-		
+	$("#ymd").val(rntYMD);
+	$.post('/rent/save', $("#frm2").serialize() , function(data){
+		alert(data);
 		if (data == "1") {
 			alert('접수 되었습니다.');
-			top.location.href ='/mypage/rent';
+			top.location.href ='/rent/rentOrder';
 		} else if (data == "-9") {
 			alert("사용자 동의후 접수 가능합니다.");
 		} else {
 			alert('접수 오류 !  다시 신청 하십시요!~');
+			top.location.reload();
 		}
 	}).done(function(data){
 		
@@ -31,61 +37,6 @@ function send() {
 	
 	
 };
-
-function getRent(ymd,seq) {
-	
-	//for(var ii=1; ii<= coteCnt; ii++){
-		console.clear();
-		console.log('ymd:'+ ymd +', seq==>'+seq);
-		$.get('/data/getRentList', { "ymd" : ymd, "q" : seq +"/0" } , function(data){
-			//try {
-				var arr = []; 
-				if(data.length != 0){
-					//var option = "<option value='all' selected>--- 전체 ---</option>'";
-					// $('#ct2').append(option);
-					//console.log("length:    ===> "+ data.length);
-					//console.log(data);
-					tmpList = "";
-					for(var i=0; i<data.length; i++){
-						
-						var place_tab = data[i].place_tab;
-						//if (data[i].COMCD != undefined) {
-						var checked = (data[i].rentIdx == 0) ? "" : " checked "; 
-						tmpList = '<div id="'+i+'"><label><input type="checkbox" name="time_chk" ';
-							
-						if (data[i].rentIdx == "0") {
-							console.log("rentIdx:"+ data[i].rentIdx)
-							tmpList += ' value="'+ data[i].seq +'" class="chkbxSize">'
-									+ '<span class="margin_l5">'+ data[i].item +'</span></label></div>';
-						} else {
-							tmpList += ' class="chkbxSize" checked disabled >'
-									+ '<span class="rented margin_l5">'+ data[i].item +'</span></label></div>';
-						}							
-
-						arr[place_tab] = (arr[place_tab] == undefined) ? tmpList : arr[place_tab] + tmpList;
-					}
-				}
-				else
-				{
-					//var option = "<option value='all' selected>--- 전체 ---</option>'";
-					// $('#ct2').append(option);
-				}
-				//console.log("tmpList["+ arr[2] +"]");
-				for(var i=0; i<data.length; i++){
-					$('#data_tab'+i).html(arr[i]);
-				}
-			
-	/*		} catch (exception) {
-				alert("대관 내역 출력오류 : 잠시 후 다시 시도하여 주세요..");
-				return;
-			}*/
-		});
-	
-	//}//end for
-	
-	
-}
-
 
 function selectSport(selCT) {
 	var ct1 = $("#ct1").val();
@@ -164,4 +115,75 @@ function selectSport(selCT) {
 	
 };
 
+
+/// 실시간 예약현황 출력
+function getRent(ymd,seq) {
+	
+	//for(var ii=1; ii<= coteCnt; ii++){
+		console.clear();
+		console.log('ymd:'+ ymd +', seq==>'+seq);
+		$("#ymd").val(''); rntYMD = ymd;
+		$.get('/data/getRentList', { "ymd" : ymd, "q" : seq +"/0" } , function(data){
+			//try {
+				var arr = []; 
+				if(data.length != 0){
+					//var option = "<option value='all' selected>--- 전체 ---</option>'";
+					// $('#ct2').append(option);
+					//console.log("length:    ===> "+ data.length);
+					//console.log(data);
+					tmpList = "";
+					for(var i=0; i<data.length; i++){
+						
+						var place_tab = data[i].place_tab;
+						//if (data[i].COMCD != undefined) {
+						var checked = (data[i].rentIdx == 0) ? "" : " checked "; 
+						tmpList = '<div id="'+i+'"><label><input type="checkbox" ';
+							
+						if (data[i].rentIdx == "0") {
+							tmpList += 'sid="chk_tab_'+ place_tab +'" name="tseq" value="'+ data[i].seq +'" class="chkbxSize" onClick="selectCheck(0,'+ place_tab +','+ data[i].seq +');" >'
+									+ '<span class="margin_l5">'+ data[i].item +'</span></label></div>';
+						} else {
+							tmpList += ' class="chkbxSize" checked disabled >'
+									+ '<span class="rented margin_l5">'+ data[i].item +'</span></label></div>';
+						}							
+
+						arr[place_tab] = (arr[place_tab] == undefined) ? tmpList : arr[place_tab] + tmpList;
+					}
+				}
+				else
+				{
+					//var option = "<option value='all' selected>--- 전체 ---</option>'";
+					// $('#ct2').append(option);
+				}
+				//console.log("tmpList["+ arr[2] +"]");
+				for(var i=0; i<data.length; i++){
+					$('#data_tab'+i).html(arr[i]);
+				}
+				
+				ymd = fn_convertDate(2,ymd);
+				$('#selectDate').html("&bull;"+ ymd +" 시간선택");
+				$('#info1').hide();
+			
+	/*		} catch (exception) {
+				alert("대관 내역 출력오류 : 잠시 후 다시 시도하여 주세요..");
+				return;
+			}*/
+		});
+	
+	//}//end for
+	
+	
+}
+
+//다수 첵크 방지
+function selectCheck(tabCnt, tab, val1) {
+	
+	var chkCnt = $("input:checkbox[sid=chk_tab_"+ tab +"]:checked").length;
+	if (chkCnt == 0) {
+		$("input:checkbox[sid=chk_tab_"+ tab +"]:checkbox:not(:checked)").removeAttr("disabled");
+	} else {
+		$("input:checkbox[sid=chk_tab_"+ tab +"]:checkbox:not(:checked)").attr("disabled", "disabled");
+	}
+
+}
 

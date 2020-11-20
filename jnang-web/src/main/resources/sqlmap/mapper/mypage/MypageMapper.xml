@@ -211,6 +211,7 @@
 			ETC,
 			APP_TYPE,
 			case APP_TYPE
+				when '5' then '결제대기'
 				when '10' then '접수대기'
 				when '20' then '확인중'
 				when '30' then '확정'
@@ -237,7 +238,7 @@
 			PRODUCT_SIZE
 		from
 			jnimc.rent_app t1
-		where MEM_NO = (select MEM_NO from v_member where id= #{userId})
+		where MEM_NO = (select MEM_NO from v_member where id= #{userId}) and APP_TYPE != 5
 		order by RENT_IDX desc
 		limit 20
 	</select>

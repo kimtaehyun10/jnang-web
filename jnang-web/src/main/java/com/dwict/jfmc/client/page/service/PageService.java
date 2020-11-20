@@ -21,5 +21,6 @@ public interface PageService {
 	
 	//myData
 	List<Map<String, Object>> getRentList(Map<String, Object> requestMap,HttpServletRequest request);
+	List<Map<String, Object>> getRentCalendar(Map<String, Object> requestMap, HttpServletRequest request);
 	
 }

@@ -26,13 +26,12 @@ public class RentRestController {
 	@Resource(name = "rentService")
 	RentService rtnService;
 
+	//댸관 예약 저장
 	@PostMapping(value = "/save")
 	public int rtnSave(@RequestParam  Map<String, Object> requestMap, HttpServletRequest request) {
-		//개인정보 동의
-		final String agree = (String) requestMap.get("agree");
-
+	
 		//예약 저장
-		final int rtn = (agree.equals("Y")) ? rtnService.rentSave(requestMap, request) : -9;
+		final int rtn = rtnService.rentSave(requestMap, request);
 
 		return rtn;
 	}

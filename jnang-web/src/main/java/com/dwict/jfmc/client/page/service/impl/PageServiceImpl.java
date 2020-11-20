@@ -236,5 +236,42 @@ public class PageServiceImpl implements PageService {
 		
 		return rentMapper.getRentList(requestMap);
 	}
+	
+	
+	@Override
+	public List<Map<String, Object>> getRentCalendar(Map<String, Object> requestMap,HttpServletRequest request) {
+		
+		
+		String yy = (String) request.getParameter("yy");
+		String mm = (String) request.getParameter("mm");
+		
+		
+		//접수시 사용
+		String ymd = (String) request.getParameter("ymd"); //예약 선택일
+		ymd = (ymd == null) ? "":ymd;
+		String param = request.getParameter("q");	//PLACE_CD / PLACE_TAB
+		param = (param == null) ? "0/0/0/" : param;
+		String [] arrParam = param.split("\\/");
+		
+		if (yy == null || mm == null) {
+			Date from = new Date();
+			SimpleDateFormat transFormat = new SimpleDateFormat("yyyyMM");
+			String today = transFormat.format(from);
+			yy = today.substring(0,4);
+			mm = today.substring(4);
+		}
+		mm = (mm.length() == 1) ? "0"+mm : mm;
+		
+		if (ymd.length() == 8) { 
+			requestMap.put("YYMMDD", ymd); //현재달 전체 출력용
+		} else {
+			requestMap.put("YYMM", yy + mm); //현재달 전체 출력용
+		}
+
+		requestMap.put("PLACE_CD", arrParam[0]);
+		requestMap.put("PLACE_TAB", arrParam[1]);
+		
+		return rentMapper.getRentCalendar(requestMap);
+	}
 
 }

@@ -1,10 +1,19 @@
+<%@page import="java.util.Date"%>
+<%@page import="java.util.*"%>
+<%@page import="java.util.concurrent.TimeUnit"%>
 <%@page import="java.lang.reflect.Array"%>
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Calendar"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <script type="text/javascript" src="${pageContext.request.contextPath}/resource/js/rent/rent.date.js"></script>
 <%
+
+	Date from = new Date();
+	SimpleDateFormat transFormat = new SimpleDateFormat("yyyyMMdd");
+	String today = transFormat.format(from);
+
   // 오늘 날짜로 달력 취득
   Calendar currentCal = Calendar.getInstance();
   Calendar todayCheck_currentCal = Calendar.getInstance();
@@ -27,7 +36,9 @@
 	  }
   } catch (Exception ex) {
   }
-   
+  
+  out.println("today:"+ today +"<BR>");
+  
   // 날을 1일로 셋팅
   currentCal.set(Calendar.DATE, 1);
   
@@ -61,16 +72,22 @@
   //out.print("MONTH:"+ month +"<BR>");
   
   
-  // 현재 '일'을 취득
   int day = currentCal.get(Calendar.DATE);
   //int day = currentCal.get(Calendar.DAY_OF_MONTH);
 
+  sMM = (month > 9) ? Integer.toString(month) : "0"+month;
 %>
 <c:set var="PLACE_GROUP" value="${rentCfg.PLACE_GROUP}" />
 <%
 int PLACE_GROUP = (int) pageContext.getAttribute("PLACE_GROUP");
 out.println("PLACE_GROUP:"+ PLACE_GROUP +"<BR>");
 %>
+<c:set var="PLACE_CD" value="${rentCfg.PLACE_CD}" />
+<%
+int PLACE_CD = (int) pageContext.getAttribute("PLACE_CD");
+out.println("PLACE_CD:"+ PLACE_CD +"<BR>");
+%>
+
 <c:set var="otherCfg" value="${rentCfg.other_cfg}" />
 <%
 String otherCfg = (String)pageContext.getAttribute("otherCfg") ;
@@ -218,54 +235,57 @@ out.println("param:"+ param +"<BR>");
 <%
 String [] rentDays = new String [32];
 for (int ii = 0 ; ii < rentDays.length; ii++) {
-	rentDays[ii] = "";
+	rentDays[ii] = "<a class='size_m2 btn_gray1'>예약 종료</a>";
 }
 
 int tmpDay =0;
 %>
-<c:forEach items="${rentList}" var="result" varStatus="status">
-	<c:set var="RESERVE_DATE" value="${result.RESERVE_DATE}" />
-	<%
-		int RESERVE_DATE = (int)pageContext.getAttribute("RESERVE_DATE") ;
-		//out.print("RESERVE_DATE==>:"+ RESERVE_DATE +"<BR>");
-		if (RESERVE_DATE != 0) {
-			String strRESERVE_DATE = Integer.toString(RESERVE_DATE);
-			tmpDay = Integer.parseInt(strRESERVE_DATE.substring(6));
+<c:set var="itemTot" value="${rentList[0].tot}" />
+<%
+int itemTot = (int)pageContext.getAttribute("itemTot") ;
+out.print("itemTot:"+ itemTot +"<BR>");
+%>
+<c:set var="days" value="${rentList[0].days}" />
+<%
+String days = (String)pageContext.getAttribute("days") ;
+out.print("days:"+ days +"<BR>");
+
+String [] arryDays = days.split("\\/");
+//현재 예약 갯수
+for (int ii = 0 ; ii < arryDays.length; ii++) {
+	//out.print("days["+(ii+1)+"]:"+ arryDays[ii] +"<BR>");
+	int rentCnt = Integer.parseInt(arryDays[(ii)]);
+	//예약갯수 비교해서 예약 가능/종료 확인
+	String strii = ((ii+1) > 9) ? Integer.toString(ii+1) : "0"+(ii+1);
+	//다음달
+	String strNextMonth = (nextMonth > 9) ? Integer.toString(nextMonth) : "0"+ nextMonth;
+	
+	int int_today	= Integer.parseInt(today);
+	int int_rentYmd = Integer.parseInt(year + sMM + strii);
+	int nextYmd 	= Integer.parseInt(nextYear + strNextMonth + strii);
+	//out.print("today :"+ int_today +"<BR>");
+	//out.print("rentYmd :"+ int_rentYmd +"<BR>");
+	//out.print("nextYmd :"+ nextYmd +"<BR>");
+	
+	Date date1 = transFormat.parse(today);
+    Date date2 = transFormat.parse(year + sMM + strii);
+    int diffMonth = getMonthsDiff(date1 , date2);
+	//접수 가능/종료 버튼 
+	if (itemTot > rentCnt && int_today <= int_rentYmd ) {
+		
+		if (1 >= diffMonth) {
+			rentDays[ii+1] = " <a class='size_m2 btn_green1' onclick=\"getRent('"+ int_rentYmd +"','"+PLACE_CD+"');\">예약 가능  ("+ (itemTot - rentCnt) +"건) </a>";
+		} else {
+			rentDays[ii+1] = " <a class='size_m2 btn_gray1'>준비중</a> ";
 		}
-		else
-		{
-			tmpDay = 0;
-		}
-		
-		//out.print("tmpDay:"+ tmpDay);
- 	%>
-	<c:set var="APP_TYPE_NM" value="${result.APP_TYPE_NM}" /> 
-	<%
-		String APP_TYPE_NM = (String)pageContext.getAttribute("APP_TYPE_NM") ;
-		//out.print(APP_TYPE_NM);
- 	%>
-	<c:set var="PLACE_NM" value="${result.PLACE_NM}" /> 
-	<%
-		String PLACE_NM = (String)pageContext.getAttribute("PLACE_NM") ;
-		//out.print(PLACE_NM);
- 	%> 
-	<c:set var="BOSSNM" value="${result.BOSSNM}" /> 
-	<%
-		String BOSSNM = (String)pageContext.getAttribute("BOSSNM") ;
-		BOSSNM = (BOSSNM.length() > 1) ? BOSSNM.substring(0,1)+"**" : BOSSNM; 
-		//out.print(BOSSNM);
-		String strData = "["+ APP_TYPE_NM +"] "+ PLACE_NM +"("+ BOSSNM +")";
-		
-		//예약현황보여줄때 rentDays[tmpDay] = ((rentDays[tmpDay]).equals("")) ? strData : rentDays[tmpDay] +"<BR>"+ strData;
-		
-		rentDays[tmpDay] = "예약가능"; //((rentDays[tmpDay]).equals("")) ? strData : rentDays[tmpDay] +"<BR>"+ strData;
-	%>
-</c:forEach>
+	}
+}
+
+
+%>
 
 
 
-
-<form name="calendarFrm" id="calendarFrm" action="" method="GET">
 <table class="con_wid1" border=0>
 <tr>
 <%
@@ -414,6 +434,7 @@ if (PLACE_GROUP != 4) {
 if (PLACE_GROUP != 4) {
 %>
 <td valign="top">
+		<form name="frm2" id="frm2" action="" method="GET">
 		<table style="margin:70px 0 0 50px;" class="stbl_l1a">
 		<caption>시간 선택</caption>
 		<colgroup>
@@ -422,43 +443,19 @@ if (PLACE_GROUP != 4) {
 		</colgroup>
 		<thead>
 			<tr>
-				<th scope="col">시간 선택</th>
+				<th scope="col"><span id="selectDate" style="font-weigh:500;color:#4467ff;font-size:15px; "> &bull; 예약가능한 시간을 선택하세요</span></th>
 			</tr>
 		</thead>
 		<tbody id="dataList">
 		<tr>
-			<td><label><input type="checkbox" name="time_chk" id="time_chk1" value="09:00~10:00" class="chkbxSize">
-				<span class="margin_l10 fntSize10">09:00 ~ 10:00</span></label>
-			</td>
-		</tr>
-		<tr>
-			<td><label><input type="checkbox" name="time_chk" id="time_chk1" value="09:00~10:00" class="chkbxSize">
-				<span class="margin_l10 fntSize10">09:00 ~ 10:00</span></label>
-			</td>
-		</tr>
-		<tr>
-			<td><label><input type="checkbox" name="time_chk" id="time_chk1" value="09:00~10:00" class="chkbxSize">
-				<span class="margin_l10 fntSize10">09:00 ~ 10:00</span></label>
-			</td>
-		</tr>
-		<tr>
-			<td><label><input type="checkbox" name="time_chk" id="time_chk1" value="09:00~10:00" class="chkbxSize">
-				<span class="margin_l10 fntSize10">09:00 ~ 10:00</span></label>
-			</td>
-		</tr>
-		<tr>
-			<td><label><input type="checkbox" name="time_chk" id="time_chk1" value="09:00~10:00" class="chkbxSize">
-				<span class="margin_l10 fntSize10">09:00 ~ 10:00</span></label>
-			</td>
-		</tr>
-		<tr>
-			<td><label><input type="checkbox" name="time_chk" id="time_chk1" value="09:00~10:00" class="chkbxSize">
-				<span class="margin_l10 fntSize10">09:00 ~ 10:00</span></label>
-			</td>
+			<td><div id="data_tab0"></td>
 		</tr>
 
 		</tbody>
-	</table>
+		</table>
+		<input type="hidden" name="q" value="<%=param %>">
+		<input type="hidden" id="ymd" name="ymd" value="">
+	</form>
 </td>
 <%
 }
@@ -466,43 +463,88 @@ if (PLACE_GROUP != 4) {
 </tr>
 </table>
 
+
+<br>
+<div id="selectDate" style="font-weigh:500;color:#4467ff;font-size:22px; "> &bull; 예약가능한 시간을 선택하세요</div>
 <%
 //테니스장 예약 신청폼
 if (PLACE_GROUP == 4) {
 %>
-
-<table class="stbl_l1a con_wid">
- <thead>
-  <tr>
-  <%
-  for (int ii = 0 ; ii < int_tabCnt; ii++) {
-  %>
-    <td><%=(ii+1) +" "+ tabName %></td>
-  <%
-  }
-  %>
-  </tr>
- </thead>
- <tbody id="dataList">
-  <tr>
-  <%
-  for (int ii = 0 ; ii < int_tabCnt; ii++) {
-  %>
-    <td><div id="data_tab<%=(ii+1)%>"></td>
-  <%
-  }
-  %>
-  </tr>
-  <tr id="info1"><td colspan="20"> 예약가능한 날짜를 선택해주세요. </td></tr>
-</tbody>
-</table>
-
+<form name="frm2" id="frm2" action="" method="GET">
+	<table class="stbl_l1a con_wid">
+	 <thead>
+	  <tr>
+	  <%
+	  for (int ii = 0 ; ii < int_tabCnt; ii++) {
+	  %>
+	    <td><%=(ii+1) +" "+ tabName %></td>
+	  <%
+	  }
+	  %>
+	  </tr>
+	 </thead>
+	 <tbody id="dataList">
+	  <tr>
+	  <%
+	  for (int ii = 0 ; ii < int_tabCnt; ii++) {
+	  %>
+	    <td><div id="data_tab<%=(ii+1)%>"></td>
+	  <%
+	  }
+	  %>
+	  </tr>
+	  <tr id="info1"><td colspan="20"> 예약가능한 날짜를 선택해주세요. </td></tr>
+	</tbody>
+	</table>
+	<input type="hidden" name="q" value="<%=param %>">
+	<input type="hidden" id="ymd" name="ymd" value="">
+</form>
 <%
 }
 %>
 
 
     <div class="btnarea margin_t80">
-        <a href="#none" onClick="data.list('del');" id=" " class="green">예 약</a>
+        <a href="#none" onClick="send('<%=today %>');" id=" " class="green">예 약</a>
         <a href="#none" onclick="getRent('20201213',8);" id=" " class="gray2">취 소</a>
     </div>
+<%!
+/**
+ * 두날자 차이 day
+ */
+ public int getDayDiff (int today , int nextYMD) {
+	/** yyyyMMddHHmmss Date Format */
+	int intDiff = 0;
+	try { 
+		String a = Integer.toString(today);
+		String b = Integer.toString(nextYMD);
+		String format = "yyyyMMdd";
+		SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.KOREA);
+		Date firstDate = sdf.parse(a); Date secondDate = sdf.parse(b);
+		long diffInMillies = Math.abs(secondDate.getTime() - firstDate.getTime());
+		long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+		System.out.println(String.format("sssssssssssssA %s , B %s Diff %s Days", a, b, diff));
+		intDiff = Long.valueOf(diff).intValue();
+		
+	} catch (Exception e) { 
+		e.printStackTrace(); 
+	}
+	
+	return intDiff;
+
+}
+
+/**
+ * 두날자 차이 month
+ */
+
+private int getMonthsDiff(Date date1, Date date2){
+
+	/* 해당년도에 12를 곱해서 총 개월수를 구하고 해당 월을 더 한다. */
+	int month1 = date1.getYear() * 12 + date1.getMonth();
+	int month2 = date2.getYear() * 12 + date2.getMonth();
+
+return month2 - month1;
+}
+
+%>    

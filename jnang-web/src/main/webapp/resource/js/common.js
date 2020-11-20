@@ -273,3 +273,54 @@ function comma_str_y(str){
 function comma_str_n(str){
 	return String(str).replace(/\D/g, '');
 }
+
+function fn_convertDate(uType, uDate){
+	var day, rtn;
+	var yy,mm,dd,hh,ii,ss;
+	//날짜 ==> 숫자로
+	if (uType == "1") {
+		day = (uDate == "") ? 	new Date() : new Date(uDate);
+		var year = day.getFullYear();
+		var month = day.getMonth() + 1;
+		var date = day.getDate();
+		var hour = day.getHours();
+		var min = day.getMinutes();
+		var sec = day.getSeconds();
+		month 	= ( month < 10 ) ? "0"+ month : month;
+		date 	= ( date < 10 ) ? "0"+ date : date;
+		hour 	= ( hour < 10 ) ? "0"+ hour : hour;
+		min 	= ( min < 10 ) ? "0"+ min : min;
+		sec 	= ( sec < 10 ) ? "0"+ sec : sec;
+		rtn = (uDate =="" || (uDate.toString()).length > 10) ? year + "" + month + "" + date + "" + hour + "" + min + "" + sec : year + "" + month + "" + date; 
+	}
+	else
+	{
+		//숫자 ==> 날짜
+		if (uDate.length >= 8){
+			yy = uDate.substring(0,4);
+			mm = uDate.substring(4,6);
+			dd = uDate.substring(6,8);
+			rtn = yy +"-"+ mm +"-"+ dd;
+		}
+		
+		if (uDate.length > 9){
+			hh = uDate.substring(8,10);
+			try {
+				ii = uDate.substring(10,12);
+			}
+			catch (ex) {
+				ii = "00";
+			}
+			try {
+				ss = uDate.substring(12,14);
+			}
+			catch (ex) {
+				ss = "00";
+			}		
+			
+			rtn += " "+hh +":"+ ii +":"+ ss;
+		}
+	}
+	
+	return rtn;
+}
