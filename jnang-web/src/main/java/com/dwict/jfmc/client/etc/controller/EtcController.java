@@ -36,5 +36,10 @@ public class EtcController {
 		modelAndView.setViewName("etc/guide4");
 		return modelAndView;
 	}
-
+	
+	@GetMapping(value = "/etc/tmq")
+	public ModelAndView tmq(ModelAndView modelAndView) {
+		modelAndView.setViewName("etc/tmq");
+		return modelAndView;
+	}
 }

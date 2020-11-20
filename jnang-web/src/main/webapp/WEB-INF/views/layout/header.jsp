@@ -80,9 +80,9 @@
 											<c:if test="${topMenuList.DEP eq '1' and topMenuList.CMS_CD eq '01000000'}">
 											<div class='bx_topmenu_quick_a01'>
 												<ul>
-													<li><a href='/lecture/class/1'><img src='${pageContext.request.contextPath}/resource/images/common/icon_topmenu_quick_a01.png' alt='수영'><h6>수영</h6></a></li>
-													<li><a href='/lecture/class/2'><img src='${pageContext.request.contextPath}/resource/images/common/icon_topmenu_quick_a02.png' alt='헬스'><h6>헬스</h6></a></li>
-													<li><a href='/lecture/class/3'><img src='${pageContext.request.contextPath}/resource/images/common/icon_topmenu_quick_a03.png' alt='문화ㆍ체육'><h6>문화ㆍ체육</h6></a></li>
+													<li><a href='/etc/tmq'><img src='${pageContext.request.contextPath}/resource/images/common/icon_topmenu_quick_a01.png' alt='수영'><h6>수영</h6></a></li>
+													<li><a href='/etc/tmq'><img src='${pageContext.request.contextPath}/resource/images/common/icon_topmenu_quick_a02.png' alt='헬스'><h6>헬스</h6></a></li>
+													<li><a href='/etc/tmq'><img src='${pageContext.request.contextPath}/resource/images/common/icon_topmenu_quick_a03.png' alt='문화ㆍ체육'><h6>문화ㆍ체육</h6></a></li>
 												</ul>
 											</div>
 											</c:if>
