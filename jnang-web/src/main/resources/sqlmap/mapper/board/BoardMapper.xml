@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dwict.jfmc.client.board.mapper.BoardMapper">
+
+    <select id="faqPage" resultType="faq" parameterType="java.util.HashMap">
+		 SELECT R1.* 
+		   FROM ( SELECT CMS_CD
+		               , BRD_NO
+		               , TITLE
+		               , CONT
+		               , ATTACH_ID
+		            FROM CMS_CONT_FAQ
+		<choose>
+			<when test="cmsCd == 'ALL' ">
+					WHERE 1=1					
+			</when>
+			<otherwise>
+					WHERE CMS_CD = #{cmsCd}
+			</otherwise>
+		</choose>            		           
+		             AND DEL_YN = 'N'
+		        ) R1
+		<if test="searchValue != null and searchValue != ''">
+		  <choose>
+		    <when test="searchKey == 'ALL'">
+		   WHERE ( TITLE LIKE CONCAT('%', #{searchValue}, '%')
+		           OR
+		           CONT LIKE CONCAT('%', #{searchValue}, '%') )
+		    </when>
+		    <otherwise>
+		   WHERE ${searchKey} LIKE CONCAT('%', #{searchValue}, '%')
+		    </otherwise>
+		  </choose>
+		</if>
+		ORDER BY BRD_NO DESC
+		   LIMIT #{startRow}, #{pageSize}
+	</select>
+	<select id="faqPageCnt" resultType="int" parameterType="java.util.HashMap">
+		SELECT COUNT(1)
+		  FROM CMS_CONT_FAQ
+		 <choose>
+			<when test="cmsCd == 'ALL' ">
+					WHERE 1=1					
+			</when>
+			<otherwise>
+					WHERE CMS_CD = #{cmsCd}
+			</otherwise>
+		</choose>
+		   AND DEL_YN = 'N'
+		<if test="searchValue != null and searchValue != ''">
+		  <choose>
+		    <when test="searchKey == 'ALL'">
+		   AND ( TITLE LIKE CONCAT('%', #{searchValue}, '%')
+		         OR 
+		         CONT LIKE CONCAT('%', #{searchValue}, '%') )
+		    </when>
+		    <otherwise>
+		   AND ${searchKey} LIKE CONCAT('%', #{searchValue}, '%')
+		    </otherwise>
+		  </choose>
+		</if>
+	</select>  
+    <select id="ntcPage" resultType="ntc" parameterType="java.util.HashMap">
+		 SELECT R1.* 
+		   FROM ( SELECT CMS_CD		   			
+					   <if test="cmsCd == '05061201'">
+					    , @ROWNUM:=@ROWNUM+1 AS ROWNUM
+					   </if>
+					   , BRD_NO		               
+		               , TITLE
+		               , CONT
+		               , HIT
+		               , ATTACH_ID
+		               , NTC_YN
+		               , fn_getEmpCodeNm(REG_ID) AS REG_NM
+		               , DATE_FORMAT(REG_DT,'%Y-%m-%d') AS REG_DT
+		            FROM CMS_CONT_NTC		            
+		            <choose>
+					    <when test="cmsCd == '05061201'">
+					    , (SELECT @ROWNUM:=0) R
+					    WHERE CMS_CD IN 
+					    (SELECT CMS_CD 
+					    FROM CMS_MENU 
+					    WHERE UP_CMS_CD = (SELECT UP_CMS_CD 
+					    				  FROM CMS_MENU 
+					    				  WHERE CMS_CD = #{cmsCd}))
+					    </when>
+					    <otherwise>
+					    WHERE CMS_CD = #{cmsCd}
+					    </otherwise>
+					</choose>		           
+		             AND DEL_YN = 'N'
+		        ) R1
+		 WHERE 1=1
+		<if test="searchValue != null and searchValue != ''">
+		  <choose>
+		    <when test="searchKey == 'ALL'">
+		   AND ( TITLE LIKE CONCAT('%', #{searchValue}, '%')
+		           OR
+		           CONT LIKE CONCAT('%', #{searchValue}, '%') )
+		    </when>
+		    <otherwise>
+		   AND ${searchKey} LIKE CONCAT('%', #{searchValue}, '%')
+		    </otherwise>
+		  </choose>
+		</if>
+		<choose>
+		    <when test="cmsCd == '05061201'">
+		    	ORDER BY NTC_YN DESC, ROWNUM DESC
+		    </when>
+		    <otherwise>
+				ORDER BY NTC_YN DESC, BRD_NO DESC    
+		    </otherwise>
+		</choose>				
+		
+		   LIMIT #{startRow}, #{pageSize}
+	</select>	
+	<select id="ntcPageCnt" resultType="int" parameterType="java.util.HashMap">
+		SELECT COUNT(1)
+		  FROM CMS_CONT_NTC
+		  <choose>
+		    <when test="cmsCd == '05061201'">
+		    WHERE CMS_CD IN 
+		    (SELECT CMS_CD 
+		    FROM CMS_MENU 
+		    WHERE UP_CMS_CD = (SELECT UP_CMS_CD 
+		    				  FROM CMS_MENU 
+		    				  WHERE CMS_CD = #{cmsCd}))
+		    </when>
+		    <otherwise>
+		    WHERE CMS_CD = #{cmsCd}
+		    </otherwise>
+		 </choose>
+		   AND DEL_YN = 'N'
+		<if test="searchValue != null and searchValue != ''">
+		  <choose>
+		    <when test="searchKey == 'ALL'">
+		   AND ( TITLE LIKE CONCAT('%', #{searchValue}, '%')
+		         OR 
+		         CONT LIKE CONCAT('%', #{searchValue}, '%') )
+		    </when>
+		    <otherwise>
+		   AND ${searchKey} LIKE CONCAT('%', #{searchValue}, '%')
+		    </otherwise>
+		  </choose>
+		</if>		
+	</select>	
+	<select id="ntcDetailPage" resultType="ntc" parameterType="java.util.HashMap">
+		SELECT CMS_CD
+			 , BRD_NO
+			 , TITLE
+			 , CONT
+			 , HIT
+			 , ATTACH_ID
+			 , fn_getEmpCodeNm(REG_ID) AS REG_NM
+			 , REG_DT
+		FROM CMS_CONT_NTC
+		WHERE CMS_CD = #{cmsCd}
+		AND BRD_NO = #{brdNo}		
+	</select>
+	<update id="boardHit" parameterType="java.util.HashMap">
+		UPDATE
+		<if test="mType == 'NTC'">
+			CMS_CONT_NTC
+		</if>
+		<if test="mType == 'BRD'">
+			CMS_CONT_BRD
+		</if>	
+		SET
+			HIT=HIT+1
+		WHERE CMS_CD = #{cmsCd}
+		AND BRD_NO = #{brdNo}			
+	</update>
+	<select id="ntcAttachView" resultType="attach" parameterType="java.util.HashMap">
+		SELECT ATTACH_ID
+			 , ATTACH_NO
+			 , FILE_NM
+			 , VIR_FILE_NM
+			 , FILE_EXTSN
+			 , READ_CNT			 
+		FROM CMS_ATTACH
+		WHERE ATTACH_ID = #{attachId}
+		<if test="attachNo != null and attachNo != ''">
+			AND ATTACH_NO = #{attachNo}
+		</if>		
+	</select>
+	<select id="brdPage" resultType="brd" parameterType="java.util.HashMap">
+		 SELECT R1.* 
+		   FROM ( SELECT CMS_CD
+		               , BRD_NO		               
+		               , TITLE
+		               , CONT
+		               , HIT
+		               , DEP
+		               , SECRET_YN
+		               , REP_YN		               
+		               , ATTACH_ID
+		               , REG_ID		               
+		               , fn_getMemberNm(REG_ID) AS REG_NM
+		               , DATE_FORMAT(REG_DT,'%Y-%m-%d') AS REG_DT
+		            FROM CMS_CONT_BRD
+		           WHERE CMS_CD = #{cmsCd}
+		             AND DEL_YN = 'N'
+		             AND UP_BRD_NO IS NULL
+		             <if test="secYn == 'YN'">
+		             	AND SECRET_YN = 'Y'
+		             </if>
+		        ) R1
+		 WHERE 1=1
+		<if test="searchValue != null and searchValue != ''">
+		  <choose>
+		    <when test="searchKey == 'ALL'">
+		   AND ( TITLE LIKE CONCAT('%', #{searchValue}, '%')
+		           OR
+		           CONT LIKE CONCAT('%', #{searchValue}, '%') )
+		    </when>
+		    <otherwise>
+		   AND ${searchKey} LIKE CONCAT('%', #{searchValue}, '%')
+		    </otherwise>
+		  </choose>
+		</if>				
+		ORDER BY BRD_NO DESC
+		   LIMIT #{startRow}, #{pageSize}
+	</select>	
+	<select id="brdPageCnt" resultType="int" parameterType="java.util.HashMap">
+		SELECT COUNT(1)
+		  FROM CMS_CONT_BRD
+		 WHERE CMS_CD = #{cmsCd}
+		   AND DEL_YN = 'N'
+		   AND UP_BRD_NO IS NULL
+		   <if test="secYn == 'YN'">
+              AND SECRET_YN = 'Y'
+           </if>
+		<if test="searchValue != null and searchValue != ''">
+		  <choose>
+		    <when test="searchKey == 'ALL'">
+		   AND ( TITLE LIKE CONCAT('%', #{searchValue}, '%')
+		         OR 
+		         CONT LIKE CONCAT('%', #{searchValue}, '%') )
+		    </when>
+		    <otherwise>
+		   AND ${searchKey} LIKE CONCAT('%', #{searchValue}, '%')
+		    </otherwise>
+		  </choose>
+		</if>		
+	</select>
+	<select id="brdDetailPage" resultType="brd" parameterType="java.util.HashMap">
+		SELECT CMS_CD
+			 , BRD_NO
+			 , UP_BRD_NO			 
+			 , TITLE
+			 , CONT
+			 , HIT
+			 , DEP
+			 , SECRET_YN
+			 , REP_YN
+			 , ATTACH_ID
+			 , REG_ID
+			 <choose>
+				<when test="upBrdNo != null and upBrdNo != ''">
+					, fn_getEmpCodeNm(REG_ID) AS REG_NM
+				</when>
+				<otherwise>
+					, fn_getMemberNm(REG_ID) AS REG_NM
+				</otherwise>
+			 </choose>			 
+			 , REG_DT
+		FROM CMS_CONT_BRD
+		WHERE CMS_CD = #{cmsCd}
+		<choose>
+			<when test="upBrdNo != null and upBrdNo != ''">
+				AND UP_BRD_NO = #{brdNo}
+			</when>
+			<otherwise>
+				AND BRD_NO = #{brdNo}
+			</otherwise>
+		</choose>		
+	</select>	
+	<insert id="brdWrite" parameterType="java.util.HashMap">
+		<selectKey resultType="hashmap" keyProperty="brdNo,attachId" order="BEFORE">
+			SELECT IFNULL(MAX(BRD_NO),0)+1 AS brdNo, 
+			CONCAT('${mType}','_','${cmsCd}','_',LPAD(IFNULL(MAX(BRD_NO),0)+1,10,0)) AS attachId								
+			FROM CMS_CONT_BRD			
+			WHERE CMS_CD = #{cmsCd}
+		</selectKey>		
+		INSERT INTO 
+			CMS_CONT_BRD
+		VALUES		   
+			( #{cmsCd}, #{brdNo}, NULL, NULL, #{title}, #{cont}, 0, 1, 'N',#{secretYn}, 'N', #{attachId}, #{ips}, #{regId}, SYSDATE(), NULL, NULL, NULL, NULL )
+	</insert>	
+	<insert id="saveAttach" parameterType="java.util.HashMap">
+		INSERT 
+			INTO CMS_ATTACH
+		VALUES
+			(#{attachId}, #{attachNo}, #{fileNm}, #{virFileNm}, #{fileExtsn}, 0)		
+	</insert>	
+	<update id="brdUpdate" parameterType="java.util.HashMap">
+		UPDATE				
+			CMS_CONT_BRD			
+		SET
+			TITLE = #{title},
+			CONT = #{cont},
+			SECRET_YN = #{secretYn},
+			MOD_ID = #{regId},
+			MOD_DT = SYSDATE()		   				
+		WHERE CMS_CD = #{cmsCd}
+		AND BRD_NO = #{brdNo}			
+	</update>
+	<delete id="deleteAttach" parameterType="java.util.HashMap">
+		DELETE 
+			FROM CMS_ATTACH
+		WHERE ATTACH_ID = #{attachId}
+	</delete>	
+	<update id="boardDelete" parameterType="java.util.HashMap">
+		UPDATE
+		<if test="mType == 'BRD'">
+			CMS_CONT_BRD
+		</if>										
+		SET
+			DEL_YN = 'Y'		   				
+		WHERE CMS_CD = #{cmsCd}
+		AND BRD_NO = #{brdNo}			
+	</update>
+
+	<select id="searchKeyword" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		SELECT A.CMS_CD AS cmsCd, 
+			   M.MTYPE AS mtype, 
+			   M.CMS_NM AS cmsNm, 
+			   COUNT(A.CMS_CD) AS count 
+		FROM
+			(
+			SELECT CMS_CD, TITLE, CONT FROM CMS_CONT_FAQ
+			UNION ALL
+			SELECT CMS_CD, TITLE, CONT FROM CMS_CONT_NTC
+			UNION ALL
+			SELECT 
+				CMS_CD, 
+				TITLE, 
+				CONT 
+			FROM CMS_CONT_BRD
+			WHERE UP_BRD_NO IS NULL
+			AND SECRET_YN = 'Y' 	
+			) A 
+		LEFT JOIN 
+			CMS_MENU M ON A.CMS_CD = M.CMS_CD
+		WHERE 
+			A.TITLE LIKE CONCAT('%', #{keyword}, '%') OR A.CONT LIKE CONCAT('%', #{keyword}, '%')
+		GROUP BY 
+			A.CMS_CD		
+	</select>
+	
+	<select id="pricePage" resultType="price" parameterType="java.util.HashMap">
+		 SELECT R1.* 
+		   FROM ( SELECT CMS_CD		   								   
+					   , BRD_NO
+					   , BRD_PWD		               
+		               , TITLE
+		               , CONT
+		               , HIT
+		               , COMPLETE_YN
+		               , ORDER_DEPART
+		               , CEO
+		               , BUSI_NUMBER
+		               , COM_NAME
+		               , EXPECTED_PRICE
+		               , BASE_PRICE
+		               , PRICE_1
+		               , PRICE_2
+		               , PRICE_3
+		               , ATTACH_ID		               
+		               , fn_getEmpCodeNm(REG_ID) AS REG_NM
+		               , DATE_FORMAT(REG_DT,'%Y-%m-%d') AS REG_DT
+		            FROM CMS_CONT_PRICE		                       
+					WHERE CMS_CD = #{cmsCd}           
+		              AND DEL_YN = 'N'
+		        ) R1
+		 WHERE 1=1
+		<if test="searchValue != null and searchValue != ''">
+		  <choose>
+		    <when test="searchKey == 'ALL'">
+		   AND ( TITLE LIKE CONCAT('%', #{searchValue}, '%')
+		           OR
+		           CONT LIKE CONCAT('%', #{searchValue}, '%') )
+		    </when>
+		    <otherwise>
+		   AND ${searchKey} LIKE CONCAT('%', #{searchValue}, '%')
+		    </otherwise>
+		  </choose>
+		</if>
+		   ORDER BY BRD_NO DESC    						
+		   LIMIT #{startRow}, #{pageSize}
+	</select>
+		
+	<select id="pricePageCnt" resultType="int" parameterType="java.util.HashMap">
+		SELECT COUNT(1)
+		  FROM CMS_CONT_PRICE		  
+		    WHERE CMS_CD = #{cmsCd}		    
+		      AND DEL_YN = 'N'
+		<if test="searchValue != null and searchValue != ''">
+		  <choose>
+		    <when test="searchKey == 'ALL'">
+		   AND ( TITLE LIKE CONCAT('%', #{searchValue}, '%')
+		         OR 
+		         CONT LIKE CONCAT('%', #{searchValue}, '%') )
+		    </when>
+		    <otherwise>
+		   AND ${searchKey} LIKE CONCAT('%', #{searchValue}, '%')
+		    </otherwise>
+		  </choose>
+		</if>		
+	</select>
+	
+	<select id="priceDetailPage" resultType="price" parameterType="java.util.HashMap">
+		 SELECT CMS_CD		   								   
+			  , BRD_NO
+			  , BRD_PWD		               
+              , TITLE
+              , CONT
+              , HIT
+              , COMPLETE_YN
+              , ORDER_DEPART
+              , CEO
+              , BUSI_NUMBER
+              , COM_NAME
+              , EXPECTED_PRICE
+              , BASE_PRICE
+              , PRICE_1
+              , PRICE_2
+              , PRICE_3
+              , ATTACH_ID
+              , fn_getDeptCodeNm((SELECT B.ORGNZT_ID FROM COMTNEMPLYRINFO B WHERE REG_ID = B.EMPLYR_ID)) AS REG_OFF_NM
+              , (SELECT B.OFFM_TELNO FROM COMTNEMPLYRINFO B WHERE REG_ID = B.EMPLYR_ID) AS REG_OFFM_TELNO		               
+              , fn_getEmpCodeNm(REG_ID) AS REG_NM
+              , DATE_FORMAT(REG_DT,'%Y-%m-%d') AS REG_DT
+            FROM CMS_CONT_PRICE		                       
+			WHERE CMS_CD = #{cmsCd}           
+              AND BRD_NO = #{brdNo}
+	</select>
+	
+	<update id="priceUpdate" parameterType="java.util.HashMap">
+		UPDATE				
+			CMS_CONT_PRICE			
+		SET
+			${columnValue} = #{price}		   				
+		WHERE BRD_NO = #{brdNo}					
+	</update>
+</mapper>

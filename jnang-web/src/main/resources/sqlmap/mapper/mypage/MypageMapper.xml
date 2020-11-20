@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dwict.jfmc.client.mypage.mapper.MypageMapper">
+
+
+	<!-- 오래된 장바구니 삭제 -->
+	<delete id="basketClear" parameterType="java.util.HashMap">
+    	DELETE FROM MEM_CART
+    	WHERE MEM_NO = #{MEM_NO} 
+  	  	<if test='SEQ != null and SEQ != ""  and SEQ != " " and SEQ != "0" '>
+            AND SEQ IN (${SEQ})
+        </if> 
+        <if test='SEQ == null or SEQ == "" or SEQ == "0"'>
+			AND TIMESTAMPDIFF(minute, WRITE_DH , now()) >= 600        
+        </if>
+    </delete>
+
+    
+    <!-- 위에 오래된 파일 삭제 후 리스트 보여주기  -->
+    <select id="basketList" parameterType="String" resultType="java.util.HashMap">
+    	SELECT 
+    	  t1.SEQ 
+	 	 ,t1.COMCD 
+		 ,t1.ITM_TYPE
+		 ,t1.CLASS_CD  
+		 ,t1.PART_CD 
+		 ,t1.SPORTS_CD 
+		 ,t1.ITEM_CD 
+		 ,t1.MEM_NO 
+		 ,t1.ITEM_SDATE 
+		 ,t1.ITEM_EDATE 
+		 ,t1.DC_CD1 
+		 ,t1.DC_CD2 
+		 ,t1.SALE_AMT 
+		 ,t1.ADD_YMD 
+		 ,t1.WRITE_DH 
+		 ,t2.ITEM_NM 
+		 ,t2.UP_ITEM_CD 
+		 ,t2.VAT_YN 
+    	FROM MEM_CART t1 left join program_item t2 on t1.COMCD = t2.COMCD and t1.ITEM_CD = t2.ITEM_CD 
+    	WHERE MEM_NO = #{MEM_NO}
+    	Order by t1.SEQ
+    </select>	
+    
+    
+	<!--회원 정보 검색 -->
+    <select id="memberInfo" parameterType="String" resultType="java.util.HashMap">
+    	SELECT ID
+    	     , MEM_NM
+    	     , MEM_NO
+    	     , HP
+    	     , EMAIL
+    	     , GENDER    	     
+    	     , HOME_ADDR
+    	     , HOME_TEL
+    	     , EMAIL_YN
+    	     , SMS_YN
+    	     , ETC_NO
+    	     , BIRTH_SEC
+    	     , HOME_ZIP
+    	     , DEC_STR('KEY1', SEC_BIRTH_DATE) AS SEC_BIRTH_DATE
+    	     , ( SELECT MAX(CARD_NO) FROM MEM_CARD CARD WHERE MBER.MEM_NO = CARD.MEM_NO AND CARD.USE_YN = 'Y' ) AS CARD_NO
+    	     , ( SELECT COUNT(1) FROM MEM_CARD CARD WHERE MBER.MEM_NO = CARD.MEM_NO AND CARD.USE_YN = 'Y' ) AS CARD_CNT
+    	  FROM MEMBER_DAMO MBER
+    	 WHERE MBER.ID = #{userId}
+    	 LImit 2;
+    </select>	
+    
+    
+	<!-- my 수강신청 현황 --><!-- 회원 가입프로그램 조회 -->
+	<select id="getMyClssList" parameterType="String"
+		resultType="java.util.HashMap">
+		select TOTAL_CNT , R1.*
+		FROM (SELECT COUNT(*) OVER() AS TOTAL_CNT
+		,CASE WHEN ifnull(TRIM(A.RETURN_YN), 'N') = 'Y' THEN '종료'
+		WHEN ifnull(TRIM(A.CHANGE_YN), 'N') = 'B' THEN '종료'
+		WHEN
+		(SELECT COUNT(*)
+		FROM RECESS
+		WHERE DATE_FORMAT(SYSDATE(), '%Y%m%d') BETWEEN R_SDATE AND R_EDATE
+		AND MEM_NO = A.MEM_NO
+		AND SALE_SEQ = A.SALE_SEQ
+		) > 0
+		THEN '휴회'
+		WHEN DATE_FORMAT(SYSDATE(), '%Y%m%d') BETWEEN A.ITEM_SDATE AND
+		CASE
+		WHEN A.PROMOTION_YN = 'Y'
+		AND A.PROMOTION_SALE_GBN = '03'
+		THEN DATE_FORMAT(STR_TO_DATE(A.ITEM_EDATE, '%Y%m%d%s') +
+		A.PROMOTION_VALUE, '%Y%m%d')
+		ELSE A.ITEM_EDATE
+		END
+		THEN '등록' WHEN DATE_FORMAT(SYSDATE(), '%Y%m%d') &lt; A.ITEM_SDATE
+		THEN '사용대기'
+		ELSE '종료'
+		END AS PRO_STATE
+		,A.SALE_DATE
+		,B.ITEM_NM
+		,A.ITEM_CD
+		,(select CLASS_CD from item_class where COMCD = a.COMCD and ITEM_CD= a.ITEM_CD
+		limit 1) as CLASS_CD
+		,A.ITEM_SDATE
+		,jnimc.fn_int_to_date(A.ITEM_SDATE,'.') as ITEM_SDATE_DT
+		,jnimc.fn_int_to_date(A.ITEM_EDATE,'.') as ITEM_EDATE_DT
+		,CASE
+		WHEN A.PROMOTION_YN = 'Y'
+		AND A.PROMOTION_SALE_GBN = '03'
+		THEN DATE_FORMAT(STR_TO_DATE(A.ITEM_EDATE, '%Y%m%d%s') +
+		A.PROMOTION_VALUE, '%Y%m%d')
+		ELSE A.ITEM_EDATE
+		END AS ITEM_EDATE
+		,CASE
+		WHEN A.USE_CNT = 0 THEN '제한없음'
+		ELSE A.USE_CNT - ifnull(
+		(SELECT COUNT(*) AS ENTER_CNT
+		FROM ENTER_INFO E
+		WHERE E.COMCD = A.COMCD
+		AND E.MEM_NO = A.MEM_NO
+		AND E.ENTR_DATE BETWEEN A.ITEM_SDATE AND A.ITEM_EDATE
+		),0
+		)
+		END AS USE_CNT
+		,A.SALE_AMT
+		,A.MIDCANCEL_YN
+		,if(A.MIDCANCEL_YN = 'Y', '중도해약', '정상') AS MIDCANCEL_YN_NM
+		,A.TRANSFER_GBN
+		,A.SLIP_NO
+		,A.SALE_SEQ
+		,A.SALE_REL_NO
+		,A.PROMOTION_YN
+		,A.PROMOTION_CD
+		,A.CHANGE_YN
+		,CASE IFNULL(TRIM(A.CHANGE_YN), 'N') WHEN 'B' THEN '변경' ELSE '정상' END AS
+		CHANGE_YN_NM
+		,A.PROMOTION_SALE_GBN
+		,A.PROMOTION_VALUE
+		,C.R_SDATE
+		,C.R_EDATE
+		,C.R_ADATE
+		,C.REMARK AS R_REMARK
+		,C.R_SEQ
+		,A.ITEM_EDATE AS SITEM_EDATE
+		,B.PROGRAM_KIND
+		,B.MONTH_CNT
+		,A.SPORTS_CD
+		,B.PART_CD
+		,A.USE_CNT AS USE_CNT1
+		,A.DC_AMT
+		,B.USE_DAY
+		,fn_getUseDayNm(B.USE_DAY) AS USE_DAY_NM
+		,FORMAT(A.COST_AMT , 0) as COST_AMT
+		,A.UNIT_AMT
+		,B.VAT_YN
+		,DCREASON_CD
+		,DCREASON_CD2
+		,B.SALE_AMT AS ORG_SALE_AMT
+		,(SELECT TC.CLASS_NM
+		FROM TRAIN_HIST TH,
+		TRAIN_CLASS TC
+		WHERE TH.COMCD = TC.COMCD
+		AND TH.CLASS_CD = TC.CLASS_CD
+		AND TH.COMCD = A.COMCD
+		AND TH.MEM_NO = A.MEM_NO
+		AND TH.SALE_SEQ = A.SALE_SEQ
+		<!-- AND @ROWNUM = 1 -->
+		) AS CLASS_NM
+		,A.WRITE_DH
+		,DATE_FORMAT(A.WRITE_DH , '%Y%m%d') as WRITE_YMD
+		,(select TID from card_app_hist_damo where MEM_NO = a.MEM_NO and SLIP_NO =
+		a.SLIP_NO ) as TID
+		FROM PROGRAM_ITEM B, MEM_SALE A
+		left outer join RECESS C ON A.COMCD = C.COMCD AND A.SALE_SEQ = C.SALE_SEQ
+		AND A.MEM_NO = C.MEM_NO
+		WHERE A.COMCD = B.COMCD
+		AND A.ITEM_CD = B.ITEM_CD
+		AND A.MEM_NO = (select MEM_NO from v_member where id= #{userId})
+
+		AND B.PROGRAM_KIND = '01'
+		AND A.CANCEL_YN = 'N'
+		) R1
+		ORDER BY SALE_SEQ DESC
+
+	</select>
+    
+    <!-- 대관접수 리스트 -->
+    <select id="myRentDataList" parameterType="String" resultType="java.util.HashMap">
+		select
+			RENT_IDX
+			,(select COMNM from cominfo where COMCD = t1.COMCD) as COMNM
+			,(select PLACE_NM from rent_place rp where PART_CD = t1.PART_CD and PLACE_CD = t1.PLACE_CD ) as PLACE_NM
+			,COMCD,
+			PART_CD,
+			PLACE_CD,
+			APP_DATE,
+			MEM_NO,
+			BOSSNM,
+			BIZNO,
+			COM_NM,
+			PERSON_YN,
+			TEL,
+			CP,
+			FAX,
+			ZIPCD,
+			ADDR,
+			OBJECT,
+			INWON,
+			jnimc.fn_int_to_date(SDATE,'-') as SDATE,
+			EDATE,
+			RENT_READY,
+			RENT,
+			ETC,
+			APP_TYPE,
+			case APP_TYPE
+				when '10' then '접수대기'
+				when '20' then '확인중'
+				when '30' then '확정'
+				when '40' then '취소'
+			end as APP_TYPE_NM,
+			RENT_TYPE,
+			DISPLAY_YN,
+			FORMAT(SALE_AMT , 0) as SALE_AMT,
+			PAY_AMT,
+			PAY_DATE,
+			RESERVE_DATE,
+			SLIP_NO,
+			OFFLINE_YN,
+			OFFLINE_DATE,
+			RENT_GUBUN,
+			SORT_ORDER,
+			CONCEPT,
+			DISCOUNT_MSG,
+			WRITE_DH,
+			WRITER,
+			date_format(CHNG_DH, '%Y-%m-%d') as CHNG_DH ,
+			CHNGR,
+			PRODUCT_CNT,
+			PRODUCT_SIZE
+		from
+			jnimc.rent_app t1
+		where MEM_NO = (select MEM_NO from v_member where id= #{userId})
+		order by RENT_IDX desc
+		limit 20
+	</select>
+
+
+	<select id="myBoard" resultType="brd" parameterType="java.util.HashMap">
+		 SELECT R1.* 
+		   FROM ( SELECT CMS_CD
+		               , BRD_NO		               
+		               , TITLE
+		               , CONT
+		               , HIT
+		               , DEP
+		               , SECRET_YN
+		               , REP_YN		               
+		               , ATTACH_ID
+		               , REG_ID		               
+		               , fn_getMemberNm(REG_ID) AS REG_NM
+		               , DATE_FORMAT(REG_DT,'%Y-%m-%d') AS REG_DT
+		            FROM CMS_CONT_BRD
+		           WHERE REG_ID = #{userId}
+		             AND DEL_YN = 'N'
+		             AND UP_BRD_NO IS NULL		             
+		        ) R1
+		 WHERE 1=1
+		<if test="searchValue != null and searchValue != ''">
+		  <choose>
+		    <when test="searchKey == 'ALL'">
+		   AND ( TITLE LIKE CONCAT('%', #{searchValue}, '%')
+		           OR
+		           CONT LIKE CONCAT('%', #{searchValue}, '%') )
+		    </when>
+		    <otherwise>
+		   AND ${searchKey} LIKE CONCAT('%', #{searchValue}, '%')
+		    </otherwise>
+		  </choose>
+		</if>				
+		ORDER BY BRD_NO DESC
+		   LIMIT #{startRow}, #{pageSize}
+	</select>	
+	
+	<select id="myBoardCnt" resultType="int" parameterType="java.util.HashMap">
+		SELECT COUNT(1)
+		  FROM CMS_CONT_BRD
+		 WHERE REG_ID = #{userId}
+		   AND DEL_YN = 'N'
+		   AND UP_BRD_NO IS NULL		   
+		<if test="searchValue != null and searchValue != ''">
+		  <choose>
+		    <when test="searchKey == 'ALL'">
+		   AND ( TITLE LIKE CONCAT('%', #{searchValue}, '%')
+		         OR 
+		         CONT LIKE CONCAT('%', #{searchValue}, '%') )
+		    </when>
+		    <otherwise>
+		   AND ${searchKey} LIKE CONCAT('%', #{searchValue}, '%')
+		    </otherwise>
+		  </choose>
+		</if>		
+	</select>
+	
+	<update id="modifyUpdate">
+		UPDATE MEMBER_DAMO
+		SET HOME_ZIP = #{homeZip},
+		    GENDER = #{gender},
+		    SMS_YN = #{smsYn},
+		    EMAIL_YN = #{emailYn},
+		    HOME_ADDR = #{homeAddr},
+		    HOME_TEL = #{homeTel},
+		    SEC_BIRTH_DATE = ENC_STR('KEY1', #{secBirthDate}),
+		    EMAIL = #{email},
+		    BIRTH_SEC = #{birthSec}
+		WHERE ID = #{userId}	
+	</update>
+	
+	<delete id="modifyDelete" parameterType="java.util.HashMap">
+		UPDATE MEMBER_DAMO
+		SET STATUS = '99',
+		    CHNG_DH = now()		    
+		WHERE ID = #{userId}
+	</delete>
+</mapper>

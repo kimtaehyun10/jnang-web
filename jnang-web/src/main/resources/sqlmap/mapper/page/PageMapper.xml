@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dwict.jfmc.client.page.mapper.PageMapper">
+
+    <select id="htmlPage" parameterType="string" resultType="cont">
+		   SELECT P.CMS_CD
+		        , P.UP_CMS_CD
+		        , ( SELECT CMS_NM FROM CMS_MENU T1 WHERE T1.CMS_CD = RPAD(SUBSTRING(P.UP_CMS_CD, 1, 2), 8, '0') ) AS UP_CMS_NM
+		        , P.SGRP
+		        , P.CMS_NM
+		        , P.MTYPE
+		        , P.LTYPE
+		        , P.ODR
+		        , P.DEP
+		        , P.USE_YN
+		        , P.WDP_YN
+		        , C.CONT_NO
+		        , C.OPER_ID
+		        , C.CONT
+		        , C.IPS
+		        , C.REGDT
+		        , ( SELECT COUNT(1) FROM CMS_MENU T2 WHERE T2.UP_CMS_CD = P.CMS_CD ) AS CHILD
+		     FROM CMS_MENU P
+		LEFT JOIN CMS_CONT_HTML C
+		       ON P.CMS_CD = C.CMS_CD
+		    WHERE P.SGRP = 'S01'
+		      AND P.MTYPE = 'HTM'
+		      AND P.USE_YN = 'Y'
+		      AND P.CMS_CD = #{cmsCd}
+		 ORDER BY C.CONT_NO DESC
+		    LIMIT 1
+    </select>
+    
+	<select id="empPage" parameterType="string" resultType="cont">
+		   SELECT P.CMS_CD
+		        , P.UP_CMS_CD
+		        , ( SELECT CMS_NM FROM CMS_MENU T1 WHERE T1.CMS_CD = RPAD(SUBSTRING(P.UP_CMS_CD, 1, 2), 8, '0') ) AS UP_CMS_NM
+		        , P.SGRP
+		        , P.CMS_NM
+		        , P.MTYPE
+		        , P.LTYPE
+		        , P.ODR
+		        , P.DEP
+		        , P.USE_YN
+		        , P.WDP_YN
+		        , C.CONT_NO
+		        , C.OPER_ID
+		        , C.CONT
+		        , C.IPS
+		        , C.REGDT
+		        , ( SELECT COUNT(1) FROM CMS_MENU T2 WHERE T2.UP_CMS_CD = P.CMS_CD ) AS CHILD
+		     FROM CMS_MENU P
+		LEFT JOIN CMS_CONT_HTML C
+		       ON P.CMS_CD = C.CMS_CD
+		    WHERE P.SGRP = 'S01'
+		      AND P.MTYPE = 'EMP'
+		      AND P.USE_YN = 'Y'
+		      AND P.CMS_CD = #{cmsCd}
+		 ORDER BY C.CONT_NO DESC
+		    LIMIT 1
+    </select>
+    
+    <select id="empPageChilds" parameterType="string" resultType="cont">
+    	  SELECT T2.CMS_CD
+    	       , T2.UP_CMS_CD
+    	       , T2.SGRP
+    	       , T2.CMS_NM
+    	       , T2.ODR
+    	       , T2.DEP
+    	       , T2.MTYPE
+    	       , T2.USE_YN
+    	       , T2.WDP_YN
+    	       , CASE WHEN T2.MTYPE = 'HTM'
+    	              THEN ( SELECT CONT FROM CMS_CONT_HTML C WHERE C.CMS_CD = T2.CMS_CD ORDER BY C.CONT_NO DESC LIMIT 1 )
+    	              WHEN T2.MTYPE = 'LNK'
+    	              THEN ( SELECT CONT FROM CMS_CONT_LINK C WHERE C.CMS_CD = T2.CMS_CD)
+    	              ELSE NULL
+    	         END AS CONT
+    	    FROM CMS_MENU T1, CMS_MENU T2
+    	   WHERE T1.CMS_CD = T2.UP_CMS_CD
+    	     AND ( T1.SGRP = 'S01' AND T2.SGRP = 'S01' )
+    	     AND T1.CMS_CD = #{cmsCd}
+		ORDER BY ODR
+    </select>
+    
+    <select id="boardPage" parameterType="String" resultType="menu">
+    	SELECT CMS_CD
+    	     , UP_CMS_CD
+    	     , SGRP
+    	     , CMS_NM
+    	     , MTYPE
+    	  FROM CMS_MENU
+    	 WHERE CMS_CD = #{cmsCd}
+    </select>
+    
+</mapper>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+		<property name="driverClassName" value="#{appConfig['jdbc.driver']}" />
+		<property name="jdbcUrl" value="#{appConfig['jdbc.url']}"></property>
+		<property name="username" value="#{appConfig['jdbc.username']}"></property>
+		<property name="password" value="#{appConfig['jdbc.password']}"></property>
+		<property name="maximumPoolSize" value="#{appConfig['hikari.maxpoolsize']}" />
+		<property name="idleTimeout" value="#{appConfig['hikari.idletimeout']}" />
+		<property name="connectionTestQuery" value="#{appConfig['hikari.testquery']}" />
+	</bean>
+
+	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+	    <constructor-arg ref="hikariConfig" />
+	</bean>
+</beans>

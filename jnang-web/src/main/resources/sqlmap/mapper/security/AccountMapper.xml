@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dwict.jfmc.client.security.mapper.AccountMapper">
+
+    <select id="findById" parameterType="String" resultType="com.dwict.jfmc.client.security.model.Account">
+    	SELECT ID
+    	     , PW AS PASSWORD
+    	     , MEM_NO
+    	     , MEM_NM
+    	     , GENDER
+    	     , HP
+    	     , EMAIL
+    	     , DEC_STR('KEY1', SEC_BIRTH_DATE) AS SEC_BIRTH_DATE
+    	     , ( SELECT COUNT(1) FROM MEM_CARD CARD WHERE MBER.MEM_NO = CARD.MEM_NO AND CARD.USE_YN = 'Y' ) AS CARD_CNT
+    	  FROM MEMBER_DAMO MBER
+    	 WHERE ID = #{userId}
+    	   AND STATUS = '00'		
+    </select>
+	
+	<update id="userVisitDt" parameterType="String">
+		UPDATE MEMBER_DAMO
+		   SET VISIT_DT = NOW()
+		 WHERE ID = #{userId}
+	</update>
+</mapper>

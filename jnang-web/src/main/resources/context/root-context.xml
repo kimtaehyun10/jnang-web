@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bean:beans xmlns:bean="http://www.springframework.org/schema/beans"
+            xmlns:context="http://www.springframework.org/schema/context"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns:util="http://www.springframework.org/schema/util"
+            xmlns:beans="http://www.springframework.org/schema/mvc"
+            xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	                            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <context:component-scan base-package="com.dwict.jfmc.client" use-default-filters="false">
+        <context:include-filter expression="org.springframework.context.annotation.Configuration" type="annotation"/>
+        <context:include-filter expression="org.springframework.stereotype.Service" type="annotation"/>
+        <context:include-filter expression="org.springframework.stereotype.Repository" type="annotation"/>
+        <context:include-filter expression="org.springframework.stereotype.Component" type="annotation"/>
+    </context:component-scan>
+
+    <util:properties id="appConfig" location="classpath:config/appConfig.properties"/>
+	<!-- <util:properties id="appConfig" location="classpath:config/appConfig_real.properties"/> -->
+    
+    <!-- restTemplate -->
+    <bean:bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
+        <bean:property name="messageConverters">
+            <bean:list>
+                <bean:ref bean="httpMessageConverter"/>
+                <bean:ref bean="byteMessageConverter"/>
+                <bean:ref bean="formMessageConverter"/>
+            </bean:list>
+        </bean:property>
+    </bean:bean>
+
+    <bean:bean id="jacksonMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
+    <bean:bean id="httpMessageConverter" class="org.springframework.http.converter.StringHttpMessageConverter">
+        <bean:constructor-arg name="defaultCharset" value="UTF-8"/>
+    </bean:bean>
+    <bean:bean id="xmlMessageConverter" class="org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter"/>
+    <bean:bean id="byteMessageConverter" class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/>
+    <bean:bean id="formMessageConverter" class="org.springframework.http.converter.FormHttpMessageConverter"/>
+
+</bean:beans>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dwict.jfmc.client.mem.mapper.MemberMapper">
+
+	<select id="isExistingMember" parameterType="member" resultType="boolean">
+		SELECT COUNT(1)
+		  FROM MEMBER_DAMO
+		 WHERE STATUS = '00'
+		   AND MEM_NM = #{memNm}
+		   AND SEC_BIRTH_DATE = ENC_STR('KEY1', #{secBirthDate})
+		   AND GENDER = #{gender}
+		<if test="hp != null and hp != ''">
+		   AND HP = #{hp}
+		</if>
+	</select>
+	
+	<select id="findExistingMember" parameterType="member" resultType="member">
+		SELECT MEM_NO
+		     , MEM_NM
+		     , BIRTH_SEC
+		     , DEC_STR('KEY1', SEC_BIRTH_DATE) AS SEC_BIRTH_DATE
+		     , GENDER
+		     , HP
+		     , EMAIL
+		     , HOME_ZIP
+		     , HOME_ADDR 
+		     , HOME_TEL
+		     , EMAIL_YN
+		     , SMS_YN
+		     , ID
+		     , ( SELECT MAX(CARD_NO) FROM MEM_CARD CARD WHERE MBER.MEM_NO = CARD.MEM_NO AND CARD.USE_YN = 'Y' ) AS CARD_NO
+		  FROM MEMBER_DAMO MBER
+		 WHERE STATUS = '00'
+		   AND MEM_NM = #{memNm}
+		   AND SEC_BIRTH_DATE = ENC_STR('KEY1', #{secBirthDate})
+		   AND GENDER = #{gender}
+		<if test="hp != null and hp != ''">
+		   AND HP = #{hp}
+		</if>
+	</select>
+	
+	<select id="isDuplicatedId" parameterType="member" resultType="boolean">
+		SELECT COUNT(1)
+		  FROM MEMBER_DAMO
+		 WHERE ID = #{id}
+	</select>
+	
+	<insert id="insert">
+		<selectKey resultType="string" keyProperty="memNo" order="BEFORE">
+			SELECT LPAD(CAST(IFNULL(MAX(MEM_NO), '00000000') AS UNSIGNED) + 1, 8, '0') 
+			  FROM MEMBER_DAMO
+		</selectKey>	
+		INSERT INTO MEMBER_DAMO
+		( MEM_NM, HP, EMAIL, SEC_BIRTH_DATE,
+		  HOME_TEL, HOME_ZIP, HOME_ADDR,
+		  MEM_NO, GENDER, ID, PW, JOIN_DATE, BIRTH_SEC,
+		  EMAIL_YN, SMS_YN, AGREE_YN, STATUS,
+		  NICKNAME )
+		VALUES
+		( #{memNm}, #{hp}, #{email}, ENC_STR('KEY1', #{secBirthDate}),
+		  #{homeTel}, #{homeZip}, #{homeAddr},
+		  #{memNo}, #{gender}, #{id}, #{pw}, DATE_FORMAT(SYSDATE(), '%Y%m%d'), #{birthSec},
+		  #{emailYn}, #{smsYn}, 'Y', '00',
+		  #{memNm} )
+	</insert>
+	
+	<update id="update" parameterType="member">
+		UPDATE MEMBER_DAMO
+		   SET ID = #{id}
+		     , PW = #{pw}
+		     , BIRTH_SEC = #{birthSec}
+		     , EMAIL = #{email}
+		     , HOME_ZIP = #{homeZip}
+		     , HOME_ADDR = #{homeAddr}
+		     , HOME_TEL = #{homeTel}
+		     , EMAIL_YN = #{emailYn}
+		     , SMS_YN = #{smsYn}
+		 WHERE MEM_NM = #{memNm}
+		   AND SEC_BIRTH_DATE = ENC_STR('KEY1', #{secBirthDate})
+		   AND GENDER = #{gender}
+		   AND HP = #{hp}
+	</update>
+	
+	<insert id="insertForLessThan14" parameterType="member">
+		<selectKey resultType="string" keyProperty="memNo" order="BEFORE">
+			SELECT LPAD(CAST(IFNULL(MAX(MEM_NO), '00000000') AS UNSIGNED) + 1, 8, '0') 
+			  FROM MEMBER_DAMO
+		</selectKey>	
+		INSERT INTO MEMBER_DAMO
+		( MEM_NM, HP, EMAIL, SEC_BIRTH_DATE,
+		  HOME_TEL, HOME_ZIP, HOME_ADDR,
+		  MEM_NO, GENDER, ID, PW, JOIN_DATE, BIRTH_SEC,
+		  EMAIL_YN, SMS_YN, AGREE_YN, STATUS, ETC_NO,
+		  NICKNAME )
+		VALUES
+		( #{memNm}, #{hp}, #{email}, ENC_STR('KEY1', #{secBirthDate}),
+		  #{homeTel}, #{homeZip}, #{homeAddr},
+		  #{memNo}, #{gender}, #{id}, #{pw}, DATE_FORMAT(SYSDATE(), '%Y%m%d'), #{birthSec},
+		  #{emailYn}, #{smsYn}, 'Y', '00', #{etcNo},
+		  #{memNm} )
+	</insert>
+	
+	<update id="password" parameterType="member">
+		UPDATE MEMBER_DAMO
+		   SET PW = #{pw}
+		 WHERE MEM_NM = #{memNm}
+		   AND SEC_BIRTH_DATE = ENC_STR('KEY1', #{secBirthDate})
+		   AND GENDER = #{gender}
+		   AND HP = #{hp}
+	</update>
+		
+	<!--회원 검색 -->
+    <select id="findById" parameterType="String" resultType="member">
+    	SELECT ID
+    	     , MEM_NM
+    	     , MEM_NO
+    	     , HP
+    	     , EMAIL
+    	     , GENDER    	     
+    	     , HOME_ADDR
+    	     , HOME_TEL
+    	     , EMAIL_YN
+    	     , SMS_YN
+    	     , ETC_NO
+    	     , BIRTH_SEC
+    	     , HOME_ZIP
+    	     , DEC_STR('KEY1', SEC_BIRTH_DATE) AS SEC_BIRTH_DATE
+    	     , ( SELECT MAX(CARD_NO) FROM MEM_CARD CARD WHERE MBER.MEM_NO = CARD.MEM_NO AND CARD.USE_YN = 'Y' ) AS CARD_NO
+    	     , ( SELECT COUNT(1) FROM MEM_CARD CARD WHERE MBER.MEM_NO = CARD.MEM_NO AND CARD.USE_YN = 'Y' ) AS CARD_CNT
+    	  FROM MEMBER_DAMO MBER
+    	 WHERE MBER.ID = #{userId}
+    </select>	
+	
+</mapper>

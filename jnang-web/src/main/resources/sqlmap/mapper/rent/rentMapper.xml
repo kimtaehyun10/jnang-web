@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dwict.jfmc.client.rent.mapper.RentMapper">
+
+
+	<!-- 센터 정보 리스트 -->
+	<select id="getCenterList" resultType="java.util.HashMap">
+		select
+			COMCD,
+			COMNM,
+			TEL1,
+			TEL2,
+			FAX,
+			ZIPCD,
+			ADDR,
+			EMAIL
+		from
+			cominfo
+		order by COMCD 
+	</select>
+
+	<!-- 대관 장소 -->
+	<select id="getCenterPlaceList" resultType="java.util.HashMap">
+		
+		select
+			COMCD ,
+			(
+			select
+				COMNM
+			from
+				cominfo
+			where
+				COMCD = t1.COMCD) as COMNM ,
+			PLACE_CD,
+			PLACE_NM,
+			PART_CD,
+			RENT_AMT
+		from
+			rent_place t1
+		where
+			USE_YN = 'Y'
+		order by COMNM , PLACE_CD 	
+	</select>
+
+
+
+	<!-- 종목별 센터  정보 -->
+	<select id="rentGroupList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select
+			t1.COMCD,
+			t1.PLACE_GROUP,
+			t2.COMNM
+		from
+			rent_place t1
+		left join cominfo t2 on
+			t1.COMCD = t2.COMCD
+		where
+			t1.USE_YN = 1
+		<if test='PLACE_GROUP !="all" and PLACE_GROUP != null'> 
+			AND t1.PLACE_GROUP = #{PLACE_GROUP}
+		</if>
+		group by
+			t1.COMCD,
+			t1.PLACE_GROUP,
+			t2.COMNM
+		order by
+			t1.COMCD
+	</select>
+	
+	
+	<!-- 종목별 센터  리스트 -->
+	<select id="rentList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+
+		 select t1.COMCD
+			, t2.COMNM 
+			, t1.PLACE_CD
+			, t1.PLACE_GROUP
+			, t1.PLACE_NM
+			, t1.PART_CD
+			, t1.TIME_UNIT
+			, t1.RENT_AMT
+			, t1.info_url
+			, t1.USE_YN FROM rent_place t1 left join cominfo t2 on t1.COMCD = t2.COMCD 
+		 WHERE t1.USE_YN=1
+		<if test='PLACE_GROUP !="all" and PLACE_GROUP != null'> 
+			AND t1.PLACE_GROUP = #{PLACE_GROUP}
+		</if>
+		<if test='COMCD !="all" and COMCD != null'> 
+			AND t1.COMCD = #{COMCD}
+		</if>
+		Order by t1.COMCD 
+	</select>
+		
+	
+	
+
+	<!-- 대관 환경설정값 -->
+	<select id="rentConfig" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select
+			COMCD,
+			(
+				select
+					COMNM
+				from
+					cominfo
+				where
+					COMCD = t1.COMCD) as COMNM ,			
+			PLACE_CD,
+			PLACE_GROUP,
+			CASE PLACE_GROUP
+				when 4 then '2'
+				else '1'
+			end as groupType,
+			PLACE_NM,
+			PART_CD,
+			TIME_UNIT,
+			RENT_AMT,
+			info_url,
+			USE_YN,
+			other_cfg
+		from
+			rent_place t1
+		where
+			USE_YN = 1
+			and PLACE_CD = #{PLACE_CD}
+	</select>
+	
+
+	<!-- 팀명 저장 -->
+	<insert id="teamSave" parameterType="java.util.HashMap" >
+		INSERT INTO rent_team  SET 
+			 mem_id 	=	 #{mem_id} 
+			 ,sp_type 	=	 #{sp_type} 
+			 ,tm_type 	=	 #{tm_type} 
+			 ,tm_nm 	=	 #{tm_nm} 
+			 ,wdate 	=	 now()
+
+		ON DUPLICATE 
+		KEY UPDATE 
+			 sp_type 	=	 #{sp_type} 
+			 ,tm_type 	=	 #{tm_type} 
+			 ,tm_nm 	=	 #{tm_nm} 
+			 ,wdate 	=	 now()
+
+	</insert>
+
+	<!-- 팀회원 저장 -->
+	<insert id="teamMemSave" parameterType="java.util.HashMap" >
+		<selectKey keyProperty="team_seq" resultType="_int" order="BEFORE"> 
+		select seq from rent_team where mem_id= #{mem_id}  order by seq desc limit 1
+		</selectKey>	
+		INSERT INTO  rent_team_mem  SET 
+			 team_seq 	=	 #{team_seq} 
+			 ,mem_nm 	=	 #{mem_nm} 
+			 ,mem_birth 	=	 #{mem_birth} 
+			 ,mem_addr 	=	 #{mem_addr} 
+			 ,mem_addr2 	=	 #{mem_addr2} 
+		 
+		ON DUPLICATE 
+		 KEY UPDATE 
+			 team_seq 	=	 #{team_seq} 
+			 ,mem_nm 	=	 #{mem_nm} 
+			 ,mem_birth 	=	 #{mem_birth} 
+			 ,mem_addr 	=	 #{mem_addr} 
+			 ,mem_addr2 	=	 #{mem_addr2} 	
+	</insert>
+
+	<insert id="rentSave" parameterType="java.util.HashMap" >
+		INSERT INTO  rent_app ( 
+			  COMCD 
+ 			 ,RENT 
+			 ,PART_CD 
+			 ,PLACE_CD 
+			 ,APP_DATE 
+			 ,MEM_NO 
+			 ,BOSSNM 
+			 ,BIZNO 
+			 ,COM_NM 
+			 ,PERSON_YN 
+			 ,TEL 
+			 ,CP 
+			 ,FAX 
+			 ,ZIPCD 
+			 ,ADDR 
+			 ,OBJECT 
+			 ,INWON 
+			 ,SDATE 
+			 ,EDATE 
+			 ,RENT_READY 
+			 ,ETC 
+			 ,APP_TYPE 
+			 ,RENT_TYPE 
+			 ,DISPLAY_YN 
+			 ,SALE_AMT 
+			 ,PAY_AMT 
+			 ,PAY_DATE 
+			 ,RESERVE_DATE 
+			 ,SLIP_NO 
+			 ,OFFLINE_YN 
+			 ,OFFLINE_DATE 
+			 ,RENT_GUBUN 
+			 ,SORT_ORDER 
+			 ,CONCEPT 
+			 ,DISCOUNT_MSG 
+			 ,WRITE_DH 
+			 ,WRITER 
+			 ,CHNG_DH 
+			 ,CHNGR 
+			 ,PRODUCT_CNT 
+			 ,PRODUCT_SIZE 
+		 ) VALUES ( 
+			  #{COMCD} 
+			 ,#{RENT} 
+			 ,#{PART_CD} 
+			 ,#{PLACE_CD} 
+			 ,#{APP_DATE} 
+			 ,#{MEM_NO} 
+			 ,#{BOSSNM} 
+			 ,#{BIZNO} 
+			 ,#{COM_NM} 
+			 ,#{PERSON_YN} 
+			 ,#{TEL} 
+			 ,#{CP} 
+			 ,#{FAX} 
+			 ,#{ZIPCD} 
+			 ,#{ADDR} 
+			 ,#{OBJECT} 
+			 ,#{INWON} 
+			 ,replace(#{SDATE} ,'-','')
+			 ,#{EDATE} 
+			 ,#{RENT_READY} 
+			 ,#{ETC} 
+			 ,10
+			 ,#{RENT_TYPE} 
+			 ,#{DISPLAY_YN} 
+			 ,#{SALE_AMT} 
+			 ,#{PAY_AMT} 
+			 ,#{PAY_DATE} 
+			 ,#{RESERVE_DATE} 
+			 ,#{SLIP_NO} 
+			 ,#{OFFLINE_YN} 
+			 ,#{OFFLINE_DATE} 
+			 ,#{RENT_GUBUN} 
+			 ,#{SORT_ORDER} 
+			 ,#{CONCEPT} 
+			 ,#{DISCOUNT_MSG} 
+			 ,now() 
+			 ,#{MEM_NM} 
+			 ,now()
+			 ,#{MEM_NM} 
+			 ,#{PRODUCT_CNT} 
+			 ,#{PRODUCT_SIZE} 
+		)
+	</insert>
+
+
+
+
+	<!-- 달력에 표시될 예약가능/ 예약 불가능 -->
+	<select id="getRentCalendar" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select 
+			jnimc.up_rent_day_cnt('0',8) as tot
+			,jnimc.up_rent_day_cnt(#{YYMM}01,#{PLACE_CD}) as d1
+			,jnimc.up_rent_day_cnt(#{YYMM}02,#{PLACE_CD}) as d2
+			,jnimc.up_rent_day_cnt(#{YYMM}03,#{PLACE_CD}) as d3
+			,jnimc.up_rent_day_cnt(#{YYMM}04,#{PLACE_CD}) as d4
+			,jnimc.up_rent_day_cnt(#{YYMM}05,#{PLACE_CD}) as d5
+			,jnimc.up_rent_day_cnt(#{YYMM}06,#{PLACE_CD}) as d6
+			,jnimc.up_rent_day_cnt(#{YYMM}07,#{PLACE_CD}) as d7
+			,jnimc.up_rent_day_cnt(#{YYMM}08,#{PLACE_CD}) as d8
+			,jnimc.up_rent_day_cnt(#{YYMM}09,#{PLACE_CD}) as d9
+			,jnimc.up_rent_day_cnt(#{YYMM}10,#{PLACE_CD}) as d10
+			,jnimc.up_rent_day_cnt(#{YYMM}11,#{PLACE_CD}) as d11
+			,jnimc.up_rent_day_cnt(#{YYMM}12,#{PLACE_CD}) as d12
+			,jnimc.up_rent_day_cnt(#{YYMM}13,#{PLACE_CD}) as d13
+			,jnimc.up_rent_day_cnt(#{YYMM}14,#{PLACE_CD}) as d14
+			,jnimc.up_rent_day_cnt(#{YYMM}15,#{PLACE_CD}) as d15
+			,jnimc.up_rent_day_cnt(#{YYMM}16,#{PLACE_CD}) as d16
+			,jnimc.up_rent_day_cnt(#{YYMM}17,#{PLACE_CD}) as d17
+			,jnimc.up_rent_day_cnt(#{YYMM}18,#{PLACE_CD}) as d18
+			,jnimc.up_rent_day_cnt(#{YYMM}19,#{PLACE_CD}) as d19
+			,jnimc.up_rent_day_cnt(#{YYMM}20,#{PLACE_CD}) as d20
+			,jnimc.up_rent_day_cnt(#{YYMM}21,#{PLACE_CD}) as d21
+			,jnimc.up_rent_day_cnt(#{YYMM}22,#{PLACE_CD}) as d22
+			,jnimc.up_rent_day_cnt(#{YYMM}23,#{PLACE_CD}) as d23
+			,jnimc.up_rent_day_cnt(#{YYMM}24,#{PLACE_CD}) as d24
+			,jnimc.up_rent_day_cnt(#{YYMM}25,#{PLACE_CD}) as d25
+			,jnimc.up_rent_day_cnt(#{YYMM}26,#{PLACE_CD}) as d26
+			,jnimc.up_rent_day_cnt(#{YYMM}27,#{PLACE_CD}) as d27
+			,jnimc.up_rent_day_cnt(#{YYMM}28,#{PLACE_CD}) as d28
+			,jnimc.up_rent_day_cnt(#{YYMM}29,#{PLACE_CD}) as d29
+			,jnimc.up_rent_day_cnt(#{YYMM}30,#{PLACE_CD}) as d30	
+			,jnimc.up_rent_day_cnt(#{YYMM}31,#{PLACE_CD}) as d31	
+	
+	</select>
+
+
+
+
+
+    <!-- 체육관별 리스트 -->
+    <select id="getRentList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    <!-- 
+		select
+			RENT_IDX
+			,(select COMNM from cominfo where COMCD = t1.COMCD) as COMNM
+			,(select PLACE_NM from rent_place rp where PART_CD = t1.PART_CD and PLACE_CD = t1.PLACE_CD ) as PLACE_NM
+			,COMCD,
+			PART_CD,
+			PLACE_CD,
+			APP_DATE,
+			MEM_NO,
+			BOSSNM,
+			BIZNO,
+			COM_NM,
+			PERSON_YN,
+			TEL,
+			CP,
+			FAX,
+			ZIPCD,
+			ADDR,
+			OBJECT,
+			INWON,
+			jnimc.fn_int_to_date(SDATE,'-') as SDATE,
+			EDATE,
+			RENT_READY,
+			RENT,
+			ETC,
+			APP_TYPE,
+			case APP_TYPE
+				when '10' then '접수대기'
+				when '20' then '확인중'
+				when '30' then '확정'
+				when '40' then '취소'
+			end as APP_TYPE_NM,
+			RENT_TYPE,
+			DISPLAY_YN,
+			FORMAT(SALE_AMT , 0) as SALE_AMT,
+			PAY_AMT,
+			PAY_DATE,
+			RESERVE_DATE,
+			SLIP_NO,
+			OFFLINE_YN,
+			OFFLINE_DATE,
+			RENT_GUBUN,
+			SORT_ORDER,
+			CONCEPT,
+			DISCOUNT_MSG,
+			WRITE_DH,
+			WRITER,
+			date_format(CHNG_DH, '%Y-%m-%d') as CHNG_DH ,
+			CHNGR,
+			PRODUCT_CNT,
+			PRODUCT_SIZE
+		from
+			jnimc.rent_app t1
+			
+		where length(SDATE) > 6
+		
+		AND COMCD = #{cmsCd}
+		AND left(SDATE,6) = #{YYMM}
+		
+		order by SDATE
+ 	-->
+		select
+			t1.seq,
+			t1.place_cd,
+			t1.place_tab,
+			t2.PLACE_NM ,
+			t1.item,
+			ifnull(t3.RENT_IDX,
+			0) as rentIdx,
+			ifnull(t3.RESERVE_DATE,0) as RESERVE_DATE,
+			case t3.APP_TYPE
+				when '10' then '접수대기'
+				when '20' then '확인중'
+				when '30' then '확정'
+				when '40' then '취소'
+				else ''
+			end as APP_TYPE_NM,
+			ifnull(t3.BOSSNM,'') as BOSSNM
+		from
+			rent_times t1
+		left join rent_place t2 on
+			t1.place_cd = t2.PLACE_CD
+		left join rent_app t3 on
+			t1.place_cd = t3.PLACE_CD
+
+			<if test='YYMM !="" and YYMM != null'>
+				and left(t3.RESERVE_DATE, 6) = #{YYMM}
+			</if>
+			<if test='YYMMDD !="" and YYMMDD != null'>
+				and t3.RESERVE_DATE = #{YYMMDD}
+			</if>
+			<if test='PLACE_TAB !="0" and PLACE_TAB !="" and PLACE_TAB != null'>
+				and t3.PLACE_TAB = #{PLACE_TAB}
+			</if>
+			and t1.seq = t3.PLACE_TIME_SEQ
+			
+			and t3.APP_TYPE != 40
+		where
+			t2.PLACE_CD = #{PLACE_CD}
+			and t1.use_yn =1
+		order by
+			t1.place_tab,
+			t1.sort,
+			t1.seq
+	</select>
+		
+		
+		
+</mapper>

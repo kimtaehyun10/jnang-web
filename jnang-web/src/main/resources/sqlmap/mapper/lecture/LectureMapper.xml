@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dwict.jfmc.client.lecture.mapper.LectureMapper">
+
+    <select id="conditionSb1" resultType="comInfo">
+    	  SELECT COMCD
+    	       , COMNM
+    	       , TEL1
+    	       , TEL2
+    	       , FAX
+    	       , ZIPCD
+    	       , ADDR
+    	       , EMAIL
+    	       , BOSSNM
+    	       , BIZNO
+    	       , UPTAE
+    	       , JONGMOK
+    	       , CHARGER
+    	       , CHARGERTEL
+    	       , HEAD_COMCD
+    	    FROM COMINFO
+		ORDER BY COMCD 
+    </select>
+    
+    <select id="conditionSb2" parameterType="grpcd" resultType="grpcd">
+    	  SELECT COMCD
+    	       , GRP_CD
+    	       , CD
+    	       , CD_NM
+    	       , SORT_ORDER
+    	       , REMARK
+    	       , ITEM1
+    	       , ITEM2
+    	       , ITEM3
+    	       , ITEM4
+    	       , ITEM5
+    	       , UPD_YN
+    	       , DEL_YN
+    	       , USE_YN
+    	       , REC_SDATE
+    	       , REC_EDATE
+    	       , REP_SDATE
+    	       , REP_EDATE
+    	       , STARTDATE
+    	    FROM COT_GRPCD
+    	  <where>
+    	    <if test="comcd != 'all'">
+    	     AND COMCD = #{comcd}
+    	    </if>
+    	     AND GRP_CD = 'CM_SPORTS_CD'
+    	     AND USE_YN = 'Y'
+    	  </where>
+    	ORDER BY SORT_ORDER
+    </select>
+    
+	<select id="conditionSb3" parameterType="grpcd" resultType="grpcd">
+    	  SELECT COMCD
+    	       , GRP_CD
+    	       , CD
+    	       , CD_NM
+    	       , SORT_ORDER
+    	       , REMARK
+    	       , ITEM1
+    	       , ITEM2
+    	       , ITEM3
+    	       , ITEM4
+    	       , ITEM5
+    	       , UPD_YN
+    	       , DEL_YN
+    	       , USE_YN
+    	       , REC_SDATE
+    	       , REC_EDATE
+    	       , REP_SDATE
+    	       , REP_EDATE
+    	       , STARTDATE
+    	    FROM COT_GRPCD
+    	  <where>
+    	    <if test="comcd != 'all'">
+    	     AND COMCD = #{comcd}
+    	    </if>
+    	    <if test="item1 != 'all'">
+    	     AND ITEM1 = #{item1}
+    	    </if>
+    	     AND GRP_CD = 'CM_MCLASS_CD'
+    	     AND USE_YN = 'Y'
+    	  </where>
+    	ORDER BY SORT_ORDER
+    </select>
+    
+   	<select id="lectureList" parameterType="java.util.HashMap" resultType="trainClass">
+   		SELECT R1.*
+   		  FROM ( SELECT A.COMCD
+   		              , A.CLASS_CD
+   		              , A.USER_NO
+   		              , CASE A.USER_NO WHEN 'NOASSIGN' THEN '미지정' ELSE Fn_GetEmpCodeNm(A.USER_NO) END USER_NM
+   		              , A.PART_CD
+   		              , Fn_GetGrpCodeNm(A.COMCD, 'SM_PART_TYPE', A.PART_CD) AS PART_CD_NM
+   		              , A.SPORTS_CD
+   		              , Fn_GetGrpCodeNm(A.COMCD, 'CM_SPORTS_CD', A.SPORTS_CD) AS SPORTS_CD_NM
+   		              , A.MSPORTS_CD
+   		              , Fn_GetGrpCodeNm(A.COMCD, 'CM_MCLASS_CD', A.MSPORTS_CD) AS MSPORTS_CD_NM
+   		              , A.CLASS_NM
+   		              , A.PLACE_CD
+   		              , Fn_GetGrpCodeNm(A.COMCD, 'CM_CLPLACE_CD', A.PLACE_CD) AS PLACE_CD_NM
+   		              , A.GRADE_CD
+   		              , Fn_GetGrpCodeNm(A.COMCD, 'CM_GRADE_CD', A.GRADE_CD) AS GRADE_CD_NM
+   		              , A.PROGRESS_CD
+   		              , Fn_GetGrpCodeNm(A.COMCD, 'CM_PROGRESS_CD', A.PROGRESS_CD) AS PROGRESS_CD_NM
+   		              , A.STYLE
+   		              , Fn_GetGrpCodeNm(A.COMCD, 'CM_STYLE_CD', A.STYLE) AS STYLE_NM
+   		              , A.TRAIN_DAY
+   		              , Fn_GetUseDayNm(A.TRAIN_DAY) AS TRAIN_DAY_NM
+   		              , A.TRAIN_STIME
+   		              , Fn_GetTimeFormat(A.TRAIN_STIME) AS TRAIN_STIME_NM
+   		              , A.TRAIN_ETIME
+   		              , Fn_GetTimeFormat(A.TRAIN_ETIME) AS TRAIN_ETIME_NM
+   		              , CONCAT(Fn_GetTimeFormat(A.TRAIN_STIME), '~', Fn_GetTimeFormat(A.TRAIN_ETIME)) AS TRAIN_TIME_NM
+   		              , A.CS_CAPA
+   		              , A.WEB_CAPA
+   		              , A.CAPA
+   		              , A.CLASS_DESC
+   		              , A.CLASS_NOTE
+   		              , A.CLASS_READY
+   		              , A.MAT_COST
+   		              , A.MAT_TEACH
+   		              , A.BIGO
+   		              , A.CLASS_OBJ
+   		              , A.CLASS_SOBJ
+   		              , A.CLASS_EOBJ
+   		              , A.CHILD_YN
+   		              , A.DCRATE_YN
+   		              , A.WEB_DISPLAY
+   		              , A.SORT_ORDER
+   		              , A.USE_YN
+   		              , CASE A.USE_YN WHEN 'Y' THEN '사용' ELSE '미사용' END USE_YN_NM
+   		              , A.CLASS_PHOTO
+   		              , A.NEW_CHECK
+   		              , A.TDATE_USE_YN
+   		              , A.TC_SDATE
+   		              , A.TC_EDATE
+   		              , ( SELECT COUNT(1) 
+		                    FROM ITEM_CLASS B
+		                       , PROGRAM_ITEM C 
+		                   WHERE A.COMCD = B.COMCD
+		                     AND B.COMCD = C.COMCD
+		                     AND A.CLASS_CD = B.CLASS_CD
+		                     AND B.ITEM_CD = C.ITEM_CD
+		                     AND C.USE_YN = 'Y' ) AS PRG_COUNT
+		           FROM TRAIN_CLASS A
+	              WHERE USE_YN = 'Y'
+	                AND WEB_DISPLAY = 'Y' ) R1
+	  <where>
+   		<if test="comcd != null and comcd != 'all'">
+		   AND R1.COMCD = #{comcd}
+		</if>
+		<if test="sportsCd != null and sportsCd != 'all'">
+		   AND R1.SPORTS_CD = #{sportsCd}
+		</if>
+		<if test="msportsCd != null and msportsCd != 'all'">
+		   AND R1.MSPORTS_CD = #{msportsCd}
+		</if>
+   	  </where>
+   		 LIMIT #{startRow}, #{pageSize}
+    </select>
+    <select id="lectureListCnt" parameterType="java.util.HashMap" resultType="int">
+    	   SELECT COUNT(1)
+		     FROM TRAIN_CLASS
+		    WHERE USE_YN = 'Y'
+		      AND WEB_DISPLAY = 'Y'
+		<if test="comcd != null and comcd != 'all'">
+		      AND COMCD = #{comcd}
+		</if>
+		<if test="sportsCd != null and sportsCd != 'all'">
+		      AND SPORTS_CD = #{sportsCd}
+		</if>
+		<if test="msportsCd != null and msportsCd != 'all'">
+		      AND MSPORTS_CD = #{msportsCd}
+		</if>
+    </select>
+    
+	<select id="lectureProgramList" parameterType="trainClass" resultType="programItem">
+		SELECT A.COMCD
+	         , A.CLASS_CD
+	         , A.ITEM_CD
+	         , B.ITEM_NM
+	         , B.COST_AMT
+	         , B.SALE_AMT
+		     , B.MONTH_CNT
+		     , B.GENDER
+		     , B.VAT_YN
+		     , B.USE_CNT
+		     , B.UPD_YN
+		     , B.TIME_CHECKYN
+		     , B.S_OLD
+		     , B.E_OLD
+		     , B.ADULT_GUBN
+		     , B.BIGO
+	      FROM ITEM_CLASS A
+		  JOIN PROGRAM_ITEM B
+	        ON A.COMCD = B.COMCD
+	       AND A.ITEM_CD = B.ITEM_CD
+	     WHERE B.USE_YN = 'Y'
+	       AND A.COMCD = #{comcd}
+	       AND A.CLASS_CD = #{classCd}
+    </select>
+    
+    <select id="getProgramInfo" parameterType="programItem" resultType="programItem">
+    	SELECT A.COMCD
+    	     , A.ITEM_CD
+    	     , B.CLASS_CD
+    	     , C.CLASS_NM
+    	     , C.SPORTS_CD
+    	     , A.PART_CD
+    	     , A.COST_AMT
+	         , A.SALE_AMT
+    	     , A.MONTH_CNT
+	         , A.GENDER
+	         , A.VAT_YN
+	         , A.USE_CNT
+	         , A.UPD_YN
+	         , A.TIME_CHECKYN
+	         , A.S_OLD
+	         , A.E_OLD
+	         , A.ADULT_GUBN
+    	     , C.CLASS_OBJ
+    	     , C.TRAIN_DAY
+   		     , Fn_GetUseDayNm(C.TRAIN_DAY) AS TRAIN_DAY_NM
+    	     , C.TRAIN_STIME
+   		     , Fn_GetTimeFormat(C.TRAIN_STIME) AS TRAIN_STIME_NM
+   		     , C.TRAIN_ETIME
+   		     , Fn_GetTimeFormat(C.TRAIN_ETIME) AS TRAIN_ETIME_NM
+   		     , CONCAT(Fn_GetTimeFormat(C.TRAIN_STIME), '~', Fn_GetTimeFormat(C.TRAIN_ETIME)) AS TRAIN_TIME_NM
+   		     , A.ITEM_NM
+   		     , C.CAPA
+   		     , C.CS_CAPA
+   		     , C.WEB_CAPA
+   		     , C.CLASS_DESC
+   		     , C.CLASS_NOTE
+   		     , C.BIGO
+   		     , C.CHILD_YN
+   		     , C.CLASS_PHOTO
+   		     , C.TDATE_USE_YN
+	         , 0 AS SALE_COUNT
+    	  FROM PROGRAM_ITEM A
+    	  JOIN ITEM_CLASS B
+    	    ON A.COMCD = B.COMCD
+    	   AND A.ITEM_CD = B.ITEM_CD
+    	  JOIN TRAIN_CLASS C
+    	    ON A.COMCD = C.COMCD
+    	   AND B.CLASS_CD = C.CLASS_CD
+    	 WHERE A.COMCD = #{comcd}
+    	   AND A.ITEM_CD = #{itemCd}
+    	   AND B.CLASS_CD = #{classCd}
+    </select>
+    <select id="lectureGrpcd" parameterType="grpcd" resultType="grpcd">
+    	SELECT COMCD
+    	     , GRP_CD
+    	     , CD
+    	     , CD_NM
+    	     , SORT_ORDER
+    	     , REMARK
+    	     , ITEM1
+    	     , ITEM2
+    	     , ITEM3
+    	     , ITEM4
+    	     , ITEM5
+    	     , UPD_YN
+    	     , DEL_YN
+    	     , USE_YN
+    	     , REC_SDATE
+    	     , REC_EDATE
+    	     , REP_SDATE
+    	     , REP_EDATE
+    	     , STARTDATE
+		  FROM COT_GRPCD
+		 WHERE COMCD = #{comcd}
+		   AND CD = #{cd}
+		   AND GRP_CD = 'CM_SPORTS_CD'
+		   AND USE_YN = 'Y'
+    </select>
+    
+    <insert id="setBasket" parameterType="java.util.HashMap" >
+		INSERT INTO  MEM_CART SET 
+			  COMCD 	=	 #{COMCD} 
+			 ,ITM_TYPE 	=	 #{ITM_TYPE} 
+			 ,PART_CD 	=	 #{PART_CD} 
+			 ,SPORTS_CD 	=	 #{SPORTS_CD}
+			 ,CLASS_CD 	=	 #{CLASS_CD}
+			 ,ITEM_CD 	=	 #{ITEM_CD} 
+			 ,MEM_NO 	=	 #{MEM_NO} 
+			 ,ITEM_SDATE 	=	 #{ITEM_SDATE} 
+			 ,ITEM_EDATE 	=	 #{ITEM_EDATE} 
+			 ,DC_CD1 	=	 #{DC_CD1} 
+			 ,DC_CD2 	=	 #{DC_CD2} 
+			 ,SALE_AMT 	=	 #{SALE_AMT} 
+			 ,ADD_YMD 	=	 #{ADD_YMD} 
+			 ,WRITE_DH 	=	 #{WRITE_DH} 
+		ON DUPLICATE 
+		 KEY UPDATE 
+			  COMCD 	=	 #{COMCD} 
+			 ,ITM_TYPE 	=	 #{ITM_TYPE} 
+			 ,PART_CD 	=	 #{PART_CD} 
+			 ,SPORTS_CD 	=	 #{SPORTS_CD}
+			 ,CLASS_CD 	=	 #{CLASS_CD} 
+			 ,ITEM_CD 	=	 #{ITEM_CD} 
+			 ,MEM_NO 	=	 #{MEM_NO} 
+			 ,ITEM_SDATE 	=	 #{ITEM_SDATE} 
+			 ,ITEM_EDATE 	=	 #{ITEM_EDATE} 
+			 ,DC_CD1 	=	 #{DC_CD1} 
+			 ,DC_CD2 	=	 #{DC_CD2} 
+			 ,SALE_AMT 	=	 #{SALE_AMT} 
+			 ,ADD_YMD 	=	 #{ADD_YMD} 
+			 ,WRITE_DH 	=	 #{WRITE_DH} 
+
+		</insert>
+		
+		<!-- 이사장 전용 /lecture/class -->
+		<select id="classGroupList" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+			select * from class_group  cg order by sort , seq
+		</select>
+		
+		
+		
+		
+		
+</mapper>

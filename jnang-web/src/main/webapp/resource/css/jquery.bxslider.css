@@ -1,0 +1,121 @@
+/** VARIABLES
+===================================*/
+/** RESET AND LAYOUT
+===================================*/
+.bx-wrapper {
+	position:relative;padding:0;*zoom:1;-ms-touch-action:pan-y;touch-action:pan-y;
+}
+.bx-wrapper img {
+/*	width:100%;*/
+	max-width:100%;overflow:hidden;display:block;height:auto;-moz-user-select:none;
+}
+.bxslider {
+	margin:0;padding:0;
+}
+ul.bxslider {
+	list-style:none;
+}
+.bx-viewport {
+	-webkit-transform:translatez(0);
+}
+.bx-wrapper .bx-pager,
+.bx-wrapper .bx-controls-auto {
+	position:absolute;
+}
+/* LOADER */
+.bx-wrapper .bx-loading {
+	position:absolute;z-index:10;top:0;left:0;width:100%;height:100%;min-height:50px;background:#fff;
+}
+/* 페이징박스 PAGER */
+.bx-wrapper .bx-pager {
+	z-index:5;bottom:10px;left:10px;
+}
+/* 페이징버튼 */
+.bx-wrapper .bx-pager.bx-default-pager span {
+	display:inline-block;background:rgba(130, 130, 130, 0.6);
+	width:16px;height:16px;margin:0 5px;border-radius:16px;
+}
+.bx-wrapper .bx-pager.bx-default-pager span.active_span {
+	background:#fff;transform:scale(1.0);-o-transform:scale(1.0);-moz-transform:scale(1.0);-webkit-transform:scale(1.3);
+	transition:transform .35s;-o-transition:transform .35s;-moz-transition:transform .35s;-webkit-transition:transform .35s;
+}
+.bx-wrapper .bx-pager-item,
+.bx-wrapper .bx-controls-auto .bx-controls-auto-item {
+	display:inline-block;vertical-align:bottom;*zoom:1;*display:inline;
+}
+.bx-wrapper .bx-pager-item {
+	font-size:0;line-height:0;
+}
+/* 이전다음 DIRECTION CONTROLS (NEXT / PREV) */
+.bx-wrapper .bx-prev {
+	background:#fff url('../images/common/btn_arrow_01_prev.png') center center no-repeat;
+}
+.bx-wrapper .bx-next {
+	background:#fff url('../images/common/btn_arrow_01_next.png') center center no-repeat;
+}
+/* 이전다음박스 */
+.bx-wrapper .bx-controls-direction {
+	position:absolute;z-index:5;bottom:10px;right:40px;
+}
+/* 이전다음버튼 */
+.bx-wrapper .bx-controls-direction a {
+	display:inline-block;text-indent:-9999px;
+	width:30px;height:30px;border:1px solid #ccc;
+}
+.bx-wrapper .bx-controls-direction a.disabled {
+	display:none;
+}
+/* 재생정지박스 AUTO CONTROLS (START / STOP) */
+.bx-wrapper .bx-controls-auto {
+	z-index:5;bottom:10px;right:10px;text-align:center;
+}
+/* 재생정지버튼 */
+.bx-wrapper .bx-controls-auto a {
+	display:inline-block;text-indent:-9999px;
+	width:30px;height:30px;border:1px solid #ccc;
+}
+/* 재생버튼 */
+.bx-wrapper .bx-controls-auto .bx-start {
+	background:#fff url('../images/common/btn_arrow_01_play.png') center center no-repeat;
+}
+/* 정지버튼 */
+.bx-wrapper .bx-controls-auto .bx-stop {
+	background:#fff url('../images/common/btn_arrow_01_stop.png') center center no-repeat;
+}
+.bx-wrapper .bx-controls-auto .bx-start.active {
+	display:none;
+}
+.bx-wrapper .bx-controls-auto .bx-stop.active {
+	display:none;
+}
+/* 캡션박스 IMAGE CAPTIONS */
+.bx-wrapper .bx-caption {
+	position:absolute;z-index:6;bottom:0;left:0;background:rgba(80, 80, 80, 0.7);width:100%;height:40px;
+}
+.bx-wrapper .bx-caption span {
+	display:block;color:#fff;width:100%;height:100%;line-height:40px;padding:0 10px;
+}
+.bx-wrapper .bx-caption span h6 {font-size:1.3em;margin-top:0.3em;}
+
+/* 페이징박스 PAGER */
+.bxslider__control_rb__icon_lb__1 .bx-wrapper .bx-pager {bottom:10px;left:10px;}
+/* 이전다음박스 */
+.bxslider__control_rb__icon_lb__1 .bx-wrapper .bx-controls-direction {bottom:10px;right:40px;}
+/* 재생정지박스 AUTO CONTROLS (START / STOP) */
+.bxslider__control_rb__icon_lb__1 .bx-wrapper .bx-controls-auto {bottom:10px;right:10px;}
+
+/* 페이징박스 PAGER */
+.bxslider__control_rt__icon_none__1 .bx-wrapper .bx-pager {bottom:10px;left:10px;}
+/* 이전다음박스 */
+.bxslider__control_rt__icon_none__1 .bx-wrapper .bx-controls-direction {top:-55px;right:30px;}
+/* 재생정지박스 AUTO CONTROLS (START / STOP) */
+.bxslider__control_rt__icon_none__1 .bx-wrapper .bx-controls-auto {top:-55px;right:0px;}
+
+
+/* 반응형 */
+@media screen and (max-width:1280px){
+/* 이전다음박스 */
+.bxslider__control_rt__icon_none__1 .bx-wrapper .bx-controls-direction {top:-35px;}
+/* 재생정지박스 AUTO CONTROLS (START / STOP) */
+.bxslider__control_rt__icon_none__1 .bx-wrapper .bx-controls-auto {top:-35px;}
+}

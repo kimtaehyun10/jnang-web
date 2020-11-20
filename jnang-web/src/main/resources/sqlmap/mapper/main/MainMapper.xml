@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dwict.jfmc.client.main.mapper.MainMapper">
+
+    <select id="getMenuList" resultType="hashmap">
+   	      SELECT M.CMS_CD
+	           , M.UP_CMS_CD
+	           , M.SGRP
+	           , M.CMS_NM
+	           , M.MTYPE
+	           , M.LTYPE
+	           , M.ODR
+	           , M.DEP
+	           , M.USE_YN
+	           , M.WDP_YN
+	           , CASE WHEN M.MTYPE = 'LNK'
+	                  THEN ( SELECT L.CONT FROM CMS_CONT_LINK L WHERE L.CMS_CD = M.CMS_CD )
+	                  ELSE NULL
+	             END AS CONT
+	        FROM CMS_MENU M
+	       WHERE SGRP = 'S01'
+	         AND USE_YN = 'Y'
+	    ORDER BY UP_CMS_CD, DEP, ODR 
+    </select>
+    
+    <select id="getCmsNm" parameterType="string" resultType="string">
+    	SELECT CASE WHEN A.DEP > 3 
+    	            THEN ( SELECT CMS_NM FROM CMS_MENU B WHERE A.UP_CMS_CD = B.CMS_CD )
+    	            ELSE CMS_NM
+    	       END AS CMS_NM
+    	  FROM CMS_MENU A
+    	 WHERE CMS_CD = #{cmsCd}
+    </select>
+    
+	<select id="popupZone" resultType="popupZone">
+		   SELECT P.NT_NO
+		        , P.TITLE
+		        , P.LNK_URL
+		        , P.IMG_TXT
+		        , F.ATCH_FILE_ID
+		        , F.FILE_STRE_COURS
+		        , F.STRE_FILE_NM
+		        , F.ORIGNL_FILE_NM
+		        , F.FILE_EXTSN
+		     FROM CMS_POPUP_ZONE P
+		LEFT JOIN COMTNFILEDETAIL F
+		       ON P.IMG = F.ATCH_FILE_ID
+		    WHERE DATE_FORMAT(NOW(),'%Y%m%d%h%i') BETWEEN P.SDT AND P.EDT
+		      AND P.USE_YN = 'Y'
+		      AND P.DEL_YN = 'N'
+    </select>
+    
+    <!-- //공지사항/보도자료/입찰공고/채용공고 .. -->
+	<select id="cmsBoard" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select 
+			t1.*
+		from
+			(
+			select
+				1 as tab, CMS_CD , BRD_NO, TITLE, convert(CONT,varchar(200)) as CONT ,date_format(REG_DT , '%Y-%m-%d') as YMD
+			from
+				cms_cont_ntc
+			where
+				CMS_CD = #{brd1}
+			order by
+				BRD_NO desc
+			limit 5 ) as t1
+		union all
+		select
+			t2.*
+		from
+			(
+			select
+				2, CMS_CD , BRD_NO, TITLE, convert(CONT,varchar(200)) ,date_format(REG_DT , '%Y-%m-%d') as YMD
+			from
+				cms_cont_ntc
+			where
+				CMS_CD = #{brd2}
+			order by
+				BRD_NO desc
+			limit 5 ) as t2
+		union all
+		select
+			t3.*
+		from
+			(
+			select
+				3, CMS_CD , BRD_NO, TITLE, convert(CONT,varchar(200)) ,date_format(REG_DT , '%Y-%m-%d') as YMD
+			from
+				cms_cont_ntc
+			where
+				CMS_CD = #{brd3}
+			order by
+				BRD_NO desc
+			limit 5 ) as t3
+		union all
+		select
+			t4.*
+		from
+			(
+			select
+				4, CMS_CD , BRD_NO, TITLE, convert(CONT,varchar(200)) ,date_format(REG_DT , '%Y-%m-%d') as YMD
+			from
+				cms_cont_ntc
+			where
+				CMS_CD = #{brd4}
+			order by
+				BRD_NO desc
+			limit 5 ) as t4
+    </select>
+    
+    <select id="banner" resultType="banner">
+		   SELECT B.NT_NO
+		        , B.TITLE
+		        , B.LNK_URL		        
+		        , F.ATCH_FILE_ID
+		        , F.FILE_STRE_COURS
+		        , F.STRE_FILE_NM
+		        , F.ORIGNL_FILE_NM
+		        , F.FILE_EXTSN
+		     FROM CMS_BANNER B
+		LEFT JOIN COMTNFILEDETAIL F
+		       ON B.IMG = F.ATCH_FILE_ID
+		    WHERE DATE_FORMAT(NOW(),'%Y%m%d%h%i') BETWEEN B.SDT AND B.EDT		      
+		      AND B.DEL_YN = 'N'
+    </select>
+</mapper>

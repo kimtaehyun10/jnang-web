@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dwict.jfmc.client.smpay.mapper.PayMapper">
+	<select id="testSlect" parameterType="member" resultType="boolean">
+		SELECT COUNT(1)
+		  FROM MEMBER_DAMO
+		 WHERE STATUS = '00'
+		   AND MEM_NM = #{memNm}
+		   AND SEC_BIRTH_DATE = ENC_STR('KEY1', #{secBirthDate})
+		   AND GENDER = #{gender}
+		   AND HP = #{hp}
+	</select>
+  
+
+	<select id="testSlectx" parameterType="member" resultType="boolean">
+		SELECT COUNT(1)
+		  FROM MEMBER_DAMO
+		 WHERE STATUS = '00'
+		   AND MEM_NM = #{memNm}
+		   AND SEC_BIRTH_DATE = ENC_STR('KEY1', #{secBirthDate})
+		   AND GENDER = #{gender}
+		   AND HP = #{hp}
+	</select>
+	
+	<!-- 다음정산번호 조회 -->
+	<select id="getNextSlipNo" resultType="String" parameterType="java.util.HashMap">
+		select lpad(CAST(ifnull(max(SLIP_NO), '0') AS UNSIGNED) + 1, 13, '0') 
+		  from PAY_LIST	
+	</select>
+	
+	<!-- 다음영수번호 조회 -->
+	<select id="getNextReceiptNo" resultType="String" parameterType="java.util.HashMap">
+		select lpad(CAST(ifnull(max(RECEIPT_NO), '0') AS UNSIGNED) + 1, 13, '0') 
+		  from PAY_CHANGE_INFO	
+	</select>	
+	
+	
+
+
+	<!-- 주문상품리스트 등록 저장 -->
+	<insert id="setPayList" parameterType="java.util.HashMap">
+		INSERT INTO PAY_LIST  
+		(
+			COMCD,
+			SLIP_NO,
+			PAY_SEQ,
+			RECEIPT_NO,
+			PAY_DATE,
+			PAY_TIME,
+			PAY_AMT,
+			APP_DATE,
+			APP_NO,
+			APP_TIME,
+			CASHIER,
+			P_COMCD,
+			P_TYPE,
+			METHOD_CD,
+			CHANGE_YN,
+			CANCEL_YN,
+			REMARK,
+			WRITE_DH,
+			WRITER,
+			CHNG_DH,
+			CHNGR
+		)
+		VALUES
+		(
+			#{COMCD},
+			#{SLIP_NO},
+			(select * from (SELECT ifnull(max(PAY_SEQ), 0) + 1 FROM PAY_LIST WHERE SLIP_NO = #{SLIP_NO}) A),
+			#{RECEIPT_NO},
+			DATE_FORMAT(SYSDATE(), '%Y%m%d'),
+			DATE_FORMAT(SYSDATE(), '%H%i%s'),	
+			#{PAY_AMT},
+			#{APP_DATE},
+			#{APP_NO},
+			#{APP_TIME},
+			#{USER_ID},
+			#{P_COMCD},
+			#{P_TYPE},
+			#{METHOD_CD},
+			'N',
+			'N',
+			#{REMARK},
+			SYSDATE(),
+			#{USER_ID},
+			SYSDATE(),
+			#{USER_ID}
+		)
+    </insert>	
+    	
+    	
+	<!-- 주문상품리스트 등록 저장 -->
+	<insert id="setPayList2" parameterType="java.util.HashMap">
+		INSERT INTO card_app_hist_damo  
+		(
+			COMCD,
+			APP_DATE,
+			APP_NO,
+			MEM_NO,
+			CARD_APP_IDX,
+			APP_GBN,
+			SLIP_NO,
+			PAY_SEQ,
+			CNL_DATE,
+			CARD_NO,
+			SEC_CARD_NO1,
+			SEC_CARD_NO2,
+			SEC_CARD_NO3,
+			SEC_CARD_NO4,
+			P_COMCD,
+			P_TYPE,
+			CARD_SEC,
+			CARD_SEC2,
+			HALBU_CNT,
+			APP_AMT,
+			CASH_USER_INFO,
+			STORE_NO,
+			PAY_LIST_YN,
+			FORCE_YN,
+			PG_VAN,
+			MID,
+			OID,
+			TID,
+			UIP,
+			RESULTMSG,
+			CHNGR,
+			CHNG_DH,
+			WRITER,
+			WRITE_DH
+		)
+		VALUES
+		(
+			#{COMCD},
+			#{APP_DATE},
+			#{APP_NO},
+			#{MEM_NO},
+			0,
+			#{APP_GBN},
+			#{SLIP_NO},
+			#{PAY_SEQ},
+			'',
+			'',
+			ENC_STR('KEY1', #{SEC_CARD_NO1}),
+			ENC_STR('KEY1', #{SEC_CARD_NO2}),
+			ENC_STR('KEY1', #{SEC_CARD_NO3}),
+			ENC_STR('KEY1', #{SEC_CARD_NO4}),
+			#{P_COMCD},
+			#{P_TYPE},
+			#{CARD_SEC},
+			#{CARD_SEC2},
+			#{HALBU_CNT},
+			#{APP_AMT},
+			#{CASH_USER_INFO},
+			#{STORE_NO},
+			#{PAY_LIST_YN},
+			'N',
+			'VAN',
+			'',
+			'',
+			#{TID},
+			'',
+			'',
+			#{WRITER},
+			#{WRITE_DH},
+			#{WRITER},
+			#{WRITE_DH}
+		)
+    </insert>	
+    
+	<!-- 주문_결제정보(CALC_MASTER) 저장 -->
+	<insert id="setCalcMaster" parameterType="java.util.HashMap">
+		INSERT INTO CALC_MASTER
+		(  
+			COMCD,
+			SLIP_NO,
+			SALE_DATE,
+			SALE_TIME,
+			PAY_AMT,
+			CASH_AMT,
+			CARD_AMT,
+			FULL_YN,
+			MEM_NO,
+			RECEIPT_CNT,
+			RECEIPT_BIGO,
+			REMARK,
+			CANCEL_YN,
+			WRITER,
+			WRITE_DH
+		)
+		VALUES
+		(
+			#{COMCD},
+			#{SLIP_NO},
+			DATE_FORMAT(SYSDATE(), '%Y%m%d'),
+			DATE_FORMAT(SYSDATE(), '%H%i%s'),			
+			#{PAY_AMT},
+			#{CASH_AMT},
+			#{CARD_AMT},
+			'Y',
+			#{MEM_NO},
+			1,
+			#{RECEIPT_BIGO},
+			#{REMARK},
+			'N',
+			#{USER_ID},
+			SYSDATE()
+		)
+    </insert>	
+	
+	
+	<!-- 장바구니조회 조회 -->
+	<select id="mem_cart" resultType="String" parameterType="java.util.HashMap">
+		select *
+		  from mem_cart 
+	</select>	
+	
+
+
+
+	<!-- 회원 가입프로그램 추가 및 수정 -->
+	<insert id="setMemSale" parameterType="java.util.HashMap">
+		<selectKey keyProperty="NEXT_SALE_SEQ" resultType="java.lang.String" order="BEFORE">
+			select ifnull(max(SALE_SEQ), 0) + 1 
+			  from mem_sale
+			 where COMCD = #{COMCD}
+			   and MEM_NO = #{MEM_NO}			  
+		</selectKey>	
+		
+		INSERT INTO mem_sale  
+	       SET 	 COMCD = #{COMCD}
+				,MEM_NO = #{MEM_NO}
+				,SALE_SEQ = #{NEXT_SALE_SEQ}
+				,PART_CD = #{PART_CD}
+				,SPORTS_CD = #{SPORTS_CD}
+				,ITEM_CD = #{ITEM_CD}
+				,SLIP_NO = #{SLIP_NO}
+				,SALE_DATE = DATE_FORMAT(sysdate(), '%Y%m%d')
+				,SALE_TIME = DATE_FORMAT(sysdate(), '%H%i%s')
+				,ITEM_SDATE = #{ITEM_SDATE}
+				,DCREASON_CD2 = #{DCREASON_CD2}
+				,ITEM_EDATE = #{ITEM_EDATE}
+				,DCREASON_CD = #{DCREASON_CD}
+				,COST_AMT = #{COST_AMT}
+				,UNIT_AMT = #{UNIT_AMT}
+				,SALE_NUM = #{SALE_NUM}
+				,DC_AMT = #{DC_AMT}
+				,SALE_AMT = #{SALE_AMT}
+				,VAT_YN = #{VAT_YN}
+				,VAT_AMT = #{VAT_AMT}
+				,MILE_USEAMT = #{MILE_USEAMT}
+				,MILE_ADDAMT = #{MILE_ADDAMT}
+				,SALE_REL_NO = #{SALE_REL_NO}
+				,USE_CNT = #{USE_CNT}
+				,WEB_TYPE = #{WEB_TYPE}
+				,ENTR_NO = #{ENTR_NO}
+				,CALMEM_NO = #{CALMEM_NO}
+				,WAIT_IDX = #{WAIT_IDX}
+				,TERM_IDX = #{TERM_IDX}
+				,OLD_SALE_SEQ = #{OLD_SALE_SEQ}
+				,OLD_ITEM_SDATE = #{OLD_ITEM_SDATE}
+				,OLD_ITEM_EDATE = #{OLD_ITEM_EDATE}
+				,SALE_SEC = #{SALE_SEC}
+				,TRANSFER_GBN = #{TRANSFER_GBN}
+				,MIDCANCEL_YN = #{MIDCANCEL_YN}
+				,CHANGE_YN = #{CHANGE_YN}
+				,RETURN_YN = #{RETURN_YN}
+				,CANCEL_YN = #{CANCEL_YN}
+				,REMARK = #{REMARK}
+				,REMARK2 = #{REMARK2}
+				,DAY_NO = #{DAY_NO}
+				,PROMOTION_YN = #{PROMOTION_YN}
+				,OLD_PROMOTION_YN = #{OLD_PROMOTION_YN}
+				,PROMOTION_CD = #{PROMOTION_CD}
+				,PROMOTION_SALE_GBN = #{PROMOTION_SALE_GBN}
+				,PROMOTION_VALUE = #{PROMOTION_VALUE}
+				,PROMOTION_APPAMT = #{PROMOTION_APPAMT}
+				,WRITE_DH = SYSDATE()
+				,WRITER = #{USER_ID}
+				,DPSTR_NM = #{DPSTR_NM}
+				,BANK_NM = #{BANK_NM}
+				,ACOUNT_NUM = #{ACOUNT_NUM}
+	    ON DUPLICATE KEY 
+		UPDATE 
+ 				 PART_CD = #{PART_CD}
+				,SPORTS_CD = #{SPORTS_CD}
+				,ITEM_CD = #{ITEM_CD}
+				,SALE_DATE = DATE_FORMAT(sysdate(), '%Y%m%d')
+				,SALE_TIME = DATE_FORMAT(sysdate(), '%H%i%s')
+				,ITEM_SDATE = #{ITEM_SDATE}
+				,DCREASON_CD2 = #{DCREASON_CD2}
+				,ITEM_EDATE = #{ITEM_EDATE}
+				,DCREASON_CD = #{DCREASON_CD}
+				,COST_AMT = #{COST_AMT}
+				,UNIT_AMT = #{UNIT_AMT}
+				,SALE_NUM = #{SALE_NUM}
+				,DC_AMT = #{DC_AMT}
+				,SALE_AMT = #{SALE_AMT}
+				,VAT_YN = #{VAT_YN}
+				,VAT_AMT = #{VAT_AMT}
+				,MILE_USEAMT = #{MILE_USEAMT}
+				,MILE_ADDAMT = #{MILE_ADDAMT}
+				,SALE_REL_NO = #{SALE_REL_NO}
+				,USE_CNT = #{USE_CNT}
+				,WEB_TYPE = #{WEB_TYPE}
+				,ENTR_NO = #{ENTR_NO}
+				,CALMEM_NO = #{CALMEM_NO}
+				,WAIT_IDX = #{WAIT_IDX}
+				,TERM_IDX = #{TERM_IDX}
+				,OLD_SALE_SEQ = #{OLD_SALE_SEQ}
+				,OLD_ITEM_SDATE = #{OLD_ITEM_SDATE}
+				,OLD_ITEM_EDATE = #{OLD_ITEM_EDATE}
+				,SALE_SEC = #{SALE_SEC}
+				,TRANSFER_GBN = #{TRANSFER_GBN}
+				,MIDCANCEL_YN = #{MIDCANCEL_YN}
+				,CHANGE_YN = #{CHANGE_YN}
+				,RETURN_YN = #{RETURN_YN}
+				,CANCEL_YN = #{CANCEL_YN}
+				,REMARK = #{REMARK}
+				,REMARK2 = #{REMARK2}
+				,DAY_NO = #{DAY_NO}
+				,PROMOTION_YN = #{PROMOTION_YN}
+				,OLD_PROMOTION_YN = #{OLD_PROMOTION_YN}
+				,PROMOTION_CD = #{PROMOTION_CD}
+				,PROMOTION_SALE_GBN = #{PROMOTION_SALE_GBN}
+				,PROMOTION_VALUE = #{PROMOTION_VALUE}
+				,PROMOTION_APPAMT = #{PROMOTION_APPAMT}
+				,CHNG_DH = SYSDATE()
+				,CHNGR = #{USER_ID}
+				,DPSTR_NM = #{DPSTR_NM}
+				,BANK_NM = #{BANK_NM}
+				,ACOUNT_NUM = #{ACOUNT_NUM}
+    </insert>
+    
+    
+    <!-- 회원 강습신청내역 추가 및 수정 -->
+	<insert id="setTrainHist" parameterType="java.util.HashMap">
+		<selectKey keyProperty="NEXT_CLASS_SEQ" resultType="java.lang.String" order="BEFORE">
+			select ifnull(max(CLASS_SEQ), 0) + 1 
+			  from train_hist
+			 where COMCD = #{COMCD}
+			   and MEM_NO = #{MEM_NO}			  
+		</selectKey>		
+		INSERT INTO train_hist  
+	       SET 	 COMCD = #{COMCD}
+				,MEM_NO = #{MEM_NO}
+				,SALE_SEQ = #{SALE_SEQ}
+				,CLASS_SEQ = (select CASE #{ACT_MODE} 
+       			   			         WHEN 'I' THEN  #{NEXT_CLASS_SEQ}
+       				                 ELSE #{CLASS_SEQ} end)
+				,CLASS_CD = #{CLASS_CD}
+				,TRAIN_SDATE = #{TRAIN_SDATE}
+				,TRAIN_EDATE = #{TRAIN_EDATE}
+				,REL_CLASS_SEQ = #{CLASS_SEQ}
+				,USER_NO = #{USER_NO}
+				,TEACHER_NO = #{USER_NO}
+				,ASSIGN_YN = #{ASSIGN_YN}
+				,WRITE_DH = SYSDATE()
+				,WRITER = #{USER_ID}				
+	    ON DUPLICATE KEY 
+		UPDATE 
+				 CLASS_CD = #{CLASS_CD}
+				,TRAIN_SDATE = #{TRAIN_SDATE}
+				,TRAIN_EDATE = #{TRAIN_EDATE}
+				,OLD_TRAIN_EDATE = TRAIN_EDATE
+				,OLD_CLASS_CD = CLASS_CD
+				,CLASS_CHGDATE = DATE_FORMAT(sysdate(), '%Y%m%d')
+				,USER_NO = #{USER_NO}
+				,TEACHER_NO = #{TEACHER_NO}
+				,ASSIGN_YN = #{ASSIGN_YN}
+				,CHNG_DATE = DATE_FORMAT(sysdate(), '%Y%m%d')
+				,CHANGE_YN = 'Y'
+				,CHNG_DH = SYSDATE()
+				,CHNGR = #{USER_ID}				
+    </insert>		
+            
+            
+
+    
+          
+
+	<!-- 주문_현금결제정보 등록 저장 -->
+	<insert id="setPayChangeInfo" parameterType="java.util.HashMap">
+		INSERT INTO PAY_CHANGE_INFO  
+		(
+        	 COMCD
+         	,RECEIPT_NO
+			,PAY_AMT
+			,RECEIVE_AMT
+			,RETURN_AMT
+			,REMARK
+			,CANCEL_YN
+			,WRITE_DH
+			,WRITER		
+		)
+		VALUES
+		(
+        	 #{COMCD}
+         	,#{RECEIPT_NO}
+			,#{PAY_AMT}
+			,#{RECEIVE_AMT}
+			,#{RETURN_AMT}
+			,#{REMARK}
+			,#{CANCEL_YN}
+			,SYSDATE()
+			,#{USER_ID}		
+		)
+
+    </insert>	           
+  
+</mapper>

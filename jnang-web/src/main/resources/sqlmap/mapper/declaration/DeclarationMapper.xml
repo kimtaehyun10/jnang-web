@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dwict.jfmc.client.declaration.mapper.DeclarationMapper">
+	
+	<insert id="declarationWrite" parameterType="java.util.HashMap">
+		<selectKey resultType="hashmap" keyProperty="dNo,dFile" order="BEFORE">
+			SELECT IFNULL(MAX(D_NO),0)+1 AS dNo, 
+			CONCAT('DEC','_','${cmsCd}','_',LPAD(IFNULL(MAX(D_NO),0)+1,10,0)) AS dFile								
+			FROM APP_DECLARATION						
+		</selectKey>		
+		INSERT INTO 
+			APP_DECLARATION
+		VALUES		   
+			( #{dNo}, #{dType}, #{dTitle}, #{dWho}, #{dWhen}, #{dWhere}, #{dContents}, #{dAcquaintance}, #{dConfirm}, #{dInspector}, #{dTime}, #{dPass}, NOW(), #{dFile}, #{dAgree}, #{cmsCd}, 'N', 'N', #{dCode} )
+	</insert>   
+	
+	<select id="declarationDetailPage" resultType="declaration" parameterType="java.util.HashMap">
+		 SELECT D_NO		   								   
+			  , D_TYPE
+			  , D_TITLE		               
+              , D_WHO
+              , D_WHEN
+              , D_WHERE
+              , D_CONTENTS
+              , D_ACQUAINTANCE
+              , D_CONFIRM
+              , D_INSPECTOR
+              , D_TIME
+              , D_PASS
+              , DATE_FORMAT(D_DATE,'%Y-%m-%d') AS D_DATE
+              , D_FILE
+              , D_AGREE
+              , CMS_CD
+              , D_DEL
+              , D_EDIT		               
+              , D_CODE              
+            FROM APP_DECLARATION		                       
+			WHERE D_CODE = #{dCode}           
+              AND D_PASS = #{dPass}
+	</select>
+	
+	<select id="decCommentDetailPage" resultType="decComment" parameterType="java.util.HashMap">
+		 SELECT CMS_CD		   								   
+			  , D_NO
+			  , RT_NO		               
+              , PT_CD
+              , OPER_ID
+              , NM
+              , TEL
+              , CONTS
+              , DATE_FORMAT(REGDT,'%Y-%m-%d') AS REGDT
+              , DEL_YN
+              , TITLE
+              , EDIT_YN              
+              , UP_FILE                            
+            FROM APP_DEC_COMMENT		                       
+			WHERE D_NO = #{dNo}                         
+	</select>
+</mapper>

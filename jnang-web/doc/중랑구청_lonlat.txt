@@ -1,0 +1,6 @@
+lat=37.606632, lon=127.092632
+gridx=62, gridy=128
+
+[참고]
+위경도-기상청 격자정보 변환
+https://fronteer.kr/service/kmaxy

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dwict.jfmc.client.com.mapper.CommonMapper">
+
+   	<select id="atchFile" resultType="atchFile">
+   		SELECT ATCH_FILE_ID
+   		     , FILE_SN
+   		     , FILE_STRE_COURS
+   		     , STRE_FILE_NM
+   		     , ORIGNL_FILE_NM
+   		     , FILE_EXTSN
+   		     , FILE_CN
+   		     , FILE_SIZE
+   		  FROM COMTNFILEDETAIL
+   		 WHERE ATCH_FILE_ID = #{atchFileId}
+    </select>
+    
+</mapper>
