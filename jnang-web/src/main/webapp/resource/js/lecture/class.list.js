@@ -44,7 +44,7 @@ function selectSport(selCT) {
 	var ct1 = $("#ct1").val();
 	var ct2 = $("#ct2").val();
 		
-		$.post('/data/rentList', { "ct1" : ct1, "ct2" : ct2 }, function(data){
+		$.post('/data/lecture/classList', { "ct1" : ct1, "ct2" : ct2 }, function(data){
 			//try {
 				var dataList = "";
 				if(data.length != 0){
