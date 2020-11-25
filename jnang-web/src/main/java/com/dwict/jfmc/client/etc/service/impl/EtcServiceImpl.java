@@ -1,10 +1,17 @@
 package com.dwict.jfmc.client.etc.service.impl;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -18,6 +25,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.dwict.jfmc.client.etc.service.EtcService;
+import com.dwict.jfmc.client.etc.mapper.EtcMapper;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -37,6 +45,10 @@ public class EtcServiceImpl implements EtcService {
 	@Value("#{appConfig['air.api.url']}")
 	private String sAirUrl;
 
+	@Resource(name = "etcMapper")
+	private EtcMapper etcMapper;
+	
+	
 	@Override
 	public HashMap<String, String> getWeatherInfo() {
 		log.info("::: getWeatherInfo :::");
@@ -205,6 +217,42 @@ public class EtcServiceImpl implements EtcService {
 			airInfo.put("airStatus", "매우나쁨");
 		}
 		return airInfo;
+	}
+	
+	
+	@Override
+	public List <Map<String, Object>> getHoliday(HttpServletRequest request) {
+		
+		String yy = request.getParameter("yy");		//?yy=2020
+		String mm = request.getParameter("mm");		//?mm=01
+
+		String ym = request.getParameter("ym");		//?ym=202001
+		if (yy != null && mm != null) {
+			ym = yy +mm;
+		}
+		String ymd = request.getParameter("ymd"); 	//?ymd=20201101,20201102,20201111,20201112
+		
+		List<String> codeList = new ArrayList<String>();
+		Map<String, Object> maps = new HashMap<>();
+		if (ym != null) {
+			maps.put("YM", ym);	
+
+		} else if (ymd != null) {
+			codeList.add(ymd);
+			maps.put("array", codeList);	
+			
+		} else {
+			Date from = new Date();
+			SimpleDateFormat transFormat = new SimpleDateFormat("yyyyMMdd");
+			ymd = transFormat.format(from);
+			codeList.add("0000000");
+			codeList.add(ymd);
+			maps.put("array", codeList);
+		}
+		
+		
+	
+		return etcMapper.getHoliday(maps);
 	}
 
 }

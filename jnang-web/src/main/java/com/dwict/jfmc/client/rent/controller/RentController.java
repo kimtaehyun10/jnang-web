@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -16,31 +17,72 @@ import com.dwict.jfmc.client.page.service.PageService;
 import com.dwict.jfmc.client.rent.service.RentService;
 import com.dwict.jfmc.client.security.model.Account;
 
+import com.dwict.jfmc.client.com.util.*;
+import com.dwict.jfmc.client.etc.service.EtcService;
+
 @RestController
 public class RentController {
 
+	@Resource(name = "etcService")
+	EtcService etcService;
+	
 	@Resource(name = "mypageService")
 	private MypageService mypgService;
 
 	@Resource(name = "rentService")
-	RentService rtnService;
+	RentService rentService;
 	
 	@Resource(name = "pageService")
 	private PageService pageService;
 	
-	//날짜 선택 신청 폼
+	
+	//대관 게시판 문의
+	@GetMapping(value = "/rent/write")
+	public ModelAndView rentWriteForm(ModelAndView modelAndView, Map<String, Object> requestMap, HttpServletRequest request) {
+		final Account account = (Account) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		final String MEM_ID = account.getUsername();
+
+		//공휴일
+		List<Map <String,Object>> holidayList= etcService.getHoliday(request);
+		modelAndView.addObject("holidayList", holidayList);
+		
+		//셋팅 값
+		final Map <String,Object> rentCfg = rentService.rentConfig(request);
+		if (rentCfg == null) {
+			modelAndView.setViewName("/rent/rentlist");
+			return modelAndView;
+		}
+		modelAndView.addObject("rentCfg", rentCfg);
+		
+		//회원정보 가져오기
+		final Map <String,Object> myData = mypgService.myInfo(MEM_ID);
+		modelAndView.addObject("myData", myData);
+		
+		//체육관별 대관 정보 가져오기
+		List<Map <String,Object>> rentList = pageService.getRentCalendar(requestMap, request);
+		modelAndView.addObject("rentList", rentList);
+		
+		modelAndView.setViewName("/rent/rent_write");
+		return modelAndView;
+	}
+	
+	
+	//대관 날짜 선택 신청 폼
 	@GetMapping(value = "/rent/date")
 	public ModelAndView rentForm(ModelAndView modelAndView, Map<String, Object> requestMap, HttpServletRequest request) {
 		final Account account = (Account) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		final String MEM_ID = account.getUsername();
 
+		//공휴일
+		List<Map <String,Object>> holidayList= etcService.getHoliday(request);
+		modelAndView.addObject("holidayList", holidayList);
+		
 		//셋팅 값
-		final Map <String,Object> rentCfg = rtnService.rentConfig(request);
+		final Map <String,Object> rentCfg = rentService.rentConfig(request);
 		if (rentCfg == null) {
 			modelAndView.setViewName("/rent/rentlist");
 			return modelAndView;
 		}
-		modelAndView.setViewName("/rent/rent_date");
 		modelAndView.addObject("rentCfg", rentCfg);
 		
 		//회원정보 가져오기
@@ -53,40 +95,36 @@ public class RentController {
 		modelAndView.addObject("rentList", rentList);
 		
 		//대관대상 리스트 정보
-		//final List<Map <String,Object>> rentList = rtnService.getCenterPlaceList();
+		//final List<Map <String,Object>> rentList = rentService.getCenterPlaceList();
 
 		modelAndView.setViewName("/rent/rent_date");
 		return modelAndView;
 	}
-
 	
-	//날짜 선택 신청 폼
-	@GetMapping(value = "/rent/rentOrder")
+	
+	//예약확인
+	@PostMapping(value = "/rent/rentOrder")
 	public ModelAndView rentOrder(ModelAndView modelAndView, Map<String, Object> requestMap, HttpServletRequest request) {
+		
 		final Account account = (Account) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		final String MEM_ID = account.getUsername();
-
+		//회원정보 가져오기
+		final Map <String,Object> myData = mypgService.myInfo(MEM_ID);
+		String MEM_NO = (String) myData.get("MEM_NO");
+		modelAndView.addObject("memData", myData);
+		
 		//셋팅 값
-		final Map <String,Object> rentCfg = rtnService.rentConfig(request);
+		final Map <String,Object> rentCfg = rentService.rentConfig(request);
 		if (rentCfg == null) {
 			modelAndView.setViewName("/rent/rentlist");
 			return modelAndView;
 		}
-		modelAndView.setViewName("/rent/rent_date");
 		modelAndView.addObject("rentCfg", rentCfg);
 		
-		//회원정보 가져오기
-		//final Map <String,Object> myData = mypgService.myInfo(MEM_ID);
-		//modelAndView.addObject("myData", myData);
+		//주문확인
+		Map <String, Object> rentOrderList= rentService.rentOrder(MEM_NO, request);
+		modelAndView.addObject("dataList", rentOrderList);
 		
-
-		//체육관별 대관 정보 가져오기
-		List<Map <String,Object>> rentList = pageService.getRentCalendar(requestMap, request);
-		modelAndView.addObject("rentList", rentList);
-		
-		//대관대상 리스트 정보
-		//final List<Map <String,Object>> rentList = rtnService.getCenterPlaceList();
-
 		modelAndView.setViewName("/rent/rent_order");
 		return modelAndView;
 	}
@@ -100,7 +138,7 @@ public class RentController {
 
 		
 		//셋팅 값
-		//final List< Map <String,Object> > rentCfg = rtnService.rentConfig(MEM_ID);
+		//final List< Map <String,Object> > rentCfg = rentService.rentConfig(MEM_ID);
 		//modelAndView.addObject("rentCfg", rentCfg);
 				
 		//회원정보 가져오기
@@ -108,7 +146,7 @@ public class RentController {
 		modelAndView.addObject("myData", myData);
 
 		//대관대상 리스트 정보
-		//final List<Map <String,Object>> rentList = rtnService.getCenterPlaceList();
+		//final List<Map <String,Object>> rentList = rentService.getCenterPlaceList();
 
 		//modelAndView.addObject("rentList", rentList);
 		modelAndView.setViewName("/rent/team");

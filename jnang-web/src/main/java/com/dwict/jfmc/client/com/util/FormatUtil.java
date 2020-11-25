@@ -1,6 +1,8 @@
 package com.dwict.jfmc.client.com.util;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Locale;
@@ -40,46 +42,104 @@ public class FormatUtil {
 	 * </pre>
 	 * @return    String 포맷형식(yyyy-MM-dd HH:mm:ss ...)
 	 */	
-	public static String getDefaultDate(int uTypes, String ch) {
+	public static String getDefaultDate(int uTypes, String ch,String changDate) {
 		String rtn = "";
 		ch = ("".equals(ch)) ? "-" : ch;
 		switch (uTypes) {
 		case 0:
-			rtn = getCurrentTime("yyyy"+ ch +"MM"+ ch +"dd");
+			rtn = getCurrentTime("yyyy"+ ch +"MM"+ ch +"dd", changDate);
 			break;
 		case 1:
-			rtn = getCurrentTime("yyyy"+ ch +"MM"+ ch +"dd HH:mm:ss");
+			rtn = getCurrentTime("yyyy"+ ch +"MM"+ ch +"dd HH:mm:ss", changDate);
 			break;
 		case 2:
-			rtn = getCurrentTime("yyyyMMdd");
+			rtn = getCurrentTime("yyyyMMdd", changDate);
 			break;
 		case 3:
-			rtn = getCurrentTime("yyyyMMddHHmmss");
+			rtn = getCurrentTime("yyyyMMddHHmmss", changDate);
 			break;
 		case 4:
-			rtn = getCurrentTime("yyyyMMddHHmmssSSS");
+			rtn = getCurrentTime("yyyyMMddHHmmssSSS", changDate);
 			break;
 		case 5:
-			rtn = getCurrentTime("HH:mm:ss");
+			rtn = getCurrentTime("HH:mm:ss", changDate);
 			break;			
 
 		default:
-			rtn = getCurrentTime("yyyy"+ ch +"MM"+ ch +"dd");
+			rtn = getCurrentTime("yyyy"+ ch +"MM"+ ch +"dd", changDate);
 			break;
 		}
 		return rtn;
 	}
 	
 	//날짜 포멧 변환
-	public static String getCurrentTime(String timeFormat) {
+	public static String getCurrentTime(String timeFormat, String changDate) {
 		try {
-			return new SimpleDateFormat(timeFormat, Locale.KOREA).format(System.currentTimeMillis());
-					
+			SimpleDateFormat sdf = new SimpleDateFormat(timeFormat, Locale.KOREA);
+			//SimpleDateFormat sdf = new SimpleDateFormat(timeFormat, Locale.KOREA).format(System.currentTimeMillis());
+			if (!changDate.equals("")) {
+				Date secondDate = sdf.parse(changDate);
+				return secondDate.toString();
+			} else {
+				return sdf.format(System.currentTimeMillis());
+			}
+			//return "1";
 		} catch (Exception ex) {
 			return new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA).format(System.currentTimeMillis());
 		}
 	}
 	
+	/**
+	 * 특정 날짜에 대하여 요일을 구함(일 ~ 토)
+	 * @param date
+	 * @param dateType
+	 * @return
+	 * @throws Exception
+	 */
+	public static String getDateYoil(String date, String dateType) throws Exception {
+	 
+	    String day = "" ;
+	     
+	    SimpleDateFormat dateFormat = new SimpleDateFormat(dateType) ;
+	    Date nDate = dateFormat.parse(date) ;
+	     
+	    Calendar cal = Calendar.getInstance() ;
+	    cal.setTime(nDate);
+	     
+	    int dayNum = cal.get(Calendar.DAY_OF_WEEK) ;
+	     
+	    switch(dayNum){
+	        case 1:
+	            day = "일";
+	            break ;
+	        case 2:
+	            day = "월";
+	            break ;
+	        case 3:
+	            day = "화";
+	            break ;
+	        case 4:
+	            day = "수";
+	            break ;
+	        case 5:
+	            day = "목";
+	            break ;
+	        case 6:
+	            day = "금";
+	            break ;
+	        case 7:
+	            day = "토";
+	            break ;
+	             
+	    }
+	     
+	     
+	     
+	    return day ;
+	}
+
+
+
 	/**
 	 * <pre>
 	 * MD5+Base64

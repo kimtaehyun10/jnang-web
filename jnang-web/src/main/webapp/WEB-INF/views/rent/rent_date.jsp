@@ -37,7 +37,7 @@
   } catch (Exception ex) {
   }
   
-  out.println("today:"+ today +"<BR>");
+  //out.println("today:"+ today +"<BR>");
   
   // 날을 1일로 셋팅
   currentCal.set(Calendar.DATE, 1);
@@ -80,26 +80,26 @@
 <c:set var="PLACE_GROUP" value="${rentCfg.PLACE_GROUP}" />
 <%
 int PLACE_GROUP = (int) pageContext.getAttribute("PLACE_GROUP");
-out.println("PLACE_GROUP:"+ PLACE_GROUP +"<BR>");
+//out.println("PLACE_GROUP:"+ PLACE_GROUP +"<BR>");
 %>
 <c:set var="PLACE_CD" value="${rentCfg.PLACE_CD}" />
 <%
 int PLACE_CD = (int) pageContext.getAttribute("PLACE_CD");
-out.println("PLACE_CD:"+ PLACE_CD +"<BR>");
+//out.println("PLACE_CD:"+ PLACE_CD +"<BR>");
 %>
 
 <c:set var="otherCfg" value="${rentCfg.other_cfg}" />
 <%
 String otherCfg = (String)pageContext.getAttribute("otherCfg") ;
 
-out.println("otherCfg:"+ otherCfg +"<BR>");
+//out.println("otherCfg:"+ otherCfg +"<BR>");
 String [] arryCfg = otherCfg.split("\\/");
 
-String str_tabCnt = arryCfg[1];
+String str_tabCnt = arryCfg[2];
 int int_tabCnt = Integer.parseInt(str_tabCnt);
-out.println("tabCnt:"+ int_tabCnt +"<BR>");
-String tabName = arryCfg[2];
-out.println("tabName:"+ tabName +"<BR>");
+//out.println("tabCnt:"+ int_tabCnt +"<BR>");
+String tabName = arryCfg[1];
+//out.println("tabName:"+ tabName +"<BR>");
 //String tabCnt = arryCfg[1];
 
 
@@ -109,7 +109,7 @@ out.println("tabName:"+ tabName +"<BR>");
 String param = (String)pageContext.getAttribute("param") ;
 param = (param == null) ? "": param;
 
-out.println("param:"+ param +"<BR>");
+//out.println("param:"+ param +"<BR>");
 %>
 	<script type="text/javaScript" language="javascript">
 	$(function(){
@@ -243,12 +243,12 @@ int tmpDay =0;
 <c:set var="itemTot" value="${rentList[0].tot}" />
 <%
 int itemTot = (int)pageContext.getAttribute("itemTot") ;
-out.print("itemTot:"+ itemTot +"<BR>");
+//out.print("itemTot:"+ itemTot +"<BR>");
 %>
 <c:set var="days" value="${rentList[0].days}" />
 <%
 String days = (String)pageContext.getAttribute("days") ;
-out.print("days:"+ days +"<BR>");
+//out.print("days:"+ days +"<BR>");
 
 String [] arryDays = days.split("\\/");
 //현재 예약 갯수
@@ -464,12 +464,13 @@ if (PLACE_GROUP != 4) {
 </table>
 
 
-<br>
-<div id="selectDate" style="font-weigh:500;color:#4467ff;font-size:22px; "> &bull; 예약가능한 시간을 선택하세요</div>
 <%
 //테니스장 예약 신청폼
 if (PLACE_GROUP == 4) {
 %>
+<br>
+<div id="selectDate" style="font-weigh:500;color:#4467ff;font-size:22px; "> &bull; 예약가능한 시간을 선택하세요</div>
+
 <form name="frm2" id="frm2" action="" method="GET">
 	<table class="stbl_l1a con_wid">
 	 <thead>
@@ -505,9 +506,18 @@ if (PLACE_GROUP == 4) {
 
 
     <div class="btnarea margin_t80">
-        <a href="#none" onClick="send('<%=today %>');" id=" " class="green">예 약</a>
-        <a href="#none" onclick="getRent('20201213',8);" id=" " class="gray2">취 소</a>
+        <a href="#none" onClick="send('<%=PLACE_CD %>');" id=" " class="green">예 약</a>
+        <a href="/rentlist" id=" " class="gray2">취 소</a>
     </div>
+    <form name="frm3" id="frm3" action="/rent/rentOrder" method="post">
+    	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+    	<input type="hidden" id="val1" name="val1" value="0">
+    	<input type="hidden" id="val2" name="val2" value="0">
+    	<input type="hidden" id="val3" name="val3" value="0">
+    	<input type="hidden" id="val4" name="val4" value="0">
+    	<input type="hidden" name="q" value="<%=param %>">
+    </form>
+    
 <%!
 /**
  * 두날자 차이 day

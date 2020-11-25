@@ -74,7 +74,7 @@ var saveRtn = "${saveRtn}";
 		</div> -->
 	<!-- </div> -->
 <br>
-<div id="sub_cart" class=' '>
+<div id="sub_cart" class=' ' style="height:700px;">
 	<form name="frm" method="post">
 		<table class="stbl_l1a">
 			<colgroup>

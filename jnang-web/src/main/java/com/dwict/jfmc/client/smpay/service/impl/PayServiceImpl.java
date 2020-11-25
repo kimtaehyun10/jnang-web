@@ -227,7 +227,7 @@ public class PayServiceImpl implements PayService {
 				//주문_결제정보(CALC_MASTER) 저장
 		  		mapper.setCalcMaster(requestMapCalcMaster);
 		  		
-		    	String ymdhis = FormatUtil.getDefaultDate(1, "-");
+		    	String ymdhis = FormatUtil.getDefaultDate(1, "-","");
 	
 				
 				
@@ -247,7 +247,7 @@ public class PayServiceImpl implements PayService {
 	       		
 	       		
 	       		if ("".equals(APP_DATE) || APP_DATE.equals(null)) {
-	  				APP_DATE = FormatUtil.getDefaultDate(3, ""); 
+	  				APP_DATE = FormatUtil.getDefaultDate(3, "",""); 
 	  			}
 	       		
 	       		if (APP_NO.equals("") || APP_NO == null ) {

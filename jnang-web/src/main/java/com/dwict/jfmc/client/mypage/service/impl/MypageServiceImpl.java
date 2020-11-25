@@ -70,7 +70,7 @@ public class MypageServiceImpl implements MypageService {
 		// 상점서명키 (꼭 해당 상점키로 바꿔주세요)
 		//String merchantKey = "0/4GFsSd7ERVRGX9WHOzJ96GyeMTwvIaKSWUCKmN3fDklNRGw3CualCFoMPZaS99YiFGOuwtzTkrLo4bR4V+Ow==";
 		//String merchantKey = "KiS8NWHjZ49FzG91HMI9hVXOSxYrvFBKzl2bYpr2ac7lg369iZxy0xhCJfg4juCuVH27mO/TQ4kG2qnjEr5Z4Q==";
-		final String ediDate =  FormatUtil.getDefaultDate(3, ""); // getyyyyMMddHHmmss(); // 전문생성일시
+		final String ediDate =  FormatUtil.getDefaultDate(3, "",""); // getyyyyMMddHHmmss(); // 전문생성일시
 
 		//기타 회원정보 불러오기
 		final Member member = memberMapper.findById(MEM_ID);

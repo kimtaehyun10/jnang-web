@@ -133,8 +133,8 @@ public class LectureServiceImpl implements LectureService {
 		basketMap.put("DC_CD2", "");
 		basketMap.put("SALE_AMT", result.getCostAmt());
 		basketMap.put("VAT_YN", result.getVatYn());
-		basketMap.put("ADD_YMD", FormatUtil.getDefaultDate(2, ""));
-		basketMap.put("WRITE_DH", FormatUtil.getDefaultDate(1, ""));
+		basketMap.put("ADD_YMD", FormatUtil.getDefaultDate(2, "",""));
+		basketMap.put("WRITE_DH", FormatUtil.getDefaultDate(1, "",""));
 
 		//장바구니 저장
 		return mapper.setBasket(basketMap);

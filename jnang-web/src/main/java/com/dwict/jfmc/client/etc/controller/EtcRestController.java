@@ -1,6 +1,8 @@
 package com.dwict.jfmc.client.etc.controller;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -22,5 +24,12 @@ public class EtcRestController {
 	protected HashMap<String, String> getWeatherInfo(HttpServletRequest request) {
 		return etcService.getWeatherInfo();
 	}
+	
+	//공휴일 정보 (월별/다중 일별)
+	@RequestMapping(value = "/holiday")
+	protected List<Map<String, Object>> getHoliday(HttpServletRequest request) {
+		return etcService.getHoliday(request);
+	}
+	
 
 }

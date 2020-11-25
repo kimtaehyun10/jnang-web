@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dwict.jfmc.client.etc.mapper.EtcMapper">
+
+	<!-- 공휴일  정보 -->
+	<select id="getHoliday" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select CAL_DATE,BIGO 
+		from calendar 
+		where 
+		<if test='YM !="" and YM != null'>
+			left(CAL_DATE,6) = #{YM}
+		</if>
+		<if test='array !="" and array != null'>
+			CAL_DATE IN  
+			<foreach item="item" collection="array" index="index" open="(" close=")" separator=",">
+		       #{item}
+			</foreach>
+		</if>
+		<if test='COMCD !="" and COMCD != null'> 
+			and ( COMCD ='ALL' or COMCD =  #{COMCD})
+		</if>
+		<if test='GUBUN !="" and GUBUN != null'> 
+			and GUBUN = #{GUBUN}
+		</if>
+		order by CAL_DATE
+	</select>
+	
+		
+		
+		
+</mapper>

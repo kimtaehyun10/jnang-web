@@ -96,13 +96,14 @@ function selectSport(selCT) {
 						if (data[i].COMNM != undefined) {
 							var saleAmt = data[i].RENT_AMT;
 							var info_url = (data[i].info_url != "") ? "<a href='"+ data[i].info_url +"' class='size_m2 btn_green1'>안내</a>" : ""; ;
+							var rent_url = (data[i].PLACE_GROUP == "1") ? "write" : "date";
 							dataList += "<tr>"
 								+ "<td>"+ data[i].COMNM +"</td> "
 								+ "<td>"+ data[i].PLACE_NM +"</td> "
 								+ "<td>"+ comma_str_y(saleAmt) +"</td>"
 								+ "<td>"+ info_url +"</td>"
 								+ "<td><a href='/calendar/"+ data[i].COMCD +"?q="+ data[i].PLACE_CD +"' class='size_m2 btn_green1'>대관 현황</a></td>"
-								+ "<td><a href='/rent/date/?q="+ data[i].PLACE_CD +"/0' class='size_m2 btn_green1'>대관 신청</a></td>"
+								+ "<td><a href='/rent/"+ rent_url +"/?q="+ data[i].PLACE_CD +"/0' class='size_m2 btn_green1'>대관 신청</a></td>"
 								+ "</tr>";
 						}
 					}

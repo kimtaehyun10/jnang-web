@@ -214,6 +214,8 @@ public class PageServiceImpl implements PageService {
 		ymd = (ymd == null) ? "":ymd;
 		String param = request.getParameter("q");	//PLACE_CD / PLACE_TAB
 		param = (param == null) ? "0/0/0/" : param;
+		param = (param.length() == 1) ? param +"/0" : param;
+		
 		String [] arrParam = param.split("\\/");
 		
 		if (yy == null || mm == null) {
@@ -271,6 +273,7 @@ public class PageServiceImpl implements PageService {
 		requestMap.put("PLACE_CD", arrParam[0]);
 		requestMap.put("PLACE_TAB", arrParam[1]);
 		
+		rentMapper.rentNoPayClear(requestMap);
 		return rentMapper.getRentCalendar(requestMap);
 	}
 

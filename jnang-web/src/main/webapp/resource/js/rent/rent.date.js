@@ -5,7 +5,8 @@
 * @version 1.21
 */
 var rntYMD;
-function send() {
+function send(idx) {
+	var frm = document.frm3;
 	var chkCnt = $("input:checkbox[name='tseq']:checked").length;
 	if (chkCnt == 0) {
 		alert("신청하실 시간을 선택하세요.")
@@ -19,10 +20,10 @@ function send() {
 	}
 	$("#ymd").val(rntYMD);
 	$.post('/rent/save', $("#frm2").serialize() , function(data){
-		alert(data);
-		if (data == "1") {
-			alert('접수 되었습니다.');
-			top.location.href ='/rent/rentOrder';
+		if (data != null && data != "null") {
+			$("#val1").val(data.rentIdx);
+			$("#val2").val(data.rentYN);			
+			frm.submit();
 		} else if (data == "-9") {
 			alert("사용자 동의후 접수 가능합니다.");
 		} else {
@@ -159,6 +160,8 @@ function getRent(ymd,seq) {
 				for(var i=0; i<data.length; i++){
 					$('#data_tab'+i).html(arr[i]);
 				}
+				$("#val3").val(ymd);
+				$("#val4").val(seq);
 				
 				ymd = fn_convertDate(2,ymd);
 				$('#selectDate').html("&bull;"+ ymd +" 시간선택");

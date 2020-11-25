@@ -41,14 +41,27 @@ public interface RentMapper {
 	List<Map<String, Object>> getCenterList();
 	List<Map<String, Object>> getCenterPlaceList();
 
+	//대관문의 저장
+	int rentWriteSave(Map<String, Object> requestMap);
+	
+	//예약 신청 중복첵크
+	int rentDblchk(Map<String, Object> requestMap);
+
 	//예약 신청 저장
 	int rentSave(Map<String, Object> requestMap);
+	//주문 확인
+	List <Map<String, Object>> rentOdList(Map<String, Object> maps);
+	//주문결제
+	Map<String, Object> rentOdPay(Map<String, Object> maps);
 
+	
+	//3시간내 미결제 대관 삭제
+	int rentNoPayClear(Map<String, Object> requestMap);
 	//체육관별 대관 list
 	List<Map<String, Object>> getRentList(Map<String, Object> requestMap);
 	List<Map<String, Object>> getRentCalendar(Map<String, Object> requestMap);
-	//List<Map<String, Object>> getRentList(Map<String, Object> requestMap);
-
+	
+	
 
 
 }

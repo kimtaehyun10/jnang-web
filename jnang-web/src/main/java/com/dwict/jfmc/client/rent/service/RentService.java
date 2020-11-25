@@ -31,10 +31,22 @@ public interface RentService {
 	//대관 환경설정값
 	Map<String, Object> rentConfig(HttpServletRequest request);
 	
+	//예약접수
+	Map<String, Object> rentSave(Map<String, Object> requestMap, HttpServletRequest request);
 
-	int rentSave(Map<String, Object> requestMap, HttpServletRequest request);
-
+	//대관 문의 저장(게시판)
+	int writeSave(Map<String, Object> requestMap);
+	
+	//접수확인
+	Map<String, Object> rentOrder(String MEM_NO, HttpServletRequest request);
+	//결제
+	Map<String, Object> rentOdPay(HttpServletRequest request);
+	
 	//팀명 저장
 	int teamSave(Map<String, Object> requestMap, HttpServletRequest request);
+	
+	
+
+	
 
 }

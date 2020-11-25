@@ -165,6 +165,53 @@
 			 ,mem_addr2 	=	 #{mem_addr2} 	
 	</insert>
 
+
+
+	<!-- 예약 중복 접수 첵크 -->
+	<select id="rentDblchk" parameterType="java.util.HashMap" resultType="int">
+		select
+			count(*)
+		from
+			rent_app
+		where
+			RESERVE_DATE = #{RESERVE_DATE}
+			and PLACE_CD = #{PLACE_CD}
+			and PLACE_TIME_SEQ = #{TIME_SEQ}
+			and APP_TYPE != 40
+	</select>
+	
+	<!-- 대관문의 등록 -->
+	<insert id="rentWriteSave" parameterType="java.util.HashMap">
+		INSERT INTO  other_board  ( 
+			 brd_no 
+			 ,name 
+			 ,id 
+			 ,tel
+			 ,mail 
+			 ,title 
+			 ,content 
+			 ,wdate 
+			 ,int_x
+			 ,var_x
+			 ,var_y
+		 ) VALUES ( 
+			 1
+			 ,#{name} 
+			 ,#{id} 
+			 ,#{tel}
+			 ,#{mail} 
+			 ,#{title} 
+			 ,#{content} 
+			 ,now() 
+			 ,#{RENT_DATE}
+			 ,#{q}
+			 ,concat(#{STIME},':00~',#{ETIME},':00')
+			 
+		);
+	</insert>
+	
+	
+	<!-- 예약등록 -->
 	<insert id="rentSave" parameterType="java.util.HashMap">
 		INSERT INTO  rent_app ( 
 			  COMCD 
@@ -255,14 +302,39 @@
 			 ,#{PRODUCT_CNT} 
 			 ,#{PRODUCT_SIZE} 
 		)
-		
-		<selectKey keyProperty='RENT_IDX' resultType='int' order='AFTER'>
-			select RENT_IDX from rent_app where MEM_NO = #{MEM_NO}  and APP_TYPE = 5 and PLACE_TIME_SEQ = #{TIME_SEQ} limit 1 
-		</selectKey>
 	</insert>
 
+	<!-- 주문결과 확인 -->
+	<select id="rentOdList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	
+			 select t1.WRITE_DH 
+				, t1.PLACE_TIME_SEQ
+				, t3.place_tab 
+				, jnimc.fn_int_to_date(t1.RESERVE_DATE ,'') as RESERVE_DATE 
+				, t3.item
+				, t1.MEM_NO
+				, STRCMP(t1.MEM_NO, #{MEM_NO}) as '비교값'
+				, if (STRCMP(t1.MEM_NO, #{MEM_NO}),'N','Y') as orderYN
+				
+			from rent_app t1 left join rent_place t2 on t1.PLACE_CD = t2.PLACE_CD 
+				left join rent_times t3 on t1.PLACE_CD = t3.place_cd 
+			 and t1.PLACE_TIME_SEQ = t3.seq 
+			 where t1.RESERVE_DATE = #{RESERVE_DATE}
+			 and t1.PLACE_CD = #{PLACE_CD} 
+			 and t1.APP_TYPE != 40 
+			 <!-- #and t1.MEM_NO = #{MEM_NO}  --> 
+			and t1.PLACE_TIME_SEQ IN  
+			<foreach item="item" collection="brdNoList" index="idx" open="(" close=")" separator=",">
+		       #{item}
+			</foreach>
+   			
+	</select>
 
-
+	<!-- 예약 (결제전) 시간초과  삭제 -->
+	<delete id="rentNoPayClear">
+	select *
+ 	from rent_app ra where  APP_TYPE = 5 and TIMESTAMPDIFF(hour,WRITE_DH, now()) > 100
+	</delete>
 
 	<!-- 달력에 표시될 예약가능/ 예약 불가능 -->
 	<select id="getRentCalendar" parameterType="java.util.HashMap" resultType="java.util.HashMap">

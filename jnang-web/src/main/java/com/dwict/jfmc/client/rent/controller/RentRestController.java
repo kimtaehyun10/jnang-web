@@ -28,14 +28,22 @@ public class RentRestController {
 
 	//댸관 예약 저장
 	@PostMapping(value = "/save")
-	public int rtnSave(@RequestParam  Map<String, Object> requestMap, HttpServletRequest request) {
+	public Map<String, Object> rtnSave(@RequestParam  Map<String, Object> requestMap, HttpServletRequest request) {
 	
 		//예약 저장
-		final int rtn = rtnService.rentSave(requestMap, request);
-
+		Map<String, Object> rtn = rtnService.rentSave(requestMap, request);
 		return rtn;
 	}
 
+	
+	//댸관 문의 저장
+	@PostMapping(value = "/writeSave")
+	public int writeSave(@RequestParam  Map<String, Object> requestMap, HttpServletRequest request) {
+	
+		//예약 저장
+		int rtn = rtnService.writeSave(requestMap);
+		return rtn;
+	}
 	
 	//팀신청 저장
 	@PostMapping(value = "/teamSave")

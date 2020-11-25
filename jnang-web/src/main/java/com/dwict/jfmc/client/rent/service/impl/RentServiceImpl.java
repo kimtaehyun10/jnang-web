@@ -1,10 +1,12 @@
 package com.dwict.jfmc.client.rent.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.print.attribute.HashPrintJobAttributeSet;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,10 +14,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dwict.jfmc.client.com.model.Paging;
+import com.dwict.jfmc.client.com.util.FormatUtil;
 import com.dwict.jfmc.client.lecture.model.ComInfo;
 import com.dwict.jfmc.client.lecture.model.Grpcd;
 import com.dwict.jfmc.client.lecture.model.ProgramItem;
 import com.dwict.jfmc.client.lecture.model.TrainClass;
+import com.dwict.jfmc.client.mypage.service.MypageService;
 import com.dwict.jfmc.client.rent.mapper.RentMapper;
 import com.dwict.jfmc.client.rent.service.RentService;
 import com.dwict.jfmc.client.security.model.Account;
@@ -26,6 +30,10 @@ public class RentServiceImpl implements RentService {
 	@Resource(name = "rentMapper")
 	private RentMapper mapper;
 
+	@Resource(name = "mypageService")
+	private MypageService mypgService;
+	
+	
 	@Override
 	public List<ComInfo> conditionSb1() {
 		return mapper.conditionSb1();
@@ -158,8 +166,7 @@ public class RentServiceImpl implements RentService {
 
 	//대관 신청 저장
 	@Override
-	@Transactional
-	public int rentSave(Map<String, Object> requestMap, HttpServletRequest request) {
+	public Map<String, Object> rentSave(Map<String, Object> requestMap, HttpServletRequest request) {
 
 		//예약일
 		String RESERVE_DATE = request.getParameter("ymd");
@@ -168,6 +175,7 @@ public class RentServiceImpl implements RentService {
 
 		//대관 값 가져오기
 		Map<String, Object> maps = rentConfig(request);
+		
 		
 		try {
 			final Account account = (Account) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -180,7 +188,7 @@ public class RentServiceImpl implements RentService {
 			
 		} catch (final Exception ex)
 		{
-			return -999;
+			return null ;
 		}
 		
 		
@@ -189,17 +197,98 @@ public class RentServiceImpl implements RentService {
 		maps.put("RESERVE_DATE", RESERVE_DATE); //예약일
 
 		int rtn = 1;
+		Map <String, Object> rtnMap = new HashMap<String, Object>();
+		String rentIdx="", rentYN = "";
 		for (int ii = 0 ; ii < arrayTmp.length; ii++) {
 			
 			maps.put("TIME_SEQ", arrayTmp[ii]);
-			rtn =  mapper.rentSave(maps);
-			if (rtn == 0) {
-				return 0;
+			rentIdx += ","+arrayTmp[ii];
+			
+			//중복저장 첵크
+			int dbl_idx = mapper.rentDblchk(maps);
+			//System.out.println("dbl_idx:"+ dbl_idx);
+			if (dbl_idx ==0) {
+				//저장
+				rtn =  mapper.rentSave(maps);
+				rentYN += ",Y";
+			} else {
+				rentYN += ",N";
 			}
+			
 		}
-		
-		return rtn;
+	
+		rtnMap.put("rentIdx", rentIdx);
+		rtnMap.put("rentYN", rentYN);
+		return rtnMap;
 	}
 
+	
+	//대관 문의 저장
+	@Override
+	public int writeSave(Map<String, Object> requestMap) {
+		
+		String RENT_DATE = (String) requestMap.get("RENT_DATE");
+		RENT_DATE = RENT_DATE.replace("-", "");
+		String STIME = requestMap.get("STIME").toString();
+		STIME = (Integer.parseInt(STIME) > 9) ? STIME : "0"+STIME;
+		String ETIME = (String) requestMap.get("ETIME");
+		ETIME = (Integer.parseInt(ETIME) > 9) ? ETIME : "0"+ETIME;
+		
+		requestMap.put("RENT_DATE", RENT_DATE);
+		requestMap.put("STIME", STIME);
+		requestMap.put("ETIME", ETIME);
+		return mapper.rentWriteSave(requestMap);
+	}
+	
+	//대관 예약 확인
+	@Override
+	public Map<String, Object> rentOrder(String MEM_NO, HttpServletRequest request) {
+		
+		
+		Map <String , Object > maps = new HashMap<>();
+		
+		String val1 = request.getParameter("val1");
+		val1 = val1.substring(1,val1.length());
+		String val2 = request.getParameter("val2");
+		val2 = val2.substring(1,val2.length());
+		String RESERVE_DATE = request.getParameter("val3");
+		String PLACE_CD = request.getParameter("val4");
+		String yoil ="";
+		try {
+			yoil = FormatUtil.getDateYoil(RESERVE_DATE, "yyyyMMdd");
+			maps.put("yoil", yoil); //해당일자 요일
+		} catch (Exception e) {
+			yoil = "";
+		}
+		
+		
+		final String[] brdNoArr =  request.getParameter("val1").split(",");
+		maps.put("brdNoList", brdNoArr);
+		
+		maps.put("rtn_idx", val1); //예약 idx
+		maps.put("rtn_YN", val2); 	//예약결과 
+		maps.put("RESERVE_DATE", RESERVE_DATE);
+		maps.put("PLACE_CD", PLACE_CD);
+		maps.put("MEM_NO", MEM_NO);
+		
+		List <Map <String , Object>> rtnMap = mapper.rentOdList(maps);
+		//rtnMap.add(maps);
+
+		maps.put("dataList", rtnMap);
+		return maps;
+	}
+
+	//대관 신청 저장
+	@Override
+	public Map<String, Object> rentOdPay(HttpServletRequest request) {
+		
+		String val1 = request.getParameter("val1");
+		String val2 = request.getParameter("val2");
+		
+		Map <String , Object > maps = new HashMap<>();
+		maps = mapper.rentOdPay(maps);
+		
+		return null;
+	}
 
 }
