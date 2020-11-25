@@ -423,13 +423,16 @@ const searchBrdDetailPage = function(){
 		cont1 += '</tr>';
 		$('#brdDetailData1').empty().append(cont1);
 		param.upBrdNo = data.brdNo;
-		$.get('/data/brd/'+$('#h_cmsCd').val()+'/'+$('#h_brdNo').val(), param, function(data){
+		$.get('/data/brd/'+$('#h_cmsCd').val()+'/'+$('#h_brdNo').val(), param, function(data){			
 			let cont2 = '';
 			if(data){				
 				cont2 += '<div class="bbs_v_rep1a">';
 				cont2 += '<div class="data">';		
 				cont2 += '<div class="info">';		
-				cont2 += '답변내역<br>담당자 : '+data.regNm+'<br>답변일 : '+data.regDt.year+'-'+lpad(data.regDt.monthValue,2,"0")+'-'+lpad(data.regDt.dayOfMonth,2,"0")+'';		
+				cont2 += '답변내역<br>담당자 : '+data.regNm+'<br>';				
+				cont2 += '부서 : '+data.regOffNm+'<br>';				
+				cont2 += '전화번호 : '+data.regOffmTelno+'<br>';				
+				cont2 += '답변일 : '+data.regDt.year+'-'+lpad(data.regDt.monthValue,2,"0")+'-'+lpad(data.regDt.dayOfMonth,2,"0")+'';				
 				cont2 += '</div>';
 				cont2 += '<div class="cont1">';
 				cont2 += data.title+'<br>';

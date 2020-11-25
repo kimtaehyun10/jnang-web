@@ -23,8 +23,12 @@ const searchDecCommentPage = function(){
 	$.get('/data/declaration/'+$("#dCode").val()+'/'+$("#dPass").val(), {}, function(data){		
 		if(!data){
 			alert('해당하는 신고서가 없습니다.');
-			return false;
+			return;
 		}else{
+			if(data.ddel === 'Y'){
+				alert('삭제된 신고서입니다.');
+				return;
+			}
 			alert('확인되었습니다.');
 			$('#boardCon').empty().append(decCommentPageHtml);
 			let cont1 = '';
@@ -113,7 +117,7 @@ const searchDecCommentPage = function(){
 				cont5 += '<div class="bbs_v_rep1a">';
 				cont5 += '<div class="data">';		
 				cont5 += '<div class="info">';		
-				cont5 += '답변내역<br>담당자 : '+data.nm+'(☎'+data.tel+')<br>담당부서 : '+data.operId+'<br>답변일 : '+data.regdt+'';		
+				cont5 += '답변내역<br>담당자 : '+data.nm+'<br>담당부서 : '+data.operId+'<br>전화번호 : '+data.tel+'<br>답변일 : '+data.regdt+'';		
 				cont5 += '</div>';
 				cont5 += '<div class="cont1">';
 				cont5 += data.title+'<br>';

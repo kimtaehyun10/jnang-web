@@ -259,6 +259,8 @@
 			 <choose>
 				<when test="upBrdNo != null and upBrdNo != ''">
 					, fn_getEmpCodeNm(REG_ID) AS REG_NM
+					, IFNULL(FN_GetDeptCodeNm((SELECT B.ORGNZT_ID FROM COMTNEMPLYRINFO B WHERE REG_ID = B.EMPLYR_ID)), '') AS REG_OFF_NM
+					, IFNULL((SELECT OFFM_TELNO FROM COMTNEMPLYRINFO B WHERE REG_ID = B.EMPLYR_ID ), '') AS REG_OFFM_TELNO
 				</when>
 				<otherwise>
 					, fn_getMemberNm(REG_ID) AS REG_NM
