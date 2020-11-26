@@ -114,4 +114,11 @@ public class MypageRestController {
 		}		
 		return resultMap;
 	}
+
+	@GetMapping(value = "/mypage/lockerStatus/{memNo}")
+	public List<Map<String, Object>> lockerStatusList(HttpServletRequest request, @PathVariable String memNo) {
+		final Map<String, Object> param = new HashMap<>();
+		param.put("memNo", memNo);				
+		return service.lockerStatusList(param);
+	}
 }

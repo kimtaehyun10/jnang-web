@@ -320,4 +320,34 @@
 		    CHNG_DH = now()		    
 		WHERE ID = #{userId}
 	</delete>
+	
+	<select id="lockerStatusList" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		 SELECT COMCD
+		 	  , MEM_NO
+		 	  , RENT_NO
+		 	  , SLIP_NO
+		 	  , PLACE_CD
+		 	  , LOCKER_CD
+		 	  , PREFIX
+		 	  , RENT_MON
+		 	  , RENT_SDATE
+		 	  , RENT_EDATE
+		 	  , RETURN_DATE
+		 	  , RENT_AMT
+		 	  , DC_AMT
+		 	  , DEPOSIT_AMT
+		 	  , END_YN
+		 	  , RET_SLIP_NO
+		 	  , RETURN_ILNO
+		 	  , RENT_STAT
+		 	  , OLD_RENT_NO
+		 	  , CANCEL_YN
+		 	  , REMARK
+		 	  , WRITE_DH
+		 	  , WRITER
+		 	  , CHNG_DH
+		 	  , CHNGR
+		 FROM LOCKER_RENT
+		 WHERE MEM_NO = #{memNo}
+	</select>
 </mapper>

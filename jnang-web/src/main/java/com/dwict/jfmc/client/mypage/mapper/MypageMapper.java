@@ -34,5 +34,7 @@ public interface MypageMapper {
 	
 	void modifyDelete(Map<String, Object> param);
 
+	List<Map<String, Object>> lockerStatusList(Map<String, Object> param);
+
 
 }

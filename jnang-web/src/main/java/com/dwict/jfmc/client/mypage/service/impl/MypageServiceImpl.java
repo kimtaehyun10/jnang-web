@@ -189,4 +189,9 @@ public class MypageServiceImpl implements MypageService {
 	public void modifyDelete(Map<String, Object> param) {
 		mapper.modifyDelete(param);
 	}
+
+	@Override
+	public List<Map<String, Object>> lockerStatusList(Map<String, Object> param) {
+		return mapper.lockerStatusList(param);
+	}
 }

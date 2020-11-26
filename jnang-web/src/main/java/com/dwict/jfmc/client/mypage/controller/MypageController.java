@@ -73,7 +73,9 @@ public class MypageController {
 	}
 
 	@GetMapping(value = "/mypage/lockerStatus")
-	public ModelAndView lockerStatus(ModelAndView modelAndView) {
+	public ModelAndView lockerStatus(ModelAndView modelAndView, HttpServletRequest request) {
+		final HttpSession session = request.getSession(false);
+		modelAndView.addObject("member",session.getAttribute("member"));
 		modelAndView.setViewName("mypage/lockerStatus");
 		return modelAndView;
 	}
