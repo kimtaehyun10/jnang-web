@@ -38,6 +38,8 @@ $(function(){
 	
 	var clareCalendar = {maxDate: '+60d',minDate: '+7d' }
 	$("#RENT_DATE").datepicker(clareCalendar);
+	
+	
 });
 
 
@@ -150,6 +152,7 @@ function send() {
 		<input type="hidden" name="q" value="<%=param%>">
 		<input type="hidden" name="id" value="<c:out value='${myData.ID}'/>">
 		<input type="submit" class="size_m2 btn_green1" value="대관 문의">
+		<a href="/rentlist" id=" " class="size_m2 btn_green1" class="gray2">취 소</a>
 		<!-- <input type="button" class="size_m2 btn_green1" value="대관신청" onClick="send();"> -->
 	</div>
 

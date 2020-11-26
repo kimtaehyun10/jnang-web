@@ -506,7 +506,7 @@ if (PLACE_GROUP == 4) {
 
 
     <div class="btnarea margin_t80">
-        <a href="#none" onClick="send('<%=PLACE_CD %>');" id=" " class="green">예 약</a>
+        <a href="#none" onClick="send('<%=int_tabCnt %>');" id=" " class="green">예 약</a>
         <a href="/rentlist" id=" " class="gray2">취 소</a>
     </div>
     <form name="frm3" id="frm3" action="/rent/rentOrder" method="post">

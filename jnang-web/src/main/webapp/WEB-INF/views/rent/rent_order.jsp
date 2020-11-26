@@ -65,7 +65,7 @@ $(function(){
 		}
 	});
 	
-	$(".sdate").datepicker();
+	//$(".sdate").datepicker();
 });
 
 
@@ -188,25 +188,6 @@ function send(){
 
 <div class="sub_cleanreport">
 
-	<!-- 
-	<div class="bg_icon_circle_green1a fontsize_1dot60 padding_left_1dot5">센터별 대관안내 사항</div>
-	<div class="padding_left_1dot0 fontsize_1dot15 margin_top_1dot0 lineheight_1dot8">
-		<div class="catebox intro02">
-			<ul>
-				<li><a href="/content.do?sgrp=S01&amp;siteCmsCd=CM0001&amp;topCmsCd=CM0003&amp;cmsCd=CM0557&amp;pnum=7&amp;cnum=13" class="on">중랑구민체육센터</a></li>
-				<li><a href="/content.do?sgrp=S01&amp;siteCmsCd=CM0001&amp;topCmsCd=CM0003&amp;cmsCd=CM0558&amp;pnum=7&amp;cnum=13">중랑문화체육관</a></li>
-				<li><a href="/content.do?sgrp=S01&amp;siteCmsCd=CM0001&amp;topCmsCd=CM0003&amp;cmsCd=CM0559&amp;pnum=7&amp;cnum=13">중랑구립잔디운동장</a></li>
-				<li><a href="/content.do?sgrp=S01&amp;siteCmsCd=CM0001&amp;topCmsCd=CM0003&amp;cmsCd=CM0560&amp;pnum=7&amp;cnum=13">용마폭포공원축구장</a></li>
-				<li><a href="/content.do?sgrp=S01&amp;siteCmsCd=CM0001&amp;topCmsCd=CM0003&amp;cmsCd=CM0583&amp;pnum=7&amp;cnum=13">신내차량기지축구장</a></li>
-				<li><a href="/content.do?sgrp=S01&amp;siteCmsCd=CM0001&amp;topCmsCd=CM0003&amp;cmsCd=CM0619&amp;pnum=7&amp;cnum=13">중랑구립테니스장</a></li>
-				<li><a href="/content.do?sgrp=S01&amp;siteCmsCd=CM0001&amp;topCmsCd=CM0003&amp;cmsCd=CM0561&amp;pnum=7&amp;cnum=13">중랑구립정보도서관</a></li>
-				<li><a href="/content.do?sgrp=S01&amp;siteCmsCd=CM0001&amp;topCmsCd=CM0003&amp;cmsCd=CM0562&amp;pnum=7&amp;cnum=13">중랑구민회관</a></li>
-			</ul>
-		</div>
-	</div>
-	<br>
-	<br>
-	-->
 	
 <form name="frm1" id="frm1" method="post"> 
 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
@@ -259,7 +240,6 @@ function send(){
 				<c:if test="${result.place_tab ne '0'}"> 
 					&nbsp; ${result.place_tab} 코트
 				</c:if>
-				
 				&nbsp; ${result.RESERVE_DATE} &nbsp; ${result.item} <BR> 
 				
 			</c:forEach>		
@@ -269,6 +249,23 @@ function send(){
 	    <th>조명료</th>
 	    <td><c:out value='${myData.HOME_TEL}'/></td>
     </tr>
+    <c:if test="${rentCfg.PLACE_GROUP eq '4'}">
+    	<!-- 우선 4번 그룹만 할인적용 --> 
+	  <tr>
+	    <th>할인</th>
+	    <td>
+	    	<select name="" class="inputbox_01a" >
+	    	<option value="">==할인 선택==</option>
+	    	<option value="01">중랑구민(10%)</option>
+	    	<option value="01">경로우대(30%)</option>
+	    	<option value="01">장애인(%0%)</option>
+	    	<option value="01">기초수급자(%0%)</option>
+	    	<option value="01">국가유공자(10%)</option>
+	    	</select>
+	    	(단, 코드당 이용자의 50% 이상이 할인 대상자일 경우)
+		</td>
+    	</tr>
+    </c:if>
 	  <tr>
 	    <th>합계</th>
 	    <td><c:out value='${myData.HOME_TEL}'/></td>
@@ -467,7 +464,7 @@ function send(){
 	</form>
 	
 	<%-- iframe --%>
-	<iframe src="blank.html" name="payFrame" frameborder="no" width="0" height="0" scrolling="yes" align="center"></iframe>
+	<iframe src="" name="payFrame" frameborder="no" width="0" height="0" scrolling="yes" align="center"></iframe>
 	
 	<!-- /smartPay/mainCancelPay -->
 	

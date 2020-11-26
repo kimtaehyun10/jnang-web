@@ -5,13 +5,26 @@
 * @version 1.21
 */
 var rntYMD;
-function send(idx) {
+function send(tabCnt) {
+	$.ajaxSetup({ cache: false });
 	var frm = document.frm3;
 	var chkCnt = $("input:checkbox[name='tseq']:checked").length;
 	if (chkCnt == 0) {
-		alert("신청하실 시간을 선택하세요.")
+		alert("신청하실 시간을 선택하세요.");
 		return false;
 	}
+	
+	for(var ii=0; ii<noSave.length; ii++){
+		
+		if (noSave[ii] < 0) {
+			
+			//축구장 야구장
+			var MSG = (tabCnt == "0") ? "" : "[ "+ ii +" 코트] ";  
+			alert(MSG +"예약 불가 2시간(2개)이상 연속되게  예약을 선택하여 주세요.\n(★★ 한개만 선택할수 없습니다. ★★ );");
+			return false;
+		}
+	}
+	
 	
 	if (confirm("\n 총 [ "+ chkCnt +" ] 건 선택\n\n              대관 신청  하시겠습니까?\n ")) {
 		
@@ -40,6 +53,7 @@ function send(idx) {
 };
 
 function selectSport(selCT) {
+	$.ajaxSetup({ cache: false });
 	var ct1 = $("#ct1").val();
 	var ct2 = $("#ct2").val();
 
@@ -119,32 +133,37 @@ function selectSport(selCT) {
 
 /// 실시간 예약현황 출력
 function getRent(ymd,seq) {
-	
+		$.ajaxSetup({ cache: false });
+		//예약불가 초기화
+		noSave = [];
 	//for(var ii=1; ii<= coteCnt; ii++){
 		console.clear();
 		console.log('ymd:'+ ymd +', seq==>'+seq);
 		$("#ymd").val(''); rntYMD = ymd;
 		$.get('/data/getRentList', { "ymd" : ymd, "q" : seq +"/0" } , function(data){
 			//try {
-				var arr = []; 
+				var arr = [];
+				//var arrCnt = []; 
 				if(data.length != 0){
-					//var option = "<option value='all' selected>--- 전체 ---</option>'";
-					// $('#ct2').append(option);
-					//console.log("length:    ===> "+ data.length);
-					//console.log(data);
+
 					tmpList = "";
 					for(var i=0; i<data.length; i++){
 						
 						var place_tab = data[i].place_tab;
+						
 						//if (data[i].COMCD != undefined) {
 						var checked = (data[i].rentIdx == 0) ? "" : " checked "; 
-						tmpList = '<div id="'+i+'"><label><input type="checkbox" ';
+						tmpList = '<div><label><input type="checkbox" sid="chk_tab_'+ place_tab +'" ';
 							
 						if (data[i].rentIdx == "0") {
-							tmpList += 'sid="chk_tab_'+ place_tab +'" name="tseq" value="'+ data[i].seq +'" class="chkbxSize" onClick="selectCheck(0,'+ place_tab +','+ data[i].seq +');" >'
+
+							//arrCnt[place_tab] = (isNaN(arrCnt[place_tab])) ? 0 : arrCnt[place_tab]+1;
+							//console.log("arrCnt:"+ arrCnt[place_tab]);
+							
+							tmpList += ' name="tseq" value="'+ data[i].seq +'" class="chkbxSize" onClick="selectCheck('+ place_tab +','+ data[i].seq +');" >'
 									+ '<span class="margin_l5">'+ data[i].item +'</span></label></div>';
 						} else {
-							tmpList += ' class="chkbxSize" checked disabled >'
+							tmpList += ' value="" class="chkbxSize" checked disabled>'
 									+ '<span class="rented margin_l5">'+ data[i].item +'</span></label></div>';
 						}							
 
@@ -171,6 +190,8 @@ function getRent(ymd,seq) {
 				alert("대관 내역 출력오류 : 잠시 후 다시 시도하여 주세요..");
 				return;
 			}*/
+		}).done(function(data){
+		
 		});
 	
 	//}//end for
@@ -179,14 +200,157 @@ function getRent(ymd,seq) {
 }
 
 //다수 첵크 방지
-function selectCheck(tabCnt, tab, val1) {
+var start_disabled = [0,0,0,0,0,0,0,0,0,0,0];
+var rentCnt = [];
+var noSave = [];
+function selectCheck(tab, mycnt) {
+	$.ajaxSetup({ cache: false });
+	tab = Number(tab);
+	//mycnt = Number(mycnt);
+	rentCnt[tab] = (isNaN(rentCnt[tab])) ? 0 : rentCnt[tab];
+	noSave[tab] = (isNaN(noSave[tab])) ? 0 : noSave[tab];
 	
-	var chkCnt = $("input:checkbox[sid=chk_tab_"+ tab +"]:checked").length;
-	if (chkCnt == 0) {
-		$("input:checkbox[sid=chk_tab_"+ tab +"]:checkbox:not(:checked)").removeAttr("disabled");
-	} else {
-		$("input:checkbox[sid=chk_tab_"+ tab +"]:checkbox:not(:checked)").attr("disabled", "disabled");
+	var index= 0;
+	$('input:checkbox[sid="chk_tab_'+tab+'"]').each(function() {
+		
+		if (this.value == mycnt) {
+			console.log("mycnt["+ index +"]:"+ this.value +" == "+ mycnt);
+			mycnt = index;
+		}
+		index++;		
+	});
+	//console.log("mycnt :"+mycnt +", index :"+ index);
+	var tabCnt 		= $('input:checkbox[sid="chk_tab_'+tab+'"]').length;
+	//var selectCnt 	= $('input[sid="chk_tab_'+tab+'"]:checked [value != ""]').length;
+	//첵크된 갯수
+	var selectCnt = 0;
+	$('input[sid="chk_tab_'+tab+'"]:checked').each(function() {
+		if (this.value != "") {
+			selectCnt++;
+		}
+	});
+	console.log("총 코스별 갯수:"+tabCnt);
+	console.log("총선택 갯수:"+selectCnt);
+	
+	if (selectCnt == 1) {
+		var chk1 = $('input:checkbox[sid="chk_tab_'+tab+'"]').eq(mycnt).prop('checked');
+		console.log("chk1:"+chk1);
+		alert("최소 2시간(2개)이상 연속으로 선택하셔야 예약이 가능합니다.\n(1시간만 선택된 경우 무효 처리됨)\n\n");
+		//var chk1 = $('input:checkbox[sid="chk_tab_'+tab+'"]').eq(mycnt).prop('checked');
+		if (chk1) {
+			$('input:checkbox[sid="chk_tab_'+tab+'"]').eq((mycnt+1)).prop("checked",true);
+		}else {
+			$('input:checkbox[sid="chk_tab_'+tab+'"]').eq((mycnt+1)).prop("checked",false);
+		}
 	}
+	
+	//초기화
+	//selectCnt 	= $("input:checkbox[name='tseq']:checked").length; //$('input:checkbox[sid="chk_tab_'+tab+'"]:checked').length;
+	selectCnt = 0;
+	$('input[sid="chk_tab_'+tab+'"]:checked').each(function() {
+		if (this.value != "") {
+			selectCnt++;
+		}
+	});	
+	if (selectCnt == 0) {
+		$("input:checkbox[sid=chk_tab_"+ tab +"]:not(:checked)").prop('disabled', false);
+		$("input:checkbox[sid=chk_tab_"+ tab +"]:not(:checked)").prop('checked', false);
+		//setTimeout("getRent('"+ rntYMD +"',"+tab+");",300);
+		//$("#btn"+ rntYMD).trigger("click");
+		return false;
+	}
+	//console.log("총선택 갯수:"+selectCnt);
+	
 
+	//예약오류 값 초기화
+	noSave[tab] = 0;
+	var groupTemp = false;
+	var thisChkCnt = 0;
+	for (ii=0; ii < tabCnt; ii++) {
+		
+		var chk1 = $('input:checkbox[sid="chk_tab_'+tab+'"]').eq(ii).prop('checked');
+		
+			if (chk1 == false && start_disabled[tab] == 0) {
+				$('input:checkbox[sid="chk_tab_'+tab+'"]').eq(ii).prop('disabled', true);
+			} else {
+				start_disabled[tab] = 1;
+			}
+		
+		//연속선택 첵크
+		if (chk1) {
+			
+			if (selectCnt == 1) {
+				rentCnt[tab] = 1;
+			} else if (ii >= mycnt) {
+				//이전 첵크여부
+				var preChk = $('input:checkbox[sid="chk_tab_'+tab+'"]').eq(ii-1).prop('checked');
+				
+				if (preChk) {
+					rentCnt[tab] += 1;
+				} else {
+					var thisChk = $('input:checkbox[sid="chk_tab_'+tab+'"]').eq(ii).prop('checked');
+					//alert("최소 2시간(2개)이상 연속으로 선택하셔야 예약이 가능합니다.\n(1시간만 선택된 경우 무효 처리됨)\n\n.."+ preChk);
+					if (thisChk) {
+						$('input:checkbox[sid="chk_tab_'+tab+'"]').eq((ii+1)).prop("checked",true);
+						rentCnt[tab] += 1;
+					} else {
+						rentCnt[tab] =1;	
+					}
+				} 
+			}
+		}
+		
+		
+		//연속된 첵크값인지  확인
+		var thisChk = $('input:checkbox[sid="chk_tab_'+tab+'"]').eq(ii).prop('checked');
+		var thisChkVal = $('input:checkbox[sid="chk_tab_'+tab+'"]').eq(ii).val();
+		
+		if (!thisChk || thisChkVal == '') {
+			if (thisChkCnt >= 2 || thisChkCnt == 0) {
+				thisChkCnt = 0;
+			} else if (thisChkCnt == 1) {
+				noSave[tab] = -1;
+			}
+		//} else if ( thisChkVal == '') {
+		//	thisChkCnt = 1;
+		} else if (thisChk) {
+			thisChkCnt ++;
+		} 
+		//if (selectCnt==1) {
+		//	noSave[tab] = -1;
+		//}
+		//console.log("이상이상"+ selectCnt +"=================>");
+
+		
+		//console.log("ii:"+ ii +", thisChkCnt:"+ thisChkCnt +", thisChkVal: "+ thisChkVal+", thisChk: "+ thisChk +", noSave[tab]"+ noSave[tab]);
+		//alert('ssss');
+		/*
+		if ((thisChkCnt == 0 && thisChk) || thisChkCnt == 1 && thisChk) {
+			thisChkCnt++;
+			groupTemp = true;
+		} else {
+			thisChkCnt == 1;
+		}
+		*/
+		
+		
+		
+	}//end for
+	
+	if (noSave[tab] == -1) {
+		console.log("이상이상"+ ii +"=================>");
+	}
+	
+	console.log("thisChkCnt"+ noSave[tab]);
+	//마지막 한시간만 첵크 여부 확인
+	var lastpreChk 		= $('input:checkbox[sid="chk_tab_'+tab+'"]').eq(tabCnt-2).prop('checked');
+	var lastpreChkVal 	= $('input:checkbox[sid="chk_tab_'+tab+'"]').eq(tabCnt-2).val();
+	var lastChk 		= $('input:checkbox[sid="chk_tab_'+tab+'"]').eq(tabCnt-1).prop('checked');
+	var lastChkVal 		= $('input:checkbox[sid="chk_tab_'+tab+'"]').eq(tabCnt-1).val();
+	
+	if (lastpreChk == false && lastChk == true && lastChkVal != "") {
+		$('input:checkbox[sid=chk_tab_'+ tab +']').eq((tabCnt-2)).prop('disabled', false);
+		$('input:checkbox[sid="chk_tab_'+tab+'"]').eq((tabCnt-2)).prop("checked",true);
+	}
 }
 
