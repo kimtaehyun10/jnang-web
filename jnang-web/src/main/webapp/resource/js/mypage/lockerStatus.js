@@ -21,9 +21,8 @@ const lockerHtml = ''
 	+'</ul>'
 	+'</div>'
 	+'<table class="stbl_l1a">'
-	+'<colgroup><col width="15%"><col width="15%"><col width="15%"><col width="15%"><col width="15%"><col width="15%"></colgroup>'
-	+'<thead><tr><th>락카위치</th><th>락카번호</th><th>이용기간</th><th>이용개월</th><th>금액</th><th>상태</th></tr></thead>'
-	+'<tbody id="lockerData">'
+	+'<thead><tr><th>장소</th><th>락카위치</th><th>락카번호</th><th>이용기간</th><th>이용개월</th><th>금액</th><th>보증금</th><th>상태</th><th>신청</th></tr></thead>'
+	+'<tbody id="lockerData" class="stbl_l3a con_wid">'
 	+'</tbody>'
 	+'</table>'
 	+'</div>'	
@@ -32,12 +31,17 @@ const lockerHtml = ''
 const searchLocker = function(){
 			
 	$.get('/data/mypage/lockerStatus/'+$('#h_memNo').val(), {}, function(data){
-		if(!data){
+		if(data.length === 0){
 			$('.sub_lecture_l01').css('display','block');
 		}else{
-			$('#boardCon').html(lockerHtml);
+			$('#boardCon').html(lockerHtml);			
 			var cont1 = '';
-			for(var i=0;i<data.length;i++){			
+			for(var i=0;i<data.length;i++){
+				var date1 = new Date(data[i].RENT_EDATE);
+				var date2 = new Date(data[i].TODAY);
+				cont1 += '<td>';
+				cont1 += data[i].COMNM
+				cont1 += '</td>';
 				cont1 += '<td>';
 				cont1 += data[i].PLACE_CD
 				cont1 += '</td>';						
@@ -45,79 +49,33 @@ const searchLocker = function(){
 				cont1 += data[i].LOCKER_CD
 				cont1 += '</td>';						
 				cont1 += '<td>';
-				cont1 += data[i].RENT_SDATE+'~'+data[i].RENT_EDATE;
+				cont1 += data[i].RENT_SDATE+' ~ '+data[i].RENT_EDATE;
 				cont1 += '</td>';						
 				cont1 += '<td>';
 				cont1 += data[i].RENT_MON+'개월';
 				cont1 += '</td>';			
 				cont1 += '<td>';
-				cont1 += (data[i].RENT_AMT+data[i].DEPOSIT_AMT)+'원';
-				cont1 += '</td>';			
+				cont1 += data[i].RENT_AMT+'원';
+				cont1 += '</td>';
 				cont1 += '<td>';
-				cont1 += '작업중';
-				cont1 += '</td>';			
-				$('#lockerData').html(cont1);
-		}
-		
+				cont1 += data[i].DEPOSIT_AMT+'원';
+				cont1 += '</td>';
+				cont1 += '<td>';
+				if(date1>date2){
+					cont1 += '사용중';
+				}else{
+					cont1 += '사용만료';
+				}				 
+				cont1 += '</td>';
+				cont1 += '<td>';
+				cont1 += '<span class="stat1 stat_y" style="cursor:pointer;" onclick="reLocker(\''+data[i].COMCD+'\',\''+data[i].MEM_NO+'\','+data[i].RENT_NO+');">연장하기</span>';
+				cont1 += '</td>';
+			}
+			$('#lockerData').html(cont1);
 		}
 	});
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
- <div id="sub_my_status" class=' '>
-	<div id="notes" class="border_box_a_gray_1a margin_b50">
-		<h4 class="margin_b20">유의사항</h4>
-		<ul class="ul_hyphen1a13">
-			<li>유료 사물함 임대 현황 입니다.(사물함은 시설이용고객만 임대하실 수 있습니다.)</li>
-			<li>임대보증금은 방문 납입하셔야 합니다.</li>
-			<li>온라인 결제취소는 평일 업무시간(09시~18시)내에만 가능합니다.</li>
-		</ul>
-	</div>
-	<table class="stbl_l1a">
-		<colgroup>
-			<col width="15%">
-			<col width="15%">
-			<col width="15%">
-			<col width="15%">
-			<col width="15%">
-			<col width="15%">
-		</colgroup>
-		<thead>
-			<tr>
-				<th>락카위치</th>
-				<th>락카번호</th>
-				<th>이용기간</th>
-				<th>이용개월</th>
-				<th>금액</th>
-				<th>상태</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td colspan="6">임대하신 락카가 없습니다.</td>
-			</tr>
-		</tbody>
-	</table>
-</div> 
- 
- */
+function reLocker(COMCD, MEM_NO, RENT_NO){
+	console.log(COMCD,MEM_NO,RENT_NO);
+}

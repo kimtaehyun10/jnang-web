@@ -322,7 +322,8 @@
 	</delete>
 	
 	<select id="lockerStatusList" resultType="java.util.HashMap" parameterType="java.util.HashMap">
-		 SELECT COMCD
+		 SELECT (SELECT COMNM FROM COMINFO I WHERE L.COMCD = I.COMCD) AS COMNM
+		 	  , COMCD
 		 	  , MEM_NO
 		 	  , RENT_NO
 		 	  , SLIP_NO		 	  
@@ -330,8 +331,9 @@
 		 	  , LOCKER_CD
 		 	  , PREFIX
 		 	  , RENT_MON
-		 	  , RENT_SDATE
-		 	  , RENT_EDATE
+		 	  , DATE_FORMAT(RENT_SDATE, '%Y-%m-%d') AS RENT_SDATE
+		 	  , DATE_FORMAT(RENT_EDATE, '%Y-%m-%d') AS RENT_EDATE
+		 	  , DATE_FORMAT(NOW(), '%Y-%m-%d') AS TODAY		 	  
 		 	  , RETURN_DATE
 		 	  , RENT_AMT
 		 	  , DC_AMT
