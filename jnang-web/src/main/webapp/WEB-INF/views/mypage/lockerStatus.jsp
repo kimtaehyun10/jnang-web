@@ -8,7 +8,7 @@
 </div>
 
 <div id="boardCon">
-	<div class='sub_lecture_l01'>		
+	<div class='sub_lecture_l01' style="display: none;">		
 		<div class='ali_c'>
 		<img src='${pageContext.request.contextPath}/resource/images/sub/icon_lock_info_01.jpg' alt=''>
 		<span class='fc_green2 fontsize_1dot80 margin_l15'>신규(처음)신청은 방문 접수, 수납가능 합니다.</span>

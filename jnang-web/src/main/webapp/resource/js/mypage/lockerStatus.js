@@ -32,13 +32,33 @@ const lockerHtml = ''
 const searchLocker = function(){
 			
 	$.get('/data/mypage/lockerStatus/'+$('#h_memNo').val(), {}, function(data){
-		var cont1 = '';
-		for(var i=0;i<data.length;i++){
-			cont1 += '<tr>';
-			cont1 += '<td>';
-			cont1 += data[i].
-			cont1 += '</td>';
-			cont1 += '</tr>';
+		if(!data){
+			$('.sub_lecture_l01').css('display','block');
+		}else{
+			$('#boardCon').html(lockerHtml);
+			var cont1 = '';
+			for(var i=0;i<data.length;i++){			
+				cont1 += '<td>';
+				cont1 += data[i].PLACE_CD
+				cont1 += '</td>';						
+				cont1 += '<td>';
+				cont1 += data[i].LOCKER_CD
+				cont1 += '</td>';						
+				cont1 += '<td>';
+				cont1 += data[i].RENT_SDATE+'~'+data[i].RENT_EDATE;
+				cont1 += '</td>';						
+				cont1 += '<td>';
+				cont1 += data[i].RENT_MON+'개월';
+				cont1 += '</td>';			
+				cont1 += '<td>';
+				cont1 += (data[i].RENT_AMT+data[i].DEPOSIT_AMT)+'원';
+				cont1 += '</td>';			
+				cont1 += '<td>';
+				cont1 += '작업중';
+				cont1 += '</td>';			
+				$('#lockerData').html(cont1);
+		}
+		
 		}
 	});
 };

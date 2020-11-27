@@ -325,8 +325,8 @@
 		 SELECT COMCD
 		 	  , MEM_NO
 		 	  , RENT_NO
-		 	  , SLIP_NO
-		 	  , PLACE_CD
+		 	  , SLIP_NO		 	  
+		 	  , (SELECT C.CD_NM FROM COT_GRPCD C WHERE L.COMCD = C.COMCD AND C.GRP_CD = 'CM_PLACE_CD' AND L.PLACE_CD=C.CD) AS PLACE_CD			 	  	 	   		 	 
 		 	  , LOCKER_CD
 		 	  , PREFIX
 		 	  , RENT_MON
@@ -347,7 +347,7 @@
 		 	  , WRITER
 		 	  , CHNG_DH
 		 	  , CHNGR
-		 FROM LOCKER_RENT
+		 FROM LOCKER_RENT L
 		 WHERE MEM_NO = #{memNo}
 	</select>
 </mapper>

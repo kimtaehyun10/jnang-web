@@ -74,6 +74,9 @@ public class MypageController {
 
 	@GetMapping(value = "/mypage/lockerStatus")
 	public ModelAndView lockerStatus(ModelAndView modelAndView, HttpServletRequest request) {
+		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		final String userId = auth.getName();
+		memberService.memSession(request, userId);
 		final HttpSession session = request.getSession(false);
 		modelAndView.addObject("member",session.getAttribute("member"));
 		modelAndView.setViewName("mypage/lockerStatus");
@@ -95,7 +98,11 @@ public class MypageController {
 	}
 
 	@GetMapping(value = "/mypage/myBoard")
-	public ModelAndView myBoard(ModelAndView modelAndView, HttpServletRequest request) {		
+	public ModelAndView myBoard(ModelAndView modelAndView, HttpServletRequest request) {
+		
+		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		final String userId = auth.getName();
+		memberService.memSession(request, userId);		
 		final HttpSession session = request.getSession(false);		
 		modelAndView.addObject("member", session.getAttribute("member"));
 		modelAndView.setViewName("mypage/myBoard");

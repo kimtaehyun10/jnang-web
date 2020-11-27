@@ -55,7 +55,7 @@
 								<ul class='addmenu1_ly'>
 									<li><a href='/lecture/list'>수강신청</a></li>
 									<li><a href='/rentlist'>대관신청</a></li>
-									<li><a href='/locker/list'>사물함신청</a></li>
+									<li><a href='/mypage/lockerStatus'>사물함신청</a></li>
 								</ul>
 							</div>
 						</div>
