@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dwict.jfmc.client.park.mapper.ParkMapper">
+	
+	<insert id="pubParkApplyWrite" parameterType="java.util.HashMap">
+		<selectKey resultType="int" keyProperty="pub_park_no" order="BEFORE">
+			SELECT IFNULL(MAX(pub_park_no),0)+1 AS pub_park_no											
+			FROM public_park						
+		</selectKey>		
+		INSERT INTO 
+			public_park
+		VALUES		   
+			( #{pub_park_no}, #{name}, #{phone}, #{car_number}, #{car_model}, #{pub_park_name}, #{use_time}, #{discount}, now(), 'N' )
+	</insert>   
+	
+</mapper>

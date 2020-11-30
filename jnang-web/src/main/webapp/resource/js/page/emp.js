@@ -128,11 +128,12 @@ $(function(){
 		}
 	}).always(function(data){
 		for(var i=0;i<data.child;i++){
-			if(data.childs[i].cmsCd === currentPage){
+			if(data.childs[i].cmsCd === currentPage){				
 				switch (data.childs[i].mtype) {
 				case 'FAQ':
 				case 'NTC':
 				case 'BRD':
+				case 'HTM':					 
 					break;
 				default:
 					/**
