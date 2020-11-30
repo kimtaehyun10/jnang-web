@@ -62,4 +62,16 @@ public class PageRestController {
 		return service.getRentList(requestMap, request);
 	}
 	
+	//대관 일정 리스트
+	@GetMapping(value = "/getPlaceTimeTabList")
+	public List<Map<String, Object>> getPlaceTab(@RequestParam  Map<String, Object> requestMap, HttpServletRequest request) {
+		return service.getPlaceTimeTabList(requestMap);
+	}	
+	
+	//달력 탭별 예약현황
+	@GetMapping(value = "/getPlaceCalendarTab")
+	public List<Map<String, Object>> getCalendarTab(@RequestParam  Map<String, Object> requestMap, HttpServletRequest request) {
+		return service.getPlaceCalendarTab(requestMap);
+	}		
+	
 }

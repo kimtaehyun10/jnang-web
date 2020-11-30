@@ -78,7 +78,10 @@
 			, t1.PLACE_NM
 			, t1.PART_CD
 			, t1.TIME_UNIT
-			, t1.RENT_AMT
+			, CASE t1.PLACE_GROUP
+				WHEN 4 then t1.RENT_AMT*2
+				ELSE t1.RENT_AMT
+			END AS RENT_AMT
 			, t1.info_url
 			, t1.USE_YN FROM rent_place t1 left join cominfo t2 on t1.COMCD = t2.COMCD 
 		 WHERE t1.USE_YN=1
@@ -374,10 +377,6 @@
 	
 	</select>
 
-
-
-
-
     <!-- 체육관별 리스트 -->
     <select id="getRentList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
     <!-- 
@@ -487,6 +486,31 @@
 			t1.seq
 	</select>
 		
-		
+	
+	<!-- 달력 탭별 예약 항목리스트  -->	
+	<select id="getPlaceTimeTabList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select 
+			seq, place_cd , place_tab , item  
+		from rent_times t1 
+		where  place_cd = #{place_cd} and place_tab = #{place_tab} 
+			and use_yn =1 order by sort
+ 	</select>
+
+	<!-- 달력 탭별 예약현황  -->	
+	<select id="getPlaceCalendarTab" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select t1.RENT_IDX 
+			, t1.PLACE_TIME_SEQ 
+			, t1.PLACE_CD 
+			, t1.RESERVE_DATE 
+			, t2.place_tab 
+		from rent_app t1 left join rent_times t2 on t1.PLACE_TIME_SEQ =t2.seq and t1.PLACE_CD = t2.place_cd 
+		where left(t1.RESERVE_DATE , 6) =  #{YYMM} 
+			and t1.APP_TYPE != 40 
+			and t1.PLACE_CD = #{PLACE_CD}
+			<if test='PLACE_TAB !="0" and PLACE_TAB !="" and PLACE_TAB != null'>
+				and t2.PLACE_TAB = #{PLACE_TAB}
+			</if>	
+		order by t1.RESERVE_DATE , t1.PLACE_TIME_SEQ 
+ 	</select>
 		
 </mapper>

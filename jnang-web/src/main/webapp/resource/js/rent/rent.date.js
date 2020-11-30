@@ -24,6 +24,10 @@ function send(tabCnt) {
 			return false;
 		}
 	}
+	if (chkCnt <= 1) {
+		alert("예약 불가 2시간(2개)이상 연속되게  예약을 선택하여 주세요.\n(★★ 한개만 선택할수 없습니다. ★★ );");
+		return false;
+	}
 	
 	
 	if (confirm("\n 총 [ "+ chkCnt +" ] 건 선택\n\n              대관 신청  하시겠습니까?\n ")) {
@@ -143,32 +147,52 @@ function getRent(ymd,seq) {
 		$.get('/data/getRentList', { "ymd" : ymd, "q" : seq +"/0" } , function(data){
 			//try {
 				var arr = [];
-				//var arrCnt = []; 
+				var arrTmp = []; //임시저장
+				var arrTabCnt = []; 
+				var arrTmpIdx = []; //버튼 생성  임시 비교용
 				if(data.length != 0){
 
-					tmpList = "";
+					var firstStr = "" ;
+					var tmpList = "";
 					for(var i=0; i<data.length; i++){
 						
 						var place_tab = data[i].place_tab;
+						var checked = (data[i].rentIdx == 0) ? "" : " checked ";
+						arrTabCnt[place_tab] = (isNaN(arrTabCnt[place_tab])) ? 0 : arrTabCnt[place_tab]+1;
+						//console.log("arrTabCnt2 :"+ arrTabCnt[place_tab]);
 						
-						//if (data[i].COMCD != undefined) {
-						var checked = (data[i].rentIdx == 0) ? "" : " checked "; 
-						tmpList = '<div><label><input type="checkbox" sid="chk_tab_'+ place_tab +'" ';
-							
+						firstStr = '<div><label><input type="checkbox" sid="chk_tab_'+ place_tab +'" ';
+						
+						tmpList = firstStr;
+						
+						var tmpNoItem = ' value="" class="chkbxSize" checked disabled> <span class="rented margin_l5">'+ data[i].item +'</span></label></div>';
+						
+						// 접수가능
 						if (data[i].rentIdx == "0") {
 
-							//arrCnt[place_tab] = (isNaN(arrCnt[place_tab])) ? 0 : arrCnt[place_tab]+1;
-							//console.log("arrCnt:"+ arrCnt[place_tab]);
-							
 							tmpList += ' name="tseq" value="'+ data[i].seq +'" class="chkbxSize" onClick="selectCheck('+ place_tab +','+ data[i].seq +');" >'
 									+ '<span class="margin_l5">'+ data[i].item +'</span></label></div>';
+							arrTmpIdx[arrTabCnt[place_tab]] = data[i].seq;
+						
+						//접수 불가능
 						} else {
-							tmpList += ' value="" class="chkbxSize" checked disabled>'
-									+ '<span class="rented margin_l5">'+ data[i].item +'</span></label></div>';
-						}							
+							
+							//2번째가 예약이 되어있으면 첫번째도 예약 못하도록
+							if (arrTabCnt[place_tab] == 1 && arrTmpIdx[arrTabCnt[0]] != 0 ) {
+								//arr[0] = "xxxxx";
+							}
+							
+							tmpList += tmpNoItem;
+							arrTmpIdx[arrTabCnt[place_tab]] = 0;
+						}
+						
+						if (place_tab == 3) {
+							console.log("i["+ arrTabCnt[place_tab] +"]: "+ arrTmpIdx[arrTabCnt[place_tab]-1] +", "+ arrTmpIdx[arrTabCnt[place_tab]] +", "+ data[i].item);
+						}						
 
 						arr[place_tab] = (arr[place_tab] == undefined) ? tmpList : arr[place_tab] + tmpList;
-					}
+					} //end for
+					
 				}
 				else
 				{
@@ -176,7 +200,7 @@ function getRent(ymd,seq) {
 					// $('#ct2').append(option);
 				}
 				//console.log("tmpList["+ arr[2] +"]");
-				for(var i=0; i<data.length; i++){
+				for(var i=1; i< arr.length; i++){
 					$('#data_tab'+i).html(arr[i]);
 				}
 				$("#val3").val(ymd);
@@ -270,12 +294,23 @@ function selectCheck(tab, mycnt) {
 		
 		var chk1 = $('input:checkbox[sid="chk_tab_'+tab+'"]').eq(ii).prop('checked');
 		
-			if (chk1 == false && start_disabled[tab] == 0) {
-				$('input:checkbox[sid="chk_tab_'+tab+'"]').eq(ii).prop('disabled', true);
-			} else {
-				start_disabled[tab] = 1;
+		if (chk1 == false && start_disabled[tab] == 0) {
+			$('input:checkbox[sid="chk_tab_'+tab+'"]').eq(ii).prop('disabled', true);
+		} else {
+			start_disabled[tab] = 1;
+		}
+
+		//2번째가 예약되어있으면 1번째는 예약을 못하도록 비활성으로 적용
+		/*
+		if (ii==1 && chk1) {
+			var tmpVal = $('input:checkbox[sid="chk_tab_'+tab+'"]').eq(ii).val();
+			alert("tab:"+ tab + " / "+ tmpVal);
+			if (tmpVal == "") {
+				$('input:checkbox[sid="chk_tab_'+tab+'"]').eq(0).prop('disabled', true);
 			}
-		
+		}
+		*/
+
 		//연속선택 첵크
 		if (chk1) {
 			

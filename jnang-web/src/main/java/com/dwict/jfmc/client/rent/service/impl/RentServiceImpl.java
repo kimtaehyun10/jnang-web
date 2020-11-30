@@ -132,6 +132,8 @@ public class RentServiceImpl implements RentService {
 		
 		String param = request.getParameter("q");
 		param = (param == null) ? "0/0/0/" : param;
+		param = ((param.contains("/"))) ? param : param +"/0" ;
+		
 		String [] arrParam = param.split("\\/"); 
 		
 		Map <String,Object> maps= new HashMap<>();

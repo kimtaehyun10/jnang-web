@@ -61,6 +61,12 @@ public interface RentMapper {
 	List<Map<String, Object>> getRentList(Map<String, Object> requestMap);
 	List<Map<String, Object>> getRentCalendar(Map<String, Object> requestMap);
 	
+	//대관 일정 리스트
+	List<Map<String, Object>> getPlaceTimeTabList(Map<String, Object> requestMap);
+	
+	//달력 탭별 예약현황
+	List<Map<String, Object>> getPlaceCalendarTab(Map<String, Object> requestMap);
+	
 	
 
 

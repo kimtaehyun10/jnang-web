@@ -279,6 +279,7 @@ for (int ii = 0 ; ii < arryDays.length; ii++) {
 			rentDays[ii+1] = " <a class='size_m2 btn_gray1'>준비중</a> ";
 		}
 	}
+	//전체보기용 rentDays[ii+1] = " <a class='size_m2 btn_green1' onclick=\"getRent('"+ int_rentYmd +"','"+PLACE_CD+"');\">예약 가능  ("+ (itemTot - rentCnt) +"건) </a>";
 }
 
 

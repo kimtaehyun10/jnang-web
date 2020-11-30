@@ -274,7 +274,20 @@ public class PageServiceImpl implements PageService {
 		requestMap.put("PLACE_TAB", arrParam[1]);
 		
 		rentMapper.rentNoPayClear(requestMap);
+		
 		return rentMapper.getRentCalendar(requestMap);
+	}
+	
+	//대관 일정 리스트
+	@Override
+	public List<Map<String, Object>> getPlaceTimeTabList(Map<String, Object> requestMap) {	
+		return rentMapper.getPlaceTimeTabList(requestMap);
+	}
+	
+	//대관 일정 리스트
+	@Override
+	public List<Map<String, Object>> getPlaceCalendarTab(Map<String, Object> requestMap) {	
+		return rentMapper.getPlaceCalendarTab(requestMap);
 	}
 
 }

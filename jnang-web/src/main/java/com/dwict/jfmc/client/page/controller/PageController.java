@@ -20,6 +20,7 @@ import com.dwict.jfmc.client.board.service.BoardService;
 import com.dwict.jfmc.client.mem.service.MemberService;
 import com.dwict.jfmc.client.page.model.Menu;
 import com.dwict.jfmc.client.page.service.PageService;
+import com.dwict.jfmc.client.rent.service.RentService;
 import com.dwict.jfmc.client.security.model.Account;
 
 @RestController
@@ -33,6 +34,9 @@ public class PageController {
 
 	@Resource(name = "boardService")
 	private BoardService boardService;
+	
+	@Resource(name = "rentService")
+	RentService rentService;
 	
 	@GetMapping(value = "/html/{cmsCd}")
 	public ModelAndView htmlPage(ModelAndView modelAndView, @PathVariable String cmsCd) {
@@ -197,17 +201,19 @@ public class PageController {
 
 		requestMap.put("cmsCd", cmsCd);
 		
-		String query_string = request.getQueryString();
-		String param = request.getParameter("q");
-		System.out.println("query_string:"+query_string );
+		//셋팅 값
+		final Map <String,Object> rentCfg = rentService.rentConfig(request);
+		if (rentCfg == null) {
+			modelAndView.setViewName("/rentlist");
+			return modelAndView;
+		}
+		modelAndView.addObject("rentCfg", rentCfg);
 		
-		requestMap.put("param", param);
-
 		//체육관별 대관 정보 가져오기
-		List<Map <String,Object>> rentList = service.getRentList(requestMap, request);
-		modelAndView.addObject("rentList", rentList);
+		//List<Map <String,Object>> rentList = service.getRentList(requestMap, request);
+		//modelAndView.addObject("rentList", rentList);
 		
-		modelAndView.addObject("rentCfg", requestMap);
+		//modelAndView.addObject("rentCfg", requestMap);
 		modelAndView.setViewName("page/calendar");
 		return modelAndView;
 	}

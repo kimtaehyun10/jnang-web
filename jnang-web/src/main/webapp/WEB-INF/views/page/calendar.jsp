@@ -3,6 +3,8 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Calendar"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<script type="text/javascript" src="${pageContext.request.contextPath}/resource/js/page/calendar.js"></script>
 <%
   // 오늘 날짜로 달력 취득
   Calendar currentCal = Calendar.getInstance();
@@ -77,6 +79,33 @@
   //int day = currentCal.get(Calendar.DAY_OF_MONTH);
 
 %>
+
+<c:set var="PLACE_GROUP" value="${rentCfg.PLACE_GROUP}" />
+<%
+int PLACE_GROUP = (int) pageContext.getAttribute("PLACE_GROUP");
+//out.println("PLACE_GROUP:"+ PLACE_GROUP +"<BR>");
+%>
+<c:set var="PLACE_CD" value="${rentCfg.PLACE_CD}" />
+<%
+int PLACE_CD = (int) pageContext.getAttribute("PLACE_CD");
+//out.println("PLACE_CD:"+ PLACE_CD +"<BR>");
+%>
+<c:set var="otherCfg" value="${rentCfg.other_cfg}" />
+<%
+String otherCfg = (String)pageContext.getAttribute("otherCfg") ;
+
+//out.println("otherCfg:"+ otherCfg +"<BR>");
+String [] arryCfg = otherCfg.split("\\/");
+
+String str_tabCnt = arryCfg[2];
+int int_tabCnt = Integer.parseInt(str_tabCnt);
+out.println("tabCnt:"+ int_tabCnt +"<BR>");
+String tabName = arryCfg[1];
+//out.println("tabName:"+ tabName +"<BR>");
+//String tabCnt = arryCfg[1];
+
+%>
+
 <c:set var="param" value="${rentCfg.param}" />
 <%
 String param = (String)pageContext.getAttribute("param") ;
@@ -84,7 +113,7 @@ param = (param == null) ? "": param;
 %>
 	<script type="text/javaScript" language="javascript">
 	$(function(){
-		setMenuTitle('bg_99', '체육시설', '대관현황', true);
+		setMenuTitle('bg_99', '체육시설', '${rentCfg.COMNM} >  ${rentCfg.PLACE_NM}', true);
 		$('.sub_navi1 .navi1 .mbx1 > a').on('click',function(){
 			if($('.sub_navi1 .bg1').css('display')==='none'){
 				var idx_n=$(this).parent().parent().index();
@@ -98,7 +127,10 @@ param = (param == null) ? "": param;
 				$(this).next().slideToggle(150);
 			}
 		});
+		
 	});
+	
+	setTimeout("getDataList('<%=PLACE_CD%>',1);",500);
 	
 	 
 </script>
@@ -197,19 +229,40 @@ param = (param == null) ? "": param;
 			margin: 10px;
 		}
 	</style>
-	
+
 
 <%
-String [] rentDays = new String [32];
+if (int_tabCnt > 0 ) {
+	//int result = 10 % 5
+	out.println("<table border=1 width='100%' style='margin:0 0 20px 0;' align='center'><tr>");
+	for (int ii = 1 ; ii <= int_tabCnt; ii++) {
+	
+		%>
+		<td align="center"><a onclick="getDataList('<%=PLACE_CD%>','<%=ii%>');"><%=ii %> <%=tabName%></td>
+		<%
+		if ((ii % 4) == 0) {
+			out.println("</tr><tr>");
+		}
+		
+	}
+	out.println("</tr></table>");
+
+}
+%>
+
+
+
+<%
+/* String [] rentDays = new String [32];
 for (int ii = 0 ; ii < rentDays.length; ii++) {
 	rentDays[ii] = "";
 }
-int tmpDay =0;
+int tmpDay =0; */
 %>
 <c:forEach items="${rentList}" var="result" varStatus="status">
 	<c:set var="RESERVE_DATE" value="${result.RESERVE_DATE}" />
 	<%
-		int RESERVE_DATE = (int)pageContext.getAttribute("RESERVE_DATE") ;
+/* 		int RESERVE_DATE = (int)pageContext.getAttribute("RESERVE_DATE") ;
 		//out.print("RESERVE_DATE==>:"+ RESERVE_DATE +"<BR>");
 		if (RESERVE_DATE != 0) {
 			String strRESERVE_DATE = Integer.toString(RESERVE_DATE);
@@ -218,26 +271,28 @@ int tmpDay =0;
 		else
 		{
 			tmpDay = 0;
-		}
+		} */
 		//out.print("tmpDay:"+ tmpDay);
  	%>
 	<c:set var="APP_TYPE_NM" value="${result.APP_TYPE_NM}" /> 
 	<%
-		String APP_TYPE_NM = (String)pageContext.getAttribute("APP_TYPE_NM") ;
+		//String APP_TYPE_NM = (String)pageContext.getAttribute("APP_TYPE_NM") ;
 		//out.print(APP_TYPE_NM);
  	%>
 	<c:set var="PLACE_NM" value="${result.PLACE_NM}" /> 
 	<%
-		String PLACE_NM = (String)pageContext.getAttribute("PLACE_NM") ;
+		//String PLACE_NM = (String)pageContext.getAttribute("PLACE_NM") ;
 		//out.print(PLACE_NM);
  	%> 
 	<c:set var="BOSSNM" value="${result.BOSSNM}" /> 
 	<%
+		/*	
 		String BOSSNM = (String)pageContext.getAttribute("BOSSNM") ;
 		BOSSNM = (BOSSNM.length() > 1) ? BOSSNM.substring(0,1)+"**" : BOSSNM; 
 		//out.print(BOSSNM);
 		String strData = "["+ APP_TYPE_NM +"] "+ PLACE_NM +"("+ BOSSNM +")";
 		rentDays[tmpDay] = ((rentDays[tmpDay]).equals("")) ? strData : rentDays[tmpDay] +"<BR>"+ strData;
+		*/
 	%>
 </c:forEach>
 
@@ -255,7 +310,7 @@ int tmpDay =0;
 			&lt;&lt;
 		<!-- 이전해 -->
 		</a> 
-		<span class="this_month">
+		<span class="this_month" value="<%=year +""+ month%>">
 			&nbsp;<%=year %>. 
 			<%=month %>
 		</span>
@@ -271,7 +326,7 @@ int tmpDay =0;
 	</div>
 
 <div class="autoscroll_x1 margin_top_0dot5">
-	<table class="calendar_body stbl_l1a con_wid2" >
+	<table class="calendar_body stbl_l1a con_wid" align="center" >
 	
 	<thead>
 		<tr bgcolor="#CECECE">
@@ -331,7 +386,8 @@ int tmpDay =0;
 	       }else{
 	    	   out.println("<span class=\"sun_day\"><span class=\"sun\">" + day + "</span><br>");
 	       }
-	       out.println(rentDays[day] +"</span>");
+	       //out.println(rentDays[day] +"</span>");
+	       out.println("<div id='d"+day+"'></div></span>");
 	       currentCal.set(Calendar.DATE, ++day);
 	       dayCheck = true;
 	      // 토요일의 경우 글자색 '파랑'
@@ -343,7 +399,8 @@ int tmpDay =0;
 	        //out.println("<font color='blue'>" + day + " 토</font>");
 	    	out.println("<div class=\"sat_day\"><div class=\"sat\">" + day + "</div>");
 	       }
-	       out.println("<div>"+ rentDays[day] +"</div></div>");
+	       //out.println("<div>"+ rentDays[day] +"</div></div>");
+	       out.println("<div id='d"+day+"'></div></span>");
 	       currentCal.set(Calendar.DATE, ++day);
 	       dayCheck = true;
 	      // 일요일도 아니고 토요일도 아니면 기본속성 글자출력 
@@ -356,7 +413,8 @@ int tmpDay =0;
 	       }else{
 	    	   out.println("<span class=\"normal_day\"><span class=\"date\">" + day + "</span><Br>");
 	       }
-	       out.println(rentDays[day] +"</span>");
+	       //out.println(rentDays[day] +"</span>");
+	       out.println("<div id='d"+day+"'></div></span>");
 	       currentCal.set(Calendar.DATE, ++day);
 	       dayCheck = true;
 	      }
@@ -379,6 +437,6 @@ int tmpDay =0;
 </table>
 </div>
 
-
+<a onclick="getDataList(8,1);">ssssssssssss</a>
   
 
