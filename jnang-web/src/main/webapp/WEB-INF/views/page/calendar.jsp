@@ -99,7 +99,7 @@ String [] arryCfg = otherCfg.split("\\/");
 
 String str_tabCnt = arryCfg[2];
 int int_tabCnt = Integer.parseInt(str_tabCnt);
-out.println("tabCnt:"+ int_tabCnt +"<BR>");
+//out.println("tabCnt:"+ int_tabCnt +"<BR>");
 String tabName = arryCfg[1];
 //out.println("tabName:"+ tabName +"<BR>");
 //String tabCnt = arryCfg[1];
@@ -247,6 +247,14 @@ if (int_tabCnt > 0 ) {
 	}
 	out.println("</tr></table>");
 
+}
+if (PLACE_CD == 6 || PLACE_CD == 10) {
+	out.println("<table border=1 width='100%' style='margin:0 0 20px 0;' align='center'><tr>");
+	%>
+	<td align="center"><a href="/calendar/JUNGNANG09?q=6"> 축구장 </a></td>
+	<td align="center"><a href="/calendar/JUNGNANG09?q=10"> 야구장 </a></td>
+	<%
+	out.println("</tr></table>");
 }
 %>
 
@@ -437,6 +445,5 @@ int tmpDay =0; */
 </table>
 </div>
 
-<a onclick="getDataList(8,1);">ssssssssssss</a>
   
 

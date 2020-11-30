@@ -37,10 +37,9 @@ function getDataList(p_cd,p_tab) {
 			//예약 정보 가져오기
 			$.get('/data/getPlaceCalendarTab', { "YYMM" : YYMM, "PLACE_CD" : p_cd, "PLACE_TAB" : p_tab} , function(data){
 			
-				
+				var rentAppList = new Array();
 				if(data.length != 0){
-
-					var rentAppList = new Array();
+					
 					for(var i=0; i<data.length; i++){
 						
 						var oItem = new Object();
@@ -64,9 +63,7 @@ function getDataList(p_cd,p_tab) {
 					//alert("대관 일정이 없습니다. 잠시 후 다시 시도하여 주시거나 관리자에게 문의 하여주세요.");
 					//return false;
 				}
-				
-				console.log("333333333333333===>"+ rentAppList);
-				console.log("-=======> "+ rentAppList.length);
+			
 				for(var ii=0; ii< rentAppList.length; ii++) {
 					console.log(rentAppList[ii].days +"/" + rentAppList[ii].TIME_SEQ +"/"+rentAppList[ii].RESERVE_DATE);
 					

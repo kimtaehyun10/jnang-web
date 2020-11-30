@@ -214,7 +214,7 @@ public class PageServiceImpl implements PageService {
 		ymd = (ymd == null) ? "":ymd;
 		String param = request.getParameter("q");	//PLACE_CD / PLACE_TAB
 		param = (param == null) ? "0/0/0/" : param;
-		param = (param.length() == 1) ? param +"/0" : param;
+		param = ((param.contains("/"))) ? param : param +"/0" ;
 		
 		String [] arrParam = param.split("\\/");
 		
