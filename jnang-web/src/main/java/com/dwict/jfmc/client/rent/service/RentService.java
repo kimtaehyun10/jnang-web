@@ -45,6 +45,9 @@ public interface RentService {
 	//팀명 저장
 	int teamSave(Map<String, Object> requestMap, HttpServletRequest request);
 	
+	//축구장 단가리스트
+	List<Map<String, Object>> rentPriceList(String mEM_NO, HttpServletRequest request);
+	
 	
 
 	

@@ -1,6 +1,8 @@
 <%@ page import="java.util.Date"%>
+<%@ page import="java.text.NumberFormat"%>
 <%@ page import="java.text.SimpleDateFormat"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resource/js/common.js"></script>
 
@@ -47,10 +49,64 @@ SimpleDateFormat transFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
 String today = transFormat.format(from);
 
 %>
+<c:set var="PLACE_GROUP" value="${rentCfg.PLACE_GROUP}" />
+<%
+int PLACE_GROUP = (int) pageContext.getAttribute("PLACE_GROUP");
+out.println("PLACE_GROUP:"+ PLACE_GROUP +"<BR>");
+%>
+<c:set var="RENT_AMT" value="${rentCfg.RENT_AMT}" />
+<%
+//테니스장 기본가격(주간,평일)
+long RENT_AMT = (long) pageContext.getAttribute("RENT_AMT");
+out.println("RENT_AMT:"+ RENT_AMT +"<BR>");
+%>
+<c:set var="COMNM" value="${rentCfg.COMNM}" />
+<%
+//대관장소명
+String COMNM = (String) pageContext.getAttribute("COMNM");
+out.println("COMNM:"+ COMNM +"<BR>");
+%>
+
+<c:set var="otherCfg" value="${rentCfg.other_cfg}" />
+<%
+//기타 환경설정값
+///코트/8/토/0/휴/6500/ / / /
+String otherCfg = (String)pageContext.getAttribute("otherCfg") ;
+String [] arryCfg = otherCfg.split("\\/");
+
+//공휴일가격
+String holiday_price = arryCfg[6];
+
+String GoodsName = "";
+
+
+//축구장/야구장 (기본(평일주말)) 단가표
+int [][] rentPrice = new int [20][20];
+%>
+<c:forEach items="${rentPriceList}" var="result" varStatus="status">
+
+	<c:set var="days" value="${result.days}" />
+	<c:set var="playtime" value="${result.playtime}" />
+	<c:set var="price" value="${result.price}" />
+	<%
+	//1 평일, 0 주말
+	boolean days = (boolean)pageContext.getAttribute("days") ;
+	int int_days = (days) ? 1 : 0;
+	//사용시간
+	int playtime = (int)pageContext.getAttribute("playtime") ;
+	//이용금액
+	int price = (int)pageContext.getAttribute("price") ;
+	rentPrice[int_days][playtime] = price;
+	
+	//out.println("["+ int_days +"]"+"["+ playtime +"] = "+ price +"<BR>" );
+	%>
+
+</c:forEach>
+
 <script type="text/javascript">
 
 $(function(){
-	setMenuTitle('bg_99', '체육시설', '예약/결제', true);
+	setMenuTitle('bg_99', '체육시설', '<%=COMNM%> > 예약/결제', true);
 	$('.sub_navi1 .navi1 .mbx1 > a').on('click',function(){
 		if($('.sub_navi1 .bg1').css('display')==='none'){
 			var idx_n=$(this).parent().parent().index();
@@ -78,6 +134,7 @@ function send(){
 
 }
 </script>
+
 <script type="text/javascript">
 
 	var encodingType = "EUC-KR";//EUC-KR
@@ -190,7 +247,7 @@ function send(){
 
 	
 <form name="frm1" id="frm1" method="post"> 
-<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+<!-- <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/> -->
 	<div class="border_top_3_green"></div>
 	
 <table class="stbl_w3b border_top_0" summary="이 표는 제목/내용 등의 정보로 구성된 팀등록/수정 폼입니다.">
@@ -226,28 +283,157 @@ function send(){
 	  <tr>
 	    <th>대관비용</th>
 	    <td>
+	   
+	    	<%
+	    	String holiday_yn ="N";
+	    	String priceMsg ="";
+	    	//축구장,야구장 사용 시간계산
+	    	int rent_timeCnt = 0;
+	    	//테니스 주간 가격
+	    	int rent_t_timePrice = 0; //(int) RENT_AMT;
+	    	//테니스 야간, 공휴일 가격
+	    	//int rent_t_night_holiday_price = Integer.parseInt(holiday_price);
+	    	//대여 총금액
+	    	int rentSum = 0;
+	    	%>
 			<c:forEach items="${dataList.dataList}" var="result" varStatus="status">
-			
+				<!-- 공휴일 확인 -->
+				<c:set var="holiday_yn" value="${result.holiday_yn}" />
+				<%
+				priceMsg = "";
+				holiday_yn = (String)pageContext.getAttribute("holiday_yn") ;
+				//out.println("holiday_yn:"+ holiday_yn +"  <BR>");
+				%>
 				
+				<c:set var="item" value="${result.item}" />
+				<%
+				//주간 야간(18시이후) 구분용
+				String item = (String)pageContext.getAttribute("item");
+				int int_item_time = Integer.parseInt(item.substring(0,2));
+				//out.println("item:"+ int_item_time +"<BR>");
+				%>
+				
+				
+				<!--  예약성공 계산 -->
 				<c:if test="${result.orderYN eq 'Y'}"> 
 					[예약 성공]
-					<c:set var="otherCfg" value="${rentCfg.other_cfg}" />
+					<% 
+					//요금 계산
+						//축구장/야구장 #################################################################
+						if (PLACE_GROUP == 2 || PLACE_GROUP == 3) {
+							
+							//아래에 총 사용 시간으로 계산
+							rent_timeCnt ++;
+							
+							
+						//테니스장  #################################################################
+						} else if (PLACE_GROUP == 4) {
+							
+							//out.println(result.item}
+							
+							//테니스 공휴일 , 야간 경우 요금변경
+							if (holiday_yn.equals("Y") || int_item_time >= 18) {
+								rent_t_timePrice = Integer.parseInt(holiday_price);
+								priceMsg = (holiday_yn.equals("Y")) ? "공휴일요금":" 야간요금 ";
+							} else {
+								rent_t_timePrice = (int) RENT_AMT;
+								
+							}
+							rentSum = rentSum + rent_t_timePrice;
+							
+						}
+					%>
 				</c:if>
 				<c:if test="${result.orderYN eq 'N'}"> 
 					<span class='btn_red1'>[예약 실패]</span>
 				</c:if>
 			
-				<c:if test="${result.place_tab ne '0'}"> 
+				<%
+				if (PLACE_GROUP == 2 || PLACE_GROUP == 3) {
+				%> 
+						
+					&nbsp; ${result.RESERVE_DATE} &nbsp; ${result.item} &nbsp; <%=rent_timeCnt %> 시간<BR>
+					 					
+				<%
+				} else if (PLACE_GROUP == 4) {
+				%> 
 					&nbsp; ${result.place_tab} 코트
-				</c:if>
-				&nbsp; ${result.RESERVE_DATE} &nbsp; ${result.item} <BR> 
 				
-			</c:forEach>		
+					<%
+					priceMsg = (priceMsg.equals("")) ? "" : " ["+ priceMsg +"]";
+					
+					String commaNum = NumberFormat.getInstance().format(rent_t_timePrice);
+					%>
+	
+					&nbsp; ${result.RESERVE_DATE} &nbsp; ${result.item} &nbsp; <%=commaNum %> <%=priceMsg %><BR>
+				
+				<%
+				}
+				%>
+
+				
+			</c:forEach>
 	    </td>
     </tr>
 	  <tr>
 	    <th>조명료</th>
-	    <td><c:out value='${myData.HOME_TEL}'/></td>
+	    <td>
+<%
+	    	//1시간 조명료
+	    	int lightPrice =0;
+	    	int lightSum = 0;
+	    	int totalSum = 0;
+	    	
+	    	if (PLACE_GROUP == 2 || PLACE_GROUP == 3) {
+	    		//축구장/야구장
+	    		lightPrice = 11000;
+	    	} else if (PLACE_GROUP == 4) {
+	    		//테니스장
+	    		lightPrice = 3000;
+	    		//rent_daytimePrice = 
+	    	}
+	    	
+	    	%>
+			<c:forEach items="${dataList.dataList}" var="result" varStatus="status">
+			
+			
+				<c:set var="item" value="${result.item}" />
+				<%
+				//주간 야간(18시이후) 구분용
+				String item = (String)pageContext.getAttribute("item");
+				int int_item_time = Integer.parseInt(item.substring(0,2));
+				//out.println("item:"+ int_item_time +"<BR>");
+				%>
+				
+				
+				<!--  예약성공 계산 -->
+				<c:if test="${result.orderYN eq 'Y'}"> 
+					
+					<!-- 조명사용 -->
+					<c:if test="${result.add_light eq true}">
+						[예약 성공]
+						<!-- 조명사용 , ${result.add_light} -->
+						<%
+						lightSum = lightSum + lightPrice;
+						%>
+						<%
+						if (PLACE_GROUP == 4) {
+						%> 
+							&nbsp; ${result.place_tab} 코트
+						<%
+						}
+						String commaNum = NumberFormat.getInstance().format(lightPrice);
+						%>
+		
+						&nbsp; ${result.RESERVE_DATE} &nbsp; ${result.item} &nbsp; <%=commaNum %><BR> 
+										
+					</c:if>
+				</c:if>
+
+				
+			</c:forEach>
+				    
+		</td>
     </tr>
     <c:if test="${rentCfg.PLACE_GROUP eq '4'}">
     	<!-- 우선 4번 그룹만 할인적용 --> 
@@ -268,7 +454,26 @@ function send(){
     </c:if>
 	  <tr>
 	    <th>합계</th>
-	    <td><c:out value='${myData.HOME_TEL}'/></td>
+	    <td>
+	    <%
+	  	//축구장/야구장 #################################################################
+		if (PLACE_GROUP == 2 || PLACE_GROUP == 3) {
+			rentSum = 0;
+			
+			if (holiday_yn.equals("Y")) {
+				rentSum = rentPrice[0][rent_timeCnt];
+			} else {
+				rentSum = rentPrice[1][rent_timeCnt];
+			}
+			
+		}
+	    
+	    totalSum = rentSum + lightSum;
+	    String commaTot = NumberFormat.getInstance().format(totalSum);
+	    String commaRent = NumberFormat.getInstance().format(rentSum);
+	    String commaLight = NumberFormat.getInstance().format(lightSum);
+	    %>
+	    <%=commaTot %> &nbsp; (대관료 : <%=commaRent %> / 조명료 : <%=commaLight %>)</td>
     </tr>
 	<tr>
     	<td colspan="2"><div class="bg_icon_circle_green1a fontsize_1dot60 padding_left_1dot5">주의사항 및 환불안내</div></td>
@@ -296,7 +501,7 @@ function send(){
 
     <div class="btnarea margin_t80">
 		<a href="#none" onclick="goPay();" id=" " class="green">결제</a>
-        <a href="#none" onClick="data.list('del');" id=" " class="gray2">취소</a>
+        <a href="#none" onClick="history.back(-1);" id=" " class="gray2">취소</a>
     </div>
 
 </form>
@@ -312,12 +517,12 @@ function send(){
 		    <input type="hidden" name="PayMethod" maxlength="2" value="CARD">
 		    <input type="hidden" name="PayType" maxlength="2" value="">
 			<!-- 수량 -->
-		    <input type="hidden" id="GoodsCnt" name="GoodsCnt" maxlength="2" value="<%//=GoodsCnt%>">
+		    <input type="hidden" id="GoodsCnt" name="GoodsCnt" maxlength="2" value="1">
 			<!--<div>상품명:</div>-->
 		    <input type="hidden" id="GoodsName" name="GoodsName" maxlength="2" value="<%//=GoodsName%>xxx">
 			
 			<!-- <div>상품금액:</div> -->
-		    <input type="hidden" id="Amt" name="Amt" maxlength="2" value="<%//=goodsAmt%>">
+		    <input type="hidden" id="Amt" name="Amt" maxlength="2" value="<%=totalSum%>">
 			
 			<!-- <div>주문번호:</div> -->
 		    <input type="hidden" name="Moid" maxlength="2" value="Moid">

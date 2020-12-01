@@ -324,3 +324,35 @@ function fn_convertDate(uType, uDate){
 	
 	return rtn;
 }
+
+
+
+//두개의 날짜를 비교하여 차이일을 알려준다.(1,'2020-02-02','2020-02-02')
+function fn_dateDiff(_type, _date1, _date2) {
+    var diffDate_1 = _date1 instanceof Date ? _date1 : new Date(_date1);
+    var diffDate_2 = _date2 instanceof Date ? _date2 : new Date(_date2);
+
+	diffDate_1 = new Date(diffDate_1.getFullYear(), diffDate_1.getMonth()+1, diffDate_1.getDate());
+    diffDate_2 = new Date(diffDate_2.getFullYear(), diffDate_2.getMonth()+1, diffDate_2.getDate());
+    
+    var diff = "";
+    //일 차이
+    if (_type =="d"){
+    	diff = Math.abs(diffDate_2.getTime() - diffDate_1.getTime());
+    	diff = Math.ceil(diff / (1000 * 3600 * 24));
+    }
+    //월 차이
+    if (_type =="m"){
+    	diff = Math.abs(diffDate_2.getTime() - diffDate_1.getTime());
+    	diff = Math.ceil(diff / (1000 * 3600 * 24 * 30));
+    }
+    
+    //월 차이
+    if (_type =="y"){
+    	diff = Math.abs(diffDate_2.getTime() - diffDate_1.getTime());
+    	diff = Math.ceil(diff / (1000 * 3600 * 24 * 30 * 12));
+    }
+    
+    return diff;
+}
+

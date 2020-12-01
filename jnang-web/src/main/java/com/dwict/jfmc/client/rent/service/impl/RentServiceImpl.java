@@ -275,11 +275,37 @@ public class RentServiceImpl implements RentService {
 		
 		List <Map <String , Object>> rtnMap = mapper.rentOdList(maps);
 		//rtnMap.add(maps);
+		
+
+		
+		//다시 
+		for (int ii = 0 ; ii < rtnMap.size(); ii++) {
+			
+			
+			
+			
+		}
+		
+		
 
 		maps.put("dataList", rtnMap);
 		return maps;
 	}
 
+	//축구장 야구장 단가표
+	@Override
+	public List <Map <String, Object>> rentPriceList(String MEM_NO, HttpServletRequest request) {
+
+		String val1 = request.getParameter("val1");
+		String val2 = request.getParameter("val2");
+		
+		
+		Map <String , Object > maps = new HashMap<>();
+		maps.put("in_area", "1"); //1:관내거주, 0:관외/타지역
+		maps.put("person", "1"); //1:일반인 , 0:장애인
+		return mapper.rentPriceList(maps);
+	}
+	
 	//대관 신청 저장
 	@Override
 	public Map<String, Object> rentOdPay(HttpServletRequest request) {
@@ -292,5 +318,6 @@ public class RentServiceImpl implements RentService {
 		
 		return null;
 	}
+	
 
 }

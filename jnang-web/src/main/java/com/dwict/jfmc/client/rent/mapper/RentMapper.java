@@ -67,6 +67,9 @@ public interface RentMapper {
 	//달력 탭별 예약현황
 	List<Map<String, Object>> getPlaceCalendarTab(Map<String, Object> requestMap);
 	
+	//축구장 야구장 단가표
+	List<Map<String, Object>> rentPriceList(Map<String, Object> maps);
+	
 	
 
 

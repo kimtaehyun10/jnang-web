@@ -92,6 +92,7 @@ int PLACE_CD = (int) pageContext.getAttribute("PLACE_CD");
 %>
 <c:set var="otherCfg" value="${rentCfg.other_cfg}" />
 <%
+//기타 환경설정값
 String otherCfg = (String)pageContext.getAttribute("otherCfg") ;
 
 //out.println("otherCfg:"+ otherCfg +"<BR>");

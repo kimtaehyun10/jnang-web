@@ -312,13 +312,15 @@
 	
 			 select t1.WRITE_DH 
 				, t1.PLACE_TIME_SEQ
+				, t2.PLACE_GROUP 
 				, t3.place_tab 
 				, jnimc.fn_int_to_date(t1.RESERVE_DATE ,'') as RESERVE_DATE 
 				, t3.item
 				, t1.MEM_NO
 				, STRCMP(t1.MEM_NO, #{MEM_NO}) as '비교값'
 				, if (STRCMP(t1.MEM_NO, #{MEM_NO}),'N','Y') as orderYN
-				
+				, t3.add_light
+				,(select case count(*) when 0 then 'N' else 'Y' end from calendar where CAL_DATE = t1.RESERVE_DATE AND GUBUN ='A') as holiday_yn
 			from rent_app t1 left join rent_place t2 on t1.PLACE_CD = t2.PLACE_CD 
 				left join rent_times t3 on t1.PLACE_CD = t3.place_cd 
 			 and t1.PLACE_TIME_SEQ = t3.seq 
@@ -335,8 +337,9 @@
 
 	<!-- 예약 (결제전) 시간초과  삭제 -->
 	<delete id="rentNoPayClear">
-	select *
- 	from rent_app ra where  APP_TYPE = 5 and TIMESTAMPDIFF(hour,WRITE_DH, now()) > 100
+	delete
+ 	from rent_app
+ 	where  APP_TYPE = 5 and TIMESTAMPDIFF(hour,WRITE_DH, now()) > 100
 	</delete>
 
 	<!-- 달력에 표시될 예약가능/ 예약 불가능 -->
@@ -512,5 +515,26 @@
 			</if>	
 		order by t1.RESERVE_DATE , t1.PLACE_TIME_SEQ 
  	</select>
+
+
+	<!-- 축구장 /야구장 단가표 -->
+	<select id="rentPriceList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
 		
+		select 
+			days, playtime, price 
+		from rent_price 
+		where price_type = 2 and in_area = #{in_area}
+			<if test='person !="" and person != null'> 
+			and person = #{person}
+			</if>
+			<if test='days !="" and days != null'> 
+			and days = #{days}
+			</if>
+			and use_yn =1
+	 	order by days,playtime
+ 
+	</select>
+
+
+
 </mapper>

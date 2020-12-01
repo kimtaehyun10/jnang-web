@@ -121,6 +121,10 @@ public class RentController {
 		}
 		modelAndView.addObject("rentCfg", rentCfg);
 		
+		//축구장 단가표
+		List <Map <String, Object>> rentPriceList= rentService.rentPriceList(MEM_NO, request);
+		modelAndView.addObject("rentPriceList", rentPriceList);
+		
 		//주문확인
 		Map <String, Object> rentOrderList= rentService.rentOrder(MEM_NO, request);
 		modelAndView.addObject("dataList", rentOrderList);

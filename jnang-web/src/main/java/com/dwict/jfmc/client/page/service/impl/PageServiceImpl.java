@@ -272,7 +272,7 @@ public class PageServiceImpl implements PageService {
 
 		requestMap.put("PLACE_CD", arrParam[0]);
 		requestMap.put("PLACE_TAB", arrParam[1]);
-		
+		//지난 시간 삭제
 		rentMapper.rentNoPayClear(requestMap);
 		
 		return rentMapper.getRentCalendar(requestMap);

@@ -64,50 +64,68 @@ function getDataList(p_cd,p_tab) {
 					//return false;
 				}
 			
-				for(var ii=0; ii< rentAppList.length; ii++) {
-					console.log(rentAppList[ii].days +"/" + rentAppList[ii].TIME_SEQ +"/"+rentAppList[ii].RESERVE_DATE);
-					
-				}
+				//for(var ii=0; ii< rentAppList.length; ii++) {
+					//console.log(rentAppList[ii].days +"/" + rentAppList[ii].TIME_SEQ +"/"+rentAppList[ii].RESERVE_DATE);
+				//}
 				
+				var today = new Date();
+				var yyyy = today.getFullYear();
+				var mm 	 = today.getMonth();
+				var today = new Date(yyyy,mm,today.getDate());
 				//달력 출력
-				for(var ii=0; ii< 30; ii++) {
+				for(var ii=1; ii<= 31; ii++) {
 					
-					
+					console.log(YYMM.substring(0,4) +"/"+ (Number(YYMM.substring(4,6)) ) +"/"+ ii);
+					var loopDay = new Date(YYMM.substring(0,4)+"/"+ Number(YYMM.substring(4,6)) +"/"+ii);
 					var tmpList = "";
-					//예약 일정
-					for(var xx=0; xx< aItemList.length; xx++) {
-						var seq 		= aItemList[xx].seq;
-						var item 		= aItemList[xx].item;
-						
 					
-						//예약 리스트
-						var dataIn = false;
-						for(var jj=0; jj< rentAppList.length; jj++) {
-
-							var days 		= rentAppList[jj].days;
-							var TIME_SEQ 	= rentAppList[jj].TIME_SEQ;
-							var RESERVE_DATE= rentAppList[jj].RESERVE_DATE;
+					console.log(today.getFullYear() +"/"+today.getMonth() +"/"+today.getDate()  +" > 비교 "+ loopDay.getFullYear() +"/"+loopDay.getMonth() +"/"+loopDay.getDate() +" ");
+					
+					var xxx = fn_dateDiff("m",today.getFullYear() +"/"+today.getMonth() +"/"+today.getDate(), loopDay.getFullYear() +"/"+loopDay.getMonth() +"/"+loopDay.getDate());
+					xxx = isNaN(xxx) ? 1: xxx;
+					console.log("xxxx:"+ isNaN(xxx));
+					if (today.getTime() > loopDay.getTime()) {
+						
+						tmpList += "[<span class='btn_gray1'>예약종료</span>]<br>";
+					} else if (xxx > 1) {
+						tmpList += "[<span class='btn_gray1'>준비중</span>]<br>";
+					} else {
 							
+						//DB 예약 일정 매칭 
+						for(var xx=0; xx< aItemList.length; xx++) {
+							var seq 		= aItemList[xx].seq;
+							var item 		= aItemList[xx].item;
 							
-							if (days== (ii+1) && TIME_SEQ == seq && TIME_SEQ != undefined) {
-								console.log(days +"<==========>" + (ii+1) +" TIME_SEQ:"+ TIME_SEQ +",  "+RESERVE_DATE);
-								dataIn = true;
-								break;
-							} 
-						}//jj for
 						
-						
-						
-						tmpList += item;
-						if (dataIn) {
-							tmpList += "[<span class='btn_red1'>예약완료</span>]<br>";
-						} else {
-							tmpList += "[<span class='btn_green1'>예약가능</span>]<br>";
-						}
+							//예약 리스트
+							var dataIn = false;
+							for(var jj=0; jj< rentAppList.length; jj++) {
+	
+								var days 		= rentAppList[jj].days;
+								var TIME_SEQ 	= rentAppList[jj].TIME_SEQ;
+								var RESERVE_DATE= rentAppList[jj].RESERVE_DATE;
 								
-
-					} //xx for
-					$('#d'+(ii+1)).html(tmpList);
+								
+								if (days== ii && TIME_SEQ == seq && TIME_SEQ != undefined) {
+									//console.log(days +"<==========>" + (ii+1) +" TIME_SEQ:"+ TIME_SEQ +",  "+RESERVE_DATE);
+									dataIn = true;
+									break;
+								} 
+							}//jj for
+							
+							
+							
+							tmpList += item;
+							if (dataIn) {
+								tmpList += "[<span class='btn_red1'>예약완료</span>]<br>";
+							} else {
+								tmpList += "[<span class='btn_green1'>예약가능</span>]<br>";
+							}
+									
+	
+						} //xx for
+					} //end if
+					$('#d'+ii).html(tmpList);
 					
 				}//ii for
 				
