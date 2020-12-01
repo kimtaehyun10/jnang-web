@@ -265,7 +265,7 @@
 									</a>
 								</li>
 								<li>
-									<a href='/html/02020100'>
+									<a href='/emp/02020100'>
 										<img src='${pageContext.request.contextPath}/resource/images/main/icon_main_addm1_05.png' alt=''>
 										<div>공영주차장<span>월 이용신청</span></div>
 									</a>
