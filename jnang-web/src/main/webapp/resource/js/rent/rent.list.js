@@ -102,7 +102,7 @@ function selectSport(selCT) {
 								+ "<td>"+ data[i].PLACE_NM +"</td> "
 								+ "<td>"+ comma_str_y(saleAmt) +"</td>"
 								+ "<td>"+ info_url +"</td>"
-								+ "<td><a href='/calendar/"+ data[i].COMCD +"?q="+ data[i].PLACE_CD +"' class='size_m2 btn_green1'>대관 현황</a></td>"
+								+ "<td><a href='/calendar/c?q="+ data[i].PLACE_CD +"' class='size_m2 btn_green1'>대관 현황</a></td>"
 								+ "<td><a href='/rent/"+ rent_url +"/?q="+ data[i].PLACE_CD +"/0' class='size_m2 btn_green1'>대관 신청</a></td>"
 								+ "</tr>";
 						}

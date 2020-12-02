@@ -222,7 +222,7 @@
 			FORMAT(SALE_AMT , 0) as SALE_AMT,
 			PAY_AMT,
 			PAY_DATE,
-			RESERVE_DATE,
+			date_format(RESERVE_DATE, '%Y-%m-%d') as RESERVE_DATE ,
 			SLIP_NO,
 			OFFLINE_YN,
 			OFFLINE_DATE,
@@ -242,6 +242,13 @@
 		order by RENT_IDX desc
 		limit 20
 	</select>
+
+
+	<!-- My 대관 접수 선택 취소 -->
+	<update id="rentSelectCancel" parameterType="java.util.HashMap">
+    	UPDATE rent_app SET APP_TYPE = 40
+    	WHERE MEM_NO = #{MEM_NO} AND RENT_IDX IN (${SEQ})
+    </update>
 
 
 	<select id="myBoard" resultType="brd" parameterType="java.util.HashMap">

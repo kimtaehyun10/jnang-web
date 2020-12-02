@@ -123,6 +123,10 @@ public class MypageRestController {
 		return service.lockerStatusList(param);
 	}
 	
-
+	//myPage 대관 선택  취소
+	@GetMapping(value = "/mypage/rentSelectCancel")
+	public int rentSelectCancel(HttpServletRequest request) {
+		return service.rentSelectCancel(request);
+	}
 	
 }

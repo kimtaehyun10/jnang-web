@@ -6,15 +6,16 @@
 */
 'use strict'
 $(function(){
-	setMenuTitle('bg_99', '마이페이지', '대관신청', true);
+	setMenuTitle('bg_99', '마이페이지', '대관신청현황', true);
 	
 	//data.list('');
 	
 });
 
-/*
+
 var data = {
 	list: function(mode){
+		
 		var param = {"SEQ":"0"};
 		var seq = "";		
 		var arrayParam = new Array();
@@ -22,49 +23,26 @@ var data = {
 			arrayParam.push ($(this).val());
 		});
 		if (mode =="del") {
+			if (arrayParam.length == 0) {
+				alert("데이타를 1건이상 선택하세요.");
+				return false;
+			}
 			seq = arrayParam.toString();
 			param = {"SEQ" : seq};
 		}
-		$.get('/data/mypage/basketList', param, function(data){
+		if (confirm("\n 대관 신청을 취소  하시겠습니까?\n ")) { 			
+		} else {
+			return false;	
+		}		
+		$.get('/data/mypage/rentSelectCancel', param, function(data){
 			try {
-				var dataList = "";
 				if(data.length != 0){
-					for(var i=0; i<data.length; i++){
-						
-						if (data[i].ITEM_CD != undefined) {
-							var saleAmt = data[i].SALE_AMT;
-							dataList += "<tr>"
-								+ "<td>"+ (i+1) +"</td> "
-								+ "<td><input type='checkbox' id='cbox' name='cbox[]' value='"+ data[i].SEQ +"' style='width:30px; height:30px;'></td> "
-								+ "<td>"+ data[i].ITEM_NM +"</td> "
-								+ "<td>"+ comma_str_y(saleAmt) +"</td>"
-								+ "</tr>";
-						}
-					}
-					var dataCnt = data.length-1;
-					
-					$("#GoodsCnt").val(data[dataCnt].goodsCnt);
-					$("#GoodsName").val(data[dataCnt].goodsNameEn);
-					$("#Amt").val(data[dataCnt].goodsAmt);
-					
-					$("#BuyerName").val(data[dataCnt].buyerNameEn);
-					$("#BuyerTel").val(data[dataCnt].byerTel);
-					$("#BuyerEmail").val(data[dataCnt].buyerEmail);
-					$("#EncryptData").val(data[dataCnt].EncryptData);
-					$("#ediDate").val(data[dataCnt].ediDate);
-					$("#merchantKey").val(data[dataCnt].merchantKey);
-					
-					$("#dataList").html(dataList);
-					
-					
-				}
-				else
-				{
-					$("#dataList").html("<tr><td colspan='10'>강좌 내역이 없습니다.</td></tr>");
+					window.location.reload();
+					alert("취소 완료");
 				}
 			
 			} catch (exception) {
-				alert("주문 내역 출력오류 : 잠시후 다시 시도하여 주세요..");
+				alert("예약내역 출력오류 : 잠시후 다시 시도하여 주세요..");
 				return;
 			}
 		});
@@ -74,5 +52,3 @@ var data = {
 	//var param = { "seq" : seq };
 
 };
-
-*/

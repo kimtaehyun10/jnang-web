@@ -34,4 +34,7 @@ public interface MypageService {
 
 	List<Map<String, Object>> lockerStatusList(Map<String, Object> param);
 
+	//myPage 대관 선택  취소
+	int rentSelectCancel(HttpServletRequest request);
+
 }

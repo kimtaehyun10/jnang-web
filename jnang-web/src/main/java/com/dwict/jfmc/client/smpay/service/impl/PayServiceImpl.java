@@ -795,6 +795,7 @@ public class PayServiceImpl implements PayService {
 				maps.put("MEM_NO", MEM_NO);
 				maps.put("PLACE_CD", PLACE_CD);
 				maps.put("RESERVE_DATE", RESERVE_DATE);
+				maps.put("SALE_AMT", Amt);
 				
 				mapper.rentOrderSave(maps);
 				

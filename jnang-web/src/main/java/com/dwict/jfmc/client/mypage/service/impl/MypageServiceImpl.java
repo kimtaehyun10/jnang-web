@@ -38,7 +38,7 @@ public class MypageServiceImpl implements MypageService {
 	@Resource(name = "memberMapper")
 	private MemberMapper memberMapper;
 
-	//오래된 장바구니 비우기
+	//오래된 장바구니 비우기,  선택 삭제
 	@Override
 	public int basketClear(Map<String, Object> requestMap ) {
 		//System.out.println(requestMap);
@@ -146,6 +146,23 @@ public class MypageServiceImpl implements MypageService {
 		return mapper.memberInfo(id);
 	}
 
+	
+	//myPage 대관 선택  취소
+	@Override
+	public int rentSelectCancel(HttpServletRequest request) {
+
+		final Account account = (Account) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		final String MEM_ID = account.getUsername();
+		final String MEM_NO = account.getMemNo();
+		
+		final Map<String, Object> maps = new HashMap<>();
+		maps.put("MEM_NO", MEM_NO);
+		maps.put("SEQ", request.getParameter("SEQ"));
+		
+		return mapper.rentSelectCancel(maps);
+	}
+	
+		
 	//내  수강신청 현황
 	@Override
 	public List<Map<String,Object>> getMyClssList(String userId) {

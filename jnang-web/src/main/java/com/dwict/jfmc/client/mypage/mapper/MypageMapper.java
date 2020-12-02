@@ -8,7 +8,7 @@ import egovframework.rte.psl.dataaccess.mapper.Mapper;
 @Mapper
 public interface MypageMapper {
 
-	//장바구니 비우기
+	//장바구니 비우기, 선택 삭제
 	int basketClear(Map<String, Object> requestMap);
 
 	//장바구니 리스트
@@ -35,6 +35,9 @@ public interface MypageMapper {
 	void modifyDelete(Map<String, Object> param);
 
 	List<Map<String, Object>> lockerStatusList(Map<String, Object> param);
+
+	//myPage 대관 선택  취소
+	int rentSelectCancel(Map<String, Object> maps);
 
 
 }

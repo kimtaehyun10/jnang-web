@@ -331,7 +331,7 @@ int tmpDay =0; */
 	</div>
 	
 	<div class="ali_r margin_b10">
-	<a href="/rentlist?cm=${rentCfg.cmsCd}" class="size_m2 btn_green1 fontsize_1dot50" >대관신청 바로가기</a>
+	<a href="/rentlist?q=<%=param%>" class="size_m2 btn_green1 fontsize_1dot50" >대관신청 바로가기</a>
 	</div>
 
 <div class="autoscroll_x1 margin_top_0dot5">

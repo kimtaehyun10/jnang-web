@@ -27,6 +27,8 @@ if (comcd.equals("JUNGNANG01") ) {
 	ss = "";
 }
 
+
+
 %>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resource/js/rent/rent.list.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resource/js/jquery-ui.min.js"></script>
@@ -41,7 +43,14 @@ var saveRtn = "${saveRtn}";
 	//로그인 첵크
 	if (saveRtn == "-999") {
 		top.location.href ='/mem/login';
-	}		
+	}
+	
+	var PLACE_GROUP = "${rentCfg.PLACE_GROUP}";
+	if (PLACE_GROUP != "") {
+		//alert("["+ PLACE_GROUP +"]");
+		setTimeout('eval($("#ct1 option:eq('+ PLACE_GROUP +')").attr("selected", "selected"));selectSport(1);',500);
+	}
+
 </script>
 
 <div class="bx_sch_01a">

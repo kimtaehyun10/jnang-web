@@ -16,7 +16,7 @@
 		<thead>
 			<tr>
 				<th>No.</th>
-				<th><input type="checkbox" name="" id="" onclick="ac_cbox(this.form, 'cbox', this.checked);" style='width:30px; height:30px;'></th>
+				<th>취소</th>
 				<th>대관장소</th>
 				<th>대관료</th>
 				<th>대관일</th>
@@ -30,11 +30,16 @@
 				<td>${status.count}</td>
 				<td>
 					<c:if test="${result.APP_TYPE == '10'}">	
-					<input type="checkbox" name="" id="" onclick="ac_cbox(this.form, 'cbox', this.checked);" style='width:30px; height:30px;'></td>
+					<input type="checkbox" id="cbox" name="cbox[]" value="${result.RENT_IDX}" style='width:30px; height:30px;'></td>
 					</c:if>
-				<td>${result.COMNM}  >  ${result.PLACE_NM} </td>
+				<td>${result.COMNM}  >  ${result.PLACE_NM}
+				
+					<c:if test="${result.OBJECT ne null}">
+						&nbsp; ( ${result.OBJECT} )
+					</c:if> 
+				</td>
 				<td>${result.SALE_AMT}</td>
-				<td>${result.SDATE}</td>
+				<td>${result.RESERVE_DATE}</td>
 				<td>${result.APP_TYPE_NM}</td>
 				<td>${result.CHNG_DH}</td>
 			</tr>

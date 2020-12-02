@@ -462,6 +462,7 @@
 			0) as rentIdx,
 			ifnull(t3.RESERVE_DATE,0) as RESERVE_DATE,
 			case t3.APP_TYPE
+				when '5' then '결제 대기'
 				when '10' then '접수대기'
 				when '20' then '확인중'
 				when '30' then '확정'
@@ -507,21 +508,52 @@
 			and use_yn =1 order by sort
  	</select>
 
+
+
 	<!-- 달력 탭별 예약현황  -->	
 	<select id="getPlaceCalendarTab" parameterType="java.util.HashMap" resultType="java.util.HashMap">
-		select t1.RENT_IDX 
-			, t1.PLACE_TIME_SEQ 
-			, t1.PLACE_CD 
-			, t1.RESERVE_DATE 
-			, t2.place_tab 
-		from rent_app t1 left join rent_times t2 on t1.PLACE_TIME_SEQ =t2.seq and t1.PLACE_CD = t2.place_cd 
-		where left(t1.RESERVE_DATE , 6) =  #{YYMM} 
-			and t1.APP_TYPE != 40 
-			and t1.PLACE_CD = #{PLACE_CD}
-			<if test='PLACE_TAB !="0" and PLACE_TAB !="" and PLACE_TAB != null'>
-				and t2.PLACE_TAB = #{PLACE_TAB}
-			</if>	
-		order by t1.RESERVE_DATE , t1.PLACE_TIME_SEQ 
+		 <choose>
+		 	<!-- 게시판 문의 예약 용 -->
+		 	<when test='RB !="" and RB != null'>
+				 select t1.RENT_IDX 
+					, t1.PLACE_TIME_SEQ 
+					, SDATE , EDATE 
+					, t1.PLACE_CD 
+					, t1.RESERVE_DATE 
+					, t1.APP_TYPE 
+					,case t1.APP_TYPE
+						when '5' then '결제대기'
+						when '10' then '접수대기'
+						when '20' then '확인중'
+						when '30' then '확정'
+						when '40' then '취소'
+						else ''
+					end as APP_TYPE_NM
+					from rent_app t1 
+				 where left(t1.RESERVE_DATE , 6) = #{YYMM} 
+				 and t1.PLACE_CD = #{PLACE_CD}
+				 		 	
+		 	</when>
+		 	<!--   축구장,야구장,테니스장 용 -->
+		 	<otherwise>
+				select t1.RENT_IDX 
+					, t1.PLACE_TIME_SEQ 
+					, t1.PLACE_CD 
+					, t1.RESERVE_DATE 
+					, t2.place_tab 
+				from rent_app t1 left join rent_times t2 on t1.PLACE_TIME_SEQ =t2.seq and t1.PLACE_CD = t2.place_cd 
+				where left(t1.RESERVE_DATE , 6) =  #{YYMM} 
+					and t1.APP_TYPE != 40 
+					and t1.PLACE_CD = #{PLACE_CD}
+					<if test='PLACE_TAB !="0" and PLACE_TAB !="" and PLACE_TAB != null'>
+						and t2.PLACE_TAB = #{PLACE_TAB}
+					</if>	
+				order by t1.RESERVE_DATE , t1.PLACE_TIME_SEQ 
+				
+		 	</otherwise>
+		 </choose>
+		 	
+
  	</select>
 
 
