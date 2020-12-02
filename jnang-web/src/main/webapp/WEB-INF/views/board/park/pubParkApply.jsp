@@ -99,6 +99,18 @@
 				<option value='8'>3자녀(50%)</option>								
 			</select>			
 		</td>
+	</tr>
+	<tr>
+		<th>첨부파일</th>
+		<td>
+			<input type='file' id='file' name='file' multiple class='inputbox_01a inputbox_01_s3'>
+			<div class='margin_t10 fontsize_0dot90 lineheight_1dot8'>
+				<ul class='ul_hyphen1a13'>
+					<li>요금감면 있으신 경우 구비서류 첨부해주세요</li>
+					<li>100MB 이하, 파일이 여러개일경우 압축, 업로드 파일명에 특수 문자 제외</li>					
+				</ul>
+			</div>
+		</td>
 	</tr>				
 	</table>							
 	<br>
@@ -152,7 +164,7 @@
 	</div>	
 	<br>	
 	<div>
-		<label><input type='checkbox' id='agree2' name='agree2' value='Y'> 위와 같이 민감정보를 수집․이용하는데 동의합니다.</label>
+		<label><input type='checkbox' id='agree2' name='agree2' value='Y'> 위와 같이 개인정보를 수집․이용하는데 동의합니다.</label>
 	</div>
 	
 		

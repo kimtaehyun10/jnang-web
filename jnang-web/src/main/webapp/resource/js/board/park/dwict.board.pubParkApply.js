@@ -60,27 +60,35 @@ var pubParkfind = {
 		};
 		return true;
 	},
-	checkOk: function(){				
-		var param = {
-			name:$("#name").val(),
-			phone:$("#phone").val(),
-			car_number:$("#car_number").val(),
-			car_model:$("#car_model").val(),
-			pub_park_name:$("#pub_park_name").val(),
-			use_time:$("#use_time").val(),
-			discount:$("#discount").val()
-		};		
+	checkOk: function(){
+		
+		var formData=new FormData();
+		var inputFile=$("#file");
+		var files=inputFile[0].files;						
+		formData.append("name",$("#name").val());		
+		formData.append("phone",$("#phone").val());		
+		formData.append("car_number",$("#car_number").val());
+		formData.append("car_model",$("#car_model").val());
+		formData.append("pub_park_name",$("#pub_park_name").val());
+		formData.append("use_time",$("#use_time").val());
+		formData.append("discount",$("#discount").val());									
+		for(var i=0;i<files.length;i++){
+			formData.append("files",files[i]);
+		}		
 		$.ajax({
-	        type: "post",	        
+	        type: "post",
+	        enctype: 'multipart/form-data',
 	        url:'/data/pubParkApply/02020102',
-	        data: param,	               
+	        data: formData,
+	        processData: false,
+	        contentType: false,       
 	        success: function (data) {
 	        	alert(data.result);
-	        	window.location.href='/emp/02020100';
+	        	window.location.href='/emp/02020100';	        	
 	        },        
 	        error: function (jqXHR,textStatus,errorThrown) { 
 	        	console.log(jqXHR,textStatus,errorThrown);
 	        }
-	    });
+	    });				
 	}
 }

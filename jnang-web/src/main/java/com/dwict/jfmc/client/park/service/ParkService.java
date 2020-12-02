@@ -4,6 +4,6 @@ import java.util.Map;
 
 public interface ParkService {
 
-	void pubParkApplyWrite(Map<String, Object> param);
+	void pubParkApplyWrite(Map<String, Object> param) throws Exception;
 
 }
