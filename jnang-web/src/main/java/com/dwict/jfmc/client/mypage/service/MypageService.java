@@ -37,4 +37,7 @@ public interface MypageService {
 	//myPage 대관 선택  취소
 	int rentSelectCancel(HttpServletRequest request);
 
+	Map<String, Object> reLocker(Map<String, Object> param);
+
+	Map<String, Object> lockerPayDetail(HttpServletRequest request, Map<String, Object> param);
 }

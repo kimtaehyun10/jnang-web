@@ -39,5 +39,5 @@ public interface MypageMapper {
 	//myPage 대관 선택  취소
 	int rentSelectCancel(Map<String, Object> maps);
 
-
+	Map<String, Object> reLocker(Map<String, Object> param);
 }

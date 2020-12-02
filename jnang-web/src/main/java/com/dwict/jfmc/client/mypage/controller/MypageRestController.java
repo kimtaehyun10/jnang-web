@@ -129,4 +129,22 @@ public class MypageRestController {
 		return service.rentSelectCancel(request);
 	}
 	
+	@PostMapping(value = "/mypage/lockerStatus/{memNo}")
+	public Map<String, Object> reLocker(HttpServletRequest request, @PathVariable String memNo) {
+		final Map<String, Object> param = new HashMap<>();
+		final Map<String, Object> resultMap = new HashMap<>();		
+		param.put("MEM_NO", memNo);
+		param.put("COMCD", request.getParameter("COMCD"));
+		param.put("RENT_NO", request.getParameter("RENT_NO"));				
+		//Map<String, Object> reLocker = service.reLocker(param); // 장바구니에서 결제시 사용하자
+		resultMap.put("result", "개발중");
+		return resultMap;
+	}
+
+	@GetMapping(value = "/mypage/lockerPayDetail")
+	public Map<String, Object> lockerPayDetail(HttpServletRequest request) {
+		final Map<String, Object> param = new HashMap<>();
+		param.put("RENT_AMT", request.getParameter("RENT_AMT"));
+		return service.lockerPayDetail(request,param);
+	}
 }

@@ -359,4 +359,36 @@
 		 FROM LOCKER_RENT L
 		 WHERE MEM_NO = #{memNo}
 	</select>
+	
+	<select id="reLocker" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		 SELECT COMCD
+		 	  , MEM_NO
+		 	  , RENT_NO+1 AS RENT_NO
+		 	  , SLIP_NO		 	  
+		 	  , PLACE_CD			 	  	 	   		 	 
+		 	  , LOCKER_CD
+		 	  , PREFIX
+		 	  , RENT_MON
+		 	  , date_add(RENT_EDATE,interval +1 day) AS RENT_SDATE
+		 	  , date_add(date_add(RENT_EDATE,interval +1 day),interval +RENT_MON month) AS RENT_EDATE	 	 		 	  
+		 	  , RETURN_DATE
+		 	  , RENT_AMT
+		 	  , DC_AMT
+		 	  , DEPOSIT_AMT
+		 	  , END_YN
+		 	  , RET_SLIP_NO
+		 	  , RETURN_ILNO
+		 	  , RENT_STAT
+		 	  , OLD_RENT_NO
+		 	  , CANCEL_YN
+		 	  , REMARK
+		 	  , WRITE_DH
+		 	  , WRITER
+		 	  , CHNG_DH
+		 	  , CHNGR
+		 FROM LOCKER_RENT L
+		 WHERE MEM_NO = #{MEM_NO}
+		   AND COMCD = #{COMCD}
+		   AND RENT_NO = #{RENT_NO}
+	</select>
 </mapper>

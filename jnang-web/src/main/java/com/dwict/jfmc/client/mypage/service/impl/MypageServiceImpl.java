@@ -216,4 +216,73 @@ public class MypageServiceImpl implements MypageService {
 	public List<Map<String, Object>> lockerStatusList(Map<String, Object> param) {
 		return mapper.lockerStatusList(param);
 	}
+	
+	@Override
+	public Map<String, Object> reLocker(Map<String, Object> param) {
+		return mapper.reLocker(param);
+	}
+
+
+	@Override
+	public Map<String, Object> lockerPayDetail(HttpServletRequest request, Map<String, Object> param) {
+		final Map<String, Object> requestMap = new HashMap<>();
+		final Account account = (Account) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		final String MEM_ID = account.getUsername();
+		final String MEM_NO = account.getMemNo();
+		requestMap.put("MEM_ID", MEM_ID);
+		requestMap.put("MEM_NO", MEM_NO);
+
+		/*
+		 * ########################################################################
+		 *결제 페이지 값 전송 ############################################################# 
+		 * ########################################################################
+		 */
+		//상품제목
+		String goodsNames = "";
+		String goodsNameEncode = "";
+		String memNmEncode = "";
+		//String URL = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort();
+		final String MID = "SMTPAY001m";
+		// 상점서명키 (꼭 해당 상점키로 바꿔주세요)
+		//String merchantKey = "0/4GFsSd7ERVRGX9WHOzJ96GyeMTwvIaKSWUCKmN3fDklNRGw3CualCFoMPZaS99YiFGOuwtzTkrLo4bR4V+Ow==";
+		//String merchantKey = "KiS8NWHjZ49FzG91HMI9hVXOSxYrvFBKzl2bYpr2ac7lg369iZxy0xhCJfg4juCuVH27mO/TQ4kG2qnjEr5Z4Q==";
+		final String ediDate =  FormatUtil.getDefaultDate(3, "",""); // getyyyyMMddHHmmss(); // 전문생성일시
+
+		//기타 회원정보 불러오기
+		final Member member = memberMapper.findById(MEM_ID);
+		final String MEM_NM = member.getMemNm();
+		String HP 	= member.getHp();
+		final String ETC_NO = member.getEtcNo();
+		final String EMAIL = member.getEmail();
+		HP = (HP == null || HP == "") ? ETC_NO : HP ;
+
+		//장바구니 불러오기
+
+		//리턴 값 저장  
+		final Map<String, Object> addMap = new HashMap<>();
+
+		try {
+			goodsNameEncode = URLEncoder.encode(goodsNames, "EUC-KR");
+			memNmEncode		= URLEncoder.encode(MEM_NM, "EUC-KR");
+		} catch (final UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		final String EncryptData = FormatUtil.encodeMD5HexBase64(ediDate + MID + param.get("RENT_AMT") + merchantKey);
+
+		addMap.put("goodsName", goodsNames +"");
+		addMap.put("goodsNameEn", goodsNameEncode);
+
+		addMap.put("buyerName", MEM_NM);
+		addMap.put("buyerNameEn", memNmEncode);
+
+		addMap.put("buyerEmail", EMAIL);
+		addMap.put("byerTel", HP);
+		addMap.put("EncryptData", EncryptData);
+		addMap.put("ediDate", ediDate);
+		addMap.put("merchantKey", merchantKey);
+		addMap.put("storeMID", storeMID);				
+
+		return addMap;
+	}
 }

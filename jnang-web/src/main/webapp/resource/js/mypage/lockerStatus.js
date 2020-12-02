@@ -68,14 +68,51 @@ const searchLocker = function(){
 				}				 
 				cont1 += '</td>';
 				cont1 += '<td>';
-				cont1 += '<span class="stat1 stat_y" style="cursor:pointer;" onclick="reLocker(\''+data[i].COMCD+'\',\''+data[i].MEM_NO+'\','+data[i].RENT_NO+');">연장하기</span>';
+				cont1 += '<span class="stat1 stat_y" style="cursor:pointer;" onclick="reLocker(\''+data[i].COMNM+'\',\''+data[i].PLACE_CD+'\',\''+data[i].LOCKER_CD+'\','+data[i].RENT_AMT+')">연장하기</span>';
 				cont1 += '</td>';
+				//       reLocker(\''+data[i].COMCD+'\',\''+data[i].MEM_NO+'\','+data[i].RENT_NO+');
 			}
 			$('#lockerData').html(cont1);
 		}
 	});
 };
 
-function reLocker(COMCD, MEM_NO, RENT_NO){
-	console.log(COMCD,MEM_NO,RENT_NO);
+function reLocker(COMNM, PLACE_CD, LOCKER_CD, RENT_AMT){
+	var param = {
+		RENT_AMT:RENT_AMT	
+	};
+	$.get('/data/mypage/lockerPayDetail', param, function(data){
+		
+		/*
+		 try {
+			GoodsName = URLEncoder.encode(GoodsName, "EUC-KR");
+			MEM_NM = URLEncoder.encode(MEM_NM, "EUC-KR");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 * */
+		$("#GoodsCnt").val("1");
+		$("#GoodsName").val(COMNM+'/'+PLACE_CD+'/'+LOCKER_CD);
+		$("#Amt").val(RENT_AMT);
+		
+		$("#BuyerName").val(data.buyerNameEn);
+		$("#BuyerTel").val(data.byerTel);
+		$("#BuyerEmail").val(data.buyerEmail);
+		$("#EncryptData").val(data.EncryptData);
+		$("#ediDate").val(data.ediDate);
+		$("#merchantKey").val(data.merchantKey);
+		$("#MID").val(data.storeMID);
+		
+		goPay();
+	});	
+		
+	/*var param = {
+		COMCD:COMCD,
+		RENT_NO:RENT_NO
+	};
+	$.post('/data/mypage/lockerStatus/'+MEM_NO, param, function(data){
+		alert(data.result);
+		//window.location.href='/price/'+$('#h_cmsCd').val()+'';				
+	});*/
 }
