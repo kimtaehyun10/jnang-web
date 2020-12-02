@@ -6,6 +6,7 @@
 <%@page import="java.util.Enumeration"%>
 <%@ page import="java.text.NumberFormat"%>
 <%@ page import="java.text.SimpleDateFormat"%>
+<%@ page import="com.dwict.jfmc.client.mem.model.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -69,6 +70,11 @@ String merchantKey = (String) pageContext.getAttribute("merchantKey");
 String MID = (String) pageContext.getAttribute("storeMID");
 //out.println("storeMID:"+ MID +"<BR>");
 String MEM_NM 		= (String) pageContext.getAttribute("MEM_NM");
+
+
+Member member = (Member) session.getAttribute("member");
+out.println("ssssssssssssssss"+ member.getId());
+
 %>
 
 
@@ -586,21 +592,21 @@ try {
 			<!-- 수량 -->
 		    <input type="hidden" id="GoodsCnt" name="GoodsCnt" maxlength="2" value="1">
 			<!--<div>상품명:</div>-->
-		    <input type="hiddenㅌ" id="GoodsName" name="GoodsName" maxlength="2" value="<%=GoodsName%>">
+		    <input type="hidden" id="GoodsName" name="GoodsName" maxlength="2" value="<%=GoodsName%>">
 			
 			<!-- <div>상품금액:</div> -->
-		    <input type="hiddenxx" id="Amt" name="Amt" maxlength="2" value="<%=totalSum%>">
+		    <input type="hidden" id="Amt" name="Amt" maxlength="2" value="<%=totalSum%>">
 			
 			<!-- <div>주문번호:</div> -->
 		    <input type="hidden" name="Moid" maxlength="2" value="Moid">
 	    
 		    <input type="hidden" name="MID" maxlength="2" value="<%=MID%>">
 			
-		    <input type="hiddenx" name="ReturnURL" maxlength="2" value="<%=ReturnURL%>?q=${dataList.RESERVE_DATE}/${dataList.PLACE_CD}/${rentCfg.COMCD}/${dataList.rtn_idx}">
+		    <input type="hidden" name="ReturnURL" maxlength="2" value="<%=ReturnURL%>?q=${dataList.RESERVE_DATE}/${dataList.PLACE_CD}/${rentCfg.COMCD}/${dataList.rtn_idx}">
 			
 		    <input type="hidden" name="ReceiptType" maxlength="2" value="0">
 			
-		    <input type="hiddenx" name="RetryURL" maxlength="2" value="<%=ReturnURL%>?q=${dataList.RESERVE_DATE}/${dataList.PLACE_CD}/${rentCfg.COMCD}/${dataList.rtn_idx}">
+		    <input type="hidden" name="RetryURL" maxlength="2" value="<%=ReturnURL%>?q=${dataList.RESERVE_DATE}/${dataList.PLACE_CD}/${rentCfg.COMCD}/${dataList.rtn_idx}">
 			<!-- 
 		    <tr>
 		        <th scope="row">mallUserID</th>
@@ -608,11 +614,11 @@ try {
 		    </tr>		    
 		    <input type="hidden" name="mallUserID" maxlength="2" value=""> -->
 			<!-- <div>구매자:</div> -->
-		    <input type="hiddenx" id="BuyerName" name="BuyerName" maxlength="2" value="<%=MEM_NM%>">
+		    <input type="hidden" id="BuyerName" name="BuyerName" maxlength="2" value="<%=MEM_NM%>">
 			<!-- <div>연락처:</div> -->
-		    <input type="hiddenx" id="BuyerTel" name="BuyerTel" maxlength="2" value="<c:out value='${memData.HP}'/>">
+		    <input type="hidden" id="BuyerTel" name="BuyerTel" maxlength="2" value="<c:out value='${memData.HP}'/>">
 			<!-- <div>이메일:</div> -->
-		    <input type="hiddenx" id="BuyerEmail" name="BuyerEmail" maxlength="2" value="<c:out value='${memData.EMAIL}'/>">
+		    <input type="hidden" id="BuyerEmail" name="BuyerEmail" maxlength="2" value="<c:out value='${memData.EMAIL}'/>">
 			
 			<!-- 
 		    <tr>
@@ -635,7 +641,7 @@ try {
 		    
 		    <input type="hidden" name="VbankExpDate" maxlength="2" value="<%//=VbankExpDate%>">
 			
-		    <input type="hiddens" id="EncryptData" name="EncryptData" maxlength="2" value="<%=EncryptData%>">
+		    <input type="hidden" id="EncryptData" name="EncryptData" maxlength="2" value="<%=EncryptData%>">
     
 		    <input type="hidden" name="FORWARD" maxlength="2" value="Y">
 			

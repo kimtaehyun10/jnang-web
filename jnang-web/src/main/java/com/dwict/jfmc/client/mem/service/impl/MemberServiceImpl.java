@@ -71,7 +71,8 @@ public class MemberServiceImpl implements MemberService {
 	 */	
 	@Override
 	public void memSession(HttpServletRequest request, String userId) {					        
-		final HttpSession session = request.getSession(true);        
+		final HttpSession session = request.getSession(true);
+		session.setMaxInactiveInterval(120*60);
 		final Member member = memberMapper.findById(userId);
 		session.setAttribute("member", member);        
 	}

@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,15 +15,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dwict.jfmc.client.mem.service.MemberService;
 import com.dwict.jfmc.client.page.model.Cont;
 import com.dwict.jfmc.client.page.model.Menu;
 import com.dwict.jfmc.client.page.service.PageService;
 import com.dwict.jfmc.client.rent.service.RentService;
+import com.dwict.jfmc.client.security.model.Account;
 
 @RestController
 @RequestMapping("/data")
 public class PageRestController {
 
+	@Resource(name = "memberService")
+	private MemberService memberService;
+	
 	@Resource(name = "pageService")
 	private PageService service;
 	
@@ -81,9 +87,16 @@ public class PageRestController {
 	///rent/rentOrder 사용
 	@PostMapping(value = "/getOdEncryptData/{ediDate}/{goodsAmt}")
 	public String getOdEncryptData(HttpServletRequest request, @PathVariable String ediDate, @PathVariable String goodsAmt) {
+		
+		final Account account = (Account) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		final String MEM_ID = account.getUsername();
+		//결제전 세션 저장
+		memberService.memSession(request, MEM_ID);
+				
 		final Map<String, Object> param = new HashMap<>();
 		param.put("ediDate", ediDate);				
 		param.put("goodsAmt", goodsAmt);
+		
 		return service.getOdEncryptData(param);
 	}
 	

@@ -20,10 +20,14 @@ import com.dwict.jfmc.client.security.model.Account;
 
 import com.dwict.jfmc.client.com.util.*;
 import com.dwict.jfmc.client.etc.service.EtcService;
+import com.dwict.jfmc.client.mem.service.MemberService;
 
 @RestController
 public class RentController {
 
+	@Resource(name = "memberService")
+	private MemberService memberService;
+	
 	@Resource(name = "etcService")
 	EtcService etcService;
 	
@@ -108,6 +112,9 @@ public class RentController {
 		
 		final Account account = (Account) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		final String MEM_ID = account.getUsername();
+		//결제전 세션 저장
+		memberService.memSession(request, MEM_ID);
+		
 		//회원정보 가져오기
 		final Map <String,Object> myData = mypgService.myInfo(MEM_ID);
 		String MEM_NO = (String) myData.get("MEM_NO");
@@ -139,7 +146,8 @@ public class RentController {
 	public ModelAndView rentTeam(ModelAndView modelAndView, HttpServletRequest request) {
 		final Account account = (Account) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		final String MEM_ID = account.getUsername();
-
+		//결제전 세션 저장
+		memberService.memSession(request, MEM_ID);
 		
 		//셋팅 값
 		//final List< Map <String,Object> > rentCfg = rentService.rentConfig(MEM_ID);

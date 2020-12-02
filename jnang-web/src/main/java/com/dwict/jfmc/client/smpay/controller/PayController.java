@@ -42,7 +42,7 @@ public class PayController {
 			dirPath = (dirPathLen >= 20) ? dirPath.substring(0,20) : dirPath.substring(0,dirPathLen);
 			dirPath = dirPath.replace(" ", "");
 			dirPath = URLEncoder.encode(dirPath,"utf-8");
-			rtn = "/smartPay/"+dirPath;
+			rtn = "/smartPay/returnPay.none";
 			
 			Map<String, Object> rtnMap;
 			switch(dirPath) {
@@ -58,7 +58,6 @@ public class PayController {
 					//창닫을경우 이동할 URL
 					rtnMap.put("goURL", "/mypage/classStatus");
 					modelAndView.addObject("rtnMap", rtnMap);
-					modelAndView.setViewName("returnPay.none");
 					break;
 
 					//대관 (축구장/야구장,테니스장) 결제
@@ -66,9 +65,8 @@ public class PayController {
 					//결과
 					rtnMap = service.rentOrderInsert(request);
 					//창닫을경우 이동할 URL
-					rtnMap.put("goURL", "/mypage/classStatus");
+					rtnMap.put("goURL", "/mypage/rent");
 					modelAndView.addObject("rtnMap", rtnMap);
-					modelAndView.setViewName("returnPay.none");
 					break;					
 				case "returnPayxxx":
 					break;
@@ -93,7 +91,7 @@ public class PayController {
 //			modelAndView = errorService.error("404");
 //		}
 	
-		
+		modelAndView.setViewName(rtn);
 		return modelAndView;
 	}
 

@@ -544,7 +544,10 @@ public class PayServiceImpl implements PayService {
 	public Map<String, Object> rentOrderInsert(HttpServletRequest request) {
 		// TODO Auto-generated method stub
 
-	
+		final HttpSession session = request.getSession(false);
+		//Member members = null;
+		//try {
+		Member	members = (Member) session.getAttribute("member");
 
 		
 		String ResultCode		= request.getParameter("ResultCode")==null?"":request.getParameter("ResultCode"); // 결과코드
@@ -593,10 +596,7 @@ public class PayServiceImpl implements PayService {
 		String COMCD			= arrayTmp[2]; //COMCD
 		String rtn_idx			= arrayTmp[3]; //대관 idx
 		
-		final HttpSession session = request.getSession(false);
-		//Member members = null;
-		//try {
-		Member	members = (Member) session.getAttribute("member");
+
 			System.out.println("세션=========================>"+ members.getId());
 		//} catch (Exception e) {
 		//	System.out.println("세션XXXXXXXXXXXXXXXXXXXXXXXXXXXX=>"+ e.toString());
@@ -795,8 +795,9 @@ public class PayServiceImpl implements PayService {
 				maps.put("MEM_NO", MEM_NO);
 				maps.put("PLACE_CD", PLACE_CD);
 				maps.put("RESERVE_DATE", RESERVE_DATE);
-				maps.put("SALE_AMT", Amt);
+				maps.put("PAY_AMT", Amt);
 				
+				//대관 결제 정보 저장
 				mapper.rentOrderSave(maps);
 				
 				
