@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,7 +35,6 @@ public class RentController {
 	
 	@Resource(name = "pageService")
 	private PageService pageService;
-	
 	
 	//대관 게시판 문의
 	@GetMapping(value = "/rent/write")

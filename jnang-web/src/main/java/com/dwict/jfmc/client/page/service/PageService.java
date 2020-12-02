@@ -30,4 +30,8 @@ public interface PageService {
 	//달력 탭별 예약현황
 	List<Map<String, Object>> getPlaceCalendarTab(Map<String, Object> requestMap);
 	
+	
+	//할인 변경시 금액 변경으로  EncryptData값 받기
+	String getOdEncryptData(Map<String, Object> param);
+	
 }

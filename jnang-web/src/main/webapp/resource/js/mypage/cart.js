@@ -52,6 +52,7 @@ var data = {
 					$("#EncryptData").val(data[dataCnt].EncryptData);
 					$("#ediDate").val(data[dataCnt].ediDate);
 					$("#merchantKey").val(data[dataCnt].merchantKey);
+					$("#MID").val(data[dataCnt].storeMID);
 					
 					$("#dataList").html(dataList);
 					

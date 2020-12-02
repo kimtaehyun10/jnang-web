@@ -1,5 +1,6 @@
 package com.dwict.jfmc.client.page.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -73,5 +74,17 @@ public class PageRestController {
 	public List<Map<String, Object>> getCalendarTab(@RequestParam  Map<String, Object> requestMap, HttpServletRequest request) {
 		return service.getPlaceCalendarTab(requestMap);
 	}		
+	
+	
+	
+	//할인 변경시 금액 변경으로  EncryptData값 받기 
+	///rent/rentOrder 사용
+	@PostMapping(value = "/getOdEncryptData/{ediDate}/{goodsAmt}")
+	public String getOdEncryptData(HttpServletRequest request, @PathVariable String ediDate, @PathVariable String goodsAmt) {
+		final Map<String, Object> param = new HashMap<>();
+		param.put("ediDate", ediDate);				
+		param.put("goodsAmt", goodsAmt);
+		return service.getOdEncryptData(param);
+	}
 	
 }

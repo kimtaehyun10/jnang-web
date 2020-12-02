@@ -44,25 +44,50 @@ public class PayController {
 			dirPath = URLEncoder.encode(dirPath,"utf-8");
 			rtn = "/smartPay/"+dirPath;
 			
+			Map<String, Object> rtnMap;
+			switch(dirPath) {
+			
+				case "mainPay":
+					
+					break;
+				
+				//장바구니 사물함/강좌 결제
+				case "returnPay":
+					//결과
+					rtnMap = service.lecOrderInsert(request);
+					//창닫을경우 이동할 URL
+					rtnMap.put("goURL", "/mypage/classStatus");
+					modelAndView.addObject("rtnMap", rtnMap);
+					modelAndView.setViewName("returnPay.none");
+					break;
 
+					//대관 (축구장/야구장,테니스장) 결제
+				case "rentPay":
+					//결과
+					rtnMap = service.rentOrderInsert(request);
+					//창닫을경우 이동할 URL
+					rtnMap.put("goURL", "/mypage/classStatus");
+					modelAndView.addObject("rtnMap", rtnMap);
+					modelAndView.setViewName("returnPay.none");
+					break;					
+				case "returnPayxxx":
+					break;
+
+			
+			}
+			/*
 			if (dirPath.equals("mainPay")) {
 				//modelAndView.addObject("VoPay",VoPay);
 			}
 			else if (dirPath.equals("returnPay")) {
-				//결과
-				Map<String, Object> rtnMap = service.lecOrderInsert(request);
 				
-				rtnMap.put("test1", "11111");
-				rtnMap.put("test2", "11112");
-				rtnMap.put("test3", "11113");
-				modelAndView.addObject("rtnMap", rtnMap);
-				modelAndView.setViewName(rtn+".none");
+
 			}
 			else if (dirPath.equals("returnPayxxx")) {
 				service.testInsert(dirPath, request);
 			}
 			//final Menu menu = service.boardPage(dirPath);
-			
+			*/
 		 	
 //		} catch (Exception ex) {
 //			modelAndView = errorService.error("404");

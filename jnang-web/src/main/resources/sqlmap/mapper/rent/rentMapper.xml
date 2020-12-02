@@ -221,7 +221,6 @@
  			 ,RENT 
 			 ,PART_CD 
 			 ,PLACE_CD 
-			 ,PLACE_TAB
 			 ,PLACE_TIME_SEQ
 			 ,APP_DATE 
 			 ,MEM_NO 
@@ -265,7 +264,6 @@
 			 ,#{RENT} 
 			 ,#{PART_CD} 
 			 ,#{PLACE_CD} 
-			 ,#{PLACE_TAB}
 			 ,#{TIME_SEQ}
 			 ,#{APP_DATE} 
 			 ,#{MEM_NO} 
@@ -283,8 +281,15 @@
 			 ,replace(#{SDATE} ,'-','')
 			 ,#{EDATE} 
 			 ,#{RENT_READY} 
-			 ,#{ETC} 
-			 ,5
+			 ,#{ETC}
+			 <choose>
+			 	<when test='APP_TYPE !="" and APP_TYPE != null'>
+			 	,#{APP_TYPE}
+			 	</when>
+			 	<otherwise>
+			 	,5
+			 	</otherwise>
+			 </choose>
 			 ,#{RENT_TYPE} 
 			 ,#{DISPLAY_YN} 
 			 ,#{SALE_AMT} 
@@ -292,7 +297,7 @@
 			 ,#{PAY_DATE} 
 			 ,#{RESERVE_DATE} 
 			 ,#{SLIP_NO} 
-			 ,#{OFFLINE_YN} 
+			 ,'N'
 			 ,#{OFFLINE_DATE} 
 			 ,#{RENT_GUBUN} 
 			 ,#{SORT_ORDER} 
@@ -327,13 +332,16 @@
 			 where t1.RESERVE_DATE = #{RESERVE_DATE}
 			 and t1.PLACE_CD = #{PLACE_CD} 
 			 and t1.APP_TYPE != 40 
-			 <!-- #and t1.MEM_NO = #{MEM_NO}  --> 
+			 <if test='MEM_NO !="" and MEM_NO != null'> 
+				AND t1.MEM_NO = #{MEM_NO}
+			</if>
 			and t1.PLACE_TIME_SEQ IN  
 			<foreach item="item" collection="brdNoList" index="idx" open="(" close=")" separator=",">
 		       #{item}
 			</foreach>
    			
 	</select>
+	
 
 	<!-- 예약 (결제전) 시간초과  삭제 -->
 	<delete id="rentNoPayClear">
@@ -534,6 +542,7 @@
 	 	order by days,playtime
  
 	</select>
+
 
 
 

@@ -63,7 +63,8 @@ input {
 
 function gtnUrl(val1) {
 
-	opener.location.href='/mypage/classStatus';
+	//opener.location.href='/mypage/classStatus';
+	opener.location.href='${rtnMap.gtnUrl}';
 	self.close();
 }
 

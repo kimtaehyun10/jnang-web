@@ -8,7 +8,7 @@ function getDataList(p_cd,p_tab) {
 		$.get('/data/getPlaceTimeTabList', { "place_cd" : p_cd, "place_tab" : p_tab} , function(data){
 			try {
 
-			console.log(data);
+			//console.log(data);
 			if(data.length != 0){		
 				for(var i=0; i<data.length; i++){
 						var oItem = new Object();
@@ -30,7 +30,7 @@ function getDataList(p_cd,p_tab) {
 				return;
 			}
 		}).done(function(data){
-			
+		
 			var YYMM = $(".this_month").attr("value");
 			//console.log("p_tab===>"+ aItemList);
 			
@@ -75,15 +75,14 @@ function getDataList(p_cd,p_tab) {
 				//달력 출력
 				for(var ii=1; ii<= 31; ii++) {
 					
-					console.log(YYMM.substring(0,4) +"/"+ (Number(YYMM.substring(4,6)) ) +"/"+ ii);
 					var loopDay = new Date(YYMM.substring(0,4)+"/"+ Number(YYMM.substring(4,6)) +"/"+ii);
 					var tmpList = "";
 					
-					console.log(today.getFullYear() +"/"+today.getMonth() +"/"+today.getDate()  +" > 비교 "+ loopDay.getFullYear() +"/"+loopDay.getMonth() +"/"+loopDay.getDate() +" ");
+					//console.log(today.getFullYear() +"/"+today.getMonth() +"/"+today.getDate()  +" > 비교 "+ loopDay.getFullYear() +"/"+loopDay.getMonth() +"/"+loopDay.getDate() +" ");
 					
 					var xxx = fn_dateDiff("m",today.getFullYear() +"/"+today.getMonth() +"/"+today.getDate(), loopDay.getFullYear() +"/"+loopDay.getMonth() +"/"+loopDay.getDate());
 					xxx = isNaN(xxx) ? 1: xxx;
-					console.log("xxxx:"+ isNaN(xxx));
+					//console.log("xxxx:"+ isNaN(xxx));
 					if (today.getTime() > loopDay.getTime()) {
 						
 						tmpList += "[<span class='btn_gray1'>예약종료</span>]<br>";

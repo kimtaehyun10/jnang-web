@@ -219,7 +219,7 @@
 			<!-- <div>주문번호:</div> -->
 		    <input type="hidden" name="Moid" maxlength="2" value="Moid">
 	    
-		    <input type="hidden" name="MID" maxlength="2" value="<%=MID%>">
+		    <input type="hidden" id="MID" name="MID" maxlength="2" value="<%=MID%>">
 			
 		    <input type="hidden" name="ReturnURL" maxlength="2" value="<%=ReturnURL%>">
 			

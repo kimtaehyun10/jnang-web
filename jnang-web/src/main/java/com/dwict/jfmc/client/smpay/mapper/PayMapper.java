@@ -50,5 +50,7 @@ public interface PayMapper {
 	void setPayList(Map<String, Object> requestMapPayList);
 	
 	void setPayList2(Map<String, Object> requestMapPayList);
+
+	int rentOrderSave(Map<String, Object> maps);
 	
 }

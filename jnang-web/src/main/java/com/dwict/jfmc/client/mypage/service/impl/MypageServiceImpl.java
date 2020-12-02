@@ -28,6 +28,9 @@ public class MypageServiceImpl implements MypageService {
 
 	@Value("#{appConfig['smpay.merchant.key']}")
 	private String merchantKey;
+	
+	@Value("#{appConfig['smpay.mid.key']}")
+	private String storeMID;
 
 	@Resource(name="mypageMapper")
 	private MypageMapper mapper;
@@ -42,6 +45,7 @@ public class MypageServiceImpl implements MypageService {
 		return mapper.basketClear(requestMap);
 	}
 
+	
 	@Override
 	@Transactional
 	public List<Map<String, Object>> basketList(Map<String, Object> requestMap , HttpServletRequest request) {
@@ -125,6 +129,7 @@ public class MypageServiceImpl implements MypageService {
 		addMap.put("EncryptData", EncryptData);
 		addMap.put("ediDate", ediDate);
 		addMap.put("merchantKey", merchantKey);
+		addMap.put("storeMID", storeMID);
 		dataList.add(addMap);		
 
 		return dataList;

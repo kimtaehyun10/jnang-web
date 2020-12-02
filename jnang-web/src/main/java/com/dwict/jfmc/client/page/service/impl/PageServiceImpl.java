@@ -11,8 +11,10 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.dwict.jfmc.client.com.util.FormatUtil;
 import com.dwict.jfmc.client.page.mapper.PageMapper;
 import com.dwict.jfmc.client.page.model.Cont;
 import com.dwict.jfmc.client.page.model.Menu;
@@ -27,7 +29,13 @@ public class PageServiceImpl implements PageService {
 
 	@Resource(name = "rentMapper")
 	private RentMapper rentMapper;
-
+	
+	@Value("#{appConfig['smpay.merchant.key']}")
+	private String merchantKey;
+	
+	@Value("#{appConfig['smpay.mid.key']}")
+	private String storeMID;
+	
 
 	@Override
 	public Cont htmlPage(String cmsCd) {
@@ -289,5 +297,19 @@ public class PageServiceImpl implements PageService {
 	public List<Map<String, Object>> getPlaceCalendarTab(Map<String, Object> requestMap) {	
 		return rentMapper.getPlaceCalendarTab(requestMap);
 	}
+	
+	
+	//할인 변경시 금액 변경으로  EncryptData값 받기
+	@Override
+	public String getOdEncryptData(Map<String, Object> requestMap ) {
+		
+		String ediDate = (String) requestMap.get("ediDate");
+		String goodsAmt = (String) requestMap.get("goodsAmt");
+		
+		final String EncryptData = FormatUtil.encodeMD5HexBase64(ediDate + storeMID + goodsAmt + merchantKey);
+	
+		return EncryptData;
+	}
+	
 
 }

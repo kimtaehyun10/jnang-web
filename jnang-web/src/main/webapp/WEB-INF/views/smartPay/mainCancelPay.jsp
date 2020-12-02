@@ -87,7 +87,13 @@ function goCancelCard() {
 }
 
 -->
-setTimeout("goCancelCard();",500);
+<%
+if (TID != "" && TID != null && CancelAmt != "" && CancelAmt != null) {
+%>
+	setTimeout("goCancelCard();",500);
+<%
+}
+%>
 </script>
 <style type="text/css">
 <!--

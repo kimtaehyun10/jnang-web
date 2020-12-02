@@ -97,7 +97,7 @@ input {
 	String goodsAmt = "1004";		// 상품금액
 	String MID = "SMTPAY001m";		// 상점 ID MID
 	
-	String encryptData = encodeMD5HexBase64(ediDate + MID + goodsAmt + merchantKey);
+	String EncryptData = encodeMD5HexBase64(ediDate + MID + goodsAmt + merchantKey);
 
 	String returnUrl = "https://tpay.smilepay.co.kr/returnPay.jsp"; // 결제결과를 수신할 가맹점 returnURL 설정
 	String retryUrl = "https://tpay.smilepay.co.kr/inform.jsp"; // 가맹점 retryURL 설정
@@ -345,7 +345,7 @@ input {
 		        <td>EncryptData</td>
 		        <td style="width:80px;color: #a3a3f0;">필수</td>
 		        <td style="width:200px;text-align:left">
-					<input type="text" name="EncryptData" maxlength="40" value="<%=encryptData%>" placeholder="위/변조방지 HASH 데이타"/>
+					<input type="text" name="EncryptData" maxlength="40" value="<%=EncryptData%>" placeholder="위/변조방지 HASH 데이타"/>
 		        </td>
 		    </tr>
 

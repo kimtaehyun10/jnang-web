@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import javax.print.attribute.HashPrintJobAttributeSet;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +34,11 @@ public class RentServiceImpl implements RentService {
 	@Resource(name = "mypageService")
 	private MypageService mypgService;
 	
+	@Value("#{appConfig['smpay.merchant.key']}")
+	private String merchantKey;
+	
+	@Value("#{appConfig['smpay.mid.key']}")
+	private String storeMID;
 	
 	@Override
 	public List<ComInfo> conditionSb1() {
@@ -166,7 +172,7 @@ public class RentServiceImpl implements RentService {
 	}	
 
 
-	//대관 신청 저장
+	//대관 신청 저장  ###################################################################################
 	@Override
 	public Map<String, Object> rentSave(Map<String, Object> requestMap, HttpServletRequest request) {
 
@@ -225,9 +231,18 @@ public class RentServiceImpl implements RentService {
 	}
 
 	
-	//대관 문의 저장
+	//대관 문의 저장 ###################################################################################
 	@Override
 	public int writeSave(Map<String, Object> requestMap) {
+		String param = (String) requestMap.get("q");
+		param = (param == null) ? "0/0/0/" : param;
+		param = ((param.contains("/"))) ? param : param +"/0" ;
+		
+		String [] arrParam = param.split("\\/"); 
+		
+		requestMap.put("PLACE_CD", arrParam[0]);
+		requestMap.put("PLACE_TAB", arrParam[1]);
+		requestMap.put("COMCD", arrParam[2]);
 		
 		String RENT_DATE = (String) requestMap.get("RENT_DATE");
 		RENT_DATE = RENT_DATE.replace("-", "");
@@ -236,10 +251,19 @@ public class RentServiceImpl implements RentService {
 		String ETIME = (String) requestMap.get("ETIME");
 		ETIME = (Integer.parseInt(ETIME) > 9) ? ETIME : "0"+ETIME;
 		
-		requestMap.put("RENT_DATE", RENT_DATE);
-		requestMap.put("STIME", STIME);
-		requestMap.put("ETIME", ETIME);
-		return mapper.rentWriteSave(requestMap);
+		
+		
+		requestMap.put("PART_CD", "00");
+		requestMap.put("COM_NM", "");
+		requestMap.put("TIME_SEQ", 0);
+		requestMap.put("RESERVE_DATE", RENT_DATE);
+		requestMap.put("SDATE", STIME + ":00");
+		requestMap.put("EDATE", ETIME + ":00");
+		requestMap.put("APP_TYPE", "10");
+		
+		
+		//return mapper.rentWriteSave(requestMap);
+		return mapper.rentSave(requestMap);
 	}
 	
 	//대관 예약 확인
@@ -272,7 +296,10 @@ public class RentServiceImpl implements RentService {
 		maps.put("RESERVE_DATE", RESERVE_DATE);
 		maps.put("PLACE_CD", PLACE_CD);
 		maps.put("MEM_NO", MEM_NO);
+		maps.put("merchantKey", merchantKey);
+		maps.put("storeMID", storeMID);
 		
+		//주문정보 가져오기
 		List <Map <String , Object>> rtnMap = mapper.rentOdList(maps);
 		//rtnMap.add(maps);
 		

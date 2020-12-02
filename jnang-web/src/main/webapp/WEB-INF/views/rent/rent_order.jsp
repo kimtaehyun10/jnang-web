@@ -1,12 +1,15 @@
-<%@ page import="java.util.Date"%>
+<%@page import="java.util.Date"%>
+<%@page import="java.net.URLEncoder"%>
+<%@page import="java.sql.Timestamp"%>
+<%@page import="org.apache.commons.codec.binary.Base64"%>
+<%@page import="org.apache.commons.codec.digest.DigestUtils"%>
+<%@page import="java.util.Enumeration"%>
 <%@ page import="java.text.NumberFormat"%>
 <%@ page import="java.text.SimpleDateFormat"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resource/js/common.js"></script>
-
-
 <%
 /******************************************************************************
 *
@@ -19,56 +22,75 @@
 ************************** 변 경 이 력 *****************************************
 * 번호	작업자		작업일				변경내용
 *	1	스마트로	2017.12.01		결제요청페이지
-*******************************************************************************/
+******************************************************************************
+*/
 	
-	//InetAddress inet = InetAddress.getLocalHost(); // 서버 IP 가져오기
-	//Timestamp toDay = new Timestamp((new Date()).getTime()); // 현재날짜
-	//Timestamp nxDay = getTimestampWithSpan(toDay, 1); // 가상계좌 입금만료일  1일후 가져오기
-	//String VbankExpDate = nxDay.toString();
-	//VbankExpDate = VbankExpDate.substring(0, 10); 
-	//VbankExpDate = VbankExpDate.replaceAll("-", "");
-	//String ediDate = getyyyyMMddHHmmss(); // 전문생성일시
-	//상품주문번호	
-	String Moid = "Moid"; 
-	final String DEV_PAY_ACTION_URL = "https://tpay.smilepay.co.kr/interfaceURL.jsp";	//개발테스트
-	final String PRD_PAY_ACTION_URL = "https://pay.smilepay.co.kr/interfaceURL.jsp";	//운영
-	String actionUrl = DEV_PAY_ACTION_URL; // 개발 서버 URL
-	String URL = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort();
-	String MID = "SMTPAY001m";
-	String DivideInfo = ""; //서브몰 결제 정보 //request.getParameter("DivideInfo");
-	
-	String ReturnURL = URL +"/smartPay/returnPay"; //Vos.getRtnPayURL(); //"http://localhost:8080/smartPay/returnPay"; //"https://tpay.smilepay.co.kr/returnPay.jsp"; //리턴url
-	String EncodingType = "utf8"; //euckr/utf8
+//InetAddress inet = InetAddress.getLocalHost(); // 서버 IP 가져오기
+Timestamp toDay = new Timestamp((new Date()).getTime()); // 현재날짜
+//Timestamp nxDay = getTimestampWithSpan(toDay, 1); // 가상계좌 입금만료일  1일후 가져오기
+//String VbankExpDate = nxDay.toString();
+//VbankExpDate = VbankExpDate.substring(0, 10); 
+//VbankExpDate = VbankExpDate.replaceAll("-", "");
+String ediDate = getyyyyMMddHHmmss(); // 전문생성일시
+String Moid = "Moid"; 
 
-%> 
+// 상점서명키 (꼭 해당 상점키로 바꿔주세요)
+//String merchantKey = "0/4GFsSd7ERVRGX9WHOzJ96GyeMTwvIaKSWUCKmN3fDklNRGw3CualCFoMPZaS99YiFGOuwtzTkrLo4bR4V+Ow==";
+//String merchantKey = "KiS8NWHjZ49FzG91HMI9hVXOSxYrvFBKzl2bYpr2ac7lg369iZxy0xhCJfg4juCuVH27mO/TQ4kG2qnjEr5Z4Q==";
+//String MID = "SMTPAY001m";		// 상점 ID MID
+
+String returnUrl = "https://tpay.smilepay.co.kr/returnPay.jsp"; // 결제결과를 수신할 가맹점 returnURL 설정
+String retryUrl = "https://tpay.smilepay.co.kr/inform.jsp"; // 가맹점 retryURL 설정
+
+String DivideInfo = "";
 
 
-<%
+
+final String DEV_PAY_ACTION_URL = "https://tpay.smilepay.co.kr/interfaceURL.jsp";	//개발테스트
+final String PRD_PAY_ACTION_URL = "https://pay.smilepay.co.kr/interfaceURL.jsp";	//운영
+String actionUrl = DEV_PAY_ACTION_URL; // 개발 서버 URL
+String URL = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort();
+String ReturnURL = URL +"/smartPay/rentPay"; //Vos.getRtnPayURL(); //"http://localhost:8080/smartPay/returnPay"; //"https://tpay.smilepay.co.kr/returnPay.jsp"; //리턴url
+String EncodingType = "utf8"; //euckr/utf8
+
+
+
 Date from = new Date();
 SimpleDateFormat transFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
 String today = transFormat.format(from);
 
 %>
-<c:set var="PLACE_GROUP" value="${rentCfg.PLACE_GROUP}" />
+<c:set var="merchantKey" value="${dataList.merchantKey}" />
+<c:set var="storeMID" value="${dataList.storeMID}" />
+<c:set var="MEM_NM" value="${memData.MEM_NM}" />
 <%
-int PLACE_GROUP = (int) pageContext.getAttribute("PLACE_GROUP");
-out.println("PLACE_GROUP:"+ PLACE_GROUP +"<BR>");
-%>
-<c:set var="RENT_AMT" value="${rentCfg.RENT_AMT}" />
-<%
-//테니스장 기본가격(주간,평일)
-long RENT_AMT = (long) pageContext.getAttribute("RENT_AMT");
-out.println("RENT_AMT:"+ RENT_AMT +"<BR>");
-%>
-<c:set var="COMNM" value="${rentCfg.COMNM}" />
-<%
-//대관장소명
-String COMNM = (String) pageContext.getAttribute("COMNM");
-out.println("COMNM:"+ COMNM +"<BR>");
+String merchantKey = (String) pageContext.getAttribute("merchantKey");
+//out.println("merchantKey:"+ merchantKey +"<BR>");
+String MID = (String) pageContext.getAttribute("storeMID");
+//out.println("storeMID:"+ MID +"<BR>");
+String MEM_NM 		= (String) pageContext.getAttribute("MEM_NM");
 %>
 
+
+
+<%
+%>
+<c:set var="PLACE_GROUP" value="${rentCfg.PLACE_GROUP}" />
+<c:set var="RENT_AMT" value="${rentCfg.RENT_AMT}" />
+<c:set var="COMNM" value="${rentCfg.COMNM}" />
 <c:set var="otherCfg" value="${rentCfg.other_cfg}" />
 <%
+int PLACE_GROUP = (int) pageContext.getAttribute("PLACE_GROUP");
+//out.println("PLACE_GROUP:"+ PLACE_GROUP +"<BR>");
+
+//테니스장 기본가격(주간,평일)
+long RENT_AMT = (long) pageContext.getAttribute("RENT_AMT");
+//out.println("RENT_AMT:"+ RENT_AMT +"<BR>");
+
+//대관장소명
+String COMNM = (String) pageContext.getAttribute("COMNM");
+//out.println("COMNM:"+ COMNM +"<BR>");
+
 //기타 환경설정값
 ///코트/8/토/0/휴/6500/ / / /
 String otherCfg = (String)pageContext.getAttribute("otherCfg") ;
@@ -77,7 +99,7 @@ String [] arryCfg = otherCfg.split("\\/");
 //공휴일가격
 String holiday_price = arryCfg[6];
 
-String GoodsName = "";
+String GoodsName = COMNM;
 
 
 //축구장/야구장 (기본(평일주말)) 단가표
@@ -124,6 +146,36 @@ $(function(){
 	//$(".sdate").datepicker();
 });
 
+
+var data = {
+		
+	selectDC: function(dcPer){
+
+	if (confirm("\n 이용자의 50%가 할인대상자입니까? (할인여부 현장확인) ")) {
+	} else {
+		return false;	
+	}
+		
+	var goodsAmt = Number($("#Amt").val());
+	goodsAmt = goodsAmt - (goodsAmt * (dcPer/100));
+	$("#AmtDP").text(goodsAmt );
+	$("#Amt").val(goodsAmt);
+	
+	$.post("/data/getOdEncryptData/<%=ediDate%>/"+ goodsAmt, function(data){
+		try {
+			var dataList = "";
+			if(data.length != 0){
+				$("#EncryptData").val(data);
+			} 
+		} catch (exception) {
+			alert("할인적용 오류 : 잠시후 다시 시도하여 주세요..");
+			window.location.reload();
+			return;
+		}
+	});
+	
+	}
+};
 
 function send(){
 
@@ -203,13 +255,7 @@ function send(){
 			alert("필수 입력값 오류!!");
 			return false;
 		}
-		
-		//form.GoodsName.value = encodeURI("<%//=GoodsName%>");
-		//form.BuyerName.value = "<%//=BuyerName%>";
-		//form.BuyerAddr.value = "<%//=BuyerAddr%>";
-		//form.EncryptData.value = "<%//=EncryptData%>";
-		//form.DivideInfo.value = "<%//=DivideInfo%>";
-				
+
 		if(form.FORWARD.value == 'Y') // 화면처리방식 Y(권장):상점페이지 팝업호출
 		{
 			var popupX = ((window.screen.width) / 2) - (545 / 2);
@@ -270,7 +316,7 @@ function send(){
 	  </tr>
 	  <tr>
 		<th>신청자명</th>
-		<td><c:out value='${memData.MEM_NM}'/></td>
+		<td><%=MEM_NM%></td>
 	  </tr>
 	  <tr>	
 	  <th>신청자정보</th>
@@ -299,14 +345,12 @@ function send(){
 			<c:forEach items="${dataList.dataList}" var="result" varStatus="status">
 				<!-- 공휴일 확인 -->
 				<c:set var="holiday_yn" value="${result.holiday_yn}" />
+				<c:set var="item" value="${result.item}" />
 				<%
 				priceMsg = "";
 				holiday_yn = (String)pageContext.getAttribute("holiday_yn") ;
 				//out.println("holiday_yn:"+ holiday_yn +"  <BR>");
-				%>
-				
-				<c:set var="item" value="${result.item}" />
-				<%
+
 				//주간 야간(18시이후) 구분용
 				String item = (String)pageContext.getAttribute("item");
 				int int_item_time = Integer.parseInt(item.substring(0,2));
@@ -318,13 +362,12 @@ function send(){
 				<c:if test="${result.orderYN eq 'Y'}"> 
 					[예약 성공]
 					<% 
+					rent_timeCnt ++;
 					//요금 계산
 						//축구장/야구장 #################################################################
 						if (PLACE_GROUP == 2 || PLACE_GROUP == 3) {
 							
 							//아래에 총 사용 시간으로 계산
-							rent_timeCnt ++;
-							
 							
 						//테니스장  #################################################################
 						} else if (PLACE_GROUP == 4) {
@@ -440,15 +483,16 @@ function send(){
 	  <tr>
 	    <th>할인</th>
 	    <td>
-	    	<select name="" class="inputbox_01a" >
+	    	<select name="" class="inputbox_01a" onchange="data.selectDC(this.value);">
 	    	<option value="">==할인 선택==</option>
-	    	<option value="01">중랑구민(10%)</option>
-	    	<option value="01">경로우대(30%)</option>
-	    	<option value="01">장애인(%0%)</option>
-	    	<option value="01">기초수급자(%0%)</option>
-	    	<option value="01">국가유공자(10%)</option>
+	    	<option value="0" selected>일반</option>
+	    	<option value="10">중랑구민(10%)</option>
+	    	<option value="30">경로우대(30%)</option>
+	    	<option value="50">장애인(50%)</option>
+	    	<option value="50">기초수급자(50%)</option>
+	    	<option value="50">국가유공자(50%)</option>
 	    	</select>
-	    	(단, 코드당 이용자의 50% 이상이 할인 대상자일 경우)
+	    	(단, 코드당 이용자의 50% 이상이 할인 대상자일 경우 - 현장확인)
 		</td>
     	</tr>
     </c:if>
@@ -473,7 +517,7 @@ function send(){
 	    String commaRent = NumberFormat.getInstance().format(rentSum);
 	    String commaLight = NumberFormat.getInstance().format(lightSum);
 	    %>
-	    <%=commaTot %> &nbsp; (대관료 : <%=commaRent %> / 조명료 : <%=commaLight %>)</td>
+	    <span id="AmtDP"><%=commaTot %></span> &nbsp; (대관료 : <%=commaRent %> / 조명료 : <%=commaLight %>)</td>
     </tr>
 	<tr>
     	<td colspan="2"><div class="bg_icon_circle_green1a fontsize_1dot60 padding_left_1dot5">주의사항 및 환불안내</div></td>
@@ -500,14 +544,37 @@ function send(){
 <br>
 
     <div class="btnarea margin_t80">
-		<a href="#none" onclick="goPay();" id=" " class="green">결제</a>
+    	<%
+    	//2시간이상 결제 해야함
+    	if (rent_timeCnt >= 2) {
+    	%>
+			<a href="#none" onclick="goPay();" id=" " class="green">결제</a>
+		<%
+    	} else {
+    	%>
+    		<a href="#none" onclick="alert('1시간 예약은 결제를 하실수 없습니다.');" id=" " class="green">결제</a>
+    	<% 
+    	}
+		%>
         <a href="#none" onClick="history.back(-1);" id=" " class="gray2">취소</a>
     </div>
 
 </form>
+<%
+final String strUrl = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort();
+totalSum = (strUrl.contains("localhost") || strUrl.contains("14.36.179.143")) ? 10 : totalSum;
+
+String EncryptData = encodeMD5HexBase64(ediDate + MID + totalSum + merchantKey);
 
 
-
+try {
+	GoodsName = URLEncoder.encode(GoodsName, "EUC-KR");
+	MEM_NM = URLEncoder.encode(MEM_NM, "EUC-KR");
+} catch (Exception e) {
+	// TODO Auto-generated catch block
+	e.printStackTrace();
+}
+%>
 
 
 
@@ -519,21 +586,21 @@ function send(){
 			<!-- 수량 -->
 		    <input type="hidden" id="GoodsCnt" name="GoodsCnt" maxlength="2" value="1">
 			<!--<div>상품명:</div>-->
-		    <input type="hidden" id="GoodsName" name="GoodsName" maxlength="2" value="<%//=GoodsName%>xxx">
+		    <input type="hiddenㅌ" id="GoodsName" name="GoodsName" maxlength="2" value="<%=GoodsName%>">
 			
 			<!-- <div>상품금액:</div> -->
-		    <input type="hidden" id="Amt" name="Amt" maxlength="2" value="<%=totalSum%>">
+		    <input type="hiddenxx" id="Amt" name="Amt" maxlength="2" value="<%=totalSum%>">
 			
 			<!-- <div>주문번호:</div> -->
 		    <input type="hidden" name="Moid" maxlength="2" value="Moid">
 	    
 		    <input type="hidden" name="MID" maxlength="2" value="<%=MID%>">
 			
-		    <input type="hidden" name="ReturnURL" maxlength="2" value="<%=ReturnURL%>">
+		    <input type="hiddenx" name="ReturnURL" maxlength="2" value="<%=ReturnURL%>?q=${dataList.RESERVE_DATE}/${dataList.PLACE_CD}/${rentCfg.COMCD}/${dataList.rtn_idx}">
 			
 		    <input type="hidden" name="ReceiptType" maxlength="2" value="0">
 			
-		    <input type="hidden" name="RetryURL" maxlength="2" value="<%=ReturnURL%>">
+		    <input type="hiddenx" name="RetryURL" maxlength="2" value="<%=ReturnURL%>?q=${dataList.RESERVE_DATE}/${dataList.PLACE_CD}/${rentCfg.COMCD}/${dataList.rtn_idx}">
 			<!-- 
 		    <tr>
 		        <th scope="row">mallUserID</th>
@@ -541,11 +608,11 @@ function send(){
 		    </tr>		    
 		    <input type="hidden" name="mallUserID" maxlength="2" value=""> -->
 			<!-- <div>구매자:</div> -->
-		    <input type="hidden" id="BuyerName" name="BuyerName" maxlength="2" value="BuyerName">
+		    <input type="hiddenx" id="BuyerName" name="BuyerName" maxlength="2" value="<%=MEM_NM%>">
 			<!-- <div>연락처:</div> -->
-		    <input type="hidden" id="BuyerTel" name="BuyerTel" maxlength="2" value="BuyerTel">
+		    <input type="hiddenx" id="BuyerTel" name="BuyerTel" maxlength="2" value="<c:out value='${memData.HP}'/>">
 			<!-- <div>이메일:</div> -->
-		    <input type="hidden" id="BuyerEmail" name="BuyerEmail" maxlength="2" value="BuyerEmail">
+		    <input type="hiddenx" id="BuyerEmail" name="BuyerEmail" maxlength="2" value="<c:out value='${memData.EMAIL}'/>">
 			
 			<!-- 
 		    <tr>
@@ -568,7 +635,7 @@ function send(){
 		    
 		    <input type="hidden" name="VbankExpDate" maxlength="2" value="<%//=VbankExpDate%>">
 			
-		    <input type="hidden" id="EncryptData" name="EncryptData" maxlength="2" value="EncryptData">
+		    <input type="hiddens" id="EncryptData" name="EncryptData" maxlength="2" value="<%=EncryptData%>">
     
 		    <input type="hidden" name="FORWARD" maxlength="2" value="Y">
 			
@@ -638,7 +705,7 @@ function send(){
 	    
 		    <input type="hidden" name="CardPoint" maxlength="2" value="0">
 			
-		    <input type="hidden" id="ediDate" name="ediDate" maxlength="2" value="ediDate">
+		    <input type="hidden" id="ediDate" name="ediDate" maxlength="2" value="<%=ediDate%>">
 			
 		    <input type="hidden" name="UrlEncode" maxlength="2" value="Y">
 			<!-- 
@@ -661,7 +728,7 @@ function send(){
 		        <td></td>
 		    </tr>	
 		    -->	    
-		    <input type="hidden" id="merchantKey" name="merchantKey" maxlength="2" value="merchantKey">
+		    <input type="hidden" id="merchantKey" name="merchantKey" maxlength="2" value="<%=merchantKey%>">
 	
 	    </tbody>
 	
@@ -677,3 +744,47 @@ function send(){
 		<!-- } 서브본문영역1내부 -->
 		</div>
 	</div>
+
+	
+	<%!
+/**
+ * 기준날짜에서 몇일 전,후의 날짜를 구한다.
+ * @param	sourceTS	기준날짜
+ * @param	day			변경할 일수
+ * @return	기준날짜에서 입력한 일수를 계산한 날짜
+ */
+public static Timestamp getTimestampWithSpan(Timestamp sourceTS, long day) throws Exception {
+	Timestamp targetTS = null;
+	
+	if (sourceTS != null) {
+		targetTS = new Timestamp(sourceTS.getTime() + (day * 1000 * 60 * 60 * 24));
+	}
+
+	return targetTS;
+}
+
+/**
+ * 현재날짜를 YYYYMMDDHHMMSS로 리턴
+ */
+public final synchronized String getyyyyMMddHHmmss(){
+	/** yyyyMMddHHmmss Date Format */
+	SimpleDateFormat yyyyMMddHHmmss = new SimpleDateFormat("yyyyMMddHHmmss");
+	
+	return yyyyMMddHHmmss.format(new Date());
+}
+
+/**
+ * <pre>
+ * MD5+Base64
+ * </pre>
+ * @param pw
+ * @return String
+ */
+public static final String encodeMD5Base64(String str){
+	return new String(Base64.encodeBase64(DigestUtils.md5(str)));
+}
+ 
+public static final String encodeMD5HexBase64(String pw){
+	return new String(Base64.encodeBase64(DigestUtils.md5Hex(pw).getBytes()));
+}
+%>

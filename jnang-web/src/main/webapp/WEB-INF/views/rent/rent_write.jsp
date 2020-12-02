@@ -97,13 +97,13 @@ function send() {
 	<tr>
 		<th>이름</th>
 		<td>
-			<input type="text" name="name" value="<c:out value='${myData.MEM_NM}'/>" maxlength="20" class="inputbox_01a" required="" placeholder="이름">
+			<input type="text" name="MEM_NM" value="<c:out value='${myData.MEM_NM}'/>" maxlength="20" class="inputbox_01a" required="" placeholder="이름">
 		</td>
 	</tr>
 	<tr>
 		<th>연락처</th>
 		<td>
-			<input type="text" name="tel" value="<c:out value='${myData.HP}'/>" maxlength="20" class="inputbox_01a" required="" placeholder="휴대폰">
+			<input type="text" name="TEL" value="<c:out value='${myData.HP}'/>" maxlength="20" class="inputbox_01a" required="" placeholder="휴대폰">
 		</td>
 	</tr>
 	<tr>
@@ -129,13 +129,13 @@ function send() {
 	<tr>
 		<th>대관 용도</th>
 		<td>
-			<input type="text" name="title" value="" maxlength="100" class="inputbox_01a inputbox_01_s3" required="" placeholder="제목">
+			<input type="text" name="OBJECT" value="" maxlength="100" class="inputbox_01a inputbox_01_s3" required="" placeholder="제목">
 		</td>
 	</tr>
 	<tr>
 		<th>문의내용</th>
 		<td>
-			<textarea name="content" maxlength="1000" style="height:200px;width:80%;" class="inputbox_01a" required="" placeholder="1,000자 이내로 작성하세요.">
+			<textarea name="CONCEPT" maxlength="1000" style="height:200px;width:80%;" class="inputbox_01a" required="" placeholder="1,000자 이내로 작성하세요.">
 사용인원 : (예:최대 00명 )
 장비대여 : (예:마이크/조명시설/축구공)
 문의 내용 :  
@@ -149,8 +149,9 @@ function send() {
 <br>
 <br>
 	<div class="bx_btns_01a ali_c">
-		<input type="hidden" name="q" value="<%=param%>">
+		<input type="hidden" name="q" value="<%=param%>/${rentCfg.COMCD}">
 		<input type="hidden" name="id" value="<c:out value='${myData.ID}'/>">
+		<input type="hidden" name="MEM_NO" value="<c:out value='${myData.MEM_NO}'/>">
 		<input type="submit" class="size_m2 btn_green1" value="대관 문의">
 		<a href="/rentlist" id=" " class="size_m2 btn_green1" class="gray2">취 소</a>
 		<!-- <input type="button" class="size_m2 btn_green1" value="대관신청" onClick="send();"> -->

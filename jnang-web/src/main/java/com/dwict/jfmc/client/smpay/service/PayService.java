@@ -27,4 +27,6 @@ public interface PayService {
 	//기본테스트 결제 
 	Map<String, Object> lecOrderInsert(HttpServletRequest request);
 
+	Map<String, Object> rentOrderInsert(HttpServletRequest request);
+
 }
