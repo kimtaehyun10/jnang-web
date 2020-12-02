@@ -238,7 +238,7 @@ public class MypageServiceImpl implements MypageService {
 		 * ########################################################################
 		 */
 		//상품제목
-		String goodsNames = "";
+		String goodsNames = param.get("COMNM")+"/"+param.get("PLACE_CD")+"/"+param.get("LOCKER_CD");
 		String goodsNameEncode = "";
 		String memNmEncode = "";
 		//String URL = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort();
@@ -260,7 +260,7 @@ public class MypageServiceImpl implements MypageService {
 
 		//리턴 값 저장  
 		final Map<String, Object> addMap = new HashMap<>();
-
+		
 		try {
 			goodsNameEncode = URLEncoder.encode(goodsNames, "EUC-KR");
 			memNmEncode		= URLEncoder.encode(MEM_NM, "EUC-KR");

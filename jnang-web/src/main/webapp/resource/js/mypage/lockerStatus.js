@@ -79,6 +79,9 @@ const searchLocker = function(){
 
 function reLocker(COMNM, PLACE_CD, LOCKER_CD, RENT_AMT){
 	var param = {
+		COMNM:COMNM,
+		PLACE_CD:PLACE_CD,
+		LOCKER_CD:LOCKER_CD,
 		RENT_AMT:RENT_AMT	
 	};
 	$.get('/data/mypage/lockerPayDetail', param, function(data){
@@ -93,9 +96,9 @@ function reLocker(COMNM, PLACE_CD, LOCKER_CD, RENT_AMT){
 		}
 		 * */
 		$("#GoodsCnt").val("1");
-		$("#GoodsName").val(COMNM+'/'+PLACE_CD+'/'+LOCKER_CD);
 		$("#Amt").val(RENT_AMT);
 		
+		$("#GoodsName").val(data.goodsNameEn);
 		$("#BuyerName").val(data.buyerNameEn);
 		$("#BuyerTel").val(data.byerTel);
 		$("#BuyerEmail").val(data.buyerEmail);

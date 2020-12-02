@@ -145,6 +145,9 @@ public class MypageRestController {
 	public Map<String, Object> lockerPayDetail(HttpServletRequest request) {
 		final Map<String, Object> param = new HashMap<>();
 		param.put("RENT_AMT", request.getParameter("RENT_AMT"));
+		param.put("COMNM", request.getParameter("COMNM"));
+		param.put("PLACE_CD", request.getParameter("PLACE_CD"));
+		param.put("LOCKER_CD", request.getParameter("LOCKER_CD"));
 		return service.lockerPayDetail(request,param);
 	}
 }
