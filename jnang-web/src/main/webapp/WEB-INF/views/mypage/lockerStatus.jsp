@@ -196,7 +196,7 @@
 			
 			goPay();
 		}).done(function(data){
-			//alert("결제 후 로직");
+			
 		});
 		/*var param = {
 			COMCD:COMCD,

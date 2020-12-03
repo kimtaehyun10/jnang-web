@@ -69,7 +69,9 @@ const searchLocker = function(){
 				}				 
 				cont1 += '</td>';
 				cont1 += '<td>';
-				cont1 += '<span class="stat1 stat_y" style="cursor:pointer;" onclick="reLocker(\''+data[i].COMNM+'\',\''+data[i].PLACE_CD+'\',\''+data[i].LOCKER_CD+'\','+data[i].RENT_AMT+',\''+data[i].COMCD+'\',\''+data[i].MEM_NO+'\','+data[i].RENT_NO+')">연장하기</span>';
+				if(data[i].RENT_NO === data.length && date1>date2){
+					cont1 += '<span class="stat1 stat_y" style="cursor:pointer;" onclick="reLocker(\''+data[i].COMNM+'\',\''+data[i].PLACE_CD+'\',\''+data[i].LOCKER_CD+'\','+data[i].RENT_AMT+',\''+data[i].COMCD+'\',\''+data[i].MEM_NO+'\','+data[i].RENT_NO+')">연장하기</span>';
+				}
 				cont1 += '</td>';
 				cont1 += '</tr>';
 				//       reLocker(\''+data[i].COMCD+'\',\''+data[i].MEM_NO+'\','+data[i].RENT_NO+');

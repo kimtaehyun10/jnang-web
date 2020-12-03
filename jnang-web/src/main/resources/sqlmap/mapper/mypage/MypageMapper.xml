@@ -358,6 +358,7 @@
 		 	  , CHNGR
 		 FROM LOCKER_RENT L
 		 WHERE MEM_NO = #{memNo}
+		 ORDER BY RENT_NO DESC
 	</select>
 	
 	<select id="reLocker" resultType="java.util.HashMap" parameterType="java.util.HashMap">
