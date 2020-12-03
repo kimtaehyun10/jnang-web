@@ -64,9 +64,9 @@ input {
 function gtnUrl(val1) {
 
 	//opener.location.href='/mypage/classStatus';
-	var goURL = "${rtnMap.gtnUrl}";
+	var goURL = "${rtnMap.goURL}";
 	if (goURL != "") {
-		opener.location.href='${rtnMap.gtnUrl}';
+		opener.location.href='${rtnMap.goURL}';
 	}
 	self.close();
 }

@@ -116,6 +116,16 @@ public class PayServiceImpl implements PayService {
 		String SspMallID			= request.getParameter("SspMallID")==null?"":request.getParameter("SspMallID"); // 매입사코드
 		String MemberNo			= request.getParameter("MemberNo")==null?"":request.getParameter("MemberNo"); // 매입사코드
 
+		String userParam		= request.getParameter("q")==null? "//" : request.getParameter("q"); // 사용자 파람
+								String [] arrayTmp 	= userParam.split("\\/"); //20201225/8
+		String MEM_ID			= arrayTmp[0]; //예약일
+
+		final Member member = memberMapper.findById(MEM_ID);
+		String MEM_NO		= member.getMemNo();
+		String MEM_NM		= member.getMemNm();
+		
+		
+		/*
 		final HttpSession session = request.getSession(false);
 		//Member members = null;
 		//try {
@@ -131,7 +141,8 @@ public class PayServiceImpl implements PayService {
     	//String MEM_ID = "powerjyc1"; //members.getId();
     	//String MEM_NO = "00135079"; //members.getMemNo();
     	//String MEM_NM = "정연철"; //members.getMemNm();
-    	
+    	*/
+		
 		/*
 		//일단 작동안되서 세션으로 적용
 		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();

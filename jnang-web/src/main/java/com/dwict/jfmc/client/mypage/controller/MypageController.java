@@ -1,5 +1,6 @@
 package com.dwict.jfmc.client.mypage.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -43,6 +44,12 @@ public class MypageController {
 		final HttpSession session = request.getSession(false);
 		final Member members = (Member) session.getAttribute("member");
 		System.out.println("세션=========================>"+ members.getId());
+		
+		Map<String, Object> maps = new HashMap<>();
+		maps.put("MEM_ID", members.getId());
+		maps.put("MEM_NO", members.getMemNo());
+		modelAndView.addObject("otherData", maps);
+		
 		modelAndView.setViewName("mypage/cart");
 		return modelAndView;
 	}

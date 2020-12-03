@@ -221,11 +221,11 @@
 	    
 		    <input type="hidden" id="MID" name="MID" maxlength="2" value="<%=MID%>">
 			
-		    <input type="hidden" name="ReturnURL" maxlength="2" value="<%=ReturnURL%>">
+		    <input type="hidden" name="ReturnURL" maxlength="2" value="<%=ReturnURL%>?q=${otherData.MEM_ID}//">
 			
 		    <input type="hidden" name="ReceiptType" maxlength="2" value="0">
 			
-		    <input type="hidden" name="RetryURL" maxlength="2" value="<%=ReturnURL%>">
+		    <input type="hidden" name="RetryURL" maxlength="2" value="<%=ReturnURL%>?q=${otherData.MEM_ID}//">
 			<!-- 
 		    <tr>
 		        <th scope="row">mallUserID</th>

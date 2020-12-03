@@ -73,7 +73,7 @@ String MEM_NM 		= (String) pageContext.getAttribute("MEM_NM");
 
 
 Member member = (Member) session.getAttribute("member");
-out.println("ssssssssssssssss"+ member.getId());
+//out.println("ssssssssssssssss"+ member.getId());
 
 %>
 
