@@ -87,13 +87,11 @@ public class RentController {
 			modelAndView.setViewName("/rent/rentlist");
 			return modelAndView;
 		}
+		//팀 회원수
+		int teamCount =  rentService.teamCount(MEM_ID);
+		rentCfg.put("teamMemCnt",teamCount );
 		modelAndView.addObject("rentCfg", rentCfg);
 		
-		//회원정보 가져오기
-		//final Map <String,Object> myData = mypgService.myInfo(MEM_ID);
-		//modelAndView.addObject("myData", myData);
-		
-
 		//체육관별 대관 정보 가져오기
 		List<Map <String,Object>> rentList = pageService.getRentCalendar(requestMap, request);
 		modelAndView.addObject("rentList", rentList);
@@ -157,9 +155,15 @@ public class RentController {
 		final Map <String,Object> myData = mypgService.myInfo(MEM_ID);
 		modelAndView.addObject("myData", myData);
 
-		//대관대상 리스트 정보
-		//final List<Map <String,Object>> rentList = rentService.getCenterPlaceList();
+		//팀 정보 
+		final Map <String,Object> team = rentService.getTeam();
+		modelAndView.addObject("teamData", team);
 
+		//팀 멤버 리스트 
+		final List<Map <String,Object>> teamMemList = rentService.getTeamMemberList();
+		modelAndView.addObject("teamMemList", teamMemList);
+		
+		
 		//modelAndView.addObject("rentList", rentList);
 		modelAndView.setViewName("/rent/team");
 		return modelAndView;

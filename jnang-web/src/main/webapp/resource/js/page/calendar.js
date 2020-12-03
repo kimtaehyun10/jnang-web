@@ -64,26 +64,39 @@ function getDataList(p_cd,p_tab) {
 				//for(var ii=0; ii< rentAppList.length; ii++) {
 					//console.log(rentAppList[ii].days +"/" + rentAppList[ii].TIME_SEQ +"/"+rentAppList[ii].RESERVE_DATE);
 				//}
-				
+
 				var today = new Date();
-				var yyyy = today.getFullYear();
-				var mm 	 = today.getMonth();
-				var today = new Date(yyyy,mm,today.getDate());
+				//console.log(today.toLocaleString());
+				var arrayTmp = (today.toLocaleString()).split(".");
+				var yy = arrayTmp[0];
+				var mm = Number(arrayTmp[1]); //(Number(mm) > 9) ? mm : "0"+mm;
+				var dd = Number(arrayTmp[2]); //(Number(dd) > 9) ? dd : "0"+dd;
+				mm = (Number(mm) > 9) ? mm : "0"+ mm;
+				dd = (Number(dd) > 9) ? dd : "0"+ dd;
+				today = new Date(yy,mm,dd ,0,0,0);
+				console.log("today1: "+ yy +"/"+ mm +"/"+ dd);
+			
+				var yymmdd = yy +""+ mm +""+ dd;
+				var yymm = yy +""+ mm;
+				var nyymm = YYMM;
+				//console.log("today:"+ yymmdd +" <<<=>> "+ yymmdd +",,"+ YYMM);
 				//달력 출력
 				for(var ii=1; ii<= 31; ii++) {
-					
-					var loopDay = new Date(YYMM.substring(0,4)+"/"+ Number(YYMM.substring(4,6)) +"/"+ii);
+					var ndd = (Number(ii) > 9) ? ii : "0"+ ii;
+					var nyymmdd = YYMM +""+ ndd;
 					var tmpList = "";
-					
-					//console.log(today.getFullYear() +"/"+today.getMonth() +"/"+today.getDate()  +" > 비교 "+ loopDay.getFullYear() +"/"+loopDay.getMonth() +"/"+loopDay.getDate() +" ");
-					
-					var xxx = fn_dateDiff("m",today.getFullYear() +"/"+today.getMonth() +"/"+today.getDate(), loopDay.getFullYear() +"/"+loopDay.getMonth() +"/"+loopDay.getDate());
-					xxx = isNaN(xxx) ? 1: xxx;
-					//console.log("xxxx:"+ isNaN(xxx));
-					if (today.getTime() > loopDay.getTime()) {
-						
+					//console.log(" xxxx:"+ yymmdd +" > "+ nyymmdd);
+					var m_diff = fn_dateDiff("m", fn_convertDate("2",yymmdd), fn_convertDate("2",nyymmdd));
+					//console.log("diff :"+ m_diff);
+					if (Number(yymmdd) > Number(nyymmdd)) {
 						tmpList += "[<span class='btn_gray1'>예약종료</span>]<br>";
-					} else if (xxx > 1) {
+					//if ( (todayYYMM == cntYYMM && ii < (23-1)) || (int_today <= sortEndTime && int_today >= int_LimitYmd) 
+					//	|| (diffMonth <= 1 && todayYYMM < cntYYMM && ii < (23-1) && int_toYYMM <= int_today) ) {
+						
+					//이전작업본} else if ( (Number(yymmdd) < Number(nyymm+""+23) && ii >= 23) ||  m_diff > 1 ) {
+						
+					} else if ( (Number(yymmdd) < Number(nyymm+""+23) && ii >= 23) ||  m_diff > 1 
+							|| (Number(yymm) < Number(nyymm) && Number(yymmdd) < Number(yymm+""+23) )) {
 						tmpList += "[<span class='btn_gray1'>준비중</span>]<br>";
 					} else {
 							

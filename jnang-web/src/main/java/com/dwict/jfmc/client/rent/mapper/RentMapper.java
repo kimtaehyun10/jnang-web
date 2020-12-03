@@ -70,7 +70,13 @@ public interface RentMapper {
 	//축구장 야구장 단가표
 	List<Map<String, Object>> rentPriceList(Map<String, Object> maps);
 	
+	//팀 멤버 리스트
+	List<Map<String, Object>> getTeamMemberList(Map<String, Object> maps);
+	//팀 정보
+	Map<String, Object> getTeamData(Map<String, Object> maps);
 	
-
+	int teamCount(Map<String, Object> param);
+	
+	void teamMemDel(Map<String, Object> requestMap);
 
 }

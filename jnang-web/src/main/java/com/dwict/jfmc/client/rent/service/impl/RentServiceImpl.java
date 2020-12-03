@@ -103,11 +103,20 @@ public class RentServiceImpl implements RentService {
 			//팀정보 저장
 			mapper.teamSave(requestMap);
 			
+			
+
+		  	//삭제 팀회원 삭제
+			final String[] brdNoArr = ((String) requestMap.get("arryDel")).split(",");
+			requestMap.put("brdNoList", brdNoArr);
+		  	mapper.teamMemDel(requestMap);
+		  	
 			String strData =  (String) requestMap.get("arryData");//주문상품 정보
 		  	System.out.println("sssssssssss:"+ strData);
 		  	String [] arrayData = strData.split("//");
 		  	int xxx = arrayData.length;
 		  	
+	  	
+		  	//팀 회원 등록
 	  		for (int ii = 0; ii < xxx; ii++) {
 	  			Map <String, Object> strMap = new HashMap<>();
 	  			String arStr =  arrayData[ii] +" | | | ";
@@ -344,6 +353,37 @@ public class RentServiceImpl implements RentService {
 		maps = mapper.rentOdPay(maps);
 		
 		return null;
+	}
+
+	
+	//팀 정보 가져오기
+	@Override
+	public Map <String, Object> getTeam() {
+		final Account account = (Account) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		final String MEM_ID = account.getUsername();
+				
+		Map <String , Object > maps = new HashMap<>();
+		maps.put("MEM_ID", MEM_ID);
+		return mapper.getTeamData(maps);
+	}
+	//팀 회원 정보
+	@Override
+	public List <Map <String, Object>> getTeamMemberList() {
+
+		final Account account = (Account) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		final String MEM_ID = account.getUsername();
+				
+		Map <String , Object > maps = new HashMap<>();
+		maps.put("MEM_ID", MEM_ID);
+		return  mapper.getTeamMemberList(maps);
+	}
+	
+	//팀별 회원수
+	@Override
+	public int teamCount(String MEM_ID) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("MEM_ID", MEM_ID);
+		return mapper.teamCount(param);
 	}
 	
 

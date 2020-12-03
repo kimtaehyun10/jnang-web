@@ -2,6 +2,7 @@
 <%@ page import="java.text.SimpleDateFormat"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <%
 Date from = new Date();
@@ -15,7 +16,22 @@ String today = transFormat.format(from);
 <script type="text/javascript" src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resource/js/com/daumPostcode.min.js"></script>
 
-	
+<c:set var="sp_type" value="${teamData.sp_type}" />
+<c:set var="tm_type" value="${teamData.tm_type}" />
+<%
+int sp_type = 0;
+if (pageContext.getAttribute("sp_type") != null) {
+	sp_type = (int) pageContext.getAttribute("sp_type");
+	//out.println("sp_type:"+ sp_type +"<BR>");
+}
+
+String tm_type = "";
+if (pageContext.getAttribute("tm_type") != null) {
+	tm_type = (String) pageContext.getAttribute("tm_type");
+	//out.println("tm_type:"+ tm_type +"<BR>");
+}
+
+%>
 <div class="sub_cont1">
 <div class="con_bx">
 	
@@ -62,21 +78,25 @@ String today = transFormat.format(from);
 		<th>종목선택</th>
 		<td>
 			<select id="sp_type" name="sp_type" class="inputbox_01a" required>
-			  <option value=''/> == 종목 == </option>
+			  <option value='' /> == 종목 == </option>
 			  <!-- <option value='1'/> 체육관 </option> -->
-			  <option value='2'/> 축구장/야구장 </option>
+			  <option value='2' <% if (sp_type == 2 ) { out.print(" selected "); } %> /> 축구장/야구장 </option>
 			  <!-- <option value='3'/> 야구 </option> -->
-			  <option value='4'/> 테니스장 </option>
+			  <option value='4' <% if (sp_type == 4) { out.print(" selected "); } %>/> 테니스장 </option>
 		    </select>
 		 </td>
 		<th>신청구분</th>
-		<td><label><input type="radio" id="tm_type" name="tm_type" value="1" required> 관내팀 </label> &nbsp; &nbsp; <label><input type="radio" id="tm_type" name="tm_type" value="2">관외팀</label></td>
+		<td><label><input type="radio" id="tm_type" name="tm_type" value="1" required
+		<% if (tm_type.equals("1") ) { out.print(" checked "); }%>
+		> 관내팀 </label> &nbsp; &nbsp; <label><input type="radio" id="tm_type" name="tm_type" value="2"
+		<% if (tm_type.equals("2") ) { out.print(" checked "); }%>
+		>관외팀</label></td>
 	</tr>
 	<tr>
 		<th>단체명</th>
-		<td><input type="text" id="tm_nm" name="tm_nm" value="단체명" maxlength="" required class="inputbox_01a inputbox_01_s3"></td>
+		<td><input type="text" id="tm_nm" name="tm_nm" value="<c:out value="${teamData.tm_nm}"/>" maxlength="" required class="inputbox_01a inputbox_01_s3"></td>
 		<th>회원수</th>
-		<td><div id="temMemCnt"> 0명 </div></td>
+		<td><div id="temMemCnt"> <c:out value="${fn:length(teamMemList)}"/>명 </div></td>
 	</tr>
 	<tr>
     	<td colspan="4">
@@ -104,7 +124,17 @@ String today = transFormat.format(from);
 	<tr>
 	  <td colspan="4" align="left">
 	  	<input type="hidden" id="zip">
-	  	<div id="mem_list"></div>
+	  	<div id="mem_list">
+			<c:forEach items="${teamMemList}" var="result" varStatus="status">
+				<div id='m_list${status.count}' style='margin:5px;'>
+				${status.count}. 성명 : <span style='margin:0px 5px 0 5px;display:inline-block; width:100px; border: none;'><input type='text' id='uname' name='uname' value='${result.mem_nm}' style='width:100%;'></span>
+				생년월일 : <span style='margin:0px 5px 0 5px;display:inline-block; width:100px; border: none;' class='ali_c'><input type='text' class='sdate' value='${result.mem_birth}' name='ubrth' style='width:100%;'></span>
+				주소 : <span style='margin:0px 5px 0 5px;display:inline-block; width:400px; border: none;' class='ali_c'><input type='text' id='addr${status.count}' value='${result.mem_addr}' name='uaddr' style='width:100%;' onclick='execDaumPostcode(document.getElementById("zip"), document.getElementById("addr${status.count}"));'></span>
+				상세주소 : <span style='margin:0px 5px 0 5px;display:inline-block; width:200px; border: none;' class='ali_c'><input type='text' name='uaddr2' value='${result.mem_addr2}' style='width:100%;'></span>
+				<a onclick='del("${status.count}",${result.seq});'> - 삭제</a></div>
+			</c:forEach>
+	  	
+	  	</div>
 	  </td>
 	</tr>
     </tbody>
@@ -112,12 +142,12 @@ String today = transFormat.format(from);
 <br>
 <br>
 	<div class="bx_btns_01a ali_c">
-		<input type="hiddenx" id="mem_id" name="mem_id" value="<c:out value='${myData.ID}'/>">
-		<input type="hiddenx" id="arryData" name="arryData">
-		<input type="hiddenx" id="teamCnt" name="${rentCfg.teamCnt}">
+		<input type="hidden" id="mem_id" name="mem_id" value="<c:out value='${myData.ID}'/>">
+		<input type="hidden" id="arryData" name="arryData">
+		<input type="hidden" id="arryDel" name="arryDel">
 		
-		<input type="submit" class="size_m2 btn_green1" value="팀 신청">
-		<!-- <input type="button" class="size_m2 btn_green1" value="대관신청" onClick="send();"> -->
+		<input type="submit" class="size_m2 btn_green1" value="<%=(sp_type ==0) ? "팀 신청" : "팀 수정" %>">
+		<input type="button" class="size_m2 btn_green1" value="대관신청" onClick="top.location.href='/rentlist';">
 	</div>
 
 </form>

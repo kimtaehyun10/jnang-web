@@ -77,21 +77,18 @@
 
   sMM = (month > 9) ? Integer.toString(month) : "0"+month;
 %>
-<c:set var="PLACE_GROUP" value="${rentCfg.PLACE_GROUP}" />
-<%
-int PLACE_GROUP = (int) pageContext.getAttribute("PLACE_GROUP");
-//out.println("PLACE_GROUP:"+ PLACE_GROUP +"<BR>");
-%>
-<c:set var="PLACE_CD" value="${rentCfg.PLACE_CD}" />
-<%
-int PLACE_CD = (int) pageContext.getAttribute("PLACE_CD");
-//out.println("PLACE_CD:"+ PLACE_CD +"<BR>");
-%>
 
+<c:set var="teamMemCnt" value="${rentCfg.teamMemCnt}" />
+<c:set var="PLACE_GROUP" value="${rentCfg.PLACE_GROUP}" />
+<c:set var="PLACE_CD" value="${rentCfg.PLACE_CD}" />
 <c:set var="otherCfg" value="${rentCfg.other_cfg}" />
 <%
+int teamMemCnt = (int) pageContext.getAttribute("teamMemCnt");
+int PLACE_GROUP = (int) pageContext.getAttribute("PLACE_GROUP");
+//out.println("PLACE_GROUP:"+ PLACE_GROUP +"<BR>");
+int PLACE_CD = (int) pageContext.getAttribute("PLACE_CD");
+//out.println("PLACE_CD:"+ PLACE_CD +"<BR>");
 String otherCfg = (String)pageContext.getAttribute("otherCfg") ;
-
 //out.println("otherCfg:"+ otherCfg +"<BR>");
 String [] arryCfg = otherCfg.split("\\/");
 
@@ -130,8 +127,18 @@ param = (param == null) ? "": param;
 		
 	});
 	
-	 
+var teamMemCnt = "${rentCfg.teamMemCnt}";
+if (teamMemCnt == "" || Number(teamMemCnt) == 0) {
+	//alert("팀이 없는 개인으로 신청됩니다.");
+} else if (Number(teamMemCnt) < 10) {
+	//alert("팀이 있으나 10명 이내 입니다.");
+}
 </script>
+<%
+if (teamMemCnt < 10) {
+	//return;
+}
+%>
 <style TYPE="text/css">
 		.chkbxSize { width:25px; height:25px; }
 		.rented { text-decoration:line-through ; color:red;}
@@ -261,20 +268,29 @@ for (int ii = 0 ; ii < arryDays.length; ii++) {
 	String strNextMonth = (nextMonth > 9) ? Integer.toString(nextMonth) : "0"+ nextMonth;
 	
 	int int_today	= Integer.parseInt(today);
+	int todayYYMM = Integer.parseInt(today.substring(0,6));
+	int cntYYMM = Integer.parseInt(year + sMM);
+	int int_toYYMM	= Integer.parseInt(today.substring(0,6) + 23);
+	
 	int int_rentYmd = Integer.parseInt(year + sMM + strii);
+	int int_LimitYmd = Integer.parseInt(year + sMM + 23);
 	int nextYmd 	= Integer.parseInt(nextYear + strNextMonth + strii);
-	//out.print("today :"+ int_today +"<BR>");
+	//out.print("today :"+ int_toYYMM +"<BR>");
 	//out.print("rentYmd :"+ int_rentYmd +"<BR>");
-	//out.print("nextYmd :"+ nextYmd +"<BR>");
+	//out.print("nextYmd :"+ int_LimitYmd +"<BR><BR>");
+	
+	int sortEndTime = Integer.parseInt(nextYear + strNextMonth + 31);
 	
 	Date date1 = transFormat.parse(today);
     Date date2 = transFormat.parse(year + sMM + strii);
     int diffMonth = getMonthsDiff(date1 , date2);
 	//접수 가능/종료 버튼 
 	if (itemTot > rentCnt && int_today <= int_rentYmd ) {
-		
-		if (1 >= diffMonth) {
-			rentDays[ii+1] = " <a class='size_m2 btn_green1' onclick=\"getRent('"+ int_rentYmd +"','"+PLACE_CD+"');\">예약 가능  ("+ (itemTot - rentCnt) +"건) </a>";
+
+		//if (1 >= diffMonth && ((int_rentYmd < int_LimitYmd) || ( ii > 23)) ) {
+		if ( (todayYYMM == cntYYMM && ii < (23-1)) || (int_today <= sortEndTime && int_today >= int_LimitYmd) 
+				|| (diffMonth <= 1 && todayYYMM < cntYYMM && ii < (23-1) && int_toYYMM <= int_today) ) {
+			rentDays[ii+1] = " <a class='size_m2 btn_green1' onclick=\"getRent('"+ int_rentYmd +"','"+PLACE_CD+"');\">예약 가능 ("+ (itemTot - rentCnt) +"건) </a>";	
 		} else {
 			rentDays[ii+1] = " <a class='size_m2 btn_gray1'>준비중</a> ";
 		}
@@ -508,6 +524,7 @@ if (PLACE_GROUP == 4) {
 
     <div class="btnarea margin_t80">
         <a href="#none" onClick="send('<%=int_tabCnt %>');" id=" " class="green">예 약</a>
+        <a href="/rent/team" id=" " class="gray2">팀 수정</a>
         <a href="/rentlist" id=" " class="gray2">취 소</a>
     </div>
     <form name="frm3" id="frm3" action="/rent/rentOrder" method="post">

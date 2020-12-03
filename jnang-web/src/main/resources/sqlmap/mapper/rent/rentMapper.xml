@@ -83,7 +83,8 @@
 				ELSE t1.RENT_AMT
 			END AS RENT_AMT
 			, t1.info_url
-			, t1.USE_YN FROM rent_place t1 left join cominfo t2 on t1.COMCD = t2.COMCD 
+			, t1.USE_YN
+		FROM rent_place t1 left join cominfo t2 on t1.COMCD = t2.COMCD 
 		 WHERE t1.USE_YN=1
 		<if test='PLACE_GROUP !="all" and PLACE_GROUP != null'> 
 			AND t1.PLACE_GROUP = #{PLACE_GROUP}
@@ -147,6 +148,18 @@
 
 	</insert>
 
+	<!-- 팀 회원  선택 삭제 -->
+	<delete id="teamMemDel" parameterType="java.util.HashMap" >
+	delete
+ 	from rent_team_mem
+ 	where  seq IN
+		<foreach item="item" collection="brdNoList" index="index" open="(" close=")" separator=",">
+	       #{item}
+		</foreach> 
+		and team_seq = (select seq from rent_team where mem_id =#{mem_id})
+	</delete>
+	
+	
 	<!-- 팀회원 저장 -->
 	<insert id="teamMemSave" parameterType="java.util.HashMap" >
 		<selectKey keyProperty="team_seq" resultType="_int" order="BEFORE"> 
@@ -155,7 +168,7 @@
 		INSERT INTO  rent_team_mem  SET 
 			 team_seq 	=	 #{team_seq} 
 			 ,mem_nm 	=	 #{mem_nm} 
-			 ,mem_birth 	=	 #{mem_birth} 
+			 ,mem_birth 	=  replace(#{mem_birth},'-','')
 			 ,mem_addr 	=	 #{mem_addr} 
 			 ,mem_addr2 	=	 #{mem_addr2} 
 		 
@@ -163,12 +176,31 @@
 		 KEY UPDATE 
 			 team_seq 	=	 #{team_seq} 
 			 ,mem_nm 	=	 #{mem_nm} 
-			 ,mem_birth 	=	 #{mem_birth} 
+			 ,mem_birth 	= replace(#{mem_birth},'-','')
 			 ,mem_addr 	=	 #{mem_addr} 
 			 ,mem_addr2 	=	 #{mem_addr2} 	
 	</insert>
 
+	<!-- 팀 정보  -->
+	<select id="getTeamData" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT seq, mem_id, sp_type, tm_type, tm_nm, confirm_yn, wdate
+		FROM jnimc.rent_team
+		WHERE mem_id = #{MEM_ID}
+	</select>
+	
+	<!-- 팀 회원 리스트 -->
+	<select id="getTeamMemberList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select 
+			seq, team_seq, mem_nm, mem_birth, mem_addr, mem_addr2
+		from rent_team_mem 
+		where team_seq = (select seq from rent_team where mem_id = #{MEM_ID} )
+ 		order by mem_nm, mem_birth
+	</select>
 
+	<!-- 팀 회원수 -->
+	<select id="teamCount" parameterType="java.util.HashMap" resultType="int">
+		select count(*) from rent_team_mem where team_seq = (select seq from rent_team where mem_id =#{MEM_ID})
+	</select>	
 
 	<!-- 예약 중복 접수 첵크 -->
 	<select id="rentDblchk" parameterType="java.util.HashMap" resultType="int">
@@ -574,6 +606,9 @@
 	 	order by days,playtime
  
 	</select>
+	
+
+	
 
 
 

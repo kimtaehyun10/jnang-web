@@ -47,9 +47,13 @@ public interface RentService {
 	
 	//축구장 단가리스트
 	List<Map<String, Object>> rentPriceList(String mEM_NO, HttpServletRequest request);
-	
-	
 
+	//팀 멤버 리스트
+	List<Map<String, Object>> getTeamMemberList();
+	Map<String, Object> getTeam();
 	
+	//팀 회원수
+	int teamCount(String mEM_ID);
+
 
 }

@@ -162,7 +162,7 @@ var data = {
 		return false;	
 	}
 		
-	var goodsAmt = Number($("#Amt").val());
+	var goodsAmt = Number($("#goodsAmt").val());
 	goodsAmt = goodsAmt - (goodsAmt * (dcPer/100));
 	$("#AmtDP").text(goodsAmt );
 	$("#Amt").val(goodsAmt);
@@ -595,6 +595,8 @@ try {
 		    <input type="hidden" id="GoodsName" name="GoodsName" maxlength="2" value="<%=GoodsName%>">
 			
 			<!-- <div>상품금액:</div> -->
+			
+		    <input type="hidden" id="goodsAmt" maxlength="2" value="<%=totalSum%>">
 		    <input type="hidden" id="Amt" name="Amt" maxlength="2" value="<%=totalSum%>">
 			
 			<!-- <div>주문번호:</div> -->

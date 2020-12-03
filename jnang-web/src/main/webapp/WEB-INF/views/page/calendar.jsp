@@ -78,6 +78,7 @@
   int day = currentCal.get(Calendar.DATE);
   //int day = currentCal.get(Calendar.DAY_OF_MONTH);
 
+  sMM = (month > 9) ? Integer.toString(month) : "0"+month;
 %>
 
 <c:set var="PLACE_GROUP" value="${rentCfg.PLACE_GROUP}" />
@@ -319,7 +320,7 @@ int tmpDay =0; */
 			&lt;&lt;
 		<!-- 이전해 -->
 		</a> 
-		<span class="this_month" value="<%=year +""+ month%>">
+		<span class="this_month" value="<%=year +""+ sMM%>">
 			&nbsp;<%=year %>. 
 			<%=month %>
 		</span>
