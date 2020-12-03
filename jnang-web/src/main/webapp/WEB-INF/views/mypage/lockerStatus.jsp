@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page import="com.dwict.jfmc.client.mem.model.Member"%>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resource/js/mypage/mypageCommon.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resource/js/mypage/lockerStatus.js"></script>
 
@@ -34,9 +35,13 @@
 	String MID = "SMTPAY001m";
 	String DivideInfo = ""; //서브몰 결제 정보 //request.getParameter("DivideInfo");
 	
-	String ReturnURL = URL +"/smartPay/returnPay"; //Vos.getRtnPayURL(); //"http://localhost:8080/smartPay/returnPay"; //"https://tpay.smilepay.co.kr/returnPay.jsp"; //리턴url
+	String ReturnURL = URL +"/smartPay/lockerPay"; //Vos.getRtnPayURL(); //"http://localhost:8080/smartPay/returnPay"; //"https://tpay.smilepay.co.kr/returnPay.jsp"; //리턴url
 	String EncodingType = "utf8"; //euckr/utf8
 	
+	Member member = (Member) session.getAttribute("member");
+	String COMCD = "";
+	String MEM_NO="";
+	String RENT_NO="";
  	// 상점서명키 (꼭 해당 상점키로 바꿔주세요)
  	// String merchantKey = "0/4GFsSd7ERVRGX9WHOzJ96GyeMTwvIaKSWUCKmN3fDklNRGw3CualCFoMPZaS99YiFGOuwtzTkrLo4bR4V+Ow==";
  	// String merchantKey = "KiS8NWHjZ49FzG91HMI9hVXOSxYrvFBKzl2bYpr2ac7lg369iZxy0xhCJfg4juCuVH27mO/TQ4kG2qnjEr5Z4Q==";
@@ -71,6 +76,7 @@
 	String decodedString = URLDecoder.decode(encodedString, "UTF-8");    
 	System.out.println(decodedString); // 자바킹75! *-blog.me+=_~ 
 	*/
+	
 %>
 
 <script type="text/javascript">
@@ -122,7 +128,7 @@
 		form.action = '<%=actionUrl%>';
 		
 		if (form.GoodsCnt.value == "0") {
-			alert("수강 신청 내역이 없습니다.");
+			alert("사물함 신청 내역이 없습니다.");
 			return false;
 		}
 			
@@ -166,7 +172,41 @@
 		return false;
 	}
 	
-	
+	function reLocker(COMNM, PLACE_CD, LOCKER_CD, RENT_AMT, COMCD, MEM_NO, RENT_NO){
+		var param = {
+			COMNM:COMNM,
+			PLACE_CD:PLACE_CD,
+			LOCKER_CD:LOCKER_CD,
+			RENT_AMT:10	
+		};
+		$('#ReturnURL').val('<%=ReturnURL%>?q='+COMCD+'/'+MEM_NO+'/'+RENT_NO+'/<%=member.getId()%>');
+		$('#RetryURL').val('<%=ReturnURL%>?q='+COMCD+'/'+MEM_NO+'/'+RENT_NO+'/<%=member.getId()%>');		
+		$.get('/data/mypage/lockerPayDetail', param, function(data){
+					
+			$("#GoodsCnt").val("1");
+			$("#Amt").val(10);		
+			$("#GoodsName").val(data.goodsNameEn);
+			$("#BuyerName").val(data.buyerNameEn);
+			$("#BuyerTel").val(data.byerTel);
+			$("#BuyerEmail").val(data.buyerEmail);
+			$("#EncryptData").val(data.EncryptData);
+			$("#ediDate").val(data.ediDate);
+			$("#merchantKey").val(data.merchantKey);
+			$("#MID").val(data.storeMID);
+			
+			goPay();
+		}).done(function(data){
+			//alert("결제 후 로직");
+		});
+		/*var param = {
+			COMCD:COMCD,
+			RENT_NO:RENT_NO
+		};
+		$.post('/data/mypage/lockerStatus/'+MEM_NO, param, function(data){
+			alert(data.result);
+			//window.location.href='/price/'+$('#h_cmsCd').val()+'';				
+		});*/
+}
 </script>
 
 <div id="subCon">		
@@ -234,11 +274,11 @@
 	    
 		    <input type="hidden" id="MID" name="MID" maxlength="2" value="<%=MID%>">
 			
-		    <input type="hidden" name="ReturnURL" maxlength="2" value="<%=ReturnURL%>">
+		    <input type="hidden" id="ReturnURL" name="ReturnURL" maxlength="2" value="">
 			
 		    <input type="hidden" name="ReceiptType" maxlength="2" value="0">
 			
-		    <input type="hidden" name="RetryURL" maxlength="2" value="<%=ReturnURL%>">
+		    <input type="hidden" id="RetryURL" name="RetryURL" maxlength="2" value="">
 			<!-- 
 		    <tr>
 		        <th scope="row">mallUserID</th>

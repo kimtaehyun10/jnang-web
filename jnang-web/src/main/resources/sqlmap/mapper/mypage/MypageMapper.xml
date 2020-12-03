@@ -369,8 +369,8 @@
 		 	  , LOCKER_CD
 		 	  , PREFIX
 		 	  , RENT_MON
-		 	  , date_add(RENT_EDATE,interval +1 day) AS RENT_SDATE
-		 	  , date_add(date_add(RENT_EDATE,interval +1 day),interval +RENT_MON month) AS RENT_EDATE	 	 		 	  
+		 	  , date_format(date_add(RENT_EDATE,interval +1 day),'%Y%m%d') AS RENT_SDATE
+		 	  , date_format(date_add(date_add(RENT_EDATE,interval +1 day),interval +RENT_MON month),'%Y%m%d') AS RENT_EDATE	 	 		 	  
 		 	  , RETURN_DATE
 		 	  , RENT_AMT
 		 	  , DC_AMT

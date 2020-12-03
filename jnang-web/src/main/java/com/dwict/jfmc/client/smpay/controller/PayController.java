@@ -2,6 +2,7 @@ package com.dwict.jfmc.client.smpay.controller;
 
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.dwict.jfmc.client.mem.model.Member;
 import com.dwict.jfmc.client.security.service.ErrorService;
 import com.dwict.jfmc.client.smpay.service.PayService;
 
@@ -67,7 +71,16 @@ public class PayController {
 					//창닫을경우 이동할 URL
 					rtnMap.put("goURL", "/mypage/rent");
 					modelAndView.addObject("rtnMap", rtnMap);
-					break;					
+					break;
+					
+					//사물함 결제
+				case "lockerPay":
+					//결과
+					rtnMap = service.lockerOrderInsert(request);					
+					//창닫을경우 이동할 URL
+					rtnMap.put("goURL", "/mypage/lockerStatus");					
+					modelAndView.addObject("rtnMap", rtnMap);
+					break;
 				case "returnPayxxx":
 					break;
 

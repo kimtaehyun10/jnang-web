@@ -427,5 +427,63 @@
 		</foreach>
 	</update>
   
-  
+  	<!-- 사물함 결제완료 처리 -->
+	<insert id="lockerOrderSave" parameterType="java.util.HashMap">
+		INSERT INTO locker_rent  
+		(
+			COMCD,
+			MEM_NO,
+			RENT_NO,
+			SLIP_NO,
+			PLACE_CD,
+			LOCKER_CD,
+			PREFIX,
+			RENT_MON,
+			RENT_SDATE,
+			RENT_EDATE,
+			RETURN_DATE,
+			RENT_AMT,
+			DC_AMT,
+			DEPOSIT_AMT,
+			END_YN,
+			RET_SLIP_NO,
+			RETURN_ILNO,
+			RENT_STAT,
+			OLD_RENT_NO,
+			CANCEL_YN,
+			REMARK,
+			WRITE_DH,
+			WRITER,
+			CHNG_DH,
+			CHNGR
+		)
+		VALUES
+		(
+			#{COMCD},
+			#{MEM_NO},
+			#{RENT_NO},
+			#{SLIP_NO},
+			#{PLACE_CD},
+			#{LOCKER_CD},
+			#{PREFIX},
+			#{RENT_MON},
+			#{RENT_SDATE},
+			#{RENT_EDATE},
+			NULL,
+			#{RENT_AMT},
+			#{DC_AMT},
+			#{DEPOSIT_AMT},
+			'N',
+			NULL,
+			NULL,
+			'01',
+			0,
+			'N',
+			NULL,
+			NOW(),
+			#{MEM_ID},
+			NULL,
+			NULL
+		)
+    </insert>
 </mapper>

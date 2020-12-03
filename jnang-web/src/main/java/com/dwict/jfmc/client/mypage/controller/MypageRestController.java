@@ -136,7 +136,7 @@ public class MypageRestController {
 		param.put("MEM_NO", memNo);
 		param.put("COMCD", request.getParameter("COMCD"));
 		param.put("RENT_NO", request.getParameter("RENT_NO"));				
-		//Map<String, Object> reLocker = service.reLocker(param); // 장바구니에서 결제시 사용하자
+		//Map<String, Object> reLocker = service.reLocker(param); // 결제후 사물함 정보 저장
 		resultMap.put("result", "개발중");
 		return resultMap;
 	}

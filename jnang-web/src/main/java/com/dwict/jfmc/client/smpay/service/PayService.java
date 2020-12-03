@@ -29,4 +29,6 @@ public interface PayService {
 
 	Map<String, Object> rentOrderInsert(HttpServletRequest request);
 
+	Map<String, Object> lockerOrderInsert(HttpServletRequest request);
+
 }
