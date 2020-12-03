@@ -33,6 +33,7 @@ import com.dwict.jfmc.client.smpay.service.PayService;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.BaseNCodec;
 import com.dwict.jfmc.client.com.util.FormatUtil;
+import com.dwict.jfmc.client.mem.mapper.MemberMapper;
 import com.dwict.jfmc.client.mem.model.Member;
 import com.dwict.jfmc.client.mem.service.MemberService;
 import com.dwict.jfmc.client.mypage.mapper.MypageMapper;
@@ -54,6 +55,8 @@ public class PayServiceImpl implements PayService {
 	@Resource(name = "mypageService")
 	private MypageService mypgService;
 	
+	@Resource(name = "memberMapper")
+	private MemberMapper memberMapper;
 	
 	@Override
 	public int testInsert(String dirPath, HttpServletRequest request) {
@@ -544,10 +547,10 @@ public class PayServiceImpl implements PayService {
 	public Map<String, Object> rentOrderInsert(HttpServletRequest request) {
 		// TODO Auto-generated method stub
 
-		final HttpSession session = request.getSession(false);
+		//final HttpSession session = request.getSession(false);
 		//Member members = null;
 		//try {
-		Member	members = (Member) session.getAttribute("member");
+		//Member	members = (Member) session.getAttribute("member");
 
 		
 		String ResultCode		= request.getParameter("ResultCode")==null?"":request.getParameter("ResultCode"); // 결과코드
@@ -595,16 +598,20 @@ public class PayServiceImpl implements PayService {
 		String PLACE_CD			= arrayTmp[1]; //대관장소값
 		String COMCD			= arrayTmp[2]; //COMCD
 		String rtn_idx			= arrayTmp[3]; //대관 idx
-		
+		String MEM_ID			= arrayTmp[4]; //memID
 
-			System.out.println("세션=========================>"+ members.getId());
+		final Member member = memberMapper.findById(MEM_ID);
+		String MEM_NO		= member.getMemNo();
+		String MEM_NM		= member.getMemNm();
+		
+		//System.out.println("세션=========================>"+ members.getId());
 		//} catch (Exception e) {
 		//	System.out.println("세션XXXXXXXXXXXXXXXXXXXXXXXXXXXX=>"+ e.toString());
 		//}
-		System.out.println(members.getId());
-		String MEM_ID = members.getId();
-    	String MEM_NO = members.getMemNo();
-    	String MEM_NM = members.getMemNm();
+		//System.out.println(members.getId());
+		//String MEM_ID = members.getId();
+    	//String MEM_NO = members.getMemNo();
+    	//String MEM_NM = members.getMemNm();
     	//String MEM_ID = "powerjyc1"; //members.getId();
     	//String MEM_NO = "00135079"; //members.getMemNo();
     	//String MEM_NM = "정연철"; //members.getMemNm();

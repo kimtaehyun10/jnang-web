@@ -299,7 +299,7 @@ function send(){
 
 	
 <form name="frm1" id="frm1" method="post"> 
-<!-- <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/> -->
+	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 	<div class="border_top_3_green"></div>
 	
 <table class="stbl_w3b border_top_0" summary="이 표는 제목/내용 등의 정보로 구성된 팀등록/수정 폼입니다.">
@@ -602,11 +602,11 @@ try {
 	    
 		    <input type="hidden" name="MID" maxlength="2" value="<%=MID%>">
 			
-		    <input type="hidden" name="ReturnURL" maxlength="2" value="<%=ReturnURL%>?q=${dataList.RESERVE_DATE}/${dataList.PLACE_CD}/${rentCfg.COMCD}/${dataList.rtn_idx}">
+		    <input type="hidden" name="ReturnURL" maxlength="2" value="<%=ReturnURL%>?q=${dataList.RESERVE_DATE}/${dataList.PLACE_CD}/${rentCfg.COMCD}/${dataList.rtn_idx}/<%=member.getId()%>">
 			
 		    <input type="hidden" name="ReceiptType" maxlength="2" value="0">
 			
-		    <input type="hidden" name="RetryURL" maxlength="2" value="<%=ReturnURL%>?q=${dataList.RESERVE_DATE}/${dataList.PLACE_CD}/${rentCfg.COMCD}/${dataList.rtn_idx}">
+		    <input type="hidden" name="RetryURL" maxlength="2" value="<%=ReturnURL%>?q=${dataList.RESERVE_DATE}/${dataList.PLACE_CD}/${rentCfg.COMCD}/${dataList.rtn_idx}/<%=member.getId()%>">
 			<!-- 
 		    <tr>
 		        <th scope="row">mallUserID</th>
