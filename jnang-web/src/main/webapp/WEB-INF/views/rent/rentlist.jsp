@@ -59,9 +59,9 @@ var saveRtn = "${saveRtn}";
 				<li>
 					<div class="bd1">
 						<div class="tit1">구분</div>
-						<select id="ct1" name="ct1" class="selbox_multi_01" size="4" onchange="selectSport(1);">
+						<select id="ct1" name="ct1" class="selbox_multi_01" size="5" onchange="selectSport(1);">
 						<option value="all" selected>--- 전체 ---</option>
-						<option value="1">체육관</option>
+						<option value="1">체육관/회관/기타</option>
 						<option value="2">축구장</option>
 						<option value="3">야구장</option>
 						<option value="4">테니스장</option>
@@ -71,7 +71,7 @@ var saveRtn = "${saveRtn}";
 				<li>
 					<div class="bd1">
 						<div class="tit1">센터</div>
-						<select id="ct2" name="ct2" class="selbox_multi_01" size="4" onchange="selectSport(2);">
+						<select id="ct2" name="ct2" class="selbox_multi_01" size="5" onchange="selectSport(2);">
 						<option value="all" selected>--- 전체 ---</option>
 						</select>
 					</div>
@@ -94,8 +94,8 @@ var saveRtn = "${saveRtn}";
 			</colgroup>
 			<thead>
 				<tr>
-					<th>센터</th>
 					<th>시설명</th>
+					<th>대관시설</th>
 					<th>비용</th>
 					<th>시설안내</th>
 					<th>현황</th>
