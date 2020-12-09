@@ -36,6 +36,7 @@
 	String DivideInfo = ""; //서브몰 결제 정보 //request.getParameter("DivideInfo");
 	
 	String ReturnURL = URL +"/smartPay/lockerPay"; //Vos.getRtnPayURL(); //"http://localhost:8080/smartPay/returnPay"; //"https://tpay.smilepay.co.kr/returnPay.jsp"; //리턴url
+	//String ReturnURL = "https://tpay.smilepay.co.kr/returnPay.jsp";
 	String EncodingType = "utf8"; //euckr/utf8
 	
 	Member member = (Member) session.getAttribute("member");
