@@ -85,7 +85,7 @@ public class PayController {
 					//결제취소
 				case "mainCancelPay":
 				case "CancelPayAct":
-					rtn = "/smartPay/mainCancelPay";
+					rtn = "/smartPay/"+ dirPath;
 					break;				
 			
 			}
