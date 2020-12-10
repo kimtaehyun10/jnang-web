@@ -261,6 +261,7 @@ public class PageServiceImpl implements PageService {
 		ymd = (ymd == null) ? "":ymd;
 		String param = request.getParameter("q");	//PLACE_CD / PLACE_TAB
 		param = (param == null) ? "0/0/0/" : param;
+		param = ((param.contains("/"))) ? param : param +"/0" ;		
 		String [] arrParam = param.split("\\/");
 		
 		if (yy == null || mm == null) {
@@ -284,6 +285,19 @@ public class PageServiceImpl implements PageService {
 		rentMapper.rentNoPayClear(requestMap);
 		
 		return rentMapper.getRentCalendar(requestMap);
+	}
+	
+	//센터별 대관 그룹 가져오기(대강당 ,소강당, 강의실)
+	@Override
+	public List<Map<String, Object>> getCenterGroup(Map<String, Object> requestMap, HttpServletRequest request) {
+		
+		String param = request.getParameter("q");	//PLACE_CD / PLACE_TAB
+		param = (param == null) ? "0/0/0/" : param;
+		param = ((param.contains("/"))) ? param : param +"/0" ;
+		String [] arrParam = param.split("\\/");
+		
+		requestMap.put("PLACE_CD", arrParam[0]);
+		return rentMapper.getCenterGroup(requestMap);
 	}
 	
 	//대관 일정 리스트

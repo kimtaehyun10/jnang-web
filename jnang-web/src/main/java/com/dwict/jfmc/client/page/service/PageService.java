@@ -16,6 +16,9 @@ public interface PageService {
 
 	//달력
 	Map<String, Integer> today_info(Map<String, Object> dateMap);
+
+	//센터별 대관 그룹 가져오기(대강당 ,소강당, 강의실)
+	List<Map<String, Object>> getCenterGroup(Map<String, Object> requestMap, HttpServletRequest request);
 	
 	List<Map <String,Object>> dateList(Map<String, Integer> requestMap);
 	
@@ -34,4 +37,5 @@ public interface PageService {
 	//할인 변경시 금액 변경으로  EncryptData값 받기
 	String getOdEncryptData(Map<String, Object> param);
 	
+
 }

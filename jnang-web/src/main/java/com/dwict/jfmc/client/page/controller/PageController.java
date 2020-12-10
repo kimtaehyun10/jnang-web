@@ -196,10 +196,10 @@ public class PageController {
 	}
 
 	//대관 리스트 출력 (달력)
-	@GetMapping(value = "/calendar/{cmsCd}")
-	public ModelAndView calendar(ModelAndView modelAndView, Map<String, Object> requestMap,HttpServletRequest request, @PathVariable String cmsCd) {
+	@GetMapping(value = "/calendar/")
+	public ModelAndView calendar(ModelAndView modelAndView, Map<String, Object> requestMap,HttpServletRequest request) {
 
-		requestMap.put("cmsCd", cmsCd);
+		//requestMap.put("cmsCd", cmsCd);
 		
 		//셋팅 값
 		final Map <String,Object> rentCfg = rentService.rentConfig(request);
@@ -209,11 +209,10 @@ public class PageController {
 		}
 		modelAndView.addObject("rentCfg", rentCfg);
 		
-		//체육관별 대관 정보 가져오기
-		//List<Map <String,Object>> rentList = service.getRentList(requestMap, request);
-		//modelAndView.addObject("rentList", rentList);
+		//센터별 대관 그룹 가져오기(대강당 ,소강당, 강의실)
+		List<Map <String,Object>> centerGroup = service.getCenterGroup(requestMap, request);
+		modelAndView.addObject("centerGroup", centerGroup);
 		
-		//modelAndView.addObject("rentCfg", requestMap);
 		modelAndView.setViewName("page/calendar");
 		return modelAndView;
 	}

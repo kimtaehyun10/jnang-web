@@ -78,5 +78,8 @@ public interface RentMapper {
 	int teamCount(Map<String, Object> param);
 	
 	void teamMemDel(Map<String, Object> requestMap);
+	
+	//센터별 대관 그룹 가져오기(대강당 ,소강당, 강의실)
+	List<Map<String, Object>> getCenterGroup(Map<String, Object> requestMap);
 
 }

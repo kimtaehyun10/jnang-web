@@ -531,6 +531,13 @@
 	</select>
 		
 	
+	
+	<!-- 달력 탭별 예약 항목리스트  -->	
+	<select id="getCenterGroup" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select COMCD ,PLACE_CD , PLACE_NM ,PLACE_GROUP from rent_place 
+		where COMCD = (select COMCD from rent_place where PLACE_CD = #{PLACE_CD})
+ 	</select>
+	
 	<!-- 달력 탭별 예약 항목리스트  -->	
 	<select id="getPlaceTimeTabList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
 		select 

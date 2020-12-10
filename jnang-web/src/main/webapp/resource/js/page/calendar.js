@@ -219,7 +219,22 @@ function getDataList(p_cd,p_tab) {
 			
 			}).done(function(data){
 
+				//선택
+				var lentTabCnt = $(".rentTab").length;
+				var cssObj = {
+						"background-color": "#ffffff",
+						"color": "#999999",
+						"font-weight": "",
+						}
+				$(".rentTab").css(cssObj);
 				
+				var cssObj = {
+						"background-color": "#8a64e4",
+						"color": "#ffffff",
+						"font-weight": "bold",
+						}				
+				$(".rentTab").eq(p_tab-1).css(cssObj);
+			
 			});
 		});
 	

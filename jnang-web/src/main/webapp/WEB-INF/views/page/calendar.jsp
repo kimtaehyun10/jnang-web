@@ -115,7 +115,7 @@ param = (param == null) ? "": param;
 %>
 	<script type="text/javaScript" language="javascript">
 	$(function(){
-		setMenuTitle('bg_99', '체육시설', '${rentCfg.COMNM} >  ${rentCfg.PLACE_NM}', true);
+		setMenuTitle('bg_99', '체육시설', '${rentCfg.COMNM}  >  ${rentCfg.PLACE_NM}', true);
 		$('.sub_navi1 .navi1 .mbx1 > a').on('click',function(){
 			if($('.sub_navi1 .bg1').css('display')==='none'){
 				var idx_n=$(this).parent().parent().index();
@@ -129,6 +129,13 @@ param = (param == null) ? "": param;
 				$(this).next().slideToggle(150);
 			}
 		});
+		
+		
+		let cont = '';
+		<c:forEach items="${centerGroup}" var="result" varStatus="status">
+			cont += '<a href="/calendar/?q=${result.PLACE_CD}"><li>${result.PLACE_NM}</li></a>';
+		</c:forEach>
+		$(".mbx1:eq(1)>ul").append(cont);
 		
 	});
 	
@@ -234,13 +241,14 @@ param = (param == null) ? "": param;
 
 
 <%
+//코드 tab
 if (int_tabCnt > 0 ) {
 	//int result = 10 % 5
 	out.println("<table border=1 width='100%' style='margin:0 0 20px 0;' align='center'><tr>");
 	for (int ii = 1 ; ii <= int_tabCnt; ii++) {
 	
 		%>
-		<td align="center"><a onclick="getDataList('<%=PLACE_CD%>','<%=ii%>');"><%=ii %> <%=tabName%></td>
+		<td align="center" style="cursor:pointer;" onclick="getDataList('<%=PLACE_CD%>','<%=ii%>');" class="rentTab"><%=ii %> <%=tabName%></td>
 		<%
 		if ((ii % 4) == 0) {
 			out.println("</tr><tr>");
@@ -249,14 +257,6 @@ if (int_tabCnt > 0 ) {
 	}
 	out.println("</tr></table>");
 
-}
-if (PLACE_CD == 6 || PLACE_CD == 10) {
-	out.println("<table border=1 width='100%' style='margin:0 0 20px 0;' align='center'><tr>");
-	%>
-	<td align="center"><a href="/calendar/JUNGNANG09?q=6"> 축구장 </a></td>
-	<td align="center"><a href="/calendar/JUNGNANG09?q=10"> 야구장 </a></td>
-	<%
-	out.println("</tr></table>");
 }
 %>
 
