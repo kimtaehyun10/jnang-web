@@ -81,13 +81,11 @@ public class PayController {
 					rtnMap.put("goURL", "/mypage/lockerStatus");					
 					modelAndView.addObject("rtnMap", rtnMap);
 					break;
-					
+
+					//결제취소
 				case "mainCancelPay":
 					rtn = "/smartPay/mainCancelPay";
-					break;					
-				case "returnPayxxx":
-					break;
-
+					break;				
 			
 			}
 			/*
