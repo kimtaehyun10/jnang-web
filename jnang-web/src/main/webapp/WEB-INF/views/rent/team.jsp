@@ -131,7 +131,7 @@ if (pageContext.getAttribute("tm_type") != null) {
 				생년월일 : <span style='margin:0px 5px 0 5px;display:inline-block; width:100px; border: none;' class='ali_c'><input type='text' class='sdate' value='${result.mem_birth}' name='ubrth' style='width:100%;'></span>
 				주소 : <span style='margin:0px 5px 0 5px;display:inline-block; width:400px; border: none;' class='ali_c'><input type='text' id='addr${status.count}' value='${result.mem_addr}' name='uaddr' style='width:100%;' onclick='execDaumPostcode(document.getElementById("zip"), document.getElementById("addr${status.count}"));'></span>
 				상세주소 : <span style='margin:0px 5px 0 5px;display:inline-block; width:200px; border: none;' class='ali_c'><input type='text' name='uaddr2' value='${result.mem_addr2}' style='width:100%;'></span>
-				<a onclick='del("${status.count}",${result.seq});'> - 삭제</a></div>
+				<a onclick='del("${status.count}",${result.seq});'> - ${status.count}. 삭제</a></div>
 			</c:forEach>
 	  	
 	  	</div>
