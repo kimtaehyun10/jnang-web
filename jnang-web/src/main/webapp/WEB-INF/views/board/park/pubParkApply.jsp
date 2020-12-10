@@ -29,13 +29,46 @@ $(function(){
 });
 </script>
 
-<div class='clbx'>
-	<ul class='tab_ty1_cnt_4a jsc_tab1a_btn'>
-		<li class='on'><a href='javascript:;'>수영</a></li>
-		<li><a href='javascript:;'>아기스포츠단</a></li>
-		<li><a href='javascript:;'>헬스</a></li>
-		<li><a href='javascript:;'>(1개월)체육/문화/영어</a></li>
-		<li><a href='javascript:;'>(3개월)체육/문화/수영</a></li>
+<!-- <div class='bg_icon_circle_green1a fontsize_1dot60 padding_left_1dot5'>오시는 길</div>
+<div class='sub_sisul_photo01 clbx margin_top_1dot0'>
+	<ul>
+		<li>
+			<div class='bx_sub_sisul_photo01 clbx'>
+				<div id="map" style="width:730px;height:400px;"></div>
+				<script>
+				var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+					mapOption = { 
+						center: new daum.maps.LatLng(37.5879442, 127.0809088), // 지도의 중심좌표
+						level: 3 // 지도의 확대 레벨
+					};
+
+				var map = new daum.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+				var iwContent = '<div style="padding:5px;"><strong>면목2동체육관</strong><br />서울시 중랑구 겸재로23길 27 공영주차장 4층(면목동)</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+					iwPosition = new daum.maps.LatLng(37.5879442, 127.0809088), //인포윈도우 표시 위치입니다
+					iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
+
+				// 인포윈도우를 생성하고 지도에 표시합니다
+				var infowindow = new daum.maps.InfoWindow({
+					map: map, // 인포윈도우가 표시될 지도
+					position : iwPosition, 
+					content : iwContent,
+					removable : iwRemoveable
+				});
+					  
+				// 아래 코드는 인포윈도우를 지도에서 제거합니다
+				// infowindow.close();        
+				</script>
+			</div>
+		</li>
+		<li>
+			<div class='cname1'>면목2동체육관</div>
+			<div class='cment1'>
+				면목2동체육관은 헬스 및 생활체육의 보급과 활성화를 통하여 주민 모두 건강하고 여유로운 삶을 영위케 하여 지역사회 발전에 이바지고자 합니다.
+
+			</div>
+			<div class='hline1'></div>			
+		</li>
 	</ul>
 </div>
 
@@ -43,1072 +76,195 @@ $(function(){
 <br>
 <br>
 
-<!-- 수영 -->
-<div class='jsc_tab1a_con clbx'>
-	<div class='teacher_item'>
-		<dl class='dp1'>
-			<dt><img src='http://jungnangspo.seoul.kr/photo/JUNGNANG01_T_20181207175543.jpg' alt=''></dt>
-			<dd>
-				<h6>고성애</h6>
-				<div class='tstr1'>
-					<dl>
-						<dt>종목</dt>
-						<dd>수영</dd>
-					</dl>
-					<dl>
-						<dt>강사이력</dt>
-						<dd>한국아쿠아운동협회</dd>
-					</dl>
-					<dl>
-						<dt>담당강습반</dt>
-						<dd>저녁아쿠아로빅</dd>
-					</dl>
+<div class='autoscroll_x1 margin_top_1dot0'>
+	<table class='stbl_l1a con_tbl1' summary='이 표는 구분/내용 정보로 구성되어 있습니다.'>
+	<caption>위치, 전화, 팩스</caption>
+	<colgroup>
+		<col width="15%">			
+	</colgroup>
+	<tr>
+		<th>위치</th>
+		<td class='ali_l'>서울시 중랑구 겸재로23길 27 공영주차장 4층(면목동)</td>
+	</tr>
+	<tr>
+		<th>전화</th>
+		<td class='ali_l'>02-495-5200</td>
+	</tr>
+	<tr>
+		<th>팩스</th>
+		<td class='ali_l'>02-495-5206</td>
+	</tr>
+	</table>
+</div>
+<br>
+<br>
+<br>
+<div class='bg_icon_circle_green1a fontsize_1dot60 padding_left_1dot5'>교통편</div>
+<div class='autoscroll_x1 margin_top_1dot0'>
+	<table class='stbl_l1a con_tbl1' summary='이 표는 구분/내용 정보로 구성되어 있습니다.'>
+	<caption>교통편</caption>
+	<colgroup>
+		<col width="15%">			
+	</colgroup>
+	<tr>
+		<th>지하철</th>
+		<td class='ali_l'>7호선(면목역) 3번출구, 동2로 방향 800m</td>
+	</tr>
+	<tr>
+		<th>시내버스</th>
+		<td class='ali_l'>간선 : 146 지선 : 2227 마을버스 : 02</td>
+	</tr>	
+	</table>
+</div> -->
+
+
+<div class='sub_sisul_photo01 clbx'>
+	<ul>
+		<li>
+			<div class='bx_sub_sisul_photo01 clbx'>
+				<ul class='sub_sisul_photo01__rolling1'>
+					<!-- <li><img src='/resource/images/sub/parking/parking_01_02_01.jpg' alt='면목2동'></li>
+					<li><img src='/resource/images/sub/parking/parking_01_02_02.jpg' alt='용마'></li>
+					<li><img src='/resource/images/sub/parking/parking_01_02_03.jpg' alt='중화1동'></li> -->
+					<li><img src='/resource/images/sub/parking/parking_01_02_04.jpg' alt='까치공원'></li>
+					<li><img src='/resource/images/sub/parking/parking_01_02_05.jpg' alt='까치공원2'></li>
+					<li><img src='/resource/images/sub/parking/parking_01_02_06.jpg' alt='까치공원3'></li>
+					<li><img src='/resource/images/sub/parking/parking_01_02_07.jpg' alt='면목5동'></li>
+					<li><img src='/resource/images/sub/parking/parking_01_02_08.jpg' alt='용마폭포'></li>
+					<li><img src='/resource/images/sub/parking/parking_01_02_09.jpg' alt='중곡초교'></li>
+				</ul>
+			</div>
+		</li>
+		<li>
+			<div class='cname1'>공영주차장</div>
+			<div class='cment1'>
+				신청안내<br>
+				1. 방문 : 중랑구 겸재로 23길 27(2층사무실)<br>
+				2. 팩스 : 신청서작성 후 등록증과 함께 발송
+			</div>
+			<div class='hline1'></div>
+			<div class='info1'>
+				<div class='cment1'>
+				※ 기본서류<br>
+				- 이용신청서, 자동차등록증, 감면(항목별) 증빙서류
 				</div>
-			</dd>
-		</dl>
-		<dl class='dp1'>
-			<dt><img src='http://jungnangspo.seoul.kr/photo/JUNGNANG01_T_20140328110928.jpg' alt=''></dt>
-			<dd>
-				<h6>권수정</h6>
-				<div class='tstr1'>
-					<dl>
-						<dt>종목</dt>
-						<dd>수영</dd>
-					</dl>
-					<dl>
-						<dt>강사이력</dt>
-						<dd>생활스포츠지도사 1급(수영), 생활스포츠지도사 2급(수영), 수상안전요원, 생존수영지도사 1급</dd>
-					</dl>
-					<dl>
-						<dt>담당강습반</dt>
-						<dd>성인수영 및 어린이수영</dd>
-					</dl>
-				</div>
-			</dd>
-		</dl>
-		<dl class='dp1'>
-			<dt><img src='http://jungnangspo.seoul.kr/photo/JUNGNANG01_T_20181207163803.jpg' alt=''></dt>
-			<dd>
-				<h6>권순영</h6>
-				<div class='tstr1'>
-					<dl>
-						<dt>종목</dt>
-						<dd>수영</dd>
-					</dl>
-					<dl>
-						<dt>강사이력</dt>
-						<dd></dd>
-					</dl>
-					<dl>
-						<dt>담당강습반</dt>
-						<dd>어린이수영</dd>
-					</dl>
-				</div>
-			</dd>
-		</dl>
-		<dl class='dp1'>
-			<dt><img src='http://jungnangspo.seoul.kr/photo/JUNGNANG01_T_20181207155336.jpg' alt=''></dt>
-			<dd>
-				<h6>김균목</h6>
-				<div class='tstr1'>
-					<dl>
-						<dt>종목</dt>
-						<dd>수영</dd>
-					</dl>
-					<dl>
-						<dt>강사이력</dt>
-						<dd>생활스포츠지도사2급(수영)</dd>
-					</dl>
-					<dl>
-						<dt>담당강습반</dt>
-						<dd>어린이수영 및 저녁수영</dd>
-					</dl>
-				</div>
-			</dd>
-		</dl>
-		<dl class='dp1'>
-			<dt><img src='http://jungnangspo.seoul.kr/photo/JUNGNANG01_T_20170916154316.jpg' alt=''></dt>
-			<dd>
-				<h6>김민수</h6>
-				<div class='tstr1'>
-					<dl>
-						<dt>종목</dt>
-						<dd>수영</dd>
-					</dl>
-					<dl>
-						<dt>강사이력</dt>
-						<dd>생활스포츠지도사2급(수영)</dd>
-					</dl>
-					<dl>
-						<dt>담당강습반</dt>
-						<dd>주말수영</dd>
-					</dl>
-				</div>
-			</dd>
-		</dl>
-		<dl class='dp1'>
-			<dt><img src='http://jungnangspo.seoul.kr/photo/JUNGNANG01_T_20181207161552.jpg' alt=''></dt>
-			<dd>
-				<h6>김여진</h6>
-				<div class='tstr1'>
-					<dl>
-						<dt>종목</dt>
-						<dd>수영</dd>
-					</dl>
-					<dl>
-						<dt>강사이력</dt>
-						<dd>수상인명구조원</dd>
-					</dl>
-					<dl>
-						<dt>담당강습반</dt>
-						<dd>조기수영</dd>
-					</dl>
-				</div>
-			</dd>
-		</dl>
-		<dl class='dp1'>
-			<dt><img src='http://jungnangspo.seoul.kr/photo/JUNGNANG01_T_20190521175050.jpg' alt=''></dt>
-			<dd>
-				<h6>박준형</h6>
-				<div class='tstr1'>
-					<dl>
-						<dt>종목</dt>
-						<dd>수영</dd>
-					</dl>
-					<dl>
-						<dt>강사이력</dt>
-						<dd>수상인명구조원 자격</dd>
-					</dl>
-					<dl>
-						<dt>담당강습반</dt>
-						<dd>주말수영</dd>
-					</dl>
-				</div>
-			</dd>
-		</dl>
-		<dl class='dp1'>
-			<dt><img src='http://jungnangspo.seoul.kr/photo/JUNGNANG01_T_20190521174956.jpg' alt=''></dt>
-			<dd>
-				<h6>백명숙</h6>
-				<div class='tstr1'>
-					<dl>
-						<dt>종목</dt>
-						<dd>수영</dd>
-					</dl>
-					<dl>
-						<dt>강사이력</dt>
-						<dd>생활스포츠지도사2급(수영)</dd>
-					</dl>
-					<dl>
-						<dt>담당강습반</dt>
-						<dd>어린이수영</dd>
-					</dl>
-				</div>
-			</dd>
-		</dl>
-		<dl class='dp1'>
-			<dt><img src='http://jungnangspo.seoul.kr/photo/JUNGNANG01_T_20190521174134.jpg' alt=''></dt>
-			<dd>
-				<h6>손정진</h6>
-				<div class='tstr1'>
-					<dl>
-						<dt>종목</dt>
-						<dd>수영</dd>
-					</dl>
-					<dl>
-						<dt>강사이력</dt>
-						<dd>수상인명구조원 자격증</dd>
-					</dl>
-					<dl>
-						<dt>담당강습반</dt>
-						<dd>어린이수영 및 저녁수영</dd>
-					</dl>
-				</div>
-			</dd>
-		</dl>
-		<dl class='dp1'>
-			<dt><img src='http://jungnangspo.seoul.kr/photo/JUNGNANG01_T_20170916153758.jpg' alt=''></dt>
-			<dd>
-				<h6>심은정</h6>
-				<div class='tstr1'>
-					<dl>
-						<dt>종목</dt>
-						<dd>수영</dd>
-					</dl>
-					<dl>
-						<dt>강사이력</dt>
-						<dd>생활스포츠지도사2급(수영)</dd>
-					</dl>
-					<dl>
-						<dt>담당강습반</dt>
-						<dd>주말수영</dd>
-					</dl>
-				</div>
-			</dd>
-		</dl>
-		<dl class='dp1'>
-			<dt><img src='http://jungnangspo.seoul.kr/photo/JUNGNANG01_T_20170916153522.jpg' alt=''></dt>
-			<dd>
-				<h6>양은영</h6>
-				<div class='tstr1'>
-					<dl>
-						<dt>종목</dt>
-						<dd>수영</dd>
-					</dl>
-					<dl>
-						<dt>강사이력</dt>
-						<dd>생활스포츠지도사2급(수영)</dd>
-					</dl>
-					<dl>
-						<dt>담당강습반</dt>
-						<dd>오전수영</dd>
-					</dl>
-				</div>
-			</dd>
-		</dl>
-		<dl class='dp1'>
-			<dt><img src='http://jungnangspo.seoul.kr/photo/JUNGNANG01_T_20181207175507.jpg' alt=''></dt>
-			<dd>
-				<h6>위보섭</h6>
-				<div class='tstr1'>
-					<dl>
-						<dt>종목</dt>
-						<dd>수영</dd>
-					</dl>
-					<dl>
-						<dt>강사이력</dt>
-						<dd>아쿠아휘트니스지도자</dd>
-					</dl>
-					<dl>
-						<dt>담당강습반</dt>
-						<dd>아쿠아로빅</dd>
-					</dl>
-				</div>
-			</dd>
-		</dl>
-		<dl class='dp1'>
-			<dt><img src='http://jungnangspo.seoul.kr/photo/JUNGNANG01_T_20190521181939.jpg' alt=''></dt>
-			<dd>
-				<h6>이소현</h6>
-				<div class='tstr1'>
-					<dl>
-						<dt>종목</dt>
-						<dd>수영</dd>
-					</dl>
-					<dl>
-						<dt>강사이력</dt>
-						<dd>수상인명구조원 자격</dd>
-					</dl>
-					<dl>
-						<dt>담당강습반</dt>
-						<dd>주말수영</dd>
-					</dl>
-				</div>
-			</dd>
-		</dl>
-		<dl class='dp1'>
-			<dt><img src='http://jungnangspo.seoul.kr/photo/JUNGNANG01_T_20181207174729.jpg' alt=''></dt>
-			<dd>
-				<h6>이창환</h6>
-				<div class='tstr1'>
-					<dl>
-						<dt>종목</dt>
-						<dd>수영</dd>
-					</dl>
-					<dl>
-						<dt>강사이력</dt>
-						<dd>생활스포츠지도사2급(수영)</dd>
-					</dl>
-					<dl>
-						<dt>담당강습반</dt>
-						<dd>저녁수영</dd>
-					</dl>
-				</div>
-			</dd>
-		</dl>
-		<dl class='dp1'>
-			<dt><img src='http://jungnangspo.seoul.kr/photo/JUNGNANG01_T_20181207162434.jpg' alt=''></dt>
-			<dd>
-				<h6>이철원</h6>
-				<div class='tstr1'>
-					<dl>
-						<dt>종목</dt>
-						<dd>수영</dd>
-					</dl>
-					<dl>
-						<dt>강사이력</dt>
-						<dd>생활스포츠지도사2급(수영)</dd>
-					</dl>
-					<dl>
-						<dt>담당강습반</dt>
-						<dd>조기수영</dd>
-					</dl>
-				</div>
-			</dd>
-		</dl>
-		<dl class='dp1'>
-			<dt><img src='http://jungnangspo.seoul.kr/photo/JUNGNANG01_T_20130123160445.jpg' alt=''></dt>
-			<dd>
-				<h6>이희석</h6>
-				<div class='tstr1'>
-					<dl>
-						<dt>종목</dt>
-						<dd>수영</dd>
-					</dl>
-					<dl>
-						<dt>강사이력</dt>
-						<dd>생활스포츠지도사 1급(수영), 생활스포츠지도사 2급(수영), 수상안전요원, 생존수영지도사 1급</dd>
-					</dl>
-					<dl>
-						<dt>담당강습반</dt>
-						<dd>성인수영 및 어린이수영</dd>
-					</dl>
-				</div>
-			</dd>
-		</dl>
-		<dl class='dp1'>
-			<dt><img src='http://jungnangspo.seoul.kr/photo/JUNGNANG01_T_20170916154055.jpg' alt=''></dt>
-			<dd>
-				<h6>정양순</h6>
-				<div class='tstr1'>
-					<dl>
-						<dt>종목</dt>
-						<dd>수영</dd>
-					</dl>
-					<dl>
-						<dt>강사이력</dt>
-						<dd>생활스포츠지도사2급(수영)</dd>
-					</dl>
-					<dl>
-						<dt>담당강습반</dt>
-						<dd>어린이수영</dd>
-					</dl>
-				</div>
-			</dd>
-		</dl>
-		<dl class='dp1'>
-			<dt><img src='http://jungnangspo.seoul.kr/photo/JUNGNANG01_T_20140328135845.jpg' alt=''></dt>
-			<dd>
-				<h6>정재훈</h6>
-				<div class='tstr1'>
-					<dl>
-						<dt>종목</dt>
-						<dd>수영</dd>
-					</dl>
-					<dl>
-						<dt>강사이력</dt>
-						<dd>생활스포츠지도사 2급(수영), 수상안전요원, 생존수영지도사 1급</dd>
-					</dl>
-					<dl>
-						<dt>담당강습반</dt>
-						<dd>성인수영 및 어린이수영</dd>
-					</dl>
-				</div>
-			</dd>
-		</dl>
-		<dl class='dp1'>
-			<dt><img src='http://jungnangspo.seoul.kr/photo/JUNGNANG01_T_20130123160615.jpg' alt=''></dt>
-			<dd>
-				<h6>조용철</h6>
-				<div class='tstr1'>
-					<dl>
-						<dt>종목</dt>
-						<dd>수영</dd>
-					</dl>
-					<dl>
-						<dt>강사이력</dt>
-						<dd>생활스포츠지도사 2급(수영), 수상안전요원, 생존수영지도사 1급</dd>
-					</dl>
-					<dl>
-						<dt>담당강습반</dt>
-						<dd>성인수영 및 어린이수영</dd>
-					</dl>
-				</div>
-			</dd>
-		</dl>
-		<dl class='dp1'>
-			<dt><img src='http://jungnangspo.seoul.kr/photo/JUNGNANG01_T_20190905175529.jpg' alt=''></dt>
-			<dd>
-				<h6>최현우</h6>
-				<div class='tstr1'>
-					<dl>
-						<dt>종목</dt>
-						<dd>수영</dd>
-					</dl>
-					<dl>
-						<dt>강사이력</dt>
-						<dd>수상인명구조원 자격</dd>
-					</dl>
-					<dl>
-						<dt>담당강습반</dt>
-						<dd>어린이수영</dd>
-					</dl>
-				</div>
-			</dd>
-		</dl>
-		<dl class='dp1'>
-			<dt><img src='http://jungnangspo.seoul.kr/photo/JUNGNANG01_T_20170916084633.jpg' alt=''></dt>
-			<dd>
-				<h6>한현석</h6>
-				<div class='tstr1'>
-					<dl>
-						<dt>종목</dt>
-						<dd>수영</dd>
-					</dl>
-					<dl>
-						<dt>강사이력</dt>
-						<dd>생활스포츠지도사2급(수영)</dd>
-					</dl>
-					<dl>
-						<dt>담당강습반</dt>
-						<dd>조기수영 및 오전수영 </dd>
-					</dl>
-				</div>
-			</dd>
-		</dl>
-		<dl class='dp1'>
-			<dt><img src='http://jungnangspo.seoul.kr/photo/JUNGNANG01_T_20181207175156.jpg' alt=''></dt>
-			<dd>
-				<h6>허정</h6>
-				<div class='tstr1'>
-					<dl>
-						<dt>종목</dt>
-						<dd>수영</dd>
-					</dl>
-					<dl>
-						<dt>강사이력</dt>
-						<dd>생활스포츠지도사2급(수영)</dd>
-					</dl>
-					<dl>
-						<dt>담당강습반</dt>
-						<dd>주말소그룹08C,09C,10C</dd>
-					</dl>
-				</div>
-			</dd>
-		</dl>
-	</div>
+			</div>
+		</li>
+	</ul>
 </div>
 
-<!-- 아기스포츠단 -->
-<div class='jsc_tab1a_con clbx'>
-	<div class='teacher_item'>
-		<dl class='dp1'>
-			<dt><img src='http://jungnangspo.seoul.kr/photo/JUNGNANG01_T_20190521175331.jpg' alt=''></dt>
-			<dd>
-				<h6>김성주</h6>
-				<div class='tstr1'>
-					<dl>
-						<dt>종목</dt>
-						<dd>아기스포츠단</dd>
-					</dl>
-					<dl>
-						<dt>강사이력</dt>
-						<dd>에듀짐 유아체육</dd>
-					</dl>
-					<dl>
-						<dt>담당강습반</dt>
-						<dd>아기스포츠단 줄넘기</dd>
-					</dl>
-				</div>
-			</dd>
-		</dl>
-		<dl class='dp1'>
-			<dt><img src='http://jungnangspo.seoul.kr/photo/JUNGNANG01_T_20190521175931.jpg' alt=''></dt>
-			<dd>
-				<h6>문희숙</h6>
-				<div class='tstr1'>
-					<dl>
-						<dt>종목</dt>
-						<dd>아기스포츠단</dd>
-					</dl>
-					<dl>
-						<dt>강사이력</dt>
-						<dd>인라인 지도자 자격증</dd>
-					</dl>
-					<dl>
-						<dt>담당강습반</dt>
-						<dd>아기스포츠단(인라인)</dd>
-					</dl>
-				</div>
-			</dd>
-		</dl>
-		<dl class='dp1'>
-			<dt><img src='http://jungnangspo.seoul.kr/photo/JUNGNANG01_T_20190521175413.jpg' alt=''></dt>
-			<dd>
-				<h6>신영미</h6>
-				<div class='tstr1'>
-					<dl>
-						<dt>종목</dt>
-						<dd>아기스포츠단</dd>
-					</dl>
-					<dl>
-						<dt>강사이력</dt>
-						<dd>쪼물딱 지도자 자격증</dd>
-					</dl>
-					<dl>
-						<dt>담당강습반</dt>
-						<dd>아기스포츠단 쪼물딱</dd>
-					</dl>
-				</div>
-			</dd>
-		</dl>
-		<dl class='dp1'>
-			<dt><img src='http://jungnangspo.seoul.kr/photo/JUNGNANG01_T_20181210113421.jpg' alt=''></dt>
-			<dd>
-				<h6>유은서</h6>
-				<div class='tstr1'>
-					<dl>
-						<dt>종목</dt>
-						<dd>아기스포츠단</dd>
-					</dl>
-					<dl>
-						<dt>강사이력</dt>
-						<dd>보육교사 자격</dd>
-					</dl>
-					<dl>
-						<dt>담당강습반</dt>
-						<dd>아기스포츠단 백곰반</dd>
-					</dl>
-				</div>
-			</dd>
-		</dl>
-		<dl class='dp1'>
-			<dt><img src='http://jungnangspo.seoul.kr/photo/JUNGNANG01_T_20181210113537.jpg' alt=''></dt>
-			<dd>
-				<h6>임선미</h6>
-				<div class='tstr1'>
-					<dl>
-						<dt>종목</dt>
-						<dd>아기스포츠단</dd>
-					</dl>
-					<dl>
-						<dt>강사이력</dt>
-						<dd>보육교사 자격</dd>
-					</dl>
-					<dl>
-						<dt>담당강습반</dt>
-						<dd>아기스포츠단 다람쥐반</dd>
-					</dl>
-				</div>
-			</dd>
-		</dl>
-		<dl class='dp1'>
-			<dt><img src='http://jungnangspo.seoul.kr/photo/JUNGNANG01_T_20190521175306.jpg' alt=''></dt>
-			<dd>
-				<h6>전희정</h6>
-				<div class='tstr1'>
-					<dl>
-						<dt>종목</dt>
-						<dd>아기스포츠단</dd>
-					</dl>
-					<dl>
-						<dt>강사이력</dt>
-						<dd>- 오르프 지도자 과정 수료<br>- 한샘교육</dd>
-					</dl>
-					<dl>
-						<dt>담당강습반</dt>
-						<dd>아기스포츠단 오르프</dd>
-					</dl>
-				</div>
-			</dd>
-		</dl>
-		<dl class='dp1'>
-			<dt><img src='http://jungnangspo.seoul.kr/photo/JUNGNANG01_T_20181210113454.jpg' alt=''></dt>
-			<dd>
-				<h6>정다은</h6>
-				<div class='tstr1'>
-					<dl>
-						<dt>종목</dt>
-						<dd>아기스포츠단</dd>
-					</dl>
-					<dl>
-						<dt>강사이력</dt>
-						<dd>보육교사 자격</dd>
-					</dl>
-					<dl>
-						<dt>담당강습반</dt>
-						<dd>아기스포츠단 호랑이반</dd>
-					</dl>
-				</div>
-			</dd>
-		</dl>
-		<dl class='dp1'>
-			<dt><img src='http://jungnangspo.seoul.kr/photo/JUNGNANG01_T_20190521175745.jpg' alt=''></dt>
-			<dd>
-				<h6>황보영</h6>
-				<div class='tstr1'>
-					<dl>
-						<dt>종목</dt>
-						<dd>아기스포츠단</dd>
-					</dl>
-					<dl>
-						<dt>강사이력</dt>
-						<dd>영어지도자 자격</dd>
-					</dl>
-					<dl>
-						<dt>담당강습반</dt>
-						<dd>아기스포츠단 영어 </dd>
-					</dl>
-				</div>
-			</dd>
-		</dl>
-	</div>
+<br>
+<br>
+<br>
+
+<div class='bg_icon_circle_green1a fontsize_1dot60 padding_left_1dot5'>신청접수안내</div>
+<div class='margin_top_1dot0 lineheight_1dot8'>
+	공영주차장 신청접수는 방문신청 및 담당자와 상담을 통해 가능하오니, 궁금하시거나 문의하실 사항이 있으실 경우 주차사업팀으로 연락주시면 성심성의껏 답변 드리겠습니다.<br>
+
+	<strong class='fc_red1'>중랑구시설관리공단 주차사업팀 연락처 : 공영주차장 담당 02)1577-3325 → 3번</strong><br>
+
+	※ 온라인을 통한 인터넷 접수는 프로그램 준비 중에 있습니다.<br>
 </div>
 
-<!-- 헬스 -->
-<div class='jsc_tab1a_con clbx'>
-	<div class='teacher_item'>
-		<dl class='dp1'>
-			<dt><img src='http://jungnangspo.seoul.kr/photo/JUNGNANG01_T_20181019112336.jpg' alt=''></dt>
-			<dd>
-				<h6>김민성</h6>
-				<div class='tstr1'>
-					<dl>
-						<dt>종목</dt>
-						<dd>헬스</dd>
-					</dl>
-					<dl>
-						<dt>강사이력</dt>
-						<dd>생활스포츠지도사 1급</dd>
-					</dl>
-					<dl>
-						<dt>담당강습반</dt>
-						<dd>헬스(A, B/ PT)</dd>
-					</dl>
-				</div>
-			</dd>
-		</dl>
-		<dl class='dp1'>
-			<dt><img src='http://jungnangspo.seoul.kr/photo/JUNGNANG01_T_20161101181552.jpg' alt=''></dt>
-			<dd>
-				<h6>허은학</h6>
-				<div class='tstr1'>
-					<dl>
-						<dt>종목</dt>
-						<dd>헬스</dd>
-					</dl>
-					<dl>
-						<dt>강사이력</dt>
-						<dd> 생활스포츠지도사 1급</dd>
-					</dl>
-					<dl>
-						<dt>담당강습반</dt>
-						<dd>헬스(A, B/ PT)</dd>
-					</dl>
-				</div>
-			</dd>
-		</dl>
-	</div>
+<br>
+<br>
+<br>
+
+<div class='bg_icon_circle_green1a fontsize_1dot60 padding_left_1dot5'>공영주차장 요금표</div>
+<div class='autoscroll_x1 margin_top_1dot0'>
+	<table class='stbl_l1a con_tbl1' summary='이 표는 (노상주차장, 노외주차장 - 1회요금, 1일요금, 월정기요금) 정보로 구성되어 있습니다.'>
+	<caption>공영주차장 요금표</caption>
+	<tr>
+		<th rowspan='3' class='border_r1'>구분</th>
+		<th colspan='4'>노상주차장</th>
+		<th colspan='3'>노외주차장</th>
+	</tr>
+	<tr>
+		<th rowspan='2'>1회 주차시(5분당)</th>
+		<th rowspan='2' class='border_r1'>1일 주차권(야간에한함)</th>
+		<th colspan='2'>월정기권</th>
+		<th rowspan='2'>1회 주차시(5분당)</th>
+		<th colspan='2'>월정기권</th>
+	</tr>
+	<tr>
+		<th>주간</th>
+		<th>야간</th>
+		<th>주간</th>
+		<th>야간</th>
+	</tr>
+	<tr>
+		<th>1급지</th>
+		<td>500</td>
+		<td>5,000</td>
+		<td>-</td>
+		<td>-</td>
+		<td>400</td>
+		<td>250,000</td>
+		<td>100,000</td>
+	</tr>
+	<tr>
+		<th>2급지</th>
+		<td>250</td>
+		<td>4,000</td>
+		<td>-</td>
+		<td>-</td>
+		<td>250</td>
+		<td>180,000</td>
+		<td>60,000</td>
+	</tr>
+	<tr>
+		<th>3급지</th>
+		<td>150</td>
+		<td>3,000</td>
+		<td>-</td>
+		<td>-</td>
+		<td>150</td>
+		<td>100,000</td>
+		<td>40,000</td>
+	</tr>
+	<tr>
+		<th>4급지</th>
+		<td>100</td>
+		<td>2,000</td>
+		<td>50,000</td>
+		<td>-</td>
+		<td>100</td>
+		<td>환승목적주차시: 40,000<br>기타 : 50,000</td>
+		<td>20,000</td>
+	</tr>
+	<tr>
+		<th>5급지</th>
+		<td>50</td>
+		<td>1,000</td>
+		<td>30,000</td>
+		<td>20,000</td>
+		<td>50</td>
+		<td>30,000</td>
+		<td>20,000</td>
+	</tr>
+	</table>
 </div>
 
-<!-- (1개월)체육/문화/영어 -->
-<div class='jsc_tab1a_con clbx'>
-	<div class='teacher_item'>
-		<dl class='dp1'>
-			<dt><img src='http://jungnangspo.seoul.kr/photo/JUNGNANG01_T_20190905180610.jpg' alt=''></dt>
-			<dd>
-				<h6>구본주</h6>
-				<div class='tstr1'>
-					<dl>
-						<dt>종목</dt>
-						<dd>체육/문화/영어</dd>
-					</dl>
-					<dl>
-						<dt>강사이력</dt>
-						<dd>요가 및 필라테스 지도작 자격증</dd>
-					</dl>
-					<dl>
-						<dt>담당강습반</dt>
-						<dd>파워요가, 요가C, 요가E</dd>
-					</dl>
-				</div>
-			</dd>
-		</dl>
-		<dl class='dp1'>
-			<dt><img src='http://jungnangspo.seoul.kr/photo/JUNGNANG01_T_20190523130835.jpg' alt=''></dt>
-			<dd>
-				<h6>김건직</h6>
-				<div class='tstr1'>
-					<dl>
-						<dt>종목</dt>
-						<dd>체육/문화/영어</dd>
-					</dl>
-					<dl>
-						<dt>강사이력</dt>
-						<dd>생활스포츠지도사 2급(배드민턴)</dd>
-					</dl>
-					<dl>
-						<dt>담당강습반</dt>
-						<dd>저녁배드민턴 개인레슨 A, B</dd>
-					</dl>
-				</div>
-			</dd>
-		</dl>
-		<dl class='dp1'>
-			<dt><img src='http://jungnangspo.seoul.kr/photo/JUNGNANG01_T_20140331132716.jpg' alt=''></dt>
-			<dd>
-				<h6>김록영</h6>
-				<div class='tstr1'>
-					<dl>
-						<dt>종목</dt>
-						<dd>체육/문화/영어</dd>
-					</dl>
-					<dl>
-						<dt>강사이력</dt>
-						<dd>음악줄넘기 지도자3급</dd>
-					</dl>
-					<dl>
-						<dt>담당강습반</dt>
-						<dd>음악줄넘기 A,C,E,H,F</dd>
-					</dl>
-				</div>
-			</dd>
-		</dl>
-		<dl class='dp1'>
-			<dt><img src='http://jungnangspo.seoul.kr/photo/JUNGNANG01_T_20190905180819.jpg' alt=''></dt>
-			<dd>
-				<h6>김민지</h6>
-				<div class='tstr1'>
-					<dl>
-						<dt>종목</dt>
-						<dd>체육/문화/영어</dd>
-					</dl>
-					<dl>
-						<dt>강사이력</dt>
-						<dd>발레전공자</dd>
-					</dl>
-					<dl>
-						<dt>담당강습반</dt>
-						<dd>발레A,B,C 및 작품발레</dd>
-					</dl>
-				</div>
-			</dd>
-		</dl>
-		<dl class='dp1'>
-			<dt><img src='http://jungnangspo.seoul.kr/photo/JUNGNANG01_T_20190523130918.jpg' alt=''></dt>
-			<dd>
-				<h6>김소라</h6>
-				<div class='tstr1'>
-					<dl>
-						<dt>종목</dt>
-						<dd>체육/문화/영어</dd>
-					</dl>
-					<dl>
-						<dt>강사이력</dt>
-						<dd>유아체육2급자격, 인라인스케이트 준강사 자격</dd>
-					</dl>
-					<dl>
-						<dt>담당강습반</dt>
-						<dd>어린이 인라인 A, B, 소수정예 C, D</dd>
-					</dl>
-				</div>
-			</dd>
-		</dl>
-		<dl class='dp1'>
-			<dt><img src='http://jungnangspo.seoul.kr/photo/JUNGNANG01_T_20160105131143.jpg' alt=''></dt>
-			<dd>
-				<h6>김승환</h6>
-				<div class='tstr1'>
-					<dl>
-						<dt>종목</dt>
-						<dd>체육/문화/영어</dd>
-					</dl>
-					<dl>
-						<dt>강사이력</dt>
-						<dd>- 유아체육 2급 자격<br>- 인라인중강사 자격</dd>
-					</dl>
-					<dl>
-						<dt>담당강습반</dt>
-						<dd>소수정예인라인A,B,E</dd>
-					</dl>
-				</div>
-			</dd>
-		</dl>
-		<dl class='dp1'>
-			<dt><img src='http://jungnangspo.seoul.kr/photo/JUNGNANG01_T_20181210104906.jpg' alt=''></dt>
-			<dd>
-				<h6>김예일</h6>
-				<div class='tstr1'>
-					<dl>
-						<dt>종목</dt>
-						<dd>체육/문화/영어</dd>
-					</dl>
-					<dl>
-						<dt>강사이력</dt>
-						<dd>생활스포츠지도사 2급(축구)</dd>
-					</dl>
-					<dl>
-						<dt>담당강습반</dt>
-						<dd>소수유아실내축구 A, B</dd>
-					</dl>
-				</div>
-			</dd>
-		</dl>
-		<dl class='dp1'>
-			<dt><img src='http://jungnangspo.seoul.kr/photo/JUNGNANG01_T_20190523130627.jpg' alt=''></dt>
-			<dd>
-				<h6>김창규</h6>
-				<div class='tstr1'>
-					<dl>
-						<dt>종목</dt>
-						<dd>체육/문화/영어</dd>
-					</dl>
-					<dl>
-						<dt>강사이력</dt>
-						<dd>생활스포츠지도사 자격(배드민턴)</dd>
-					</dl>
-					<dl>
-						<dt>담당강습반</dt>
-						<dd>배드민턴 개인레슨(조기 A, 아침 A)</dd>
-					</dl>
-				</div>
-			</dd>
-		</dl>
-		<dl class='dp1'>
-			<dt><img src='http://jungnangspo.seoul.kr/photo/JUNGNANG01_T_20160409145205.jpg' alt=''></dt>
-			<dd>
-				<h6>김현지</h6>
-				<div class='tstr1'>
-					<dl>
-						<dt>종목</dt>
-						<dd>체육/문화/영어</dd>
-					</dl>
-					<dl>
-						<dt>강사이력</dt>
-						<dd>국제 필라테스 지도자 자격</dd>
-					</dl>
-					<dl>
-						<dt>담당강습반</dt>
-						<dd>필라테스A,B,D, 매트필라테스</dd>
-					</dl>
-				</div>
-			</dd>
-		</dl>
-		<dl class='dp1'>
-			<dt><img src='http://jungnangspo.seoul.kr/photo/JUNGNANG01_T_20181210103456.jpg' alt=''></dt>
-			<dd>
-				<h6>문수정</h6>
-				<div class='tstr1'>
-					<dl>
-						<dt>종목</dt>
-						<dd>체육/문화/영어</dd>
-					</dl>
-					<dl>
-						<dt>강사이력</dt>
-						<dd>라인댄스 지도자 1급</dd>
-					</dl>
-					<dl>
-						<dt>담당강습반</dt>
-						<dd>라인댄스A</dd>
-					</dl>
-				</div>
-			</dd>
-		</dl>
-		<dl class='dp1'>
-			<dt><img src='http://jungnangspo.seoul.kr/photo/JUNGNANG01_T_20181210104217.jpg' alt=''></dt>
-			<dd>
-				<h6>박봉순</h6>
-				<div class='tstr1'>
-					<dl>
-						<dt>종목</dt>
-						<dd>체육/문화/영어</dd>
-					</dl>
-					<dl>
-						<dt>강사이력</dt>
-						<dd>댄스스포츠 지도자자격증2급</dd>
-					</dl>
-					<dl>
-						<dt>담당강습반</dt>
-						<dd>사교댄스A,B,E, 댄스스포츠A</dd>
-					</dl>
-				</div>
-			</dd>
-		</dl>
-		<dl class='dp1'>
-			<dt><img src='http://jungnangspo.seoul.kr/photo/JUNGNANG01_T_20140331131331.jpg' alt=''></dt>
-			<dd>
-				<h6>박은재</h6>
-				<div class='tstr1'>
-					<dl>
-						<dt>종목</dt>
-						<dd>체육/문화/영어</dd>
-					</dl>
-					<dl>
-						<dt>강사이력</dt>
-						<dd>밸리댄스 지도자 자격증 2급</dd>
-					</dl>
-					<dl>
-						<dt>담당강습반</dt>
-						<dd>밸리댄스A,B 어린이밸리댄스A,B, 직장인밸리</dd>
-					</dl>
-				</div>
-			</dd>
-		</dl>
-		<dl class='dp1'>
-			<dt><img src='http://jungnangspo.seoul.kr/photo/JUNGNANG01_T_20191004111718.jpg' alt=''></dt>
-			<dd>
-				<h6>박중민</h6>
-				<div class='tstr1'>
-					<dl>
-						<dt>종목</dt>
-						<dd>체육/문화/영어</dd>
-					</dl>
-					<dl>
-						<dt>강사이력</dt>
-						<dd>중등2급정교사 자격</dd>
-					</dl>
-					<dl>
-						<dt>담당강습반</dt>
-						<dd>소수초등(1~2학년) 실내축구 A, B</dd>
-					</dl>
-				</div>
-			</dd>
-		</dl>
-		<dl class='dp1'>
-			<dt><img src='/resource/images/teacher/teacher_1.jpg' alt=''></dt>
-			<dd>
-				<h6>이희동</h6>
-				<div class='tstr1'>
-					<dl>
-						<dt>종목</dt>
-						<dd>체육/문화/영어</dd>
-					</dl>
-					<dl>
-						<dt>강사이력</dt>
-						<dd>생활스포츠지도사 배드민턴 2급</dd>
-					</dl>
-					<dl>
-						<dt>담당강습반</dt>
-						<dd>배드민턴 개인레슨 오전 A, B</dd>
-					</dl>
-				</div>
-			</dd>
-		</dl>
-		<dl class='dp1'>
-			<dt><img src='http://jungnangspo.seoul.kr/photo/JUNGNANG01_T_20171013180430.jpg' alt=''></dt>
-			<dd>
-				<h6>정기순</h6>
-				<div class='tstr1'>
-					<dl>
-						<dt>종목</dt>
-						<dd>체육/문화/영어</dd>
-					</dl>
-					<dl>
-						<dt>강사이력</dt>
-						<dd>생활스포츠지도사 배드민턴 2급</dd>
-					</dl>
-					<dl>
-						<dt>담당강습반</dt>
-						<dd>청소년 배드민턴 A, B, C, 주말</dd>
-					</dl>
-				</div>
-			</dd>
-		</dl>
-		<dl class='dp1'>
-			<dt><img src='http://jungnangspo.seoul.kr/photo/JUNGNANG01_T_20190523130702.jpg' alt=''></dt>
-			<dd>
-				<h6>진선혜</h6>
-				<div class='tstr1'>
-					<dl>
-						<dt>종목</dt>
-						<dd>체육/문화/영어</dd>
-					</dl>
-					<dl>
-						<dt>강사이력</dt>
-						<dd>생활스포츠지도사 농구 1급</dd>
-					</dl>
-					<dl>
-						<dt>담당강습반</dt>
-						<dd>어린이농구 A, B, C</dd>
-					</dl>
-				</div>
-			</dd>
-		</dl>
-		<dl class='dp1'>
-			<dt><img src='/resource/images/teacher/teacher_2.jpg' alt=''></dt>
-			<dd>
-				<h6>조인호</h6>
-				<div class='tstr1'>
-					<dl>
-						<dt>종목</dt>
-						<dd>체육/문화/영어</dd>
-					</dl>
-					<dl>
-						<dt>강사이력</dt>
-						<dd>생활스포츠지도사 농구 2급</dd>
-					</dl>
-					<dl>
-						<dt>담당강습반</dt>
-						<dd>주말농구교실</dd>
-					</dl>
-				</div>
-			</dd>
-		</dl>
-	</div>
+<br>
+<br>
+<br>
+
+<div class='bg_icon_circle_green1a fontsize_1dot60 padding_left_1dot5'>요금할인</div>
+
+<div class='margin_top_0dot5 lineheight_1dot8'>
+	<ul class='ul_hyphen1a10'>
+		<li>긴급 자동차 및 민방위 훈련대피 자동차 (전액면제)</li>
+		<li>국가유공 자동차 (80% 할인)</li>
+		<li>장애인 자동차 (80% 할인)</li>
+		<li>1000cc이하 자동차(50% 할인)</li>
+		<li>저공해 스티커부착 자동차(50% 할인)</li>
+		<li>다둥이카드 소지자(두자녀 (30% 할인), 세자녀이상 (50% 할인)</li>
+		<li>장기기증등록자 및 기증자(50% 할인)</li>
+	</ul>
 </div>
 
-<!-- (3개월)체육/문화/수영 -->
-<div class='jsc_tab1a_con clbx'>
-	<div class='teacher_item'>
-		<dl class='dp1'>
-			<dt><img src='http://jungnangspo.seoul.kr/photo/JUNGNANG01_T_20140328161439.jpg' alt=''></dt>
-			<dd>
-				<h6>정민혜</h6>
-				<div class='tstr1'>
-					<dl>
-						<dt>종목</dt>
-						<dd>체육/문화/수영</dd>
-					</dl>
-					<dl>
-						<dt>강사이력</dt>
-						<dd>- 동화구연 지도자 자격<br>- 유아스피치 지도자 자격</dd>
-					</dl>
-					<dl>
-						<dt>담당강습반</dt>
-						<dd>동화구연, 자신감스피치</dd>
-					</dl>
-				</div>
-			</dd>
-		</dl>
-		<dl class='dp1'>
-			<dt><img src='http://jungnangspo.seoul.kr/photo/JUNGNANG01_T_20190523130918.jpg' alt=''></dt>
-			<dd>
-				<h6>김소라</h6>
-				<div class='tstr1'>
-					<dl>
-						<dt>종목</dt>
-						<dd>체육/문화/수영</dd>
-					</dl>
-					<dl>
-						<dt>강사이력</dt>
-						<dd>유아체육2급자격, 인라인스케이트 준강사 자격</dd>
-					</dl>
-					<dl>
-						<dt>담당강습반</dt>
-						<dd>어린이 인라인 A, B, 소수정예 C, D</dd>
-					</dl>
-				</div>
-			</dd>
-		</dl>
-		<dl class='dp1'>
-			<dt><img src='http://jungnangspo.seoul.kr/photo/JUNGNANG01_T_20160105132649.jpg' alt=''></dt>
-			<dd>
-				<h6>이운희</h6>
-				<div class='tstr1'>
-					<dl>
-						<dt>종목</dt>
-						<dd>체육/문화/수영</dd>
-					</dl>
-					<dl>
-						<dt>강사이력</dt>
-						<dd>생활스포츠지도사 축구 2급</dd>
-					</dl>
-					<dl>
-						<dt>담당강습반</dt>
-						<dd>주말실내축구</dd>
-					</dl>
-				</div>
-			</dd>
-		</dl>
-	</div>
-</div>
+<br>
+<br>
+<br>
+
+
