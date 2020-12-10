@@ -81,6 +81,10 @@ public class PayController {
 					rtnMap.put("goURL", "/mypage/lockerStatus");					
 					modelAndView.addObject("rtnMap", rtnMap);
 					break;
+					
+				case "mainCancelPay":
+					rtn = "/smartPay/mainCancelPay";
+					break;					
 				case "returnPayxxx":
 					break;
 
