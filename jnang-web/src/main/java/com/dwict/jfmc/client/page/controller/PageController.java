@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -219,7 +220,7 @@ public class PageController {
 	
 	
 	//대관신청 리스트 (/rent/ 로그인 페이지 안타도록 여기에 적용)
-	@GetMapping(value = "/rentlist")
+	@RequestMapping(value = "/rentlist")
 	public ModelAndView step1(ModelAndView modelAndView, HttpServletRequest request) {
 		
 		final Map <String,Object> rentCfg = rentService.rentConfig(request);

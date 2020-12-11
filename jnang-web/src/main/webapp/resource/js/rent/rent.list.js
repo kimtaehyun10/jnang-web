@@ -57,7 +57,7 @@ function selectSport(selCT) {
 
 	if (selCT == "1") {
 		
-		$.post('/data/rentGroup', { "sp_type" : ct1 } , function(data){
+		$.get('/data/rentGroup', { "sp_type" : ct1 } , function(data){
 			try {
 				var dataList = "";
 				$('#ct2').empty();
@@ -87,7 +87,7 @@ function selectSport(selCT) {
 	var ct1 = $("#ct1").val();
 	var ct2 = $("#ct2").val();
 		
-		$.post('/data/rentList', { "ct1" : ct1, "ct2" : ct2 }, function(data){
+		$.get('/data/rentList', { "ct1" : ct1, "ct2" : ct2 }, function(data){
 			//try {
 				var dataList = "";
 				if(data.length != 0){

@@ -51,13 +51,13 @@ public class PageRestController {
 	}
 
 	//종목별 대관 센터  정보 가져오기 (종목 센터 선택)
-	@PostMapping(value = "/rentGroup")
+	@GetMapping (value = "/rentGroup")
 	public List<Map<String, Object>> rentGroupList(HttpServletRequest request) {
 		return rtnService.rentGroupList(request);
 	}
 
 	//종목별 대관 센터  리스트 가져오기 (VIEW)
-	@PostMapping(value = "/rentList")
+	@GetMapping(value = "/rentList")
 	public List<Map<String, Object>> rentList(HttpServletRequest request) {
 		return rtnService.rentList(request);
 	}
