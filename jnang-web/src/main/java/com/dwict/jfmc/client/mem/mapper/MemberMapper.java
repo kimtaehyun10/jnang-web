@@ -1,5 +1,7 @@
 package com.dwict.jfmc.client.mem.mapper;
 
+import java.util.Map;
+
 import com.dwict.jfmc.client.mem.model.Member;
 
 import egovframework.rte.psl.dataaccess.mapper.Mapper;
@@ -16,6 +18,14 @@ public interface MemberMapper {
 	int password(Member param);
 
 	//회원검색 ID로
-	Member findById(String param); 
+	Member findById(String param);
+	
+	/**########################################################
+	 * 혁산 API 시작 
+	 *#########################################################
+	 */
+	Map<String, String> isMember(Map<String, String> maps);
+	
+	
 
 }

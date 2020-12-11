@@ -14,5 +14,12 @@ public interface MemberService {
 	int insertForLessThan14(Member param);
 	int password(Member param);
 	void memSession(HttpServletRequest request, String userId);
+	
+	/**########################################################
+	 * 혁산 API
+	 *#########################################################
+	 */
+	//회원가입 여부 조회
+	String isMember(HttpServletRequest request);
 
 }
