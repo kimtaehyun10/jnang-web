@@ -39,12 +39,14 @@
 		</if>
 	</select>
 	
+	<!-- 회원아이디 중복 -->
 	<select id="isDuplicatedId" parameterType="member" resultType="boolean">
 		SELECT COUNT(1)
 		  FROM MEMBER_DAMO
 		 WHERE ID = #{id}
 	</select>
 	
+	<!-- 기본 회원가입 -->
 	<insert id="insert">
 		<selectKey resultType="string" keyProperty="memNo" order="BEFORE">
 			SELECT LPAD(CAST(IFNULL(MAX(MEM_NO), '00000000') AS UNSIGNED) + 1, 8, '0') 
@@ -55,32 +57,16 @@
 		  HOME_TEL, HOME_ZIP, HOME_ADDR,
 		  MEM_NO, GENDER, ID, PW, JOIN_DATE, BIRTH_SEC,
 		  EMAIL_YN, SMS_YN, AGREE_YN, STATUS,
-		  NICKNAME )
+		  NICKNAME , DUPCHK_KEY)
 		VALUES
 		( #{memNm}, #{hp}, #{email}, ENC_STR('KEY1', #{secBirthDate}),
 		  #{homeTel}, #{homeZip}, #{homeAddr},
 		  #{memNo}, #{gender}, #{id}, #{pw}, DATE_FORMAT(SYSDATE(), '%Y%m%d'), #{birthSec},
 		  #{emailYn}, #{smsYn}, 'Y', '00',
-		  #{memNm} )
+		  #{memNm} , #{DUPCHK_KEY} )
 	</insert>
 	
-	<update id="update" parameterType="member">
-		UPDATE MEMBER_DAMO
-		   SET ID = #{id}
-		     , PW = #{pw}
-		     , BIRTH_SEC = #{birthSec}
-		     , EMAIL = #{email}
-		     , HOME_ZIP = #{homeZip}
-		     , HOME_ADDR = #{homeAddr}
-		     , HOME_TEL = #{homeTel}
-		     , EMAIL_YN = #{emailYn}
-		     , SMS_YN = #{smsYn}
-		 WHERE MEM_NM = #{memNm}
-		   AND SEC_BIRTH_DATE = ENC_STR('KEY1', #{secBirthDate})
-		   AND GENDER = #{gender}
-		   AND HP = #{hp}
-	</update>
-	
+	<!--  14세미만 회원가입 + 부모동의  -->
 	<insert id="insertForLessThan14" parameterType="member">
 		<selectKey resultType="string" keyProperty="memNo" order="BEFORE">
 			SELECT LPAD(CAST(IFNULL(MAX(MEM_NO), '00000000') AS UNSIGNED) + 1, 8, '0') 
@@ -99,6 +85,25 @@
 		  #{emailYn}, #{smsYn}, 'Y', '00', #{etcNo},
 		  #{memNm} )
 	</insert>
+	
+	
+	<update id="update" parameterType="member">
+		UPDATE MEMBER_DAMO
+		   SET ID = #{id}
+		     , PW = #{pw}
+		     , BIRTH_SEC = #{birthSec}
+		     , EMAIL = #{email}
+		     , HOME_ZIP = #{homeZip}
+		     , HOME_ADDR = #{homeAddr}
+		     , HOME_TEL = #{homeTel}
+		     , EMAIL_YN = #{emailYn}
+		     , SMS_YN = #{smsYn}
+		 WHERE MEM_NM = #{memNm}
+		   AND SEC_BIRTH_DATE = ENC_STR('KEY1', #{secBirthDate})
+		   AND GENDER = #{gender}
+		   AND HP = #{hp}
+	</update>
+	
 	
 	<update id="password" parameterType="member">
 		UPDATE MEMBER_DAMO

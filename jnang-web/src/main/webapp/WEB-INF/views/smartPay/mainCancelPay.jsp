@@ -155,27 +155,32 @@ input {
 				<tr>
 					<th colspan="3">[결제 취소 요청]</th>
 				</tr>
+				<!-- 
 				<tr>
 					<th scope="cols">항목명</th>
 					<th scope="cols">파라미터</th>
 					<th scope="cols">입력</th>
 				</tr>
+				 -->
 			</thead>
 
 			<tbody>
-
+				<!-- 
 				<tr>
 					<th scope="row">거래ID</th>
 					<td>TID</td>
-					<td><input name="TID" type="text" class="input" id="TID" value="<%=TID%>" size="30" maxlength="30" /></td>
+					<td></td>
 				</tr>
-
+				 -->
+				<input name="TID" type="text" class="input" id="TID" value="<%=TID%>" size="30" maxlength="30" />
+				<!-- 
 				<tr>
 					<th scope="row">취소 패스워드</th>
 					<td>Cancelpw</td>
-					<td><strong><input name="Cancelpw" type="password" class="input" id="Cancelpw" value="123456"/>* 데모시 "123456" 입력</strong></td>
+					<td><strong>* 데모시 "123456" 입력</strong></td>
 				</tr>
-
+				 -->
+				<input name="Cancelpw" type="password" class="input" id="Cancelpw" value="ysisul#34"/>
 				<tr>
 					<th scope="row">취소금액</th>
 					<td>CancelAmt</td>
@@ -189,7 +194,7 @@ input {
 					</td>
 				</tr>
 
-				<tr>
+				<!-- <tr>
 					<th scope="row">부분취소 여부</th>
 					<td>PartialCancelCode</td>
 					<td height="30" valign="middle">
@@ -197,20 +202,26 @@ input {
 						<strong> <input type="radio" name="PartialCancelCode" id="PartialCancelCode" value="1" /> 부분취소 </strong>
 					</td>
 				</tr>
-				
+				 -->
+				 <input type="hidden" name="PartialCancelCode" id="PartialCancelCode" value="0"/>
+				<!-- 
 				<tr>
 					<th scope="row">상점모드</th>
 					<td>MerchantMode</td>
-					<td><input name="MerchantMode" type="text" class="input" id="MerchantMode" value="<%=MerchantMode%>" size="1" maxlength="30" />
+					<td>
 					</td>
 				</tr>
+				 -->
+				 <input name="MerchantMode" type="text" class="input" id="MerchantMode" value="<%=MerchantMode%>" size="1" maxlength="30" />
 
+				<!-- 
 				<tr>
 					<th scope="row">서브몰정보</th>
 					<td>DivideInfo</td>
 					<td><input name="DivideInfo" type="text" class="input" id="DivideInfo" value="<%=DivideInfo%>" maxlength="30" />
 					</td>
 				</tr>
+				 -->
 
 				<tr>
 					<th>&nbsp;</th>
