@@ -176,13 +176,17 @@ pre {white-space: pre-wrap;word-wrap:break-word;text-align:justify;}
 .bx-clone {display: none !important;}
 
 /* 메인 > 자주찾는서비스 */
+/* 2020-12-15 { */
 .main_links1 {float:left;width:100%;border:1px solid #ddd;padding:9px 0;margin-top:20px;}
-.main_links1 li:first-child {width:16%;border-left:0;font-size:1.4em;padding-top:2.2em;}
+.main_links1 li {float:left;width:17%;text-align:center;border-right:1px solid #ddd;}
+.main_links1 li:first-child {width:15%;font-size:1.4em;padding-top:2.3em;border-right:0;}
+.main_links1 li:last-child {border-right:0;}
+.main_links1 li:nth-child(2) {border-left:1px solid #ddd;}
 .main_links1 li:first-child span {color:#f23e01;}
-.main_links1 li {float:left;width:14%;text-align:center;border-left:1px solid #ddd;}
-.main_links1 li:not(:first-child) {font-size:1.2em;padding:15px 0;}
+.main_links1 li:not(:first-child) {font-size:1.1em;padding:15px 0;}
 .main_links1 li:not(:first-child) a {display:block;}
-.main_links1 li:not(:first-child) span {display:block;margin-bottom:10px;}
+.main_links1 li:not(:first-child) div {margin-top:10px;}
+/* } 2020-12-15 */
 
 /* 메인 > 최근게시물 > 뼈대 */
 .bx_main_late1 {display:flex;height:600px;border:1px solid #ddd;margin-top:40px;}
@@ -234,17 +238,23 @@ pre {white-space: pre-wrap;word-wrap:break-word;text-align:justify;}
 
 /* 메인 > 최근게시물 > 온라인통합예약시스템 > PC_모바일__공용 */
 .bx_main_late1b {border:1px solid #ddd;padding:15px;margin-top:30px;}
-.main_addm1 .tit1 {font-size:1.4em;}
-.main_addm1 ul {display:table;width:100%;margin-top:18px;}
-.main_addm1 ul li {display:table-cell;vertical-align:middle;width:20%;padding:5px;}
-.main_addm1 ul li a {display:block;width:100%;text-align:center;color:#fff;font-size:1.2em;padding:25px 0;}
-.main_addm1 ul li a div {margin-top:10px;line-height:1.2;}
+/* 2020-12-15 { */
+.main_addm1 .tit1 {font-size:1.4em;margin-top:16px;}
+.main_addm1 ul {float:left;width:100%;margin-top:18px;}
+.main_addm1 ul li {float:left;width:15%;text-align:center;margin:0 1%;}
+.main_addm1 ul li:first-child {margin-left:0;}
+.main_addm1 ul li:last-child {margin-right:0;}
+.main_addm1 ul li a {display:block;text-align:center;color:#fff;font-size:1.15em;padding:20px 0;}
+.main_addm1 ul li a div {height:40px;margin-top:10px;line-height:1.2;}
 .main_addm1 ul li a div span {display:block;}
+.main_addm1 ul li a div span.br1 {height:10px;}
 .main_addm1 ul li:nth-child(1) a {background:#ed6f00;}
 .main_addm1 ul li:nth-child(2) a {background:#7c5da9;}
 .main_addm1 ul li:nth-child(3) a {background:#01aaa5;}
 .main_addm1 ul li:nth-child(4) a {background:#0279bb;}
-.main_addm1 ul li:nth-child(5) a {background:#676d6b;}
+.main_addm1 ul li:nth-child(5) a {background:#6ea83a;}
+.main_addm1 ul li:nth-child(6) a {background:#676d6b;}
+/* } 2020-12-15 */
 
 /* 메인 > 최근게시물 > 안전무사고현황 */
 .bx_main_late1 .stat1 .bx1 {display:inline-block;}
@@ -257,13 +267,43 @@ pre {white-space: pre-wrap;word-wrap:break-word;text-align:justify;}
 .bx_main_late1 .stat1 .t2 .c_orange1 {font-weight:700;color:#f28d01;}
 
 /* 메인 > 최근게시물 > 아이콘메뉴 */
+/* 2020-12-15 { */
 .bx_main_late1 .ime1 ul {display:table;width:100%;}
-.bx_main_late1 .ime1 ul li {display:table-cell;vertical-align:middle;text-align:center;width:25%;}
+.bx_main_late1 .ime1 ul li {display:table-cell;vertical-align:middle;text-align:center;width:20%;}
 .bx_main_late1 .ime1 ul li a {display:block;}
-.bx_main_late1 .ime1 ul li a div {font-size:1.05em;margin-top:5px;}
+.bx_main_late1 .ime1 ul li a div {margin-top:5px;}
+/* } 2020-12-15 */
 
 /* 메인 > 롤링 > 팝업존 */
 .bx_main_rollingpopz1 {width:100%;max-width:380px;margin:0 auto;}
+
+/* 2020-12-15 { */
+/* 메인 > 시설안내 > PC용 */
+.main_sisul2 {position:relative;z-index:1;margin-top:40px;height:280px;}
+.main_sisul2 > ul {float:left;width:100%;height:100%;}
+.main_sisul2 > ul > li {float:left;width:400px;height:100%;}
+.main_sisul2 > ul > li > .tab1 {display:block;}
+.main_sisul2 > ul > li .dta1 {position:absolute;z-index:2;top:0;left:0;width:100%;height:0;opacity:0;transition:all 0.2s;overflow:hidden;background:#fff;border:1px solid #ddd;}
+.main_sisul2 > ul > li .dta1.on {width:100%;height:100%;opacity:1;transition:all 0.2s;}
+.main_sisul2 > ul > li .dta1 ul {float:left;width:100%;height:100%;}
+.main_sisul2 > ul > li .dta1 ul li {float:left;display:table;text-align:center;border-right:1px solid #ddd;height:100%;}
+.main_sisul2 > ul > li .dta1 ul li a {display:table-cell;vertical-align:middle;}
+.main_sisul2 > ul > li .dta1 ul li a div {font-size:1.05em;margin-top:15px;}
+.main_sisul2 > ul > li:nth-of-type(1) .dta1 ul li {width:17%;height:50%;}
+.main_sisul2 > ul > li:nth-of-type(1) .dta1 ul li:nth-child(6n-5) {width:16%;}
+.main_sisul2 > ul > li:nth-of-type(1) .dta1 ul li:nth-child(6n) {width:16%;border-right:0;}
+.main_sisul2 > ul > li:nth-of-type(1) .dta1 ul li:nth-child(1),
+.main_sisul2 > ul > li:nth-of-type(1) .dta1 ul li:nth-child(2),
+.main_sisul2 > ul > li:nth-of-type(1) .dta1 ul li:nth-child(3),
+.main_sisul2 > ul > li:nth-of-type(1) .dta1 ul li:nth-child(4),
+.main_sisul2 > ul > li:nth-of-type(1) .dta1 ul li:nth-child(5),
+.main_sisul2 > ul > li:nth-of-type(1) .dta1 ul li:nth-child(6) {border-bottom:1px solid #ddd;}
+.main_sisul2 > ul > li:nth-of-type(2) .dta1 ul li {width:33%;}
+.main_sisul2 > ul > li:nth-of-type(2) .dta1 ul li:nth-child(2) {width:34%;}
+.main_sisul2 > ul > li:nth-of-type(2) .dta1 ul li:nth-child(3) {border-right:0;}
+.main_sisul2 > ul > li:nth-of-type(3) .dta1 ul li {width:50%;}
+.main_sisul2 > ul > li:nth-of-type(3) .dta1 ul li:nth-child(2) {border-right:0;}
+/* } 2020-12-15 */
 
 /* 메인 > 시설안내 */
 .main_sisul {position:relative;height:40px;margin-top:40px;}
@@ -851,11 +891,9 @@ div.inputbox_02a{ padding:20px; border:1px solid #ddd; }
 .responsive_m {display:block !important;}
 
 /* 메인 > 자주찾는서비스 */
-.main_links1 li {width:17%;}
+.main_links1 li {width:20%;}
 .main_links1 li:first-child {width:100%;padding:0.5em 0 1em 0;}
 .main_links1 li:nth-child(2) {border-left:0;}
-.main_links1 li:nth-child(2),
-.main_links1 li:last-child {width:16%;}
 
 /* 메인 > 최근게시물 > 뼈대 */
 .bx_main_late1 {display:block;height:auto;border:0;margin-top:40px;}
@@ -960,15 +998,15 @@ div.inputbox_02a{ padding:20px; border:1px solid #ddd; }
 /*.con_bx {background:pink;}*/
 
 /* 메인 > 자주찾는서비스 */
-.main_links1 li,
-.main_links1 li:nth-child(2),
-.main_links1 li:last-child {width:33%;}
-.main_links1 li:first-child {width:100%;}
-.main_links1 li:nth-child(3),
-.main_links1 li:nth-child(6) {width:34%;}
+
+.main_links1 li {width:33%;}
+.main_links1 li:nth-child(3n-1) {width:34%;border-left:0;}
+.main_links1 li:first-child {display:none;}
+.main_links1 li:not(:first-child) {font-size:1em;}
 .main_links1 li:nth-child(2),
 .main_links1 li:nth-child(3),
 .main_links1 li:nth-child(4) {border-bottom:1px solid #ddd;}
+.main_links1 li:last-child {border-right:1px solid #ddd;}
 
 /* 메인 > 최근게시물 > 뼈대 */
 .bx_main_late1 .bx_popz1 {display:block;border:0;}
@@ -978,7 +1016,14 @@ div.inputbox_02a{ padding:20px; border:1px solid #ddd; }
 .bx_main_late1 .popz1 {width:100%;height:auto;border:1px solid #ddd;margin-top:30px;}
 
 /* 메인 > 최근게시물 > 온라인통합예약시스템 > PC_모바일__공용 */
-.main_addm1 ul li a {font-size:0.9em;}
+/* .main_addm1 ul li a {font-size:0.9em;} */
+.main_addm1 .tit1 {display:none;}
+.main_addm1 ul {margin-top:0;}
+.main_addm1 ul li {width:32%;margin:0;}
+.main_addm1 ul li:nth-child(3n-1) {margin:0 2%;}
+.main_addm1 ul li:nth-child(4),
+.main_addm1 ul li:nth-child(5),
+.main_addm1 ul li:nth-child(6) {margin-top:2%;}
 
 /* 메인 > 시설안내 */
 .main_sisul .menu1 .dp1 .tab1 {font-size:1em;}
@@ -1034,12 +1079,6 @@ div.inputbox_02a{ padding:20px; border:1px solid #ddd; }
 .flow_a_1a dt {width:100%;height:auto;text-align:left;background-image:url('') !important;margin-bottom:1em;}
 .flow_a_1a dd {padding-left:0;}
 
-/*.flow_b_1a dl {display:table;width:100%;margin-top:15px;}*/
-/*.flow_b_1a dl:first-child {margin-top:0;}*/
-/*.flow_b_1a dt,*/
-/*.flow_b_1a dd {display:table-cell;vertical-align:middle;height:45px;}*/
-/*.flow_b_1a dt {width:170px;text-align:center;background:#227b39;color:#fff;font-size:1.15em;}*/
-/*.flow_b_1a dd {font-size:1.15em;padding-left:30px;}*/
 .flow_b_1a dl {display:block;margin-top:20px;}
 .flow_b_1a dt,
 .flow_b_1a dd {display:block;height:auto;}
@@ -1101,9 +1140,11 @@ div.inputbox_02a{ padding:20px; border:1px solid #ddd; }
 .bx_main_late1 .dsp_b1 .loop .wdate {width:20%;}
 
 /* 메인 > 최근게시물 > 온라인통합예약시스템 > PC_모바일__공용 */
-.main_addm1 ul {margin-top:10px;}
-.main_addm1 ul li a {font-size:10px;padding:15px 0;}
-.main_addm1 ul li a img {width:40px;}
+
+.main_addm1 ul li {width:48%;margin:0 !important;}
+.main_addm1 ul li:nth-child(2n) {margin-left:4% !important;}
+.main_addm1 ul li:not(:nth-child(1)),
+.main_addm1 ul li:not(:nth-child(2)) {margin-top:4% !important;}
 
 /* 메인 > 롤링 > 배너모음 */
 .main_rollingsite1 .sc1 .dp1:nth-child(2) {width:24%;}
@@ -1170,9 +1211,8 @@ div.inputbox_02a{ padding:20px; border:1px solid #ddd; }
 
 /* 메인 > 자주찾는서비스 */
 .main_links1 li {width:50% !important;border:0 !important;}
-.main_links1 li:first-child {width:100% !important;font-size:1.2em;padding:0 0 10px 0;}
-.main_links1 li:not(:first-child) {font-size:1em;padding:10px 0;}
-.main_links1 li:not(:first-child):nth-child(odd) {border-left:1px solid #ddd !important;}
+.main_links1 li:not(:first-child) {font-size:0.9em;padding:10px 0;}
+.main_links1 li:not(:first-child):nth-child(even) {border-right:1px solid #ddd !important;}
 .main_links1 li:nth-child(2),
 .main_links1 li:nth-child(3),
 .main_links1 li:nth-child(4),
@@ -1195,10 +1235,10 @@ div.inputbox_02a{ padding:20px; border:1px solid #ddd; }
 .bx_main_late1 .dsp_b1 .loop .wdate {width:25%;}
 
 /* 메인 > 최근게시물 > 온라인통합예약시스템 > PC_모바일__공용 */
-.main_addm1 ul {display:block;width:100%;}
+/* .main_addm1 ul {display:block;width:100%;}
 .main_addm1 ul li {display:flex;width:100%;padding:5px;}
 .main_addm1 ul li a {font-size:1.2em;padding:8px 0;}
-.main_addm1 ul li a div span {display:inline-block;margin-left:0.3em;}
+.main_addm1 ul li a div span {display:inline-block;margin-left:0.3em;} */
 
 /* 메인 > 최근게시물 > 안전무사고현황 */
 .bx_main_late1 .stat1 .tit {font-size:1em;margin-right:5px;}
@@ -1211,7 +1251,8 @@ div.inputbox_02a{ padding:20px; border:1px solid #ddd; }
 .bx_main_late1 .ime1 ul {float:left;width:100%;}
 .bx_main_late1 .ime1 ul li {float:left;width:50%;}
 .bx_main_late1 .ime1 ul li:nth-child(3),
-.bx_main_late1 .ime1 ul li:nth-child(4) {margin-top:20px;}
+.bx_main_late1 .ime1 ul li:nth-child(4),
+.bx_main_late1 .ime1 ul li:nth-child(5) {margin-top:20px;}
 
 /* 메인 > 시설안내 */
 .main_sisul .menu1 .dp1 .tab1 {font-size:12px;}

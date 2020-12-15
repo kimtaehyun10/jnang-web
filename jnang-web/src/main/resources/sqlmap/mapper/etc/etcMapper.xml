@@ -23,9 +23,12 @@
 			and GUBUN = #{GUBUN}
 		</if>
 		order by CAL_DATE
-	</select>
-	
+	</select>	
 		
-		
+	<select id="scc" parameterType="java.util.HashMap" resultType="int">
+		SELECT COUNT(*)
+		FROM MEM_CARD
+		WHERE CARD_NO = #{decryptCardNo}
+	</select>	
 		
 </mapper>

@@ -1,6 +1,9 @@
 package com.dwict.jfmc.client.etc.service.impl;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -11,6 +14,11 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -48,6 +56,8 @@ public class EtcServiceImpl implements EtcService {
 	@Resource(name = "etcMapper")
 	private EtcMapper etcMapper;
 	
+	private static String key = "3D5853AA8A94D22A2C6518968F0DCF78";
+	public static byte[] ivBytes = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 	
 	@Override
 	public HashMap<String, String> getWeatherInfo() {
@@ -255,4 +265,104 @@ public class EtcServiceImpl implements EtcService {
 		return etcMapper.getHoliday(maps);
 	}
 
+	@Override
+	public Map<String, Object> scc(Map<String, Object> requestMap) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		String msg="";
+		String location="";
+		try {
+			if(requestMap.get("sccCardNo").equals("") || requestMap.get("sccCardNo") == null) {
+				msg="카드번호 정보가 없습니다.";
+				location=(String)requestMap.get("fail_url");
+			}else {
+				String decrypt = decrypt((String)requestMap.get("sccCardNo"));			
+				String[] value = decrypt.split("-");
+				String decryptCardNo = value[0];
+				requestMap.put("decryptCardNo", decryptCardNo);					
+				int sccCnt = etcMapper.scc(requestMap);
+				if(sccCnt==0) {
+					msg="일치하는 회원을 찾을 수 없습니다.";
+					location=(String)requestMap.get("fail_url");
+				}else {
+					location=(String)requestMap.get("success_url");
+				}
+			}
+			
+		} catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | UnsupportedEncodingException
+				| IllegalBlockSizeException | BadPaddingException e) {
+			msg="복호화에 실패하였습니다.";
+			location=(String)requestMap.get("fail_url");
+			e.printStackTrace();
+		}
+		resultMap.put("msg", msg);
+		resultMap.put("location", location);
+		return resultMap;
+	}
+
+	public static String encrypt(String unCrypt) throws InvalidKeyException, UnsupportedEncodingException,
+	    NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
+	  return encrypt(unCrypt, key);
+	}
+	
+	public static String decrypt(String crypt) throws InvalidKeyException, NoSuchAlgorithmException,
+	    NoSuchPaddingException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException {
+	  return decryptAES(crypt, key);
+	}
+	
+	public static String encrypt(String text, String key) throws UnsupportedEncodingException, NoSuchAlgorithmException,
+	    NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+	  if (text == null || text.length() == 0) {
+	    return text;
+	  }
+	  String encrypted = null;
+	  byte[] source = text.getBytes("UTF-8");
+	  SecretKeySpec skeySpec = new SecretKeySpec(key.getBytes("UTF-8"), "AES");
+	
+	  Cipher cipher = Cipher.getInstance("AES/ECB/NoPadding");
+	  cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
+	  int mod = source.length % 16;
+	  byte[] changeSource = null;
+	  if (mod != 0) {
+	    changeSource = new byte[source.length + (16 - mod)];
+	    System.arraycopy(source, 0, changeSource, 0, source.length);
+	  } else {
+	    changeSource = source;
+	  }
+	  encrypted = byteArrayToHex(cipher.doFinal(changeSource));
+	  return encrypted;
+	}
+	
+	public static String decryptAES(String s, String key) throws NoSuchAlgorithmException, NoSuchPaddingException,
+	    InvalidKeyException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException {
+	  if (s == null || s.length() == 0) {
+	    return s;
+	  }
+	  String decrypted = null;
+	  SecretKeySpec skeySpec = new SecretKeySpec(key.getBytes(), "AES");
+	
+	  Cipher cipher = Cipher.getInstance("AES/ECB/NoPadding");
+	  cipher.init(Cipher.DECRYPT_MODE, skeySpec);
+	  decrypted = new String(cipher.doFinal(hexToByteArray(s)), "UTF-8");
+	  return decrypted.trim();
+	}
+	
+	private static byte[] hexToByteArray(String s) {
+	  byte[] retValue = null;
+	  if (s != null && s.length() != 0) {
+	    retValue = new byte[s.length() / 2];
+	    for (int i = 0; i < retValue.length; i++) {
+	      retValue[i] = (byte) Integer.parseInt(s.substring(2 * i, 2 * i + 2), 16);
+	    }
+	  }
+	  return retValue;
+	}
+	
+	private static String byteArrayToHex(byte buf[]) {
+	  StringBuffer strbuf = new StringBuffer();
+	  for (int i = 0; i < buf.length; i++) {
+	    strbuf.append(String.format("%02X", buf[i]));
+	  }
+	
+	  return strbuf.toString();
+	}
 }

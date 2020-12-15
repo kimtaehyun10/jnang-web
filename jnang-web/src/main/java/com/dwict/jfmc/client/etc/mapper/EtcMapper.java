@@ -12,4 +12,7 @@ public interface EtcMapper {
 
 	//공휴일정보 가져오기
 	List <Map<String, Object>> getHoliday(Map<String, Object> maps);
+	
+	//sso API
+	int scc(Map<String, Object> requestMap);
 }

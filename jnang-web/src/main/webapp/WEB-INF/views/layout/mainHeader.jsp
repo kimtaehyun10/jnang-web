@@ -48,7 +48,7 @@
 							<li><input type='image' src='${pageContext.request.contextPath}/resource/images/common/btn_search_01.png' alt='검색' onclick="searchPage()"></li>
 						</ul>						
 					</li>
-					<li class='dp1'>
+					<%-- <li class='dp1'>
 						<div class='bx_addmenu1'>
 							<div>
 								<a href='javascript:;' class='addmenu1_btn'>시설 통합예약<img src='${pageContext.request.contextPath}/resource/images/common/icon_arrow_01_down.png' alt='통합예약 메뉴 열기'></a>
@@ -59,7 +59,7 @@
 								</ul>
 							</div>
 						</div>
-					</li>
+					</li> --%>
 				</ul>
 			</div>
 		</div>

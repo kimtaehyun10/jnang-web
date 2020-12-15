@@ -24,7 +24,7 @@
 		<title>기타 페이지</title>
 		<link rel='shortcut icon' href='${pageContext.request.contextPath}/resource/images/common/favicon.ico'>
 		<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/reset.user.min.css?v=1" />
-		<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/design.min.css?v=1" />
+		<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/design.css?v=1" />
 		<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/style.min.css?v=1" />
 		<script type="text/javascript" src="${pageContext.request.contextPath}/resource/js/jquery-3.5.1.min.js"></script>
 		<script type="text/javascript" src="${pageContext.request.contextPath}/resource/js/jquery.ajax.extends.min.js"></script>
