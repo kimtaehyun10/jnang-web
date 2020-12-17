@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dwict.jfmc.client.com.service.CommonService;
@@ -28,6 +29,7 @@ public class RentRestController {
 
 	//댸관 예약 저장
 	@PostMapping(value = "/save")
+	@ResponseBody
 	public Map<String, Object> rtnSave(@RequestParam  Map<String, Object> requestMap, HttpServletRequest request) {
 	
 		//예약 저장
@@ -38,6 +40,7 @@ public class RentRestController {
 	
 	//댸관 문의 저장
 	@PostMapping(value = "/writeSave")
+	@ResponseBody
 	public int writeSave(@RequestParam  Map<String, Object> requestMap, HttpServletRequest request) {
 	
 		//예약 저장
@@ -47,6 +50,7 @@ public class RentRestController {
 	
 	//팀신청 저장
 	@PostMapping(value = "/teamSave")
+	@ResponseBody
 	//public int teamSave(@RequestParam  Map<String, Object> requestMap, HttpServletRequest request) {
 	public int teamSave(@RequestParam  Map<String, Object> requestMap, HttpServletRequest request) {
 		

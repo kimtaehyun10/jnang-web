@@ -28,5 +28,6 @@ public interface MemberService {
 	//혁산 api 회원아이디 중복조회
 	String apiCheckId(HttpServletRequest request);
 	String apiMembership(HttpServletRequest request);
+	
 
 }

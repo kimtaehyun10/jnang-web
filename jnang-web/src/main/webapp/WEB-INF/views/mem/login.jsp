@@ -2,7 +2,7 @@
 <script type="text/javascript">
 <%
 final String strUrl = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort();
-if (strUrl.contains("localhost") ) {
+if (strUrl.contains("localhost") || strUrl.contains("jnimc.dwict.kr")  ) {
 	
 } else {
 	%>

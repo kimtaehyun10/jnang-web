@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -39,6 +40,7 @@ public class MypageRestController {
 
 	//과목 => 장바구니 담기
 	@GetMapping(value = "/mypage/basketList")
+	@ResponseBody
 	public List<Map<String, Object>> basketList(@RequestParam Map<String, Object> requestMap, HttpServletRequest request) {
 		return service.basketList(requestMap, request);
 	}

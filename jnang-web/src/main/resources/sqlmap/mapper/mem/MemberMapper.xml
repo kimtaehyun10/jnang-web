@@ -57,13 +57,13 @@
 		  HOME_TEL, HOME_ZIP, HOME_ADDR,
 		  MEM_NO, GENDER, ID, PW, JOIN_DATE, BIRTH_SEC,
 		  EMAIL_YN, SMS_YN, AGREE_YN, STATUS,
-		  NICKNAME , DUPCHK_KEY)
+		  NICKNAME , DUPCHK_KEY , WRITER, WRITE_DH)
 		VALUES
 		( #{memNm}, #{hp}, #{email}, ENC_STR('KEY1', #{secBirthDate}),
 		  #{homeTel}, #{homeZip}, #{homeAddr},
 		  #{memNo}, #{gender}, #{id}, #{pw}, DATE_FORMAT(SYSDATE(), '%Y%m%d'), #{birthSec},
 		  #{emailYn}, #{smsYn}, 'Y', '00',
-		  #{memNm} , #{DUPCHK_KEY} )
+		  #{memNm} , #{dupchkKey}, #{writer}, now() )
 	</insert>
 	
 	<!--  14세미만 회원가입 + 부모동의  -->
@@ -77,13 +77,13 @@
 		  HOME_TEL, HOME_ZIP, HOME_ADDR,
 		  MEM_NO, GENDER, ID, PW, JOIN_DATE, BIRTH_SEC,
 		  EMAIL_YN, SMS_YN, AGREE_YN, STATUS, ETC_NO,
-		  NICKNAME )
+		  NICKNAME, DUPCHK_KEY, WRITER, WRITE_DH )
 		VALUES
 		( #{memNm}, #{hp}, #{email}, ENC_STR('KEY1', #{secBirthDate}),
 		  #{homeTel}, #{homeZip}, #{homeAddr},
 		  #{memNo}, #{gender}, #{id}, #{pw}, DATE_FORMAT(SYSDATE(), '%Y%m%d'), #{birthSec},
 		  #{emailYn}, #{smsYn}, 'Y', '00', #{etcNo},
-		  #{memNm} )
+		  #{memNm} , #{dupchkKey}, #{writer}, now())
 	</insert>
 	
 	
@@ -142,7 +142,8 @@
 	<select id="isMember" resultType="java.util.HashMap" parameterType="java.util.HashMap">
 		select MEM_NO 
 		from member_damo 
-		where MEM_NM = #{name} and ENC_STR('KEY1', #{birthday}) and replace(HP,'-','')= #{mobile}
+		where MEM_NM = #{name} and replace(HP,'-','')= #{mobile} 
+		and (DEC_STR('KEY1', SEC_BIRTH_DATE) COLLATE utf8_unicode_ci  = #{birthday} COLLATE utf8_unicode_ci  or DEC_STR('KEY1', SEC_BIRTH_DATE) COLLATE utf8_unicode_ci  = jnimc.fn_int_to_date(#{birthday},'-')  COLLATE utf8_unicode_ci  )
 	</select>
 	
 </mapper>
