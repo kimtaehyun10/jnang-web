@@ -19,6 +19,7 @@
 .con_wid {width:1200px !important;}
 .con_wid2 {width:1160px !important;}
 .con_tbl1 {width:1119px !important;}
+.con_tbl2 {width:1160px !important;}
 
 /* float 초기화 */
 .clbx:after {clear:both;display:block;height:0;content:'';}
@@ -309,11 +310,12 @@ pre {white-space: pre-wrap;word-wrap:break-word;text-align:justify;}
 .main_sisul {position:relative;height:40px;margin-top:40px;}
 .main_sisul .ly1 {position:absolute;top:0;left:0;width:100%;height:40px;overflow:hidden;}
 .main_sisul .menu1 {position:relative;float:left;width:100%;height:40px;}
-.main_sisul .menu1 .dp1 {float:left;width:25%;height:100%;}
+.main_sisul .menu1 .dp1 {float:left;width:33%;height:100%;}
+.main_sisul .menu1 .dp1:nth-child(2) {width:34%;}
 .main_sisul .menu1 .dp1 .tab1 {display:block;height:100%;line-height:36px;text-align:center;font-size:1.2em;font-weight:700;border-top:1px solid #ddd;border-bottom:1px solid #ddd;border-left:1px solid #ddd;}
 .main_sisul .menu1 .dp1:last-child .tab1 {border-right:1px solid #ddd;}
 .main_sisul .menu1 .dp1:first-child {border-left:0;}
-.main_sisul .menu1 .dp1.on .tab1 {background:url('../images/main/bg_sisul_01.jpg') center center no-repeat;color:#fff;border:0;}
+.main_sisul .menu1 .dp1.on .tab1 {background:#1c7849;color:#fff;border:0;}
 .main_sisul .menu1 .dp1 .dta1 {position:absolute;width:100%;top:50px;left:0;display:none;}
 .main_sisul .menu1 .dp1:first-child .dta1 {display:block;}
 .main_sisul .menu1 .dp1 .dta1 ul {float:left;width:100%;border:1px solid #ddd;}
@@ -332,12 +334,9 @@ pre {white-space: pre-wrap;word-wrap:break-word;text-align:justify;}
 .main_sisul .menu1 .dp1:nth-child(2) .dta1 ul li:nth-child(3) {border-right:0;}
 .main_sisul .menu1 .dp1:nth-child(2) .dta1 ul li:nth-child(1),
 .main_sisul .menu1 .dp1:nth-child(2) .dta1 ul li:nth-child(3) {background:#f9f9f9;}
-.main_sisul .menu1 .dp1:nth-child(3) .dta1 ul li:nth-child(1),
-.main_sisul .menu1 .dp1:nth-child(3) .dta1 ul li:nth-child(3),
-.main_sisul .menu1 .dp1:nth-child(3) .dta1 ul li:nth-child(5) {background:#f9f9f9;}
-.main_sisul .menu1 .dp1:nth-child(4) .dta1 ul li {width:50%}
-.main_sisul .menu1 .dp1:nth-child(4) .dta1 ul li:nth-child(2) {border-right:0;}
-.main_sisul .menu1 .dp1:nth-child(4) .dta1 ul li:nth-child(1) {background:#f9f9f9;}
+.main_sisul .menu1 .dp1:nth-child(3) .dta1 ul li {width:50%}
+.main_sisul .menu1 .dp1:nth-child(3) .dta1 ul li:nth-child(2) {border-right:0;}
+.main_sisul .menu1 .dp1:nth-child(3) .dta1 ul li:nth-child(1) {background:#f9f9f9;}
 .main_sisul .menu1 .dp1:nth-child(1) .dta1 ul li:nth-child(7),
 .main_sisul .menu1 .dp1:nth-child(1) .dta1 ul li:nth-child(8),
 .main_sisul .menu1 .dp1:nth-child(1) .dta1 ul li:nth-child(9),
@@ -347,13 +346,7 @@ pre {white-space: pre-wrap;word-wrap:break-word;text-align:justify;}
 .main_sisul .menu1 .dp1:nth-child(2) .dta1 ul li:nth-child(2),
 .main_sisul .menu1 .dp1:nth-child(2) .dta1 ul li:nth-child(3) {border-bottom:0;}
 .main_sisul .menu1 .dp1:nth-child(3) .dta1 ul li:nth-child(1),
-.main_sisul .menu1 .dp1:nth-child(3) .dta1 ul li:nth-child(2),
-.main_sisul .menu1 .dp1:nth-child(3) .dta1 ul li:nth-child(3),
-.main_sisul .menu1 .dp1:nth-child(3) .dta1 ul li:nth-child(4),
-.main_sisul .menu1 .dp1:nth-child(3) .dta1 ul li:nth-child(5),
-.main_sisul .menu1 .dp1:nth-child(3) .dta1 ul li:nth-child(6) {border-bottom:0;}
-.main_sisul .menu1 .dp1:nth-child(4) .dta1 ul li:nth-child(1),
-.main_sisul .menu1 .dp1:nth-child(4) .dta1 ul li:nth-child(2) {border-bottom:0;}
+.main_sisul .menu1 .dp1:nth-child(3) .dta1 ul li:nth-child(2) {border-bottom:0;}
 
 /* 메인 > 롤링 > 배너모음 */
 .main_rollingsite1 {background:#fff;border-top:1px solid #ddd;padding:15px 0;}
