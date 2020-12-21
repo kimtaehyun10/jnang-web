@@ -132,15 +132,18 @@ public class MemberServiceImpl implements MemberService {
         
 	}
 
-	/**
-	 * https://wookim789.tistory.com/22
-	 */
+
 	//혁산 API 회원가입
 	@Override
 	public String apiJoinMember(Map<String, Object> requestMap,  HttpServletRequest request) {
-		Member memMap = new Member();
-		String rs = request.getParameter("request").trim();
+		Member memVo = new Member();
+		
+		/*
+		System.out.println("ㅎㅎㅎㅎ requestMap:"+ requestMap);
+		System.out.println("ㅎㅎㅎㅎ requestMap:"+ request.getQueryString());
+		String conninfo = (String) requestMap.get("conninfo");
 
+		String rs = request.getParameter("request").trim();
 		JsonObject jParser = JsonParser.parseString(rs).getAsJsonObject();
 		JsonObject jObject1 = jParser.getAsJsonObject("request");
 		System.out.println("service : " + jObject1.get("conninfo").toString());
@@ -169,41 +172,59 @@ public class MemberServiceImpl implements MemberService {
 		memMap.setEtcNo(jObject1.get("legalRepresenter").toString()); //14세미만 대리인성명
 		memMap.setSpecialRemark("개인정보처리동의:"+requestMap.get("agreePrivacy") +", 개인정보 제3자 제공 동의:"+requestMap.get("agreeOffer3Party"));
 		memMap.setWriter("서울시민API");
-
-		/*
-		String GENDER	 	= (String) requestMap.get("gender");
+		*/
+		
+		String GENDER	 	= request.getParameter("gender");
 							GENDER = (GENDER.equals("male")) ? "M" : "F";
-		String PW	 		= (String) requestMap.get("password");
+		String PW	 		= request.getParameter("password");
 		final SHA256PasswordEncoder sha256 = new SHA256PasswordEncoder();
 							String enPW = sha256.encrypt(PW);
-		String birthday		= (String) requestMap.get("birthday");
+		String birthday		= request.getParameter("birthday");
 							birthday = birthday.replace("-","");
 		
-		memMap.setDupchkKey((String) requestMap.get("conninfo"));
-		memMap.setMemNm((String) requestMap.get("name"));
-		memMap.setSecBirthDate(birthday);
-		memMap.setGender(GENDER);
-		param.setId((String) requestMap.get("id"));
-		param.setPw(enPW);
-		param.setHp((String) requestMap.get("mobile"));
-		param.setEmail((String) requestMap.get("email"));
-		param.setHomeZip((String) requestMap.get("postCode"));
-		param.setHomeAddr((String) requestMap.get("address"));
-		param.setSmsYn((String) requestMap.get("smsReceive"));
-		param.setEmailYn((String) requestMap.get("emailReceive"));
-		param.setEtcNo((String) requestMap.get("legalRepresenter")); //14세미만 대리인성명
-		param.setSpecialRemark("개인정보처리동의:"+requestMap.get("agreePrivacy") +", 개인정보 제3자 제공 동의:"+requestMap.get("agreeOffer3Party"));
-		param.setWriter("서울시민API");
-		*/
-		//}
-		//14세미만 가입 항목이 있어서 
-		int rtnNo = memberMapper.insertForLessThan14(memMap);
+		memVo.setDupchkKey(request.getParameter("conninfo"));
+		memVo.setMemNm(request.getParameter("name"));
+		memVo.setSecBirthDate(birthday);
+		memVo.setGender(GENDER);
+		memVo.setId(request.getParameter("id"));
+		memVo.setPw(enPW);
+		memVo.setHp(request.getParameter("mobile"));
+		memVo.setEmail(request.getParameter("email"));
+		memVo.setHomeZip(request.getParameter("postCode"));
+		memVo.setHomeAddr(request.getParameter("address"));
+		memVo.setSmsYn(request.getParameter("smsReceive"));
+		memVo.setEmailYn(request.getParameter("emailReceive"));
+		memVo.setEtcNo(request.getParameter("legalRepresenter")); //14세미만 대리인성명
+		memVo.setSpecialRemark("개인정보처리동의:"+requestMap.get("agreePrivacy") +", 개인정보 제3자 제공 동의:"+requestMap.get("agreeOffer3Party"));
+		memVo.setWriter("서울시민API");
+		
 		
 		String rtn = "";
 		Gson gson = new Gson();
 		JsonObject jsonobject = new JsonObject();
-		JsonObject name1Info = new JsonObject();		
-		if (rtnNo == 0 || PW.length() < 8) {
+		JsonObject name1Info = new JsonObject();	
+		
+		//중복가입 정보 첵크
+		String sRtn = apiIsMember(request);
+		if (sRtn.contains("\"200\"")) {
+			name1Info.addProperty("responseCode", "100");
+	        name1Info.addProperty("failCode", "1000");
+	        name1Info.addProperty("responseMessage", "[중랑구시설관리공단]시설에 가입된 회원입니다.");
+			jsonobject.add("response", name1Info);
+			rtn = gson.toJson(jsonobject);
+			System.out.println(rtn);
+			return rtn;
+		}
+		
+		
+		//}
+		//14세미만 가입 항목이 있어서
+		int rtnNo = 0;
+		if (PW.length() >= 8) {
+			rtnNo = memberMapper.insertForLessThan14(memVo);
+		}
+		
+		if (rtnNo == 0) {
 	        name1Info.addProperty("responseCode", "100");
 	        name1Info.addProperty("failCode", "1000");
 	        if (PW.length() < 8) {

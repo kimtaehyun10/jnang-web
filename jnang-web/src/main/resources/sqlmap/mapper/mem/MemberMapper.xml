@@ -138,12 +138,13 @@
 	
 	
 	
-	<!-- API -->
+	<!-- 서울시민 API 이미회원가입 확인 -->
 	<select id="isMember" resultType="java.util.HashMap" parameterType="java.util.HashMap">
 		select MEM_NO 
 		from member_damo 
 		where MEM_NM = #{name} and replace(HP,'-','')= #{mobile} 
 		and (DEC_STR('KEY1', SEC_BIRTH_DATE) COLLATE utf8_unicode_ci  = #{birthday} COLLATE utf8_unicode_ci  or DEC_STR('KEY1', SEC_BIRTH_DATE) COLLATE utf8_unicode_ci  = jnimc.fn_int_to_date(#{birthday},'-')  COLLATE utf8_unicode_ci  )
+		limit 1
 	</select>
 	
 </mapper>
