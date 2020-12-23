@@ -14,5 +14,5 @@ public interface EtcMapper {
 	List <Map<String, Object>> getHoliday(Map<String, Object> maps);
 	
 	//sso API
-	int scc(Map<String, Object> requestMap);
+	Map<String, Object> scc(Map<String, Object> requestMap);
 }

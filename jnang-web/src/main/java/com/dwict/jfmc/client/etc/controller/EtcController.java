@@ -63,8 +63,8 @@ public class EtcController {
 	}
 	
 	@GetMapping(value = "/sso/scc")
-	public ModelAndView scc(ModelAndView modelAndView, @RequestParam Map<String, Object> requestMap) {
-		Map<String, Object> resultMap = etcService.scc(requestMap);
+	public ModelAndView scc(ModelAndView modelAndView, @RequestParam Map<String, Object> requestMap, HttpServletRequest request) {
+		Map<String, Object> resultMap = etcService.scc(requestMap, request);
 		modelAndView.addObject("msg",resultMap.get("msg"));
 		modelAndView.addObject("location",resultMap.get("location"));
 		modelAndView.setViewName("etc/scc.none");

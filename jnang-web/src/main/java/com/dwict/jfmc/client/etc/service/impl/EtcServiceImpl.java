@@ -20,11 +20,19 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -33,6 +41,8 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.dwict.jfmc.client.etc.service.EtcService;
+import com.dwict.jfmc.client.security.service.AccountService;
+import com.dwict.jfmc.client.com.util.SHA256PasswordEncoder;
 import com.dwict.jfmc.client.etc.mapper.EtcMapper;
 
 import lombok.extern.slf4j.Slf4j;
@@ -55,6 +65,9 @@ public class EtcServiceImpl implements EtcService {
 
 	@Resource(name = "etcMapper")
 	private EtcMapper etcMapper;
+	
+	@Autowired
+	private AccountService accountService;
 	
 	private static String key = "3D5853AA8A94D22A2C6518968F0DCF78";
 	public static byte[] ivBytes = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
@@ -266,30 +279,40 @@ public class EtcServiceImpl implements EtcService {
 	}
 
 	@Override
-	public Map<String, Object> scc(Map<String, Object> requestMap) {
-		Map<String, Object> resultMap = new HashMap<String, Object>();
+	public Map<String, Object> scc(Map<String, Object> requestMap, HttpServletRequest request) {
+		Map<String, Object> resultMap = new HashMap<>();
 		String msg="";
 		String location="";
 		try {
-			if(requestMap.get("sccCardNo").equals("") || requestMap.get("sccCardNo") == null) {
+			if(requestMap.get("sccCardNo").equals("") || requestMap.get("sccCardNo") == null) {				
 				msg="카드번호 정보가 없습니다.";
 				location=(String)requestMap.get("fail_url");
 			}else {
 				String decrypt = decrypt((String)requestMap.get("sccCardNo"));			
 				String[] value = decrypt.split("-");
 				String decryptCardNo = value[0];
+				
 				requestMap.put("decryptCardNo", decryptCardNo);					
-				int sccCnt = etcMapper.scc(requestMap);
-				if(sccCnt==0) {
+				resultMap = etcMapper.scc(requestMap);
+				if(resultMap == null) {
+					resultMap = new HashMap<String, Object>();
 					msg="일치하는 회원을 찾을 수 없습니다.";
 					location=(String)requestMap.get("fail_url");
-				}else {
+				}else {				
+					//시큐리티 로그인 시켜야한다..
+					final UserDetails account = accountService.loadUserByUsername((String)resultMap.get("id"));
+					final Authentication auth = new UsernamePasswordAuthenticationToken(account, account.getPassword(), account.getAuthorities());
+					final SecurityContext sc = SecurityContextHolder.getContext();
+					final HttpSession session = request.getSession(true);
+					sc.setAuthentication(auth);
+					session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, sc);
+					
 					location=(String)requestMap.get("success_url");
 				}
 			}
 			
 		} catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | UnsupportedEncodingException
-				| IllegalBlockSizeException | BadPaddingException e) {
+				| IllegalBlockSizeException | BadPaddingException e) {			
 			msg="복호화에 실패하였습니다.";
 			location=(String)requestMap.get("fail_url");
 			e.printStackTrace();

@@ -25,10 +25,10 @@
 		order by CAL_DATE
 	</select>	
 		
-	<select id="scc" parameterType="java.util.HashMap" resultType="int">
-		SELECT COUNT(*)
-		FROM MEM_CARD
-		WHERE CARD_NO = #{decryptCardNo}
+	<select id="scc" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select M.id, M.pw 
+		from member_damo M inner join mem_card C on M.mem_no = C.mem_no
+		where C.card_no = #{decryptCardNo}
 	</select>	
 		
 </mapper>

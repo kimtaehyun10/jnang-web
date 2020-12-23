@@ -14,6 +14,6 @@ public interface EtcService {
 	//공휴일 정보
 	List<Map<String, Object>> getHoliday(HttpServletRequest request);
 	//sso API
-	Map<String, Object> scc(Map<String, Object> requestMap);
+	Map<String, Object> scc(Map<String, Object> requestMap, HttpServletRequest request);
 
 }
