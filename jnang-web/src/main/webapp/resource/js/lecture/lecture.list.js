@@ -145,12 +145,18 @@ var searchLectureList = function(){
 			};
 			if(prgTot != 0){
 				for(var i=0; i<data.resultList.length; i++){
-					if(data.resultList[i].prgCount === 1){
+					if(data.resultList[i].prgCount === 1){						
 						tableBody += '<tr>';
 						tableBody += '<td class="ali_l">'+data.resultList[i].classNm+'</td>';
 						tableBody += '<td>'+data.resultList[i].classObj+'</td>';
 						tableBody += '<td>'+data.resultList[i].trainDayNm+'</td>';
-						tableBody += '<td>'+data.resultList[i].trainTimeNm+'</td>';
+						if(data.resultList[i].comcd === 'JUNGNANG01' && data.resultList[i].sportsCd === '02'){
+							//중랑구민체육센터 헬스 시간 변경
+							tableBody += '<td>'+data.resultList[i].trainTimeNm+'<br>(토 06:00~20:50)</td>';
+						}else{
+							tableBody += '<td>'+data.resultList[i].trainTimeNm+'</td>';
+						}						
+						
 						tableBody += '<td>'+data.resultList[i].programItem[0].itemNm+'</td>';
 						tableBody += '<td>'+data.resultList[i].programItem[0].costAmt.toLocaleString(undefined, {maximumFractionDigits: 5})+'</td>';
 						tableBody += '<td><a class="size_s2 btn_blue2" onclick="searchLectureDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[0].itemCd+'\');">상세보기</a></td>';
