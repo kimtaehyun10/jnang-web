@@ -692,7 +692,7 @@ div.inputbox_02a{ padding:20px; border:1px solid #ddd; }
 .lect_sch_box_01 .bx1 > ul > li:nth-child(2) {width:34%;padding:0 10px;}
 .lect_sch_box_01 .bx1 > ul > li .bd1 {border:1px solid #ddd;}
 .lect_sch_box_01 .bx1 .tit1 {background:#fff;border-bottom:1px solid #ddd;height:38px;line-height:38px;padding-left:10px;font-weight:700;font-size:1.1em;}
-.lect_sch_box_01 .bx1 select {background:#fff;width:100%;border:0;padding:5px 10px;font-size:1.1em;}
+.lect_sch_box_01 .bx1 select {background:#fff;width:100%;border:0;padding:30px 10px;font-size:1.1em;}
 .lect_sch_box_01 input[type=submit] {width:100%;max-width:200px;height:40px;line-height:40px;text-align:center;border:0;background:#f28d01;color:#fff;font-size:1.1em;}
 
 /* 검색박스 > selectbox자동서브밋 */
