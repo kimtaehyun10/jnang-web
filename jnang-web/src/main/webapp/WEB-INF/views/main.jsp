@@ -26,31 +26,31 @@
 					<li>
 						<a href='/lecture/list'>
 							<img src='${pageContext.request.contextPath}/resource/images/main/icon_main_links1_01.png' alt=''>
-							<div>문화ㆍ체육 등 수강신청</div>
+							<div>수강신청</div>
 						</a>
 					</li>
 					<li>
 						<a href='/rentlist'>
 							<img src='${pageContext.request.contextPath}/resource/images/main/icon_main_links1_02.png' alt=''>
-							<div>체육ㆍ공연 등 대관신청</div>
+							<div>대관신청</div>
 						</a>
 					</li>
 					<li>
 						<a href='/lecture/list/JUNGNANG12'>
 							<img src='${pageContext.request.contextPath}/resource/images/main/icon_main_links1_03.png' alt=''>
-							<div>중랑천워터파크 이용신청</div>
+							<div>중랑천워터파크</div>
 						</a>
 					</li>
 					<li>
 						<a href='https://jungnang.park119.co.kr/user/index.aspx' target="_blank">
 							<img src='${pageContext.request.contextPath}/resource/images/main/icon_main_links1_04.png' alt=''>
-							<div>거주자우선주차 이용신청</div>
+							<div>거주자우선주차</div>
 						</a>
 					</li>
 					<li>
 						<a href='/emp/02020100'>
 							<img src='${pageContext.request.contextPath}/resource/images/main/icon_main_links1_05.png' alt=''>
-							<div>공영주차장 월 이용신청</div>
+							<div>공영주차장</div>
 						</a>
 					</li>
 				</ul>
