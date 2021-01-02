@@ -63,7 +63,7 @@ public class BoardRestController {
 		return service.ntcDetailPage(param);
 	}
 
-	@PatchMapping(value = "/board/hit/{cmsCd}/{brdNo}")
+	@PostMapping(value = "/board/hit/{cmsCd}/{brdNo}")
 	public int boardHit(HttpServletRequest request, @PathVariable String cmsCd, @PathVariable int brdNo) {	
 		final Map<String, Object> param = new HashMap<>();				
 		param.put("cmsCd", cmsCd);

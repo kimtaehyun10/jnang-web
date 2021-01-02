@@ -658,3 +658,238 @@
 	<!-- } 메인영역 -->
 </div>
 
+<!--슬라이드끝-->
+<script>
+	$(document).ready(function() {
+		$(".tab-style2").tabs(".accmd > li");//탭메뉴
+		$('#sliderImg_pop1').cycle({
+			speed : 1600, //슬라이드 스피드
+			timeout : 3000, //이미지간의 간격
+			pager : '#slideNavi_pop1', //페이저 DIV ID
+			pagerEvent : 'mouseover', //페이저 이벤트
+			pauseOnPagerHover : true
+
+		});
+	});
+</script>
+
+<!--팝업소스1-->
+<script language="JavaScript">
+<!--
+	function setCookie(name, value, expiredays) {
+		var todayDate = new Date();
+		todayDate.setDate(todayDate.getDate() + expiredays);
+		document.cookie = name + "=" + escape(value) + "; path=/; expires="
+				+ todayDate.toGMTString() + ";"
+	}
+
+	function closeWin_pop1() {
+		if (document.notice_form_pop3.chkbox.checked) {
+			setCookie("maindiv_pop1", "done", 1);
+		}
+		document.all['divpop_pop1'].style.visibility = "hidden";
+	}
+//-->
+</script>
+
+<style>
+.popwarp_pop1 {
+	width: 598px;
+	height: 850px;
+	border: 1px solid #333;
+	position: absolute;
+	left: 30px;
+	top: 200px;
+	z-index: 2050;
+	visibility: hidden;
+	background: #fff;
+}
+
+.sliderWrap_pop1 {
+	position: absolute;
+	overflow: hidden;
+	width: 598px;
+	height: 850px;
+}
+
+.sliderWrap_pop1 ul li {
+	width: 598px;
+	height: 950px;
+}
+
+#slideNavi_pop1 {
+	position: absolute;
+	overflow: hidden;
+	z-index: 1000;
+	right: 10px;
+	bottom: 40px;
+}
+
+.closee_pop1 {
+	position: absolute;
+	z-index: 9999;
+	bottom: 4px;
+	right: 10px;
+	width: auto;
+	clear: both;
+	color: #333;
+	font-size: 11px;
+	text-align: right;
+}
+
+.closee_pop1 a {
+	color: #333;
+}
+</style>
+
+<div id="divpop_pop1" class="popwarp_pop1">
+
+	<div class="sliderWrap_pop1">
+		<div class="closee_pop1">
+			<div style="float: right; padding-top: 0px;">
+				<form name="notice_form_pop3">
+					<table>
+						<tr>
+							<td><input type="checkbox" name="chkbox" value="checkbox"
+								style="border: 0px;">
+							<td>
+							<td style="font-size: 11px !important; color: #333;">오늘 하루 이
+								창을 열지 않음 <a href="javascript:closeWin_pop1();"
+								style="font-size: 11px !important;"><strong
+									style="font-size: 11px !important; color: #333;">[닫기]</strong></a>
+							<td>
+						</tr>
+					</table>
+				</form>
+			</div>
+		</div>
+
+		<ul style="margin: 0px; padding: 0px;">
+			<li><a
+				href='#'><img src="./resource/images/popup/popimg15.png" title="코로나바이러스 휴관안내" alt="코로나바이러스 휴관안내" usemap="#Map" style="width:598px; height:850px;"></a></li>
+		</ul>
+	</div>
+</div>
+
+<script language="Javascript">
+	cookiedata_pop3 = document.cookie;
+	if (cookiedata_pop3.indexOf("maindiv_pop1=done") < 0) {
+		document.all['divpop_pop1'].style.visibility = "visible";
+	} else {
+		document.all['divpop_pop1'].style.visibility = "hidden";
+	}
+</script>
+
+
+<!--슬라이드끝-->
+<script>
+	
+</script>
+
+<!--팝업소스2-->
+<script language="JavaScript">
+
+	function setCookie2(name, value, expiredays) {
+		var todayDate = new Date();
+		todayDate.setDate(todayDate.getDate() + expiredays);
+		document.cookie = name + "=" + escape(value) + "; path=/; expires="
+				+ todayDate.toGMTString() + ";"
+	}
+
+	function closeWin_pop2() {
+		if (document.notice_form_pop3.chkbox.checked) {
+			setCookie("maindiv_pop2", "done", 1);
+		}
+		document.all['divpop_pop2'].style.visibility = "hidden";
+	}
+
+</script>
+
+<style>
+.popwarp_pop2 {
+	width: 598px;
+	height: 850px;
+	border: 1px solid #333;
+	position: absolute;
+	left: 180px;
+	top: 300px;
+	z-index: 2050;
+	visibility: hidden;
+	background: #fff;
+}
+
+.sliderWrap_pop2 {
+	position: absolute;
+	overflow: hidden;
+	width: 598px;
+	height: 850px;
+}
+
+.sliderWrap_pop2 ul li {
+	width: 598px;
+	height: 850px;
+}
+
+#slideNavi_pop2 {
+	position: absolute;
+	overflow: hidden;
+	z-index: 1000;
+	right: 10px;
+	bottom: 40px;
+}
+
+.closee_pop2 {
+	position: absolute;
+	z-index: 9999;
+	bottom: 4px;
+	right: 10px;
+	width: auto;
+	clear: both;
+	color: #333;
+	font-size: 11px;
+	text-align: right;
+}
+
+.closee_pop2 a {
+	color: #333;
+}
+</style>
+
+<div id="divpop_pop2" class="popwarp_pop2">
+	<div class="sliderWrap_pop2">
+		<div class="closee_pop2">
+			<div style="float: right; padding-top: 0px;">
+				<form name="notice_form_pop2">
+					<table>
+						<tr>
+							<td><input type="checkbox" name="chkbox" value="checkbox"
+								style="border: 0px;">
+							<td>
+							<td style="font-size: 11px !important; color: #333;">오늘 하루 이
+								창을 열지 않음 <a href="javascript:closeWin_pop2();"
+								style="font-size: 11px !important;"><strong
+									style="font-size: 11px !important; color: #333;">[닫기]</strong></a>
+							<td>
+						</tr>
+					</table>
+				</form>
+			</div>
+		</div>
+
+		<ul style="margin: 0px; padding: 0px;">
+			<li><a
+				href='#'><img
+					src='./resource/images/popup/popimg14.png?v=1' style="width:598px; height:850px;"></a></li>
+		</ul>
+	</div>
+</div>
+
+<script language="Javascript">
+	cookiedata_pop2 = document.cookie;
+	if (cookiedata_pop2.indexOf("maindiv_pop2=done") < 0) {
+		document.all['divpop_pop2'].style.visibility = "visible";
+	} else {
+		document.all['divpop_pop2'].style.visibility = "hidden";
+	}
+</script>
+<!-- //팝업 -->

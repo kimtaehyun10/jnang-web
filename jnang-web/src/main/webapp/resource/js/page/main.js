@@ -120,7 +120,7 @@ $(function(){
 			 * @Discription 메인 > 롤링 > 배너모음 > 반응형사이즈별출력개수처리
 			 */
 			function fn_resizing_rollingsite1(){
-				$.get('/data/banner/', {}, function(data){
+				$.get('/data/banner/', {}, function(data){					
 					var hostIndex=location.href.indexOf(location.host)+location.host.length;
 					var contextPath=location.href.substring(hostIndex,location.href.indexOf('/',hostIndex+1));
 					var win_w=$(window).innerWidth();

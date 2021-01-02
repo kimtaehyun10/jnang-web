@@ -154,9 +154,9 @@ public class CommonServiceImpl implements CommonService {
 	}
 
 	private File getFileNameByCmsAdmin(AtchFile image) {
-		File downloadFile = new File(adminLocation1 + image.getFileStreCours(), image.getStreFileNm());
+		File downloadFile = new File(image.getFileStreCours(), image.getStreFileNm());
 		if(!downloadFile.exists()) {
-			downloadFile = new File(adminLocation2 + image.getFileStreCours(), image.getStreFileNm());
+			downloadFile = new File(image.getFileStreCours(), image.getStreFileNm());
 		}
 		return downloadFile;
 	}
