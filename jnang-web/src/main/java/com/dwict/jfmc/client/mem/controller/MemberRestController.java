@@ -89,7 +89,7 @@ public class MemberRestController {
 		return result;
 	}
 
-	@PatchMapping(value = "/mem/password")
+	@PostMapping(value = "/mem/password")
 	public int password(HttpServletRequest request, Member member) {
 		final HttpSession session = request.getSession(false);
 		int result = 0;

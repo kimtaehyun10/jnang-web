@@ -39,7 +39,7 @@ var find = {
 	},
 	changePassword: function(){
 		var param = makeParam.input('pw');
-		$.patch('/data/mem/password', param, function(data){
+		$.post('/data/mem/password', param, function(data){
 			if(data === 1){
 				location.href='/mem/find/password/complete';
 			}else{
