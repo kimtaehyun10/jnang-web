@@ -243,13 +243,13 @@ var searchLectureList = function(){
 								tableBody += '<td rowspan='+prgCount+' class="border_r1">'+data.resultList[i].trainTimeNm+'</td>';
 								tableBody += '<td>'+data.resultList[i].programItem[j].itemNm+'</td>';
 								tableBody += '<td>'+data.resultList[i].programItem[j].costAmt.toLocaleString(undefined, {maximumFractionDigits: 5})+'</td>';
-								tableBody += '<td><a class="size_s2 btn_blue2" onclick="searchLectureDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[0].itemCd+'\');">상세보기</a></td>';
+								tableBody += '<td><a class="size_s2 btn_blue2" onclick="searchLectureDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[0].itemCd+'\');">신청하기</a></td>';
 								tableBody += '</tr>';
 							}else{
 								tableBody += '<tr>';
 								tableBody += '<td>'+data.resultList[i].programItem[j].itemNm+'</td>';
 								tableBody += '<td>'+data.resultList[i].programItem[j].costAmt.toLocaleString(undefined, {maximumFractionDigits: 5})+'</td>';
-								tableBody += '<td><a class="size_s2 btn_blue2" onclick="searchLectureDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[j].itemCd+'\');">상세보기</a></td>';
+								tableBody += '<td><a class="size_s2 btn_blue2" onclick="searchLectureDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[j].itemCd+'\');">신청하기</a></td>';
 								tableBody += '</tr>';
 							}
 						}
@@ -292,6 +292,6 @@ var searchLectureDetail = function(comcd, classCd, itemCd){
 	$.get('/data/encode/text', {text:JSON.stringify(lecture)}, function(data){
 		localStorage.setItem('lecture', data);
 	}).done(function(){
-		window.location.href='/lecture/view';
+		window.location.href='/mypage/cart';
 	});
 };

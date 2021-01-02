@@ -1,7 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resource/js/board/declaration/dwict.board.declarationCommon.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resource/js/board/declaration/dwict.board.declarationPage.js"></script>
+<style>
 
+div{
+font-size:18px;
+}
+
+</style>
 <div id="subCon">	
 	<input type="hidden" id="h_cmsCd" name="h_cmsCd" value="${cmsCd}" />	 		
 </div>

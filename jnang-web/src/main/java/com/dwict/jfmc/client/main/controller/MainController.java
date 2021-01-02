@@ -1,5 +1,8 @@
 package com.dwict.jfmc.client.main.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,5 +23,11 @@ public class MainController {
 		modelAndView.setViewName("/popup/"+fileName+".none");
 		return modelAndView;
 	}
+	
+//	  @RequestMapping(value = "popup/popup20.p")
+//	    public String modifyAssignPopup(HttpServletRequest request, ModelAndView modelAndView) throws Exception {
+//
+//	        return "redirect:popup/popup20.p";
+//	    }
 
 }

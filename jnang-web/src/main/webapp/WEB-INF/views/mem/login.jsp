@@ -40,10 +40,10 @@ if (strUrl.contains("localhost") || strUrl.contains("jnimc.dwict.kr")  ) {
 					<a href='/mem/join1'>회원가입</a>
 				</li>
 				<div id="btn_sns">
-                    <a id="naver">네이버로 로그인</a>
-                    <a id="kakao">카카오톡으로 로그인</a>
-                    <a id="face">페이스북으로 로그인</a>
-                    <a id="talk" onclick="login.loginFromLogintalk();">로그인톡으로 로그인</a>
+           <!--       <a id="naver">네이버로 로그인</a>
+                  <a id="kakao">카카오톡으로 로그인</a>
+                   <a id="face">페이스북으로 로그인</a> -->
+                    <a  id="talk" onclick="login.loginFromLogintalk();">로그인톡으로 로그인</a>
                 </div>
 			</ul>
 		</div>

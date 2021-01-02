@@ -14,7 +14,7 @@ String today = transFormat.format(from);
 <div id="sub_my_status" class=''>
 	<div id="notes" class="border_box_a_gray_1a margin_b50">
 		<h4 class="margin_b20">유의사항</h4>
-		<ul class="ul_hyphen1a13">
+		<ul class="ul_hyphen1a13" >
 			<li>수강취소는 당일에만 가능하며, 이후에는 환불규정에 따라 처리됩니다.</li>
 			<li>반 변경은 방문접수만 가능합니다.</li>
 			<li>반 변경은 개강 후 7일 이전까지만 가능합니다.<span class="cap_green" style=""> (7일 이전 1회만 가능)</span></li>

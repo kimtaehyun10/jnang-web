@@ -445,12 +445,10 @@ pre {white-space: pre-wrap;word-wrap:break-word;text-align:justify;}
 /**********************************/
 
 .ceo_info1 {float:left;width:100%;height:40%;}
-.ceo_info1  li {float:left;height:40%;}
-.ceo_info1  li:nth-child(1) {width:30%;}
-.ceo_info1  li:nth-child(2) {margin-left:30px; margin-top:83px; font-size:25px; width:65%;}
-.ceo_info1  li:nth-child(3) {margin-left:70px; margin-top:83px; font-size:20px; width:22%;}
-.ceo_info1  li:nth-child(4) {margin-left:350px; margin-top:-92px; font-size:25px; width:65%;}
-.ceo_info1  li:nth-child(5) {display:none;}
+.ceo_info1  li {float:left;height:100%;}
+.ceo_info1  li:nth-child(1) {width:100%; height:100%;}
+
+.ceo_info1  li:nth-child(2) {display:none;}
 
 .ceo_info1  li:last-child {display:none;}
 @media screen and (max-width:1000px){
@@ -458,7 +456,7 @@ pre {white-space: pre-wrap;word-wrap:break-word;text-align:justify;}
 .ceo_info1 {}
 .ceo_info1  li {width:100%;}
 .ceo_info1  li:nth-child(1) {display:none;}
-.ceo_info1  li:nth-child(4) {display:block;}
+.ceo_info1  li:nth-child(2) {display:block;}
 }
 
 
@@ -543,7 +541,7 @@ table .ipt-btn a.btn_form{display: inline-block; float:right; background:#555; c
 .fontsize_1dot00 {font-size:1.00em !important;}
 .fontsize_1dot05 {font-size:1.05em !important;}
 .fontsize_1dot10 {font-size:1.10em !important;}
-.fontsize_1dot15 {font-size:1.15em !important;}
+.fontsize_1dot15 {font-size:1.8em !important;}
 .fontsize_1dot20 {font-size:1.20em !important;}
 .fontsize_1dot25 {font-size:1.25em !important;}
 .fontsize_1dot30 {font-size:1.30em !important;}
@@ -603,8 +601,8 @@ table .ipt-btn a.btn_form{display: inline-block; float:right; background:#555; c
 /* bg아이콘 */
 .bg_icon_circle_green1a {min-height:25px;background:url('../images/sub/bg_dot_01_green.png') left no-repeat;}
 .bg_icon_circle_orange1a {min-height:25px;background:url('../images/sub/bg_dot_01_orange.png') left no-repeat;}
-.bg_icon_arrow_green1a {min-height:20px;background:url('../images/sub/bg_dot_02a_arrow_green1.png') left 5px no-repeat;}
-.bg_icon_round_green1a05 {background:url('../images/sub/bg_dot_02_green.png') left 5px no-repeat;}
+.bg_icon_arrow_green1a {min-height:20px;background:url('../images/sub/bg_dot_02a_arrow_green1.png') left 10px no-repeat;}
+.bg_icon_round_green1a05 {background:url('../images/sub/bg_dot_02_green.png') left 14px no-repeat;}
 .bg_icon_round_green1a10 {background:url('../images/sub/bg_dot_02_green.png') left 10px no-repeat;}
 .bg_icon_round_gray1a03 {background:url('../images/sub/bg_dot_02_gray.png') left 3px no-repeat;}
 .bg_icon_round_gray3c10 {background:url('../images/sub/bg_dot_02_gray.png') left 10px no-repeat;background-size:5px;}
@@ -614,7 +612,7 @@ table .ipt-btn a.btn_form{display: inline-block; float:right; background:#555; c
 
 /* 들여쓰기 > 아이콘 */
 .ul_hyphen1a10 > li {background:url('../images/sub/bg_dot_000000_5x1.gif') left top 10px no-repeat;padding-left:0.8em;line-height:1.8;}
-.ul_hyphen1a13 > li {background:url('../images/sub/bg_dot_000000_5x1.gif') left top 13px no-repeat;padding-left:0.8em;line-height:1.8;}
+.ul_hyphen1a13 > li {background:url('../images/sub/bg_dot_000000_5x1.gif') left top 13px no-repeat;padding-left:0.8em;line-height:1.8; font-size:18px;}
 
 /* 테이블셀 */
 .tablecell_3_1a > ul {display:table;width:100%;}
@@ -847,10 +845,10 @@ div.inputbox_02a{ padding:20px; border:1px solid #ddd; }
 .sub_login .bx_login .obx1 > ul > li:nth-child(2) a {display:inline-block;border:1px solid #888;height:30px;line-height:30px;padding:0 25px;margin-left:5px;}
 .sub_login .bx_login .obx1 > ul > li:nth-child(2) a:first-child {margin-left:0;}
 
-.sub_login #btn_sns{margin-top:50px;}
+.sub_login #btn_sns{margin-top:50px; }
 .sub_login #btn_sns a{display:inline-block; width:48%; float:left; margin:0 4% 10px 0; padding:8px 0 8px 8%; color:#fff;}
 .sub_login #btn_sns{margin-top:50px;}
-.sub_login #btn_sns a{display:inline-block; width:48%; float:left; margin:0 4% 10px 0; padding:8px 0 8px 8%; color:#fff;}
+.sub_login #btn_sns a{display:inline-block; width:48%; float:left; margin:0 4% 10px 0; padding:8px 0 8px 8%; color:#fff; margin-left:312px;}
 .sub_login #btn_sns a:nth-child(2), .sub_login #btn_sns a:nth-child(4){margin-right:0;}
 .sub_login #btn_sns a#naver{background:url('../images/login/social_2.png') no-repeat 10px center #1dc800; }
 .sub_login #btn_sns a#kakao{background:url('../images/login/social_1.png') no-repeat 10px center#f9e000; color:#3b1e1e;}
@@ -1311,7 +1309,7 @@ div.inputbox_02a{ padding:20px; border:1px solid #ddd; }
 
 /* 201005 ~ 이채민 */
 /* 회원가입 1단계 */
-#sub_join .join_step{position: relative; margin-bottom:90px; background:url('../images/sub/bg_join_line.gif') repeat-x center 45%;}
+#sub_join .join_step{position: relative; margin-bottom:90px; background:url('../images/sub/bg_join_line.gif') repeat-x center 45%; }
 #sub_join .join_step:after{content:""; display:block; clear:both; zoom:1;}
 #sub_join .join_step ul{text-align:center;}
 #sub_join .join_step .line{position:absolute; width:100%; top:70px; height:1px; background:#ddd;z-index:9;}
@@ -1364,9 +1362,9 @@ div.inputbox_02a{ padding:20px; border:1px solid #ddd; }
 /*#sub_join .join_terms .term .agree input, #sub_join .join_terms .term .agree label{ display:inline-block; vertical-align: middle;} 1027 삭제*/
 
 
-#sub_join .join_terms .ipt_info table{width:100%;  border-collapse: collapse; border-left:1px solid #ddd; border-top:1px solid #ddd;}
-#sub_join .join_terms .ipt_info table th{background:#e8f1ea; text-align: left; padding:10px 15px; }
-#sub_join .join_terms .ipt_info table th, #sub_join .join_terms .ipt_info table td{border-right:1px solid #ddd; border-bottom:1px solid #ddd;}
+#sub_join .join_terms .ipt_info table{width:100%;  border-collapse: collapse; border-left:1px solid #ddd; border-top:1px solid #ddd; }
+#sub_join .join_terms .ipt_info table th{background:#e8f1ea; text-align: left; padding:10px 15px; font-size:18px;}
+#sub_join .join_terms .ipt_info table th, #sub_join .join_terms .ipt_info table td{border-right:1px solid #ddd; border-bottom:1px solid #ddd; font-size:18px;}
 #sub_join .join_terms .ipt_info table td{ padding:10px 1%; }
 #sub_join .join_terms .ipt_info table td input, #sub_join .join_terms .ipt_info table td select{height:35px; border:1px solid #ddd;}
 #sub_join .join_terms .ipt_info table td input#memNm, #sub_join .join_terms .ipt_info table td input#hp, input#parentPhone{ width: 100%; padding: 0 1%; }
@@ -1438,7 +1436,7 @@ div.inputbox_02a{ padding:20px; border:1px solid #ddd; }
 table#minwon_write td{text-align:left;}
 
 /* 마이페이지 */
-#notes h4{color:#217c39; font-size:1.375em; }
+#notes h4{color:#217c39;  font-size:18px; }
 
 /* 사이트맵 */
 #sub_sitemap{position:relative;}
