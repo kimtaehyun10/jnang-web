@@ -40,7 +40,7 @@ public class Account implements UserDetails, CredentialsContainer, Serializable 
 	@Getter private int cardCnt;
 
 	public Account(String username, String password, String memNo, String memNm, String gender, String hp, String email, String secBirthDate, long cardCnt) {
-		if (((username == null) || "".equals(username)) || (password == null)) {
+		if (((username == null) || "".equals(username))) {
 			throw new IllegalArgumentException("Cannot pass null or empty values to constructor");
 		}
 		this.authorities = null;
@@ -62,7 +62,7 @@ public class Account implements UserDetails, CredentialsContainer, Serializable 
 
 	public Account(String username, String password, Collection<? extends GrantedAuthority> authorities,
 			String memNo, String memNm, String gender, String hp, String email, String secBirthDate) {
-		if (((username == null) || "".equals(username)) || (password == null)) {
+		if (((username == null) || "".equals(username))) { 
 			throw new IllegalArgumentException("Cannot pass null or empty values to constructor");
 		}
 		this.username = username;

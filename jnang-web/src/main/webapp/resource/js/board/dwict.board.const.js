@@ -378,7 +378,7 @@ const brdDetailPage = function(cmsCd,brdNo,regId,secretYn){
 			brdNo:brdNo,
 			mType:$('#h_mType').val()
 		};		
-		$.patch('/data/board/hit/'+cmsCd+'/'+brdNo, param, function(data){		
+		$.post('/data/board/hit/'+cmsCd+'/'+brdNo, param, function(data){		
 			if(data>0){
 				window.location.href='/board/'+cmsCd+'/'+brdNo;
 			}		
