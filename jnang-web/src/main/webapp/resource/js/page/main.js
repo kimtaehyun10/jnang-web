@@ -65,7 +65,7 @@ $(function(){
 		/**
 		 * 메인 > 공지사항/보도자료/입찰공고/채용공고 DATA..
 		 */
-		$.get('/data/cmsBoard', {brd1:"05010100", brd2:"05020100", brd3:"05020200", brd4:"05030100"}, function(data){
+		$.get('/data/cmsBoard', {brd1:"05010100", brd2:"05020100", brd3:"05080100", brd4:"05030100"}, function(data){
 			try {
 				var brdTab1 ="", brdTab2="", brdTab3="", brdTab4="";
 				if(data.length != 0){

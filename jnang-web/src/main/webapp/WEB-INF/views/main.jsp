@@ -146,7 +146,7 @@
 										</div>
 									</li>
 									<li class='dta'>
-										<a class='btn_sbj' href='javascript:;' linkurl='/board/05080200'>입찰공고</a>
+										<a class='btn_sbj' href='javascript:;' linkurl='/board/05080100'>입찰공고</a>
 										<div class='data'>
 											<ul class='loop'>
 												<li class='titcom'>
@@ -687,32 +687,32 @@
    
 	
 		// 팝업창 열기
-		function popupOpen(){
+		//function popupOpen(){
 			
- 		var popUrl1 = "popup/popup20.p";	//팝업창에 출력될 페이지 URL
-		var popOption1 = "width=615, height=750, resizable=no, scrollbars=no, status=no, left=0;"; //팝업창 옵션(optoin)
-		window.open(popUrl1,"",popOption1);
+ 		//var popUrl1 = "popup/popup20.p";	//팝업창에 출력될 페이지 URL
+		//var popOption1 = "width=615, height=750, resizable=no, scrollbars=no, status=no, left=0;"; //팝업창 옵션(optoin)
+		//window.open(popUrl1,"",popOption1);
 			
-		}
+		//}
 
 
-		var coov = getCookie("popups_15");
-		if (coov != "no") popupOpen();
+		//var coov = getCookie("popups_15");
+		//if (coov != "no") popupOpen();
 		
 		
 		// 팝업창 열기
-		function popupOpen2(){
+		//function popupOpen2(){
 
-		var popUrl2 = "/popup/popup21.p";//팝업창에 출력될 페이지 URL
-		var popOption2 = "width=610, height=900, resizable=no, scrollbars=no, status=no, top=130, left=100";    //팝업창 옵션(optoin)
-		window.open(popUrl2,"",popOption2);
+		//var popUrl2 = "/popup/popup21.p";//팝업창에 출력될 페이지 URL
+		//var popOption2 = "width=610, height=900, resizable=no, scrollbars=no, status=no, top=130, left=100";    //팝업창 옵션(optoin)
+		//window.open(popUrl2,"",popOption2);
                   		
 
-		}
+	//	}
 		
 
-		var coov2 = getCookie("popups_20");
-		if (coov2 != "no") popupOpen2();
+		//var coov2 = getCookie("popups_20");
+		//if (coov2 != "no") popupOpen2();
 				
 				
 			
