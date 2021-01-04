@@ -181,7 +181,7 @@ public class BoardRestController {
 		return service.priceDetailPage(param);
 	}
 	
-	@PatchMapping(value = "/board/price/{cmsCd}/{brdNo}")
+	@PostMapping(value = "/board/price/{cmsCd}/{brdNo}")
 	public Map<String, Object> priceUpdate(HttpServletRequest request, @PathVariable String cmsCd, @PathVariable String brdNo) {
 		final Map<String, Object> param = new HashMap<>();
 		final Map<String, Object> resultMap = new HashMap<>();

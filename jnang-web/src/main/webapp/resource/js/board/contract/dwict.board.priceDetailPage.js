@@ -179,7 +179,7 @@ const priceUpdate = function(){
 		columnValue:columnValue,
 		price:price
 	};
-	$.patch('/data/board/price/'+$('#h_cmsCd').val()+'/'+$('#h_brdNo').val(), param, function(data){
+	$.post('/data/board/price/'+$('#h_cmsCd').val()+'/'+$('#h_brdNo').val(), param, function(data){
 		alert(data.result);
 		window.location.href='/price/'+$('#h_cmsCd').val()+'';				
 	});
