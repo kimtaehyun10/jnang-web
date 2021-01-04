@@ -16,10 +16,10 @@
 .responsive_img01 {width:100%;max-width:1200px;}
 .responsive_img05 {width:100%;max-width:700px;}
 .autoscroll_x1 {width:100%;max-width:1200px;overflow-x:auto;}
-.con_wid {width:1200px !important;}
-.con_wid2 {width:1160px !important;}
-.con_tbl1 {width:1119px !important;}
-.con_tbl2 {width:1160px !important;}
+.con_wid {width:100% !important;}
+.con_wid2 {width:100% !important;}
+.con_tbl1 {width:100% !important;}
+.con_tbl2 {width:100% !important;}
 
 /* float 초기화 */
 .clbx:after {clear:both;display:block;height:0;content:'';}
@@ -503,9 +503,10 @@ pre {white-space: pre-wrap;word-wrap:break-word;text-align:justify;}
 .border_top_0 {border-top:0 !important;}
 
 /* 테이블 */
-.stbl_l1a {width:100%;border-top:1px solid #227b39;   } 
+.stbl_l1a {width:100%;border-top:3px solid #227b39;  } 
 .stbl_l1a th {border-bottom:1px solid #ddd;padding:0.8em 0.5em;font-size:1.1em;font-weight:300;line-height:1.3;border-left:1px solid #ddd;background:#f3f9f5;}
-.stbl_l1a th:first-child {border-left:0;}
+
+.stbl_l1a th:first-child {border-left:0; }
 .stbl_l1a td {border-bottom:1px solid #ddd;padding:0.8em 0.5em;font-size:1.1em;line-height:1.6;text-align:center;border-left:1px solid #ddd;}
 .stbl_l1a td:first-child {border-left:0;}
 .stbl_l1a th.border_l1,
