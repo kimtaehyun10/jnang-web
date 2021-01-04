@@ -687,17 +687,17 @@
    
 	
 		// 팝업창 열기
-		//function popupOpen(){
+		function popupOpen(){
 			
- 		//var popUrl1 = "popup/popup20.p";	//팝업창에 출력될 페이지 URL
-		//var popOption1 = "width=615, height=750, resizable=no, scrollbars=no, status=no, left=0;"; //팝업창 옵션(optoin)
-		//window.open(popUrl1,"",popOption1);
+ 		var popUrl1 = "popup/popup20.p";	//팝업창에 출력될 페이지 URL
+		var popOption1 = "width=470, height=660, resizable=no, scrollbars=no, status=no, left=0;"; //팝업창 옵션(optoin)
+		window.open(popUrl1,"",popOption1);
 			
-		//}
+		}
 
 
-		//var coov = getCookie("popups_15");
-		//if (coov != "no") popupOpen();
+		var coov = getCookie("popups_15");
+		if (coov != "no") popupOpen();
 		
 		
 		// 팝업창 열기

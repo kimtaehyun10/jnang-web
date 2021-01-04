@@ -26,7 +26,7 @@
 
 	<div id="popups_15" class="popups">
 		<div class="popups_con" style="cursor:pointer">
-			<img src="/resource/images/popup/popup20.png" title="코로나바이러스 휴관안내" alt="코로나바이러스 휴관안내" />
+			<a href="http://www.jungnanglib.seoul.kr/library/index.php" target="_blank"><img src="/resource/images/popup/popup_210103.jpg" title="도서관 이관안내" alt="도서관 이관안내" /></a>
 			<map name="Map">
 			
 				<area shape="rect" coords="30,665,250,700" onclick="javascript:window.close()" href="http://www.jungnangimc.or.kr/noticeView.do?sgrp=S01&siteCmsCd=CM0001&topCmsCd=CM0003&cmsCd=CM0035&pnum=10&cnum=17&ntNo=1207" target="_blank"/> 
@@ -54,10 +54,6 @@
 			window.close()
 	    });
 	    $('.popups_close').click(function() {
-	        window.close()
-	    });
-		$('.popups_con').click(function() {
-			window.opener.top.location.href="/noticeView.do?sgrp=S01&siteCmsCd=CM0001&topCmsCd=CM0003&cmsCd=CM0035&pnum=10&cnum=17&ntNo=1207"
 	        window.close()
 	    });
 	});
