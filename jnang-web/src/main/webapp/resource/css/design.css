@@ -45,7 +45,7 @@ input:read-only {background-color:#efefef;cursor:default;}
 pre {white-space: pre-wrap;word-wrap:break-word;text-align:justify;}
 @media screen and (max-width:767px) and (min-width:350px){
 	.agree label{position:absolute; width:90%;}
-}	 
+}
 
 /**********************************/
 /* 공용 > 헤드                    */
@@ -503,10 +503,9 @@ pre {white-space: pre-wrap;word-wrap:break-word;text-align:justify;}
 .border_top_0 {border-top:0 !important;}
 
 /* 테이블 */
-.stbl_l1a {width:100%;border-top:3px solid #227b39;  } 
-.stbl_l1a th {border-bottom:1px solid #ddd;padding:0.8em 0.5em;font-size:1.1em;font-weight:300;line-height:1.3;border-left:1px solid #ddd;background:#f3f9f5;}
-
-.stbl_l1a th:first-child {border-left:0; }
+.stbl_l1a {width:100%;border-top:3px solid #227b39;   }
+.stbl_l1a th {border-bottom:1px solid #ddd;padding:0.8em 0.5em;font-size:1.1em;font-weight:300;line-height:1.3;border-left:1px solid #ddd;background:#f3f9f5; background:#f3f9f5;}
+.stbl_l1a th:first-child {border-left:0;}
 .stbl_l1a td {border-bottom:1px solid #ddd;padding:0.8em 0.5em;font-size:1.1em;line-height:1.6;text-align:center;border-left:1px solid #ddd;}
 .stbl_l1a td:first-child {border-left:0;}
 .stbl_l1a th.border_l1,
@@ -735,12 +734,12 @@ div.inputbox_02a{ padding:20px; border:1px solid #ddd; }
 .sch_box_01.noslt ul:after{display:block; content:""; clear:both; zoom:1;}
 .sch_box_01.noslt ul > li:nth-child(1) {width:85%; padding:0 10px;}
 .sch_box_01.noslt ul > li:nth-child(2) {width:15%; max-width:130px;}
-@media screen and (max-width:1000px) and (min-width:768px){ 
+@media screen and (max-width:1000px) and (min-width:768px){
 	.sch_box_01.noslt ul li{margin-top:0;}
 }
 @media screen and (max-width:767px) and (min-width:350px){
 	.sch_box_01.noslt ul li{margin-top:0;}
-}	
+}
 
 /* 게시판 > 상세보기 > 내용본문 */
 .bbs_v_cont1a {line-height:1.8;padding-bottom:30px;}
@@ -860,7 +859,7 @@ div.inputbox_02a{ padding:20px; border:1px solid #ddd; }
 .sub_login #btn_sns a#face{background:url('../images/login/social_3.png') no-repeat 10px center#3b5998;}
 .sub_login #btn_sns a#talk{background:url('../images/login/social_4.png') no-repeat 10px center #dd1937;}
 
-@media screen and (max-width:767px) and (min-width:350px){ 
+@media screen and (max-width:767px) and (min-width:350px){
 	.sub_login #btn_sns a{display:inline-block; width:48%; float:left; margin:0 4% 10px 0; padding:8px 0 8px 12% !important; color:#fff;}
 }
 
@@ -930,10 +929,10 @@ div.inputbox_02a{ padding:20px; border:1px solid #ddd; }
 }
 
 /* 이사장 인사말 */
-@media screen and (max-width:1000px) and (min-width:768px){ 
+@media screen and (max-width:1000px) and (min-width:768px){
 	#sub_greeting{width:100% !important;}
 }
-@media screen and (max-width:767px) and (min-width:350px){ 
+@media screen and (max-width:767px) and (min-width:350px){
 	#sub_greeting p > img{display: block !important; width: 45% !important; margin-left: 5%; margin: 10px 0 0 5%; float: right;}
 }
 
@@ -1332,11 +1331,11 @@ div.inputbox_02a{ padding:20px; border:1px solid #ddd; }
 
 @media screen and (max-width:1000px) and (min-width:768px){
 	#sub_join .join_step{position: relative; margin-bottom:40px !important; background:url('../images/sub/bg_join_line.gif') repeat-x center 25%;}
-	
+
 	#sub_join .join_step ul li{display: inline-block; width: 10%; margin: 0 2% 15px; font-size:0.8em; }
     #sub_join .join_step ul li:first-child{margin: 0 4% 15px;}
     #sub_join .join_step ul li:last-child{margin: 0 4% 15px;}
-	#sub_join .join_step ul li img{ display: block; width: 75%; margin: 0 auto 15px;}	
+	#sub_join .join_step ul li img{ display: block; width: 75%; margin: 0 auto 15px;}
 }
 
 @media screen and (max-width:767px) and (min-width:350px){
@@ -1347,7 +1346,7 @@ div.inputbox_02a{ padding:20px; border:1px solid #ddd; }
     #sub_join .join_step ul li:last-child{margin: 0 4% 15px;}
 	#sub_join .join_step ul li img{ display: block; width: 75%; margin: 0 auto 15px;}
 	#sub_join .join_step ul li span{display:block; text-align:center;font-size:1.25em;}
-	
+
 
 	#sub_join .join_cate > div{width: 100% !important;	background: rgb(245, 245, 245);	border: 1px solid rgb(221, 221, 221);	float: left; text-align: center; margin-right: 0 !important;
 		padding: 40px 0px;	clear: both; margin-bottom:15px;}
@@ -1412,7 +1411,7 @@ div.inputbox_02a{ padding:20px; border:1px solid #ddd; }
 #sub_join .join_input .ipt_info table td > div:last-child{margin-bottom:0;}
 
 #sub_join .join_input .ipt_info table .ipt-btn:after{display:block; content:""; clear:both; zoom:1;}
-/* #sub_join .join_input .ipt_info table .ipt-btn input[type='text']{width:78%; float:left; vertical-align: middle; margin-right:2%;} 
+/* #sub_join .join_input .ipt_info table .ipt-btn input[type='text']{width:78%; float:left; vertical-align: middle; margin-right:2%;}
 #sub_join .join_input .ipt_info table .ipt-btn a.btn_form{display: inline-block; float:right; background:#333; color:#fff; height: 35px; line-height: 35px;  width:20%; text-align: center;} 1027 삭제*/
 #sub_join .join_input .ipt_info table td .cap{color:#ff3535; font-size:.8em; margin-top:5px; display:block;}
 #sub_join .join_input .ipt_info table td label{margin-right:5px;}
@@ -1446,7 +1445,7 @@ table#minwon_write td{text-align:left;}
 #sub_sitemap ul li{font-size:1.25em; line-height: 1.5em; padding:15px; border-bottom:1px solid #ddd;}
 #sub_sitemap ul#mn_info, #sub_sitemap ul#mn_custom, #sub_sitemap ul#mn_intro{height:600px !important;}
 
-@media screen and (max-width:1000px) and (min-width:768px){ 
+@media screen and (max-width:1000px) and (min-width:768px){
 	#sub_sitemap ul {width:30%; float:left; height:780px; margin:1.5%;}
 	#sub_sitemap ul#mn_facility, #sub_sitemap ul#mn_info, #sub_sitemap ul#mn_custom{height:590px !important;}
 	#sub_sitemap ul#mn_intro{height:650px !important;}
@@ -1456,7 +1455,7 @@ table#minwon_write td{text-align:left;}
 	#sub_sitemap ul {width:46%; float:left; height:670px; margin:2%;}
 	#sub_sitemap ul li{font-size:1em;}
 	#sub_sitemap ul#mn_library, #sub_sitemap ul#mn_facility{height:470px !important;}
-	#sub_sitemap ul#mn_info, #sub_sitemap ul#mn_custom{height:580px !important;}  
+	#sub_sitemap ul#mn_info, #sub_sitemap ul#mn_custom{height:580px !important;}
 }
 
 /* 대관신청 1027 추가 */
@@ -1469,7 +1468,7 @@ table#minwon_write td{text-align:left;}
 #sub_appRental #caution ol li{line-height:2em;}
 #sub_appRental #caution ol li span{margin-right:5px;}
 #sub_appRental #form table td{text-align:left;}
-/* 정보입력 테이블  1027 추가 */  
+/* 정보입력 테이블  1027 추가 */
 table.tb_inputInfo{width:100%;  border-collapse: collapse; border-left:1px solid #ddd; border-top:1px solid #ddd;}
 table.tb_inputInfo th{background:#eee; text-align: left; padding:10px 15px; height:56px;}
 table.tb_inputInfo th, table.tb_inputInfo td{border-right:1px solid #ddd; border-bottom:1px solid #ddd;}
@@ -1506,7 +1505,7 @@ table.tb_inputInfo td label:last-child{margin-right:0;}
 .termBox pre table th{background:#eee;}
 .termBox pre table th, .termBox pre table td{border-right:1px solid #bbb; border-bottom:1px solid #bbb; padding:1%;}
 
-@media screen and (max-width:1000px) and (min-width:768px){ 
+@media screen and (max-width:1000px) and (min-width:768px){
 	#sub_appRental #notice ul li{height: 260px !important;}
 }
 @media screen and (max-width:767px) and (min-width:350px){
@@ -1515,7 +1514,7 @@ table.tb_inputInfo td label:last-child{margin-right:0;}
 	#sub_appRental #notice ul li:nth-child(3){border-left:1px solid #ddd;}
 	table.tb_inputInfo td #amenities{display: block;}
 	table.tb_inputInfo td #amenities > div{display: block; width:100%; margin-bottom:5px}
-}	
+}
 
 /* 푸터 (개인정보 처리방침 / 이메일무단수집거부 / 이용안내 / 뷰어다운로드) */
 #sub_guide1 h4{margin:5px 0 15px 0; line-height: 1.25em;}
@@ -1540,10 +1539,10 @@ table.tb_inputInfo td label:last-child{margin-right:0;}
 #sub_guide1 #policy .dpt03 dd table th,#sub_guide1 #policy dl.dpt03 dd table td{font-size:1em;}
 #sub_guide1 #policy .dpt04{margin-top:10px;}
 
-@media screen and (max-width:767px) and (min-width:350px){ 
+@media screen and (max-width:767px) and (min-width:350px){
     #sub_guide1 #policy dl dd img{width:100%;}
     #sub_guide1 #policy dl.dpt03 dd table{width:100%;}
-}		
+}
 
 #sub_guide2 #email_nope p{ text-align:center; }
 
@@ -1551,17 +1550,17 @@ table.tb_inputInfo td label:last-child{margin-right:0;}
 #sub_guide3 > div > h4{ background: url(../images/sub/blt_01.jpg) no-repeat center left; margin-bottom: 15px; padding:2px 0 2px 35px;}
 #sub_guide3 > div > p, #sub_guide > div > dl > dd{font-size:1.15em; padding-left:35px; line-height:1.5em}
 #sub_guide3 > div > dl > dt{font-size:1.2em; padding:10px 0 5px 35px; ;font-weight:bold; line-height:1.5em; font-weight:bold; }
-#sub_guide3 > div > dl > dt:before{content:'· '; } 
+#sub_guide3 > div > dl > dt:before{content:'· '; }
 #sub_guide3 > div > dl > dd{margin-left:45px; line-height:1.7em;}
 #sub_guide3 > div > dl > dd:before{content:'- '; }
 
 /* 이사장 인사말 */
 #sub_greeting{width:80%; margin:0 auto; text-align:justify;}
 #sub_greeting .name strong{font-size:1.3em; margin-left:5px;}
-@media screen and (max-width:1000px) and (min-width:768px){ 
+@media screen and (max-width:1000px) and (min-width:768px){
 	#sub_greeting{width:100% !important;}
 }
-@media screen and (max-width:767px) and (min-width:350px){ 
+@media screen and (max-width:767px) and (min-width:350px){
 	#sub_greeting{width:100% !important;}
 	#sub_greeting p > img{display: block !important; width: 20% !important; margin-left: 5%; margin: 10px 0 0 5%; float: right;}
 }
@@ -1572,7 +1571,7 @@ table.tb_inputInfo td label:last-child{margin-right:0;}
 .sub_humanrights01 .img-txt .txt p{font-size:1.7em; font-weight:bold;}
 .sub_humanrights01 .img-txt{background:url('../images/sub/bg_heonjang.jpg') no-repeat center; background-size:cover;}
 
-@media screen and (max-width:767px) and (min-width:350px){ 
+@media screen and (max-width:767px) and (min-width:350px){
 	.sub_humanrights01 .img-txt .txt{padding: 14% 0; margin-bottom: 40px;}
 	.sub_humanrights01 .img-txt{background:none;}
 }
@@ -1583,7 +1582,7 @@ table.tb_inputInfo td label:last-child{margin-right:0;}
 .sub_ethic .img-txt .txt p{font-size:1.7em;font-weight:bold;}
 .sub_ethic .img-txt{background:url('../images/sub/bg_ethics.jpg') no-repeat center; background-size:cover;}
 
-@media screen and (max-width:767px) and (min-width:350px){ 
+@media screen and (max-width:767px) and (min-width:350px){
 	.sub_ethic .img-txt .txt{padding: 14% 0; margin-bottom: 40px;}
 	.sub_ethic .img-txt{background:none;}
 }

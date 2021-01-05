@@ -32,7 +32,7 @@
 						<div class='site1'>
 							<a href='javascript:;' class='btn_toggle'>관련사이트 바로가기</a>
 							<ul class='data'>
-								<li><a href='//jnvc.seoulvc.kr' target='_blank'>중랑구자원봉사센터</a></li>
+								<li><a href='//www.jungnanglib.seoul.kr/library/index.php' target='_blank'>중랑구립도서관</a></li>
 								<li><a href='//www.jungnang.go.kr/health/main.do' target='_blank'>중랑구보건소</a></li>
 								<li><a href='//mind.jungnang.go.kr' target='_blank'>중랑구정신보건센터</a></li>
 								<li><a href='//www.jungnang.go.kr/portal/main/contents.do?menuNo=200145' target='_blank'>중랑구사회복지</a></li>
