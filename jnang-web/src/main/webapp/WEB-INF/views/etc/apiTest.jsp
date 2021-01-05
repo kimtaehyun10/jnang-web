@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-  <form name="frm" method="post" action="http://14.36.179.143:18080/member/joinMember.do">
+  <form name="frm" method="post" action="/member/joinMember.do">
 	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 	conninfo : <input type="text" name="conninfo" value="269A96546C0E7D7EB6957405281063B4269A96546C0E7D7EB6957405281063B4"> <BR>
 	name : <input type="text" name="name" value="이름2"> <BR>
