@@ -690,7 +690,7 @@
 		function popupOpen(){
 			
  		var popUrl1 = "popup/popup20.p";	//팝업창에 출력될 페이지 URL
-		var popOption1 = "width=512, height=736, resizable=no, scrollbars=no, status=no, left=0;"; //팝업창 옵션(optoin)
+		var popOption1 = "width=470, height=660, resizable=no, scrollbars=no, status=no, left=0;"; //팝업창 옵션(optoin)
 		window.open(popUrl1,"",popOption1);
 			
 		}
