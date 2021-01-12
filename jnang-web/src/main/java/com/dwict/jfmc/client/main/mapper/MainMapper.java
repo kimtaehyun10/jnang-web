@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.dwict.jfmc.client.main.model.Banner;
+import com.dwict.jfmc.client.main.model.PopupWindow;
 import com.dwict.jfmc.client.main.model.PopupZone;
 
 import egovframework.rte.psl.dataaccess.mapper.Mapper;
@@ -17,6 +18,8 @@ public interface MainMapper {
 	String getCmsNm(String cmsCd);
 
 	List<PopupZone> popupZone();
+	
+	List<PopupWindow> popupWindow();
 
 	List<Map<String, Object>> cmsBoard(Map<String, Object> requestMap);
 

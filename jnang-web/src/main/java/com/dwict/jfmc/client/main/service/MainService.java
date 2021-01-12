@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.dwict.jfmc.client.main.model.Banner;
+import com.dwict.jfmc.client.main.model.PopupWindow;
 import com.dwict.jfmc.client.main.model.PopupZone;
 
 public interface MainService {
@@ -15,6 +16,8 @@ public interface MainService {
 
 	List<PopupZone> popupZone();
 
+	List<PopupWindow> popupWindow();
+	
 	List<Map<String, Object>> cmsBoard(Map<String, Object> requestMap);
 
 	List<Banner> banner();

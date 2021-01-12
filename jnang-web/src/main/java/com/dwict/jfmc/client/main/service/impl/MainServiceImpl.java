@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.dwict.jfmc.client.main.mapper.MainMapper;
 import com.dwict.jfmc.client.main.model.Banner;
+import com.dwict.jfmc.client.main.model.PopupWindow;
 import com.dwict.jfmc.client.main.model.PopupZone;
 import com.dwict.jfmc.client.main.service.MainService;
 
@@ -33,6 +34,15 @@ public class MainServiceImpl implements MainService {
 	public List<PopupZone> popupZone() {
 		return mapper.popupZone();
 	}
+	
+	@Override
+	public List<PopupWindow> popupWindow(){
+		return mapper.popupWindow();
+		
+	}
+	
+
+	
 
 	@Override
 	public List<Map<String, Object>> cmsBoard(Map<String, Object> requestMap) {		

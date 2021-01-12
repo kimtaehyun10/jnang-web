@@ -330,6 +330,14 @@
 								<ul id="popupZone" class='main_rollingpopz1'></ul>
 							</div>
 						</div>
+						
+					 <!--  	<div class='popz1 clbx'>
+							<div class='bx_main_rollingpopz1'>
+								<ul id="popupWindow" class='main_rollingpopz1'></ul>
+							</div>
+						</div>
+						 -->
+					
 					</li>
 				</ul>
 			</div>

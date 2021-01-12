@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dwict.jfmc.client.main.model.Banner;
+import com.dwict.jfmc.client.main.model.PopupWindow;
 import com.dwict.jfmc.client.main.model.PopupZone;
 import com.dwict.jfmc.client.main.service.MainService;
 
@@ -25,6 +26,11 @@ public class MainRestController {
 	@GetMapping(value = "/popupZone")
 	public List<PopupZone> popupZone(HttpServletRequest request) {
 		return service.popupZone();
+	}
+	
+	@GetMapping(value = "/popupWindow")
+	public List<PopupWindow> popupWindow(HttpServletRequest request) {
+		return service.popupWindow();
 	}
 	
 	//공지사항/보도자료/입찰공고/채용공고 ..

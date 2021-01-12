@@ -7,6 +7,7 @@
 	<input type="hidden" id="h_pageIndex" name="h_pageIndex" value="1"/>
 	<input type="hidden" id="h_pageSize" name="h_pageSize" value="10"/>
 	<input type="hidden" id="h_startRow" name="h_startRow" value="0"/>
+	<div style="font-size:18px; margin-bottom:20px;">수강신청을 진행할 센터와 분류를 선택하세요.</div>
 </div>
 <div class='sub_lecture_l01'>
 	<div class='lect_sch_box_01'>
@@ -14,7 +15,7 @@
 			<ul>
 				<li>
 					<div class='bd1'>
-						<div class='tit1'>체육센터</div>
+						<div class='tit1'>센터</div>
 						<select id="sb1" name='sb1' class='selbox_multi_01' size='4'></select>
 					</div>
 				</li>

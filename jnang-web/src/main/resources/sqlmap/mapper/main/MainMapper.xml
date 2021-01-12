@@ -49,6 +49,23 @@
 		      AND P.USE_YN = 'Y'
 		      AND P.DEL_YN = 'N'
     </select>
+    	<select id="popupWindow" resultType="popupWindow">
+		   SELECT P.NT_NO
+		        , P.TITLE
+		        , P.IMG_TXT
+		        , F.ATCH_FILE_ID
+		        , F.FILE_STRE_COURS
+		        , F.STRE_FILE_NM
+		        , F.ORIGNL_FILE_NM
+		        , F.FILE_EXTSN
+		     FROM CMS_POPUP_ZONE P
+		LEFT JOIN COMTNFILEDETAIL F
+		       ON P.IMG = F.ATCH_FILE_ID
+		    WHERE DATE_FORMAT(NOW(),'%Y%m%d%h%i') BETWEEN P.SDT AND P.EDT
+		      AND P.USE_YN = 'Y'
+		      AND P.DEL_YN = 'N'
+    </select>
+   
     
     <!-- //공지사항/보도자료/입찰공고/채용공고 .. -->
 	<select id="cmsBoard" resultType="java.util.HashMap" parameterType="java.util.HashMap">
