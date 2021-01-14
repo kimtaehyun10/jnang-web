@@ -52,7 +52,8 @@ public class PayController {
 			switch(dirPath) {
 			
 				case "mainPay":
-					
+				case "testPay":
+					rtn = "/smartPay/"+ dirPath;
 					break;
 				
 				//장바구니 사물함/강좌 결제

@@ -58,6 +58,10 @@ public class RentController {
 		}
 		modelAndView.addObject("rentCfg", rentCfg);
 		
+		//센터별 대관 그룹 가져오기(대강당 ,소강당, 강의실)
+		List<Map <String,Object>> centerGroup = pageService.getCenterGroup(requestMap, request);
+		modelAndView.addObject("centerGroup", centerGroup);
+		
 		//회원정보 가져오기
 		final Map <String,Object> myData = mypgService.myInfo(MEM_ID);
 		modelAndView.addObject("myData", myData);
@@ -91,6 +95,10 @@ public class RentController {
 		int teamCount =  rentService.teamCount(MEM_ID);
 		rentCfg.put("teamMemCnt",teamCount );
 		modelAndView.addObject("rentCfg", rentCfg);
+
+		//센터별 대관 그룹 가져오기(대강당 ,소강당, 강의실)
+		List<Map <String,Object>> centerGroup = pageService.getCenterGroup(requestMap, request);
+		modelAndView.addObject("centerGroup", centerGroup);
 		
 		//체육관별 대관 정보 가져오기
 		List<Map <String,Object>> rentList = pageService.getRentCalendar(requestMap, request);

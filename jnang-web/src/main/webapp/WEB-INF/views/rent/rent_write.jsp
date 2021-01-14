@@ -36,6 +36,13 @@ $(function(){
 		}
 	});
 	
+	
+	let cont = '';
+	<c:forEach items="${centerGroup}" var="result" varStatus="status">
+		cont += '<a href="/rent/write/?q=${result.PLACE_CD}"><li>${result.PLACE_NM}</li></a>';
+	</c:forEach>
+	$(".mbx1:eq(1)>ul").append(cont);	
+	
 	var clareCalendar = {maxDate: '+60d',minDate: '+7d' }
 	$("#RENT_DATE").datepicker(clareCalendar);
 	

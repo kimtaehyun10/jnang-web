@@ -125,6 +125,14 @@ param = (param == null) ? "": param;
 			}
 		});
 		
+		
+		let cont = '';
+		<c:forEach items="${centerGroup}" var="result" varStatus="status">
+			cont += '<a href="/rent/date/?q=${result.PLACE_CD}"><li>${result.PLACE_NM}</li></a>';
+		</c:forEach>
+		$(".mbx1:eq(1)>ul").append(cont);	
+		
+		
 	});
 	
 var teamMemCnt = "${rentCfg.teamMemCnt}";
