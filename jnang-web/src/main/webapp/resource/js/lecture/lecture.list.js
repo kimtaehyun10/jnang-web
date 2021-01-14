@@ -79,39 +79,18 @@ var writeCondition = function(type, data){
 	case 'sb1':
 		var sb1Html = commonHtml;
 		for(var i=0; i<data.length; i++){
-			if(data[i].comcd == "JUNGNANG08"){
-				sb1Html += '';
-			}else if(data[i].comcd == "JUNGNANG09"){
-				sb1Html += '';
-			}else if(data[i].comcd == "JUNGNANG10"){
-				sb1Html += '';
-			}else if(data[i].comcd == "JUNGNANG13"){
-				sb1Html += '';
-			}else{
+	
 			sb1Html += '<option value='+ data[i].comcd +'>'+data[i].comnm+'</option>';	
-			}
-			
+	
 		}
 		$('#sb1').empty().append(sb1Html);
 		break;
 	case 'sb2':
 		var sb2Html = commonHtml;
 		for(var i=0; i<data.length; i++){
-			if(data[i].cd == "18"){
-				sb2Html += '';	
-			}else if(data[i].cd == "05"){
-				sb2Html += '';
-			}else if(data[i].cd == "04"){
-				sb2Html += '';
-			}else if(data[i].cd == "12"){
-				sb2Html += '';
-			}else if(data[i].cd == "16"){
-				sb2Html += '';
-			}else if(data[i].cd == "00"){
-				sb2Html += '';
-			}else{
+	
 			sb2Html += '<option value='+ data[i].cd +'>'+data[i].cdNm+'</option>';
-			}
+			
 		};
 		$('#sb2').empty().append(sb2Html).val('all');
 		break;
@@ -119,55 +98,9 @@ var writeCondition = function(type, data){
 		var sb3Html = commonHtml;
     
 		for(var i=0; i<data.length; i++){
-						
-	 		 if(data[i].cd =="04"){
-				sb3Html += '';	
-			}else if(data[i].cd =="05"){
-				sb3Html += '';
-			}else if(data[i].cd == "06"){
-				sb3Html += '';
-			}else if(data[i].cd == "07"){
-				sb3Html += '';
-			}else if(data[i].cd == "08"){
-				sb3Html += '';
-			}else if(data[i].cd == "10"){
-				sb3Html += '';
-			}else if(data[i].cd == "56"){
-				sb3Html += '';
-			}else if(data[i].cd == "59"){
-				sb3Html += '';
-			}else if(data[i].cd == "21"){
-				sb3Html += '';
-			}else if(data[i].cd == "22"){
-				sb3Html += '';
-			}else if(data[i].cd == "23"){
-				sb3Html += '';
-			}else if(data[i].cd == "42"){
-				sb3Html += '';
-			}else if(data[i].cd == "64"){
-				sb3Html += '';
-			}else if(data[i].cd == "39"){
-				sb3Html += '';
-			}else if(data[i].cd == "51"){
-				sb3Html += '';
-			}else if(data[i].cd == "49"){
-				sb3Html += '';
-			}else if(data[i].cd == "53"){
-				sb3Html += '';
-			}else if(data[i].cd == "63"){
-				sb3Html += '';
-			}else if(data[i].cd == "62"){
-				sb3Html += '';
-			}else if(data[i].cd == "30"){
-				sb3Html += '';
-			}else if(data[i].cd == "58"){
-				sb3Html += '';
-			}else if(data[i].cd == "41"){
-				sb3Html += '';
-			}else{
+
 				sb3Html += '<option value=' + data[i].cd + '>' +data[i].cdNm+'</option>';
-			}
-	
+		
 		}
 		
 		$('#sb3').empty().append(sb3Html).val('all');
@@ -276,6 +209,8 @@ var searchLectureList = function(){
 							 tableBody += '<td  >'+"생활체육"+'</td>';	
 								}else  if( data.resultList[i].sportsCd === '01' && data.resultList[i].comcd === 'JUNGNANG03'  ){				
 							 tableBody += '<td >'+"생활체육"+'</td>';	
+								}else  if( data.resultList[i].sportsCd === '05' && data.resultList[i].comcd === 'JUNGNANG03'  ){				
+							 tableBody += '<td >'+"패키지(헬스+생활체육)"+'</td>';	
 								}else  if( data.resultList[i].sportsCd === '03' && data.resultList[i].comcd === 'JUNGNANG01'  ){				
 							 tableBody += '<td  >'+"(1개월)체육/문화/영어"+'</td>';	
 								}else  if( data.resultList[i].sportsCd === '06' && data.resultList[i].comcd === 'JUNGNANG01'  ){				
@@ -298,6 +233,12 @@ var searchLectureList = function(){
 							 tableBody += '<td>'+"월정기권(묵동)"+'</td>';	
 								}else  if( data.resultList[i].sportsCd === '07' && data.resultList[i].comcd === 'JUNGNANG04'  ){				
 							 tableBody += '<td >'+"봉화산클럽(신내)"+'</td>';	
+								}else  if( data.resultList[i].sportsCd === '05' && data.resultList[i].comcd === 'JUNGNANG01'  ){				
+							 tableBody += '<td >'+"아기스포츠단"+'</td>';	
+								}else  if( data.resultList[i].sportsCd === '18' && data.resultList[i].comcd === 'JUNGNANG01'  ){				
+							 tableBody += '<td >'+"피아노교실"+'</td>';	
+								}else  if( data.resultList[i].sportsCd === '04' && data.resultList[i].comcd === 'JUNGNANG01'  ){				
+							 tableBody += '<td >'+"(3개월)체육/문화/수영"+'</td>';	
 								}
 					
 						tableBody += '<td >'+data.resultList[i].classNm+'</td>';
@@ -374,6 +315,8 @@ var searchLectureList = function(){
 							 tableBody += '<td rowspan='+prgCount+' >'+"생활체육"+'</td>';	
 								}else  if( data.resultList[i].sportsCd === '01' && data.resultList[i].comcd === 'JUNGNANG03'  ){				
 							 tableBody += '<td rowspan='+prgCount+' >'+"생활체육"+'</td>';	
+								}else  if( data.resultList[i].sportsCd === '05' && data.resultList[i].comcd === 'JUNGNANG03'  ){				
+							 tableBody += '<td rowspan='+prgCount+' >'+"패키지(헬스+생활체육)"+'</td>';	
 								}else  if( data.resultList[i].sportsCd === '03' && data.resultList[i].comcd === 'JUNGNANG01'  ){				
 							 tableBody += '<td rowspan='+prgCount+' >'+"(1개월)체육/문화/영어"+'</td>';	
 								}else  if( data.resultList[i].sportsCd === '06' && data.resultList[i].comcd === 'JUNGNANG01'  ){				
@@ -398,6 +341,12 @@ var searchLectureList = function(){
 							 tableBody += '<td rowspan='+prgCount+' >'+"봉화산클럽(신내)"+'</td>';	
 								}else  if( data.resultList[i].sportsCd === '06' && data.resultList[i].comcd === 'JUNGNANG04'  ){				
 							 tableBody += '<td rowspan='+prgCount+' >'+"전체"+'</td>';	
+								}else  if( data.resultList[i].sportsCd === '05' && data.resultList[i].comcd === 'JUNGNANG01'  ){				
+							 tableBody += '<td rowspan='+prgCount+' >'+"아기스포츠단"+'</td>';	
+								}else  if( data.resultList[i].sportsCd === '04' && data.resultList[i].comcd === 'JUNGNANG01'  ){				
+							 tableBody += '<td rowspan='+prgCount+' >'+"(3개월)체육/문화/수영"+'</td>';	
+								}else  if( data.resultList[i].sportsCd === '18' && data.resultList[i].comcd === 'JUNGNANG01'  ){				
+							 tableBody += '<td rowspan='+prgCount+' >'+"피아노교실"+'</td>';	
 								}
 								
 					

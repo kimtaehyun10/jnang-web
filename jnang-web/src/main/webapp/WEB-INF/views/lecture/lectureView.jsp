@@ -11,14 +11,14 @@
 		
 		
 	<sec:authorize access="isAnonymous()" >
-	<!-- 	<input id="user" type='submit' class='size_m2 btn_gray2' value='신청' onclick="needAuthorize.user();">
-	   <input type='submit' class='size_m2 btn_gray2' value='신청' onclick="stop();"> -->
+ 	<input id="user" type='submit' class='size_m2 btn_gray2' value='신청' onclick="needAuthorize.user();">
+	   <input type='submit' class='size_m2 btn_gray2' value='신청' onclick="stop();"> 
 		</sec:authorize>
 		
 		<sec:authorize access="isAuthenticated()" >
-		<!-- 	<sec:authorize access="!hasAnyRole('ROLE_CARD')" >
+		 	<sec:authorize access="!hasAnyRole('ROLE_CARD')" >
 				<input type='submit' class='size_m2 btn_gray2' value='신청' onclick="needAuthorize.card();">
-			</sec:authorize> -->
+			</sec:authorize> 
 			<sec:authorize access="hasAnyRole('ROLE_CARD')" >
 	 			<input type='submit' class='size_m2 btn_green1' value='신청' onclick="addBasket();">
 			</sec:authorize>
