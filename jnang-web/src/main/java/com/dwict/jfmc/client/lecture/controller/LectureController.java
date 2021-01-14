@@ -37,5 +37,18 @@ public class LectureController {
 		modelAndView.setViewName("/lecture/lectureView");
 		return modelAndView;
 	}
+	
+	@GetMapping(value = "/lecture/view1")
+	public ModelAndView lectureView2(ModelAndView modelAndView, HttpServletRequest request) {
+		modelAndView.setViewName("/lecture/lectureView1");
+		return modelAndView;
+	}
+	
+	@GetMapping(value = "/lecture/view2")
+	public ModelAndView lectureView3(ModelAndView modelAndView, HttpServletRequest request) {
+		modelAndView.setViewName("/lecture/lectureView2");
+		return modelAndView;
+		
+	}
 
 }

@@ -69,6 +69,8 @@ $(function(){
 			try {
 				var brdTab1 ="", brdTab2="", brdTab3="", brdTab4="";
 				if(data.length != 0){
+					
+					
 					for(var i=0; i<data.length; i++){
 						var selectTab = data[i].tab;
 						switch(selectTab)

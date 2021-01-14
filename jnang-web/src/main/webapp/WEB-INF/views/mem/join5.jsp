@@ -31,7 +31,7 @@
 		<p>로그인 후 중랑구시설관리공단의 서비스를 이용할 수 있습니다.</p>
 		<div class="btnarea margin_t80">
 			<a href="/" id="gotoMain" class="gray">메인으로</a>
-			<a href="/mem/login" id="gotologin" class="green">로그인 하러가기</a>
+		
 		</div>
 	</div>
 </div>

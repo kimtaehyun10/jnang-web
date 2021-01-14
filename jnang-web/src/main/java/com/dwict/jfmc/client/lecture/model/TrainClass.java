@@ -77,7 +77,10 @@ public class TrainClass {
 
 	@Column(name = "CAPA")
 	private int capa;
-
+	
+	@Column(name = "REMAIN_CAPA")
+	private int remainCapa;
+	
 	@Column(name = "CLASS_DESC")
 	private String classDesc;
 

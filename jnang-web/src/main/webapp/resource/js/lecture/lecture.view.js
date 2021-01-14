@@ -16,8 +16,9 @@ var initPage = function(){
 		//console.log(data);
 		var programStartDate = dateUtil.getProgramStartDate(data.grpcd.startdate);
 		var programEndDate = dateUtil.getProgramEndDate(programStartDate, data.monthCnt);
-		var tableDesc = '', tableHead = '', tableBody = '', capaTableHead = '', capaTableBody = '';
+		var tableDesc = '', tableHead = '', tableBody = '', capaTableHead = '', capaTableBody = '', tableDetail = '';
 		
+		var costAmt = data.costAmt.toLocaleString(undefined, {maximumFractionDigits: 5});
 		//신청할 강좌 시작종료값 임시 저장
 		lectDate.sDate =  programStartDate;
 		lectDate.eDate =  programEndDate;
@@ -33,33 +34,140 @@ var initPage = function(){
 		tableHead += '<td>'+data.classNm+'</td>';
 		tableHead += '</tr>';
 		tableHead += '<tr>';
-		tableHead += '<th>기간</th>';
+		tableHead += '<tr>';
+		tableHead += '<th>시간/요일</th>';
+		tableHead += '<td>'+data.trainTimeNm+' / '+data.trainDayNm+'</td>';
+		tableHead += '</tr>';
+		tableHead += '<th>수강기간</th>';
 		tableHead += '<td>'+dateUtil.addPoint(programStartDate)+' ~ '+dateUtil.addPoint(programEndDate)+'</td>';
 		tableHead += '</tr>';
-		tableHead += '<tr>';
+		tableHead += '</tr>';
 		tableHead += '<th>대상</th>';
 		tableHead += '<td>'+data.classObj+'</td>';
 		tableHead += '</tr>';
 		tableHead += '<tr>';
-		tableHead += '<th>요일</th>';
-		tableHead += '<td>'+data.trainDayNm+'</td>';
+		tableHead += '<th>센터명</th>';
+	if(data.comcd === 'JUNGNANG01'){
+							   tableHead += '<td >'+"중랑구민체육센터"+'</td>';
+						      }else if(data.comcd === 'JUNGNANG02'){
+							   tableHead += '<td >'+"중랑문화체육관"+'</td>';
+						      }else if(data.comcd === 'JUNGNANG03'){
+							   tableHead += '<td >'+"면목2동체육관"+'</td>';
+						      }else if(data.comcd === 'JUNGNANG05'){
+							   tableHead += '<td >'+"묵동다목적체육관"+'</td>';
+						      }else if(data.comcd === 'JUNGNANG06'){
+							   tableHead += '<td >'+"중랑구립정보도서관"+'</td>';
+						      }else if(data.comcd === 'JUNGNANG07'){
+							   tableHead += '<td >'+"중랑구립테니스장"+'</td>';
+						      }else if(data.comcd === 'JUNGNANG11'){
+							   tableHead += '<td >'+"용마폭포공원테니스장"+'</td>';
+						      }else if(data.comcd === 'JUNGNANG12'){
+							   tableHead += '<td >'+"서울중랑워터파크"+'</td>';
+						      }else if(data.comcd === 'JUNGNANG04'){
+							   tableHead += '<td>'+"신내다목적체육관"+'</td>';
+						      }
+	
+	
 		tableHead += '</tr>';
+		tableHead += '<th>접수방식</th>';
+		tableHead += '<td>'+'선착순 접수'+'</td>';
+		tableHead += '</tr>';
+
 		tableHead += '<tr>';
-		tableHead += '<th>시간</th>';
-		tableHead += '<td>'+data.trainTimeNm+'</td>';
+		tableHead += '<th>수강료</th>';
+	/*	 if(data.adultGubn === '03' && data.comcd === 'JUNGNANG01'){
+			tableHead += '<td>'+'중고생'+' '+comma_str_y(data.costAmt)+'원'+'</td>';
+			
+		}else if(data.adultGubn === '03' && data.comcd === 'JUNGNANG02'){
+			tableHead += '<td>'+'중고생'+' '+comma_str_y(data.costAmt)+'원'+'</td>';
+			
+		}else if(data.adultGubn === '03' && data.comcd === 'JUNGNANG03'){
+			tableHead += '<td>'+'중고생'+' '+comma_str_y(data.costAmt)+'원'+'</td>';
+			
+		}else if(data.adultGubn === '03' && data.comcd === 'JUNGNANG04'){
+			tableHead += '<td>'+'중고생'+' '+comma_str_y(data.costAmt)+'원'+'</td>';
+			
+		}else if(data.adultGubn === '03' && data.comcd === 'JUNGNANG05'){
+			tableHead += '<td>'+'중고생'+' '+comma_str_y(data.costAmt)+'원'+'</td>';
+			
+		}else if(data.adultGubn === '03' && data.comcd === 'JUNGNANG06'){
+			tableHead += '<td>'+'중고생'+' '+comma_str_y(data.costAmt)+'원'+'</td>';
+			
+		}else if(data.adultGubn === '03' && data.comcd === 'JUNGNANG07'){
+			tableHead += '<td>'+'중고생'+' '+comma_str_y(data.costAmt)+'원'+'</td>';
+			
+		}else if(data.adultGubn === '03' && data.comcd === 'JUNGNANG11'){
+			tableHead += '<td>'+'중고생'+' '+comma_str_y(data.costAmt)+'원'+'</td>';
+			
+		}else if(data.adultGubn === '03' && data.comcd === 'JUNGNANG12'){
+			tableHead += '<td>'+'중고생'+' '+comma_str_y(data.costAmt)+'원'+'</td>';
+			
+		}else if(data.adultGubn === '04' && data.comcd === 'JUNGNANG01'){
+			tableHead += '<td>'+'성인'+' '+comma_str_y(data.costAmt)+'원'+'</td>';
+			
+		}else{
+			tableHead += '<td>'+data.classObj+' '+comma_str_y(data.costAmt)+'원'+'</td>';
+		}
+*/		
+		tableHead += '<td>'+data.classObj+' '+comma_str_y(data.costAmt)+'원'+'</td>';
 		tableHead += '</tr>';
-		tableHead += '<tr>';
-		tableHead += '<th>수강료(원)</th>';
-		tableHead += '<td>'+comma_str_y(data.costAmt)+'&nbsp;'+data.itemNm+'</td>';
-		tableHead += '</tr>';
-		tableBody += '<tr>';
-		tableBody += '<td colspan="2">';
-		tableBody += '<pre>'+data.classNote+'</pre>';
-		tableBody += '<br>';
-		tableBody += '<pre>'+data.bigo+'</pre>';
-		tableBody += '</td>';
-		tableBody += '</tr>';
-		tableBody += '<br>';
+		
+	
+
+	
+			 if(data.sportsCd === '01' && data.comcd === 'JUNGNANG01' || data.sportsCd === '01' && data.comcd === 'JUNGNANG02' ){
+		tableDetail += '<tr>';
+		tableDetail += '<th>강좌소개</th>';
+		tableDetail += '<td>'+'수업내용: 트레이닝을 통한 건강증진 및 기술 강화 훈련'+'<br>'
+		+'- 기초반 : Orientation 및 물적응, 기본 다리젓기, 자유형, 배영'+'<br>'
+		+'- 초급반 : 자유형, 배영, 평영 다리젓기, 평영'+'<br>'
+		+'- 중급반 : 자유형, 배영, 평영, 접영의 숙달 및 지구력강화'+'<br>'
+		+'- 상급반 : 자유형, 배영, 평영, 접영의 숙달 및 지구력강화 각 영법별 교정 및 start, turn의 교습 숙달'+'<br>'
+		+'</td>';
+
+		tableDetail += '</tr>';
+
+		tableDetail += '<tr>';
+		tableDetail += '<th>세부내용</th>';
+			tableDetail += '<td>'+'수업내용: 트레이닝을 통한 건강증진 및 기술 강화 훈련'+'<br>'
+		+'1. 수영복을 입기 전 샤워를 한 후, 수영복과 모자를 착용합니다.'+'<br>'
+		+'2. 강습시작 전 후 준비운동과 정리운동을 하시기 바랍니다.'+'<br>'
+		+'3. 안전사고 예방을 위하여 반드시 강사의 지시를 이행하여 주시기 바랍니다.'+'<br>'
+		+'4. 눈병, 피부병, 기타 공공위생에 영향을 미치는 환자 및 음주를 하신 분은 이용하실 수 없습니다.'+'<br>'
+		+'</td>';
+		tableDetail += '</tr>';
+		
+		tableDetail += '<tr>';
+		tableDetail += '<th>기타</th>';
+		tableDetail += '<td>'+data.bigo+'</td>';
+		tableDetail += '</tr>';
+
+		$('#programDetailTable').empty().append(tableDesc+tableDetail);
+		}else{
+			
+		tableDesc += '<caption>강좌 상세보기</caption>';
+		tableDesc += '<colgroup>';
+		tableDesc += '<col width="100px"/>';
+		tableDesc += '<col width="*"/>';
+		tableDesc += '</colgroup>';
+		
+		tableDetail += '<tr>';
+		tableDetail += '<th>강좌소개</th>';
+		tableDetail += '<td>'+data.classNote+'</td>';
+		tableDetail += '</tr>';
+
+		
+		tableDetail += '<tr>';
+		tableDetail += '<th>기타</th>';
+		tableDetail += '<td>'+data.bigo+'</td>';
+		tableDetail += '</tr>';
+
+		tableDetail += '<br>';
+
+			$('#programDetailTable').empty().append(tableDesc+tableDetail);
+		}
+		
+
 		$('#programTable').empty().append(tableDesc+tableHead+tableBody);
 		capaTableHead += '<caption>정원</caption>';
 		capaTableHead += '<colgroup>';

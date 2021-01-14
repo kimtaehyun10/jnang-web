@@ -4,6 +4,7 @@
 * @author RGJ
 * @version 1.22
 */
+
 'use strict'
 $(function(){
 	setMenuTitle('bg_01', '시설 통합예약', '수강신청', true);
@@ -190,12 +191,11 @@ var searchLectureList = function(){
 		pageIndex:$('#h_pageIndex').val(), pageSize:$('#h_pageSize').val(), startRow:$('#h_startRow').val()
 	};
 	$.get('/data/lecture/lectureList/', param, function(data){
-		//console.log(data);
-		var tableDesc = '', tableHead = '', tableBody = '', reception = '';
+		console.log(data.resultList.length);
+		var tableDesc = '', tableHead = '', tableBody = '', reception = '', lectureBtn = '';
 		//tableDesc
 		tableDesc = '<caption>수강신청</caption>';
 		tableDesc += '<colgroup>';
-		tableDesc += '<col width="80px"/>';
 		tableDesc += '<col width="170px"/>';
 		tableDesc += '<col width="170px"/>';
 		tableDesc += '<col width="130px"/>';
@@ -209,7 +209,6 @@ var searchLectureList = function(){
 		tableDesc += '</colgroup>';
 		//tableHead
 		tableHead += '<tr>';
-		tableHead += '<th>번호</th>';
 		tableHead += '<th>센터명</th>';
 		tableHead += '<th>종목</th>';
 		tableHead += '<th>강좌명</th>';
@@ -228,6 +227,7 @@ var searchLectureList = function(){
 		
 		if(data.resultList.length > 0){
 			var prgTot = 0;
+			
            
 
 		
@@ -239,10 +239,10 @@ var searchLectureList = function(){
 			if(prgTot != 0){
 				for(var i=0; i<data.resultList.length; i++){
 					if(data.resultList[i].prgCount === 1){	
-					num = i;
+		
 						
 						tableBody += '<tr>';
-							tableBody += '<td>'+""+'</td>';
+				
 							
 							
 								if(data.resultList[i].comcd === 'JUNGNANG01'){
@@ -315,11 +315,17 @@ var searchLectureList = function(){
 								tableBody += '<td>'+data.resultList[i].trainTimeNm+'<br>'+data.resultList[i].trainDayNm+'</td>';
 						}
 										tableBody += '<td>'+data.resultList[i].classObj+'</td>';
-						
-					
 						tableBody += '<td>'+data.resultList[i].programItem[0].costAmt.toLocaleString(undefined, {maximumFractionDigits: 5})+'</td>';
-				        tableBody += '<td >'+(data.webCapa-data.saleCount)+' 명</td>';
-			     	    tableBody += '<td>'+"수강신청"+'</td>';
+						
+				        tableBody += '<td >'+data.resultList[i].remainCapa+' 명</td>';
+						
+                    		if(data.resultList[i].remainCapa === 0){
+									tableBody += '<td><a class="size_s2 btn_pink_redWrite">접수마감</a></td>';
+							}else{
+														tableBody += '<td ><a class="size_s3 btn_pink_blueWrite" onclick="addBasket1(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[0].itemCd+'\');">수강신청</a></td>';
+							}
+							
+							
 						tableBody += '<td ><a class="size_s2 btn_blue2" onclick="searchLectureDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[0].itemCd+'\');">상세보기</a></td>';
 						tableBody += '</tr>';
 				
@@ -327,15 +333,14 @@ var searchLectureList = function(){
 					
 					}else{
 						var prgCount = data.resultList[i].prgCount;
-							
-						var num = 1;
 						
+					
 						for(var j=0; j<prgCount; j++){
 					     
 							if(j===0){
-							  num += i;
+							
 								tableBody += '<tr>';
-								tableBody += '<td rowspan='+prgCount+' >'+num+'</td>';
+							
 								
 								
 								if(data.resultList[i].comcd === 'JUNGNANG01'){
@@ -398,15 +403,21 @@ var searchLectureList = function(){
 					
 								tableBody += '<td rowspan='+prgCount+' >'+data.resultList[i].classNm+'</td>';
 						     
-								tableBody += '<td rowspan='+prgCount+'>'+data.resultList[i].trainTimeNm+'<br>'+data.resultList[i].trainDayNm+'</td>';
+								tableBody += '<td rowspan='+prgCount+'>'+data.resultList[i].trainTimeNm+'<br>'+data.resultList[i].trainDayNm+'</td>'
+								
 					        			tableBody += '<td rowspan='+prgCount+'>'+data.resultList[i].classObj+'</td>';
 				
 								tableBody += '<td>'+data.resultList[i].programItem[j].costAmt.toLocaleString(undefined, {maximumFractionDigits: 5})+'</td>';
-						
-								tableBody += '<td rowspan='+prgCount+'>'+(data.webCapa-data.saleCount)+' 명</td>';
 								
-								tableBody += '<td rowspan='+prgCount+' >'+"수강신청"+'</td>';
-								tableBody += '<td rowspan='+prgCount+'><a class="size_s2 btn_blue2" onclick="searchLectureDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[0].itemCd+'\');">상세보기</a></td>';
+								tableBody += '<td rowspan='+prgCount+'>'+data.resultList[i].remainCapa+' 명</td>';
+							if(data.resultList[i].remainCapa === 0){
+									tableBody += '<td><a class="size_s2 btn_pink_redWrite">접수마감</a></td>';
+							}else{
+								tableBody += '<td><a class="size_s2 btn_pink_blueWrite" onclick="addBasket1(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[j].itemCd+'\');">수강신청</a></td>';
+							}
+			
+					
+								tableBody += '<td><a class="size_s2 btn_blue2" onclick="searchLectureDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[0].itemCd+'\');">상세보기</a></td>';
 								
 								
 								tableBody += '</tr>';
@@ -415,9 +426,16 @@ var searchLectureList = function(){
 				                
 								tableBody += '<td>'+data.resultList[i].programItem[j].costAmt.toLocaleString(undefined, {maximumFractionDigits: 5})+'</td>';
 								
-						//		tableBody += '<td><a class="size_s2 btn_blue2" onclick="searchLectureDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[j].itemCd+'\');">상세보기</a></td>';
-								tableBody += '</tr>';
+								
+						if(data.resultList[i].remainCapa === 0){
+									tableBody += '<td><a class="size_s2 btn_pink_redWrite">접수마감</a></td>';
+							}else{
+								tableBody += '<td><a class="size_s2 btn_pink_blueWrite" onclick="addBasket1(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[j].itemCd+'\');">수강신청</a></td>';
+							}		
+								tableBody += '<td><a class="size_s2 btn_blue2" onclick="searchLectureDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[j].itemCd+'\');">상세보기</a></td>';
+						
 							}
+									tableBody += '</tr>';
 						}
 					}
 				}
@@ -431,6 +449,7 @@ var searchLectureList = function(){
 			tableBody += '<td colspan="7">프로그램이 없습니다.</td>';
 			tableBody += '</tr>';
 		}
+	
 		$('#lectureTable').empty().append(tableDesc+tableHead+tableBody);
 		if($('#sb2').val() === 'all' || data.resultList.length === 0){
 			reception += '<ul class="ul_hyphen1a10">';
@@ -461,3 +480,30 @@ var searchLectureDetail = function(comcd, classCd, itemCd){
 		window.location.href='/lecture/view';
 	});
 };
+
+
+var needAuthorize = {
+	user: function(){
+		alert('로그인 후 이용해 주세요.');
+		return;
+	},
+	card: function(){
+		alert('회원카드를 발급받은 회원만 신청이 가능합니다.');
+		//return;
+	}
+};
+
+
+var addBasket1 = function(comcd, classCd, itemCd){
+	var lecture = { comcd:comcd, classCd:classCd, itemCd:itemCd };
+	$.get('/data/encode/text', {text:JSON.stringify(lecture)}, function(data){
+		localStorage.setItem('lecture', data);
+	}).done(function(){
+		window.location.href='/lecture/view1';
+	});
+};
+
+
+
+
+

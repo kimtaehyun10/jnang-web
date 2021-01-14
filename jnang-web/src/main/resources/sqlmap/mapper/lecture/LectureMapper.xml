@@ -117,7 +117,7 @@
    		              , CONCAT(Fn_GetTimeFormat(A.TRAIN_STIME), '~', Fn_GetTimeFormat(A.TRAIN_ETIME)) AS TRAIN_TIME_NM
    		              , A.CS_CAPA
    		              , A.WEB_CAPA
-   		              , A.CAPA
+   		              , A.CAPA-WEB_CAPA AS REMAIN_CAPA
    		              , A.CLASS_DESC
    		              , A.CLASS_NOTE
    		              , A.CLASS_READY
@@ -232,7 +232,7 @@
    		     , CONCAT(Fn_GetTimeFormat(C.TRAIN_STIME), '~', Fn_GetTimeFormat(C.TRAIN_ETIME)) AS TRAIN_TIME_NM
    		     , A.ITEM_NM
    		     , C.CAPA
-   		     , C.CS_CAPA
+   		     , C.CS_CAPA-WEB_CAPA AS REMAIN_CAPA
    		     , C.WEB_CAPA
    		     , C.CLASS_DESC
    		     , C.CLASS_NOTE
@@ -240,7 +240,7 @@
    		     , C.CHILD_YN
    		     , C.CLASS_PHOTO
    		     , C.TDATE_USE_YN
-	         , 0 AS SALE_COUNT
+	         , 2 AS SALE_COUNT
     	  FROM PROGRAM_ITEM A
     	  JOIN ITEM_CLASS B
     	    ON A.COMCD = B.COMCD

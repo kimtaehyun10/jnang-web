@@ -39,6 +39,12 @@
 		sRtnMsg = "기타 오류: iRtn 값과 적용한 샘플소스를 발송해주시기 바랍니다.";
 	}
 %>
+<script>
+
+
+
+
+</script>
 <div id="sub_join" class='join_s3'>
     <div class="join_step">
         <ul>
@@ -73,7 +79,10 @@
             <img src="${pageContext.request.contextPath}/resource/images/sub/icon_join_certf_p.png">
             <h5 class="margin_b20">휴대폰 본인인증</h5>
             <span class="margin_b30">본인명의로 등록된 휴대폰을 통해<br/>본인확인을 받을 수 있는 서비스 입니다.</span>
-            <a class="btn" onclick="join.phoneAuthentication();">휴대폰 인증하기</a>
+            
+             <a class="btn" onclick="join.phoneAuthentication();">휴대폰 인증하기</a> 
+      
+   
         </div>
         <div class="ipin">
             <img src="${pageContext.request.contextPath}/resource/images/sub/icon_join_certf_i.png">
