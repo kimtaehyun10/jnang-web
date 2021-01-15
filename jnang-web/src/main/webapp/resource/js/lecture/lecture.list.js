@@ -130,14 +130,12 @@ var searchLectureList = function(){
 		tableDesc = '<caption>수강신청</caption>';
 		tableDesc += '<colgroup>';
 		tableDesc += '<col width="170px"/>';
-		tableDesc += '<col width="170px"/>';
+		tableDesc += '<col width="110px"/>';
 		tableDesc += '<col width="130px"/>';
-		tableDesc += '<col width="140px"/>';
-		tableDesc += '<col width="150px"/>';
-		tableDesc += '<col width="140px"/>';
-		tableDesc += '<col width="140px"/>';
-		tableDesc += '<col width="140px"/>';
-		tableDesc += '<col width="140px"/>';
+		tableDesc += '<col width="130px"/>';
+		tableDesc += '<col width="130px"/>';
+		tableDesc += '<col width="120px"/>';
+		tableDesc += '<col width="130px"/>';
 		tableDesc += '<col width="140px"/>';
 		tableDesc += '</colgroup>';
 		//tableHead
@@ -146,9 +144,7 @@ var searchLectureList = function(){
 		tableHead += '<th>종목</th>';
 		tableHead += '<th>강좌명</th>';
 		tableHead += '<th>시간/요일</th>';
-		tableHead += '<th>대 상</th>';
-	//	tableHead += '<th colspan=\'2\'>수강료(원)</th>';
-		tableHead += '<th>수강료(원)</th>'
+		tableHead += '<th colspan=\'2\'>대상/수강료(원)</th>';
 		tableHead += '<th>잔여인원</th>';
 		tableHead += '<th>신 청</th>';
 		tableHead += '<th>상세보기</th>';
@@ -255,7 +251,8 @@ var searchLectureList = function(){
 						}else{
 								tableBody += '<td>'+data.resultList[i].trainTimeNm+'<br>'+data.resultList[i].trainDayNm+'</td>';
 						}
-										tableBody += '<td>'+data.resultList[i].classObj+'</td>';
+							tableBody += '<td>'+data.resultList[i].programItem[0].itemNm+'</td>';
+										
 						tableBody += '<td>'+data.resultList[i].programItem[0].costAmt.toLocaleString(undefined, {maximumFractionDigits: 5})+'</td>';
 						
 				        tableBody += '<td >'+data.resultList[i].remainCapa+' 명</td>';
@@ -263,7 +260,7 @@ var searchLectureList = function(){
                     		if(data.resultList[i].remainCapa === 0){
 									tableBody += '<td><a class="size_s2 btn_pink_redWrite">접수마감</a></td>';
 							}else{
-														tableBody += '<td ><a class="size_s3 btn_pink_blueWrite" onclick="addBasket1(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[0].itemCd+'\');">수강신청</a></td>';
+									tableBody += '<td ><a class="size_s3 btn_pink_blueWrite" onclick="addBasket1(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[0].itemCd+'\');">수강신청</a></td>';
 							}
 							
 							
@@ -354,7 +351,7 @@ var searchLectureList = function(){
 						     
 								tableBody += '<td rowspan='+prgCount+'>'+data.resultList[i].trainTimeNm+'<br>'+data.resultList[i].trainDayNm+'</td>'
 								
-					        			tableBody += '<td rowspan='+prgCount+'>'+data.resultList[i].classObj+'</td>';
+					        	tableBody += '<td>'+data.resultList[i].programItem[j].itemNm+'</td>';
 				
 								tableBody += '<td>'+data.resultList[i].programItem[j].costAmt.toLocaleString(undefined, {maximumFractionDigits: 5})+'</td>';
 								
@@ -372,7 +369,7 @@ var searchLectureList = function(){
 								tableBody += '</tr>';
 							}else{
 								tableBody += '<tr>';   
-				                
+				                tableBody += '<td>'+data.resultList[i].programItem[j].itemNm+'</td>';
 								tableBody += '<td>'+data.resultList[i].programItem[j].costAmt.toLocaleString(undefined, {maximumFractionDigits: 5})+'</td>';
 								
 								

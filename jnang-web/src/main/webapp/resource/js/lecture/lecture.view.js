@@ -109,7 +109,7 @@ var initPage = function(){
 			tableHead += '<td>'+data.classObj+' '+comma_str_y(data.costAmt)+'원'+'</td>';
 		}
 */		
-		tableHead += '<td>'+data.classObj+' '+comma_str_y(data.costAmt)+'원'+'</td>';
+		tableHead += '<td>'+data.itemNm+' '+comma_str_y(data.costAmt)+'원'+'</td>';
 		tableHead += '</tr>';
 		
 	
