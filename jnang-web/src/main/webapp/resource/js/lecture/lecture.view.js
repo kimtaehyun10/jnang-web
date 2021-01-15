@@ -192,7 +192,7 @@ var initPage = function(){
 var needAuthorize = {
 	user: function(){
 		alert('로그인 후 이용해 주세요.');
-		return;
+		window.location.href ='/lecture/list/JUNGNANG02';
 	},
 	card: function(){
 		alert('회원카드를 발급받은 회원만 신청이 가능합니다.');
