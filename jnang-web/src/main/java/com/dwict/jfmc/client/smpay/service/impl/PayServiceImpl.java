@@ -23,6 +23,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -43,6 +44,15 @@ import com.dwict.jfmc.client.security.model.Account;
 @Service("payService")
 public class PayServiceImpl implements PayService {
 
+	@Value("#{appConfig['smpay.merchant.key']}")
+	private String merchantKey;
+	
+	@Value("#{appConfig['smpay.mid.key']}")
+	private String storeMID;
+	
+	@Value("#{appConfig['smpay.url.key']}")
+	private String payURL;
+	
 	@Resource(name = "memberService")
 	private MemberService memberService;
 	
@@ -66,6 +76,21 @@ public class PayServiceImpl implements PayService {
 		return 1;
 		
 	}
+	
+	@Override
+	public Map <String,Object> payKeyInfo(HttpServletRequest request) {
+		
+		Map <String,Object> maps = new HashMap<>();
+		
+		maps.put("merchantKey",merchantKey);
+		maps.put("storeMID",storeMID);
+		maps.put("payURL",payURL);
+
+		return maps;
+		
+	}
+	
+	
 	
 	//기본주문
 	@Override
@@ -165,11 +190,10 @@ public class PayServiceImpl implements PayService {
 		    	String goodsNames = "";
 		    	int dataCnt = 0;
 		    	
+		    	//장바구니 정보 가져오기
 				List<Map<String, Object>> aPrgList = mypageMapper.basketList(MEM_NO);
 				String comCd =  aPrgList.get(0).get("COMCD").toString();
 				
-			  	
-		    	
 		  		//등록강습반 및 프로그램 저장
 		  		//String prgList = List; //request.getParameter("PRG");//array 강습반 및 프로그램 정보
 		  		//String payList = request.getParameter("PAY"); //(String)requestMap.get("PAY");//array 주문상품 정보
@@ -339,15 +363,14 @@ public class PayServiceImpl implements PayService {
 				mapper.setPayList2(requestMapPayList);
 				
 
+				//장바구니 SEQ
+				String arrSEQ = "";
 				
-				
-				
-				
-				
-		    	
-				//list 값 정보 가져오기
+				//장바구니 list 값 정보 가져오기
 				for (int ii=0; ii < aPrgList.size(); ii++) {
-					
+					//장바구니 SEQ 삭제시 필요
+					String SEQ = aPrgList.get(ii).get("SEQ").toString();
+					arrSEQ += ","+ SEQ;
 					String ITEM_NM = aPrgList.get(ii).get("ITEM_NM").toString();	
 					String SALE_AMT = aPrgList.get(ii).get("SALE_AMT").toString();
 					goodsAmt += Integer.parseInt(SALE_AMT);
@@ -420,7 +443,7 @@ public class PayServiceImpl implements PayService {
 						requestMapMemSale.put("SALE_AMT", SALE_AMT);//	판매금액
 						requestMapMemSale.put("VAT_YN", VAT_YN);//	부가세여부YN
 						requestMapMemSale.put("VAT_AMT", VAT_AMT);//	부가세금액
-						requestMapMemSale.put("WEB_TYPE", "OFFLINE");//	온오프라인구분
+						requestMapMemSale.put("WEB_TYPE", "ONLINE");//	온오프라인구분
 						requestMapMemSale.put("CALMEM_NO", CALMEM_NO);//	이용회원번호??
 						requestMapMemSale.put("TRANSFER_GBN", "N");//	미사용인듯__전부N임
 						requestMapMemSale.put("MIDCANCEL_YN", "N");//	중도해약여부YN  		  	
@@ -476,9 +499,16 @@ public class PayServiceImpl implements PayService {
 	
 					}
 					
+					
 		  		}//end for
 
 
+		//장바구니 삭제
+		Map<String, Object> maps = new HashMap<>();
+		maps.put("MEM_NO", MEM_NO);
+		arrSEQ = arrSEQ.substring(1);
+		maps.put("SEQ", arrSEQ);
+		mypageMapper.basketClear(maps);
 
 //	    } catch (Exception ex) {
 //	  		
@@ -514,29 +544,6 @@ public class PayServiceImpl implements PayService {
 	    
 		//mapper.testSlectx(request);
 		Map<String, Object>  rtnData = new HashMap<String, Object>();
-		
-		
-		/*		rtnData.put("ResultCode", ResultCode);
-		rtnData.put("PayMethod", PayMethod);
-		rtnData.put("MID", MID);
-		rtnData.put("Amt", Amt);
-		rtnData.put("BuyerName", BuyerName);
-		rtnData.put("GoodsName", GoodsName);
-		rtnData.put("TID", TID);
-		rtnData.put("OID", OID);
-		rtnData.put("AuthDate", AuthDate);
-		rtnData.put("ResultMsg", ResultMsg);
-		rtnData.put("fn_cd", fn_cd);
-		rtnData.put("fn_name", fn_name);
-		rtnData.put("BuyerTel", BuyerTel);
-		rtnData.put("BuyerEmail", BuyerEmail);		
-		rtnData.put("PayMethod", PayMethod);
-		rtnData.put("PayMethod", PayMethod);
-		rtnData.put("PayMethod", PayMethod);
-		rtnData.put("PayMethod", PayMethod);
-		rtnData.put("PayMethod", PayMethod);
-		rtnData.put("PayMethod", PayMethod);
-		*/
 		rtnData = FormatUtil.formatMapRequest(request);
 		rtnData.put("GoodsNameDe", GoodsName);
 		rtnData.put("BuyerNameDe", BuyerName);

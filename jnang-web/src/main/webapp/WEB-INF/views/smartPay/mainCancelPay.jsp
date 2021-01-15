@@ -15,10 +15,10 @@
 <%@page contentType="text/html; charset=utf-8"%>
 <%
 	String actionUrl = "/smartPay/CancelPayAct";
-	String TID			= request.getParameter("TID");
+	String TID			= request.getParameter("p1");
 	String MID			= request.getParameter("MID");
-	String CancelAmt    = request.getParameter("CancelAmt");
-	String CancelMSG	= "테스트 취소"; //request.getParameter("CancelMSG");
+	String CancelAmt    = request.getParameter("p2");
+	String CancelMSG	= "사용자 당일 취소"; //request.getParameter("CancelMSG");
 	
 	TID = TID == null ? "" : TID.trim();
 	MID = MID == null ? "" : MID.trim();
@@ -88,10 +88,25 @@ function goCancelCard() {
 
 -->
 <%
-if (TID != "" && TID != null && CancelAmt != "" && CancelAmt != null) {
-%>
-	setTimeout("goCancelCard();",500);
-<%
+//테스트 PC에서는 확인하던지 수동으로 되도록
+final String strUrl = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort();
+if (strUrl.contains("localhost") || strUrl.contains("14.36.179.143")) {
+	
+} else {
+		
+	if (TID != "" && TID != null && CancelAmt != "" && CancelAmt != null) {
+	%>
+		setTimeout("goCancelCard();",200);
+	<%
+	} else {
+	
+			%>
+				alert('관리자에게 문의 하세요.\n\n필수입력값 오류');
+				history.back(-1);
+				</script>
+			<%
+			return;
+	}
 }
 %>
 </script>
@@ -172,7 +187,7 @@ input {
 					<td></td>
 				</tr>
 				 -->
-				<input name="TID" type="text" class="input" id="TID" value="<%=TID%>" size="30" maxlength="30" />
+				<input name="TID" type="hidden" class="input" id="TID" value="<%=TID%>" size="30" maxlength="30" />
 				<!-- 
 				<tr>
 					<th scope="row">취소 패스워드</th>
@@ -180,7 +195,7 @@ input {
 					<td><strong>* 데모시 "123456" 입력</strong></td>
 				</tr>
 				 -->
-				<input name="Cancelpw" type="password" class="input" id="Cancelpw" value="ysisul#34"/>
+				<input name="Cancelpw" type="hidden" class="input" id="Cancelpw" value="123456"/>
 				<tr>
 					<th scope="row">취소금액</th>
 					<td>CancelAmt</td>
@@ -212,7 +227,7 @@ input {
 					</td>
 				</tr>
 				 -->
-				 <input name="MerchantMode" type="text" class="input" id="MerchantMode" value="<%=MerchantMode%>" size="1" maxlength="30" />
+				 <input name="MerchantMode" type="hidden" class="input" id="MerchantMode" value="<%=MerchantMode%>" size="1" maxlength="30" />
 
 				<!-- 
 				<tr>

@@ -20,6 +20,7 @@ import com.dwict.jfmc.client.mem.service.MemberService;
 import com.dwict.jfmc.client.mypage.service.MypageService;
 import com.dwict.jfmc.client.page.model.Menu;
 import com.dwict.jfmc.client.page.service.PageService;
+import com.dwict.jfmc.client.smpay.service.PayService;
 
 @RestController
 public class MypageController {
@@ -33,6 +34,10 @@ public class MypageController {
 	@Resource(name = "pageService")
 	private PageService pageService;
 
+	@Resource(name = "payService")
+	private PayService payService;
+	
+	
 	//장바구니
 	@GetMapping(value = "/mypage/cart")
 	public ModelAndView cart(ModelAndView modelAndView, HttpServletRequest request) {
@@ -45,11 +50,14 @@ public class MypageController {
 		final Member members = (Member) session.getAttribute("member");
 		System.out.println("세션=========================>"+ members.getId());
 		
+	
 		Map<String, Object> maps = new HashMap<>();
+		maps = payService.payKeyInfo(request);
+		modelAndView.addAllObjects(maps);
+		
 		maps.put("MEM_ID", members.getId());
 		maps.put("MEM_NO", members.getMemNo());
 		modelAndView.addObject("otherData", maps);
-		
 		modelAndView.setViewName("mypage/cart");
 		return modelAndView;
 	}
@@ -87,6 +95,12 @@ public class MypageController {
 		final HttpSession session = request.getSession(false);
 		modelAndView.addObject("member",session.getAttribute("member"));
 		modelAndView.setViewName("mypage/lockerStatus");
+
+		//결제키
+		Map<String, Object> maps = new HashMap<>();
+		maps = payService.payKeyInfo(request);
+		modelAndView.addAllObjects(maps);
+
 		return modelAndView;
 	}
 

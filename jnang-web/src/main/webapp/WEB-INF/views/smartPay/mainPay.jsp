@@ -44,12 +44,13 @@
 	
  	// 상점서명키 (꼭 해당 상점키로 바꿔주세요)
  	String merchantKey = "0/4GFsSd7ERVRGX9WHOzJ96GyeMTwvIaKSWUCKmN3fDklNRGw3CualCFoMPZaS99YiFGOuwtzTkrLo4bR4V+Ow==";
- 	//String merchantKey = "KiS8NWHjZ49FzG91HMI9hVXOSxYrvFBKzl2bYpr2ac7lg369iZxy0xhCJfg4juCuVH27mO/TQ4kG2qnjEr5Z4Q==";
- 	
+ 	//String merchantKey = "IYaOCqVRvikKOKFyZj2orqsphGQX4g48eF17sYMVoYV8GJApVgovlns+tdRXSFEr+q6kobAHgu9aSE5H/qKQ8g==";
  	//VoPay test1 = new VoPay();
     
  	// 상점 ID MID
-	String MID = "SMTPAY001m";	
+	String MID = "SMTPAY001m";
+ 	//String MID = "jungnan01m"; //위에 URl 변경 DEV_PAY_ACTION_URL ==> PRD_PAY_ACTION_URL
+ 	
 	String GoodsCnt = "1"; //상품수량
 	String GoodsNameDp = "상품명";
 	String GoodsName = "상품명"; //request.getParameter("GoodsName");

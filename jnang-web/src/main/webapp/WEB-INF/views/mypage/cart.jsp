@@ -25,12 +25,20 @@
 	//VbankExpDate = VbankExpDate.replaceAll("-", "");
 	//String ediDate = getyyyyMMddHHmmss(); // 전문생성일시
 	//상품주문번호	
+	
+	String merchantKey = (String) request.getAttribute("merchantKey");
+	String storeMID 	= (String) request.getAttribute("storeMID");
+	String payURL 		= (String) request.getAttribute("payURL");
+	//out.println("payURL:"+ payURL +"<BR>");
+	//out.println("storeMID:"+ storeMID +"<BR>");
+	
 	String Moid = "Moid"; 
 	final String DEV_PAY_ACTION_URL = "https://tpay.smilepay.co.kr/interfaceURL.jsp";	//개발테스트
 	final String PRD_PAY_ACTION_URL = "https://pay.smilepay.co.kr/interfaceURL.jsp";	//운영
-	String actionUrl = DEV_PAY_ACTION_URL; // 개발 서버 URL
+	String actionUrl = payURL;
 	String URL = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort();
-	String MID = "SMTPAY001m";
+	String MID = storeMID; //"SMTPAY001m";
+	//String MID = "jungnan01m"; //위에 URl 변경 DEV_PAY_ACTION_URL ==> PRD_PAY_ACTION_URL
 	String DivideInfo = ""; //서브몰 결제 정보 //request.getParameter("DivideInfo");
 	
 	String ReturnURL = URL +"/smartPay/returnPay"; //Vos.getRtnPayURL(); //"http://localhost:8080/smartPay/returnPay"; //"https://tpay.smilepay.co.kr/returnPay.jsp"; //리턴url
@@ -171,24 +179,24 @@
 	<form name="frm" method="post">
 	<table class="stbl_l1a">
 		<colgroup>
-			<col width="5%"><col width="5%"><col width="65%"><col width="25%"><col width="5%">
+			<col width="5%">
+			<col width="5%">
+			<col width="15%">
+			<col width="15%">
+			<col width="50%">
+			<col width="10%">
 		</colgroup>
 		<thead>
 			<tr>
 				<th>No.</th>
 				<th><input type="checkbox" name="" id="" onclick="ac_cbox(this.form, 'cbox', this.checked);" style='width:30px; height:30px;'></th>
+				<th>센터명</th>
+				<th>종목</th>
 				<th>강좌명</th>
 				<th>수강료</th>
 			</tr>
 		</thead>
-		
-		
 		<tbody id="dataList">
-			<tr>
-				<td><input type="checkbox" name="" id=""></td>
-				<td></td>
-				<td></td>
-			</tr>
 		</tbody>
 
 	</table>

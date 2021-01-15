@@ -178,9 +178,16 @@ public class EtcServiceImpl implements EtcService {
 				break;
 			}
 		}
-		final HashMap<String, String> airInfo = getAirInfo();
-		weatherInfo.put("pm10Value", airInfo.get("pm10Value"));
-		weatherInfo.put("airStatus", airInfo.get("airStatus"));
+		try {
+			final HashMap<String, String> airInfo = getAirInfo();
+			weatherInfo.put("pm10Value", airInfo.get("pm10Value"));
+			weatherInfo.put("airStatus", airInfo.get("airStatus"));
+		} catch (Exception e) {
+			log.info("::: getWeatherInfo ERR :::");
+			log.info("::: getWeatherInfo ERR :::");
+			log.info("::: getWeatherInfo ERR :::");
+			log.info("::: getWeatherInfo ERR :::");
+		}
 		return weatherInfo;
 	}
 
@@ -218,28 +225,35 @@ public class EtcServiceImpl implements EtcService {
 			log.error("Signals that an I/O exception of some sort has occurred. Thisclass is the general class of exceptions produced by failed orinterrupted I/O operations.");
 			e.printStackTrace();
 		}
-		final HashMap<String, String> airInfo = new HashMap<>();
-		final NodeList nlList = doc.getElementsByTagName("item");
-		for(int i=0; i<nlList.getLength(); i++) {
-			final Node nNode = nlList.item(i);
-			if(nNode.getNodeType() == Node.ELEMENT_NODE) {
-				final Element eElement = (Element) nNode;
-				if(getTagValue("cityName", eElement).equals("중랑구")) {
-					airInfo.put("pm10Value", getTagValue("pm10Value", eElement));
+		
+		try {
+			final HashMap<String, String> airInfo = new HashMap<>();
+			final NodeList nlList = doc.getElementsByTagName("item");
+			for(int i=0; i<nlList.getLength(); i++) {
+				final Node nNode = nlList.item(i);
+				if(nNode.getNodeType() == Node.ELEMENT_NODE) {
+					final Element eElement = (Element) nNode;
+					if(getTagValue("cityName", eElement).equals("중랑구")) {
+						airInfo.put("pm10Value", getTagValue("pm10Value", eElement));
+					}
 				}
 			}
-		}
-		final int pm10Value = !airInfo.get("pm10Value").equals("-") ? Integer.parseInt(airInfo.get("pm10Value")) : 999;
-		if(pm10Value <= 30) {
-			airInfo.put("airStatus", "좋음");
-		} else if(pm10Value <= 80) {
-			airInfo.put("airStatus", "보통");
-		} else if(pm10Value <= 150) {
-			airInfo.put("airStatus", "나쁨");
-		} else {
-			airInfo.put("airStatus", "매우나쁨");
-		}
-		return airInfo;
+			final int pm10Value = !airInfo.get("pm10Value").equals("-") ? Integer.parseInt(airInfo.get("pm10Value")) : 999;
+			if(pm10Value <= 30) {
+				airInfo.put("airStatus", "좋음");
+			} else if(pm10Value <= 80) {
+				airInfo.put("airStatus", "보통");
+			} else if(pm10Value <= 150) {
+				airInfo.put("airStatus", "나쁨");
+			} else {
+				airInfo.put("airStatus", "매우나쁨");
+			}
+
+			return airInfo;
+		
+		} catch (Exception e) {
+			return null;
+		}		
 	}
 	
 	

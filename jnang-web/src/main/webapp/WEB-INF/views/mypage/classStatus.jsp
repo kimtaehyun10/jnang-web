@@ -57,7 +57,7 @@ String today = transFormat.format(from);
 					
 					<!-- 당일취소 -->
 					<c:if test="${result.WRITE_YMD eq TODAY}">
-						<br><a href="#none" onclick="cancelPay('${result.TID}', '${result.SLIP_NO}', '${result.COST_AMT}');" class="btn_green1">당일취소</a>
+						<!-- <br><a href="#none" onclick="cancelPay('${result.TID}', '${result.SLIP_NO}', '${result.COST_AMT}');" class="btn_green1">당일취소</a>-->
 					</c:if>
 				</td>
 				<td>
@@ -83,3 +83,9 @@ String today = transFormat.format(from);
 		</tbody>
 	</table>
 </div>
+
+<form name='frmCancel' method='post' action=''>
+	<input type='hidden' name='p1' maxlength='2'>
+	<input type='hidden' name='p2' maxlength='2'>
+	<input type='hidden' name='p3' maxlength='2'>
+</form>

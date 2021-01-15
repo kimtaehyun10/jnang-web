@@ -70,7 +70,6 @@ public class MypageServiceImpl implements MypageService {
 		String goodsNameEncode = "";
 		String memNmEncode = "";
 		//String URL = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort();
-		final String MID = "SMTPAY001m";
 		// 상점서명키 (꼭 해당 상점키로 바꿔주세요)
 		//String merchantKey = "0/4GFsSd7ERVRGX9WHOzJ96GyeMTwvIaKSWUCKmN3fDklNRGw3CualCFoMPZaS99YiFGOuwtzTkrLo4bR4V+Ow==";
 		//String merchantKey = "KiS8NWHjZ49FzG91HMI9hVXOSxYrvFBKzl2bYpr2ac7lg369iZxy0xhCJfg4juCuVH27mO/TQ4kG2qnjEr5Z4Q==";
@@ -114,7 +113,7 @@ public class MypageServiceImpl implements MypageService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		final String EncryptData = FormatUtil.encodeMD5HexBase64(ediDate + MID + goodsAmt + merchantKey);
+		final String EncryptData = FormatUtil.encodeMD5HexBase64(ediDate + storeMID + goodsAmt + merchantKey);
 
 		addMap.put("goodsCnt", dataCnt);
 		addMap.put("goodsAmt", goodsAmt);
@@ -242,7 +241,6 @@ public class MypageServiceImpl implements MypageService {
 		String goodsNameEncode = "";
 		String memNmEncode = "";
 		//String URL = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort();
-		final String MID = "SMTPAY001m";
 		// 상점서명키 (꼭 해당 상점키로 바꿔주세요)
 		//String merchantKey = "0/4GFsSd7ERVRGX9WHOzJ96GyeMTwvIaKSWUCKmN3fDklNRGw3CualCFoMPZaS99YiFGOuwtzTkrLo4bR4V+Ow==";
 		//String merchantKey = "KiS8NWHjZ49FzG91HMI9hVXOSxYrvFBKzl2bYpr2ac7lg369iZxy0xhCJfg4juCuVH27mO/TQ4kG2qnjEr5Z4Q==";
@@ -268,7 +266,7 @@ public class MypageServiceImpl implements MypageService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		final String EncryptData = FormatUtil.encodeMD5HexBase64(ediDate + MID + param.get("RENT_AMT") + merchantKey);
+		final String EncryptData = FormatUtil.encodeMD5HexBase64(ediDate + storeMID + param.get("RENT_AMT") + merchantKey);
 
 		addMap.put("goodsName", goodsNames +"");
 		addMap.put("goodsNameEn", goodsNameEncode);

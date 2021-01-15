@@ -31,4 +31,7 @@ public interface PayService {
 
 	Map<String, Object> lockerOrderInsert(HttpServletRequest request);
 
+	//취소처리 키값 가져오기
+	Map<String, Object> payKeyInfo(HttpServletRequest request);
+
 }

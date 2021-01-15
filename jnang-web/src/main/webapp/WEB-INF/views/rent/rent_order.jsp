@@ -40,16 +40,21 @@ String Moid = "Moid";
 //String merchantKey = "KiS8NWHjZ49FzG91HMI9hVXOSxYrvFBKzl2bYpr2ac7lg369iZxy0xhCJfg4juCuVH27mO/TQ4kG2qnjEr5Z4Q==";
 //String MID = "SMTPAY001m";		// 상점 ID MID
 
-String returnUrl = "https://tpay.smilepay.co.kr/returnPay.jsp"; // 결제결과를 수신할 가맹점 returnURL 설정
-String retryUrl = "https://tpay.smilepay.co.kr/inform.jsp"; // 가맹점 retryURL 설정
+//String returnUrl = "https://tpay.smilepay.co.kr/returnPay.jsp"; // 결제결과를 수신할 가맹점 returnURL 설정
+//String retryUrl = "https://tpay.smilepay.co.kr/inform.jsp"; // 가맹점 retryURL 설정
 
 String DivideInfo = "";
 
+String merchantKey 	= (String) request.getAttribute("merchantKey");
+String MID 			= (String) request.getAttribute("storeMID");
+String payURL 		= (String) request.getAttribute("payURL");
+//out.println("merchantKey:"+ merchantKey +"<BR>");
+//out.println("storeMID:"+ MID +"<BR>");
+//out.println("payURL:"+ payURL +"<BR>");
 
-
-final String DEV_PAY_ACTION_URL = "https://tpay.smilepay.co.kr/interfaceURL.jsp";	//개발테스트
-final String PRD_PAY_ACTION_URL = "https://pay.smilepay.co.kr/interfaceURL.jsp";	//운영
-String actionUrl = DEV_PAY_ACTION_URL; // 개발 서버 URL
+//final String DEV_PAY_ACTION_URL = "https://tpay.smilepay.co.kr/interfaceURL.jsp";	//개발테스트
+//final String PRD_PAY_ACTION_URL = "https://pay.smilepay.co.kr/interfaceURL.jsp";	//운영
+String actionUrl = payURL; // 개발 서버 URL
 String URL = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort();
 String ReturnURL = URL +"/smartPay/rentPay"; //Vos.getRtnPayURL(); //"http://localhost:8080/smartPay/returnPay"; //"https://tpay.smilepay.co.kr/returnPay.jsp"; //리턴url
 String EncodingType = "utf8"; //euckr/utf8
@@ -65,9 +70,9 @@ String today = transFormat.format(from);
 <c:set var="storeMID" value="${dataList.storeMID}" />
 <c:set var="MEM_NM" value="${memData.MEM_NM}" />
 <%
-String merchantKey = (String) pageContext.getAttribute("merchantKey");
+//String merchantKey = (String) pageContext.getAttribute("merchantKey");
 //out.println("merchantKey:"+ merchantKey +"<BR>");
-String MID = (String) pageContext.getAttribute("storeMID");
+//String MID = (String) pageContext.getAttribute("storeMID");
 //out.println("storeMID:"+ MID +"<BR>");
 String MEM_NM 		= (String) pageContext.getAttribute("MEM_NM");
 

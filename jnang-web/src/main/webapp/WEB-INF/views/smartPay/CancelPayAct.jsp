@@ -38,14 +38,22 @@
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%
-String MERCHANT_KEY = "0/4GFsSd7ERVRGX9WHOzJ96GyeMTwvIaKSWUCKmN3fDklNRGw3CualCFoMPZaS99YiFGOuwtzTkrLo4bR4V+Ow==";// MID(SMTPAY001m)의 상점키 설정 - 결제 요청한 상점ID의 상점키를 입력
+String payURL = (String) request.getAttribute("payURL");
+String MERCHANT_KEY = (String) request.getAttribute("merchantKey");
+//String MERCHANT_KEY = "0/4GFsSd7ERVRGX9WHOzJ96GyeMTwvIaKSWUCKmN3fDklNRGw3CualCFoMPZaS99YiFGOuwtzTkrLo4bR4V+Ow==";// MID(SMTPAY001m)의 상점키 설정 - 결제 요청한 상점ID의 상점키를 입력
 
-final String DEV_CANCEL_ACTION_URL = "https://tpay.smilepay.co.kr/cancel/payCancelNVProcess.jsp";//개발
-final String PRD_CANCEL_ACTION_URL = "https://pay.smilepay.co.kr/cancel/payCancelNVProcess.jsp";//운영
+//
+String PRD_CANCEL_ACTION_URL = "";
+if (payURL.contains("https://pay.sm")) {
+	PRD_CANCEL_ACTION_URL = "https://pay.smilepay.co.kr/cancel/payCancelNVProcess.jsp";
+} else {
+	PRD_CANCEL_ACTION_URL = "https://tpay.smilepay.co.kr/cancel/payCancelNVProcess.jsp";
+}
+//final String DEV_CANCEL_ACTION_URL = "https://tpay.smilepay.co.kr/cancel/payCancelNVProcess.jsp";//개발
+//final String PRD_CANCEL_ACTION_URL = "https://pay.smilepay.co.kr/cancel/payCancelNVProcess.jsp";//운영
 final String SUCCESS_CANCEL = "2001";//취소 성공 코드
 final String SUCCESS_REFUND = "2211";//환불 성공 코드(계좌이체, 가상계좌)
 final String CHAR_SET = "urf-8";
-
 HashMap<String,String> cancelRequest = new HashMap<String,String>();
 HashMap<String,String> result;
 String rTemp = "";
@@ -103,7 +111,7 @@ cancelRequest.put("hashData", hashData);//6.HASH 설정 [필수]
 
 try {
 //http 통신
-rTemp = sendByPost(cancelRequest, DEV_CANCEL_ACTION_URL).trim();
+rTemp = sendByPost(cancelRequest, PRD_CANCEL_ACTION_URL).trim();
 } catch (Exception e) {
 e.printStackTrace();
 }
@@ -126,13 +134,30 @@ Moid = result.get("Moid");
 
 if(SUCCESS_CANCEL.equals(result.get("ResultCode")) || SUCCESS_REFUND.equals(result.get("ResultCode"))) {
 // 취소 및 환불 성공에 따른 가맹점 비지니스 로직 구현 필요
+
+%>
+<!-- 당일취소처리 -->
+<script type="text/java">
+	$.get('/data/cancelPay', $("#frm2").serialize() , function(data){
+		if (data != null && data != "null") {
+			$("#val1").val(data.rentIdx);
+			$("#val2").val(data.rentYN);			
+			frm.submit();
+		} else if (data == "-9") {
+			alert("사용자 동의후 접수 가능합니다.");
+		} else {
+			alert('접수 오류 !  다시 신청 하십시요!~');
+			top.location.reload();
+		}
+	}).done(function(data){
+		
+	},"json");
+</script>
+<%
 } else {
 // 취소 및 환불 실패에 따른 가맹점 비지니스 로직 구현 필요
 }
 %>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <style type="text/css">
 <!--
 table.type {
@@ -192,23 +217,21 @@ box-shadow: 0 0 0 1px #6698cb inset,
 
 -->
 </style>
-<title>Insert title here</title>
-</head>
-<body ondragstart='' onselectstart='' style="overflow: scroll">
 
-<form name="tranMgr" method="post" action="" accept-charset="<%=CHAR_SET%>">
-<table class="type">
+<div class="sub_cont1">
+		<div class="con_bx">
+
+<table class="type" align="center" style="margin:none;">
 
 <thead>
 	<tr>
-		<th colspan="4" style="text-align:right;color: #000;">결제취소 테스트 페이지</th>
+		<th colspan="4" style="text-align:right;color: #000;">결제취소 결과페이지</th>
 	</tr>
 </thead>
 
 <thead>
 	<tr>
 		<th scope="cols">항목명</th>
-		<th scope="cols">파라미터</th>
 		<th scope="cols" style="width:80px;">value</th>           
 	</tr>
 </thead>
@@ -216,83 +239,51 @@ box-shadow: 0 0 0 1px #6698cb inset,
 <tbody>
 	
 	<tr>
-		<th scope="row">지불수단</th>
-		<td>PayMethod</td>
-		<td><%=PayMethod%></td>
-	</tr>
-	<tr>
 		<th scope="row">지불수단명</th>
-		<td>PayName</td>
 		<td><%=PayName%></td>
-	</tr>
-	
-	   <tr>
-		<th scope="row">상점ID</th>
-		<td>MID</td>
-		<td><%=MID%></td>
-	</tr>
-
-	   <tr>
-		<th scope="row">거래번호</th>
-		<td>TID</td>
-		<td><%=TID%></td>
 	</tr>
 
 	   <tr>
 		<th scope="row">취소금액</th>
-		<td>CancelAmt</td>
 		<td><%=CancelAmt%></td>
 	</tr>
 
 	   <tr>
 		<th scope="row">취소메세지</th>
-		<td>CancelMSG</td>
 		<td><%=CancelMSG%></td>
 	</tr>
 
 	   <tr>
 		<th scope="row">결과코드</th>
-		<td>ResultCode</td>
 		<td><%=ResultCode%></td>
 	</tr>
 
 	   <tr>
 		<th scope="row">결과메시지</th>
-		<td>ResultMsg</td>
 		<td><%=ResultMsg%></td>
 	</tr>
 
 	   <tr>
 		<th scope="row">취소일자</th>
-		<td>CancelDate</td>
 		<td><%=CancelDate%></td>
 	</tr>
 
 	   <tr>
 		<th scope="row">취소시간</th>
-		<td>CancelTime</td>
 		<td><%=CancelTime%></td>
 	</tr>
 
 	   <tr>
 		<th scope="row">취소번호</th>
-		<td>CancelNum</td>
 		<td><%=CancelNum%></td>
-	</tr>
-
-	<tr>
-		<th scope="row">주문번호</th>
-		<td>Moid</td>
-		<td><%=Moid%></td>
 	</tr>
 
 </tbody>
 
 </table>
-</form>
+
 	<a href="/mypage/classStatus" class="size_m2 btn_green1 fontsize_1dot50" >취소처리 확인</a>
-</body>
-</html>
+
 <%!
 public final String encodeMD5HexBase64(String pw){
 return new String(Base64.encodeBase64(DigestUtils.md5Hex(pw).getBytes()));

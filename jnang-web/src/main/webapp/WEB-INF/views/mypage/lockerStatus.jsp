@@ -27,12 +27,18 @@
 	//VbankExpDate = VbankExpDate.replaceAll("-", "");
 	//String ediDate = getyyyyMMddHHmmss(); // 전문생성일시
 	//상품주문번호	
+	
+	String payURL = (String) request.getAttribute("payURL");
+	String storeMID = (String) request.getAttribute("storeMID");
+	
+	//out.println("payURL:"+ payURL +"<BR>");
+	//out.println("storeMID:"+ storeMID +"<BR>");
 	String Moid = "Moid"; 
 	final String DEV_PAY_ACTION_URL = "https://tpay.smilepay.co.kr/interfaceURL.jsp";	//개발테스트
 	final String PRD_PAY_ACTION_URL = "https://pay.smilepay.co.kr/interfaceURL.jsp";	//운영
-	String actionUrl = DEV_PAY_ACTION_URL; // 개발 서버 URL
+	String actionUrl = payURL; // 개발 서버 URL
 	String URL = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort();
-	String MID = "SMTPAY001m";
+	String MID = storeMID; //"SMTPAY001m";
 	String DivideInfo = ""; //서브몰 결제 정보 //request.getParameter("DivideInfo");
 	
 	String ReturnURL = URL +"/smartPay/lockerPay"; //Vos.getRtnPayURL(); //"http://localhost:8080/smartPay/returnPay"; //"https://tpay.smilepay.co.kr/returnPay.jsp"; //리턴url

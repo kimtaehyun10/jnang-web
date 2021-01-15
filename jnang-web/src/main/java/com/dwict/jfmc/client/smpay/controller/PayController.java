@@ -51,12 +51,13 @@ public class PayController {
 			Map<String, Object> rtnMap;
 			switch(dirPath) {
 			
+				//결제 테스트 페이지
+				case "testPay":				
 				case "mainPay":
-				case "testPay":
 					rtn = "/smartPay/"+ dirPath;
 					break;
 				
-				//장바구니 사물함/강좌 결제
+				//장바구니 강좌 결제
 				case "returnPay":
 					//결과
 					rtnMap = service.lecOrderInsert(request);
@@ -85,7 +86,11 @@ public class PayController {
 
 					//결제취소
 				case "mainCancelPay":
+					rtn = "/smartPay/"+ dirPath;
+					break;
 				case "CancelPayAct":
+					rtnMap = service.payKeyInfo(request);
+					modelAndView.addAllObjects(rtnMap);
 					rtn = "/smartPay/"+ dirPath;
 					break;				
 			

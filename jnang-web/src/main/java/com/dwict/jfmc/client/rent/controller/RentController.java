@@ -1,5 +1,6 @@
 package com.dwict.jfmc.client.rent.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +18,7 @@ import com.dwict.jfmc.client.mypage.service.MypageService;
 import com.dwict.jfmc.client.page.service.PageService;
 import com.dwict.jfmc.client.rent.service.RentService;
 import com.dwict.jfmc.client.security.model.Account;
-
+import com.dwict.jfmc.client.smpay.service.PayService;
 import com.dwict.jfmc.client.com.util.*;
 import com.dwict.jfmc.client.etc.service.EtcService;
 import com.dwict.jfmc.client.mem.service.MemberService;
@@ -39,6 +40,10 @@ public class RentController {
 	
 	@Resource(name = "pageService")
 	private PageService pageService;
+	
+	@Resource(name = "payService")
+	private PayService payService;
+	
 	
 	//대관 게시판 문의
 	@GetMapping(value = "/rent/write")
@@ -141,6 +146,11 @@ public class RentController {
 		//주문확인
 		Map <String, Object> rentOrderList= rentService.rentOrder(MEM_NO, request);
 		modelAndView.addObject("dataList", rentOrderList);
+		
+		//결제키
+		Map<String, Object> maps = new HashMap<>();
+		maps = payService.payKeyInfo(request);
+		modelAndView.addAllObjects(maps);
 		
 		modelAndView.setViewName("/rent/rent_order");
 		return modelAndView;
