@@ -184,7 +184,7 @@
 	<!-- 팀 정보  -->
 	<select id="getTeamData" parameterType="java.util.HashMap" resultType="java.util.HashMap">
 		SELECT seq, mem_id, sp_type, tm_type, tm_nm, confirm_yn, wdate
-		FROM jnimc.rent_team
+		FROM rent_team
 		WHERE mem_id = #{MEM_ID}
 	</select>
 	
@@ -351,7 +351,7 @@
 				, t1.PLACE_TIME_SEQ
 				, t2.PLACE_GROUP 
 				, t3.place_tab 
-				, jnimc.fn_int_to_date(t1.RESERVE_DATE ,'') as RESERVE_DATE 
+				, fn_int_to_date(t1.RESERVE_DATE ,'') as RESERVE_DATE 
 				, t3.item
 				, t1.MEM_NO
 				, STRCMP(t1.MEM_NO, #{MEM_NO}) as '비교값'

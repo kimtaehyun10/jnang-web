@@ -143,7 +143,7 @@
 		select MEM_NO 
 		from member_damo 
 		where MEM_NM = #{name} and replace(HP,'-','')= #{mobile} 
-		and (DEC_STR('KEY1', SEC_BIRTH_DATE) COLLATE utf8_unicode_ci  = #{birthday} COLLATE utf8_unicode_ci  or DEC_STR('KEY1', SEC_BIRTH_DATE) COLLATE utf8_unicode_ci  = jnimc.fn_int_to_date(#{birthday},'-')  COLLATE utf8_unicode_ci  )
+		and (DEC_STR('KEY1', SEC_BIRTH_DATE) COLLATE utf8_unicode_ci  = #{birthday} COLLATE utf8_unicode_ci  or DEC_STR('KEY1', SEC_BIRTH_DATE) COLLATE utf8_unicode_ci  = fn_int_to_date(#{birthday},'-')  COLLATE utf8_unicode_ci  )
 		limit 1
 	</select>
 	

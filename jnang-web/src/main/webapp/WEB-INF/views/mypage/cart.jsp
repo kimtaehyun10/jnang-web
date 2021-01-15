@@ -80,6 +80,14 @@
 	*/
 %> 
 <script type="text/javascript">
+<%
+if (payURL.contains("https://tpay.sm")) {
+%>
+alert('테스트 중입니다. 결제하셔도 예약  안됩니다.');
+alert('테스트 중입니다. 결제하셔도 예약  안됩니다.');
+<%
+}
+%>
 
 	var encodingType = "EUC-KR";//EUC-KR
 	

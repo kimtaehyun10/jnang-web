@@ -100,7 +100,7 @@ public class MypageServiceImpl implements MypageService {
 			dataCnt++;
 		}
 		final String strUrl = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort();
-		goodsAmt = (strUrl.contains("localhost") || strUrl.contains("14.36.179.143")) ? 10 : goodsAmt;
+		goodsAmt = (strUrl.contains("localhost") || strUrl.contains("14.36.179.143") || MEM_ID.equals("powerjyc")) ? 10 : goodsAmt;
 
 		//리턴 값 저장  
 		goodsNames = (dataCnt > 1) ? goodsNames +" 외"+ (dataCnt-1) + "건" : goodsNames;

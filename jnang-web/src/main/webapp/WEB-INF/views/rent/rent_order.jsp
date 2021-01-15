@@ -78,6 +78,7 @@ String MEM_NM 		= (String) pageContext.getAttribute("MEM_NM");
 
 
 Member member = (Member) session.getAttribute("member");
+String MEM_ID = member.getId();
 //out.println("ssssssssssssssss"+ member.getId());
 
 %>
@@ -573,7 +574,7 @@ function send(){
 </form>
 <%
 final String strUrl = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort();
-totalSum = (strUrl.contains("localhost") || strUrl.contains("14.36.179.143")) ? 10 : totalSum;
+totalSum = (strUrl.contains("localhost") || strUrl.contains("14.36.179.143") || MEM_ID.equals("powerjycx")) ? 10 : totalSum;
 
 String EncryptData = encodeMD5HexBase64(ediDate + MID + totalSum + merchantKey);
 

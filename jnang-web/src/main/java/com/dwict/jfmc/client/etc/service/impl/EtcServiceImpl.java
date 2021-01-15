@@ -178,15 +178,14 @@ public class EtcServiceImpl implements EtcService {
 				break;
 			}
 		}
+		
 		try {
 			final HashMap<String, String> airInfo = getAirInfo();
 			weatherInfo.put("pm10Value", airInfo.get("pm10Value"));
 			weatherInfo.put("airStatus", airInfo.get("airStatus"));
 		} catch (Exception e) {
-			log.info("::: getWeatherInfo ERR :::");
-			log.info("::: getWeatherInfo ERR :::");
-			log.info("::: getWeatherInfo ERR :::");
-			log.info("::: getWeatherInfo ERR :::");
+			weatherInfo.put("pm10Value", "80");
+			weatherInfo.put("airStatus", "보통");
 		}
 		return weatherInfo;
 	}
@@ -226,7 +225,7 @@ public class EtcServiceImpl implements EtcService {
 			e.printStackTrace();
 		}
 		
-		try {
+		//try {
 			final HashMap<String, String> airInfo = new HashMap<>();
 			final NodeList nlList = doc.getElementsByTagName("item");
 			for(int i=0; i<nlList.getLength(); i++) {
@@ -251,9 +250,9 @@ public class EtcServiceImpl implements EtcService {
 
 			return airInfo;
 		
-		} catch (Exception e) {
-			return null;
-		}		
+		//} catch (Exception e) {
+		//	return null;
+		//}		
 	}
 	
 	

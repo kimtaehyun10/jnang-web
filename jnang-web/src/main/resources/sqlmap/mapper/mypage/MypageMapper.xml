@@ -103,8 +103,8 @@
 		,(select CLASS_CD from item_class where COMCD = a.COMCD and ITEM_CD= a.ITEM_CD
 		limit 1) as CLASS_CD
 		,A.ITEM_SDATE
-		,jnimc.fn_int_to_date(A.ITEM_SDATE,'.') as ITEM_SDATE_DT
-		,jnimc.fn_int_to_date(A.ITEM_EDATE,'.') as ITEM_EDATE_DT
+		,fn_int_to_date(A.ITEM_SDATE,'.') as ITEM_SDATE_DT
+		,fn_int_to_date(A.ITEM_EDATE,'.') as ITEM_EDATE_DT
 		,CASE
 		WHEN A.PROMOTION_YN = 'Y'
 		AND A.PROMOTION_SALE_GBN = '03'
@@ -207,7 +207,7 @@
 			ADDR,
 			OBJECT,
 			INWON,
-			jnimc.fn_int_to_date(SDATE,'-') as SDATE,
+			fn_int_to_date(SDATE,'-') as SDATE,
 			EDATE,
 			RENT_READY,
 			RENT,
@@ -240,7 +240,7 @@
 			PRODUCT_CNT,
 			PRODUCT_SIZE
 		from
-			jnimc.rent_app t1
+			rent_app t1
 		where MEM_NO = (select MEM_NO from v_member where id= #{userId}) and APP_TYPE != 5
 		order by RENT_IDX desc
 		limit 20
