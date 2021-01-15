@@ -183,6 +183,7 @@ public class RentServiceImpl implements RentService {
 
 	//대관 신청 저장  ###################################################################################
 	@Override
+	@Transactional
 	public Map<String, Object> rentSave(Map<String, Object> requestMap, HttpServletRequest request) {
 
 		//예약일

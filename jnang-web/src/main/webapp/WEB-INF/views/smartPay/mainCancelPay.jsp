@@ -16,12 +16,12 @@
 <%
 	String actionUrl = "/smartPay/CancelPayAct";
 	String TID			= request.getParameter("p1");
-	String MID			= request.getParameter("MID");
+	String userID		= request.getParameter("q");
 	String CancelAmt    = request.getParameter("p2");
 	String CancelMSG	= "사용자 당일 취소"; //request.getParameter("CancelMSG");
 	
 	TID = TID == null ? "" : TID.trim();
-	MID = MID == null ? "" : MID.trim();
+	//MID = MID == null ? "" : MID.trim();
 	CancelMSG = CancelMSG == null ? "" : CancelMSG;
 
 	/*	서브몰정산 가맹점 전용 */
@@ -90,7 +90,7 @@ function goCancelCard() {
 <%
 //테스트 PC에서는 확인하던지 수동으로 되도록
 final String strUrl = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort();
-if (strUrl.contains("localhost") || strUrl.contains("14.36.179.143")) {
+if (strUrl.contains("localhost") || strUrl.contains("14.36.179.143") || userID.equals("powerjyc")) {
 	
 } else {
 		
@@ -195,7 +195,7 @@ input {
 					<td><strong>* 데모시 "123456" 입력</strong></td>
 				</tr>
 				 -->
-				<input name="Cancelpw" type="hidden" class="input" id="Cancelpw" value="123456"/>
+				<input name="Cancelpw" type="hidden" class="input" id="Cancelpw" value=""/>
 				<tr>
 					<th scope="row">취소금액</th>
 					<td>CancelAmt</td>

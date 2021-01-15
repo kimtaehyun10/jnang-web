@@ -9,6 +9,8 @@
 Date from = new Date();
 SimpleDateFormat transFormat = new SimpleDateFormat("yyyyMMdd");
 String today = transFormat.format(from);
+String userID = request.getParameter("q");
+userID = (userID == null ) ? "" : userID;
 %>
 
 <div id="sub_my_status" class=''>
@@ -57,7 +59,11 @@ String today = transFormat.format(from);
 					
 					<!-- 당일취소 -->
 					<c:if test="${result.WRITE_YMD eq TODAY}">
-						<!-- <br><a href="#none" onclick="cancelPay('${result.TID}', '${result.SLIP_NO}', '${result.COST_AMT}');" class="btn_green1">당일취소</a>-->
+						<% if (userID.equals("powerjyc")) { %>
+						<br><a href="#none" onclick="cancelPay('${result.TID}', '${result.SLIP_NO}', '${result.COST_AMT}');" class="btn_green1">당일취소</a>
+						<% } else { %>
+						
+						<%	}	%>
 					</c:if>
 				</td>
 				<td>

@@ -40,15 +40,22 @@
 <%
 String payURL = (String) request.getAttribute("payURL");
 String MERCHANT_KEY = (String) request.getAttribute("merchantKey");
+String Cancelpw = ""; //request.getParameter("Cancelpw");
 //String MERCHANT_KEY = "0/4GFsSd7ERVRGX9WHOzJ96GyeMTwvIaKSWUCKmN3fDklNRGw3CualCFoMPZaS99YiFGOuwtzTkrLo4bR4V+Ow==";// MID(SMTPAY001m)의 상점키 설정 - 결제 요청한 상점ID의 상점키를 입력
-
+//out.println("merchantKey:"+ merchantKey +"<BR>");
+//out.println("storeMID:"+ MERCHANT_KEY +"<BR>");
+out.println("payURL:"+ payURL +"<BR>");
 //
 String PRD_CANCEL_ACTION_URL = "";
+//실제 테스트
 if (payURL.contains("https://pay.sm")) {
+	Cancelpw = "098033";
 	PRD_CANCEL_ACTION_URL = "https://pay.smilepay.co.kr/cancel/payCancelNVProcess.jsp";
 } else {
+	Cancelpw = "123456";
 	PRD_CANCEL_ACTION_URL = "https://tpay.smilepay.co.kr/cancel/payCancelNVProcess.jsp";
 }
+out.println("Cancelpw:"+ Cancelpw +"<BR>");
 //final String DEV_CANCEL_ACTION_URL = "https://tpay.smilepay.co.kr/cancel/payCancelNVProcess.jsp";//개발
 //final String PRD_CANCEL_ACTION_URL = "https://pay.smilepay.co.kr/cancel/payCancelNVProcess.jsp";//운영
 final String SUCCESS_CANCEL = "2001";//취소 성공 코드
@@ -79,7 +86,8 @@ String sendTID = request.getParameter("TID");
 //취소 요청 데이터 설정
 cancelRequest.put("TID", sendTID==null?"":sendTID);									//1.취소할 거래 TID [필수]
 cancelRequest.put("CancelAmt", request.getParameter("CancelAmt")==null?"":request.getParameter("CancelAmt"));						//2.취소 금액	[필수]
-cancelRequest.put("Cancelpw", request.getParameter("Cancelpw")==null?"":request.getParameter("Cancelpw"));						//3.취소 패스워드	[필수]
+cancelRequest.put("Cancelpw",  Cancelpw ==null ? "": Cancelpw);						//3.취소 패스워드	[필수]
+//cancelRequest.put("Cancelpw", request.getParameter("Cancelpw")==null?"":request.getParameter("Cancelpw"));						//3.취소 패스워드	[필수]
 cancelRequest.put("CancelMSG", request.getParameter("CancelMSG")==null?"":urlEncodeEuckr(request.getParameter("CancelMSG")));		//4.취소 사유 메세지 (euc-kr urlencoding)
 cancelRequest.put("PartialCancelCode", request.getParameter("PartialCancelCode")==null?"":request.getParameter("PartialCancelCode"));		//5.전체취소 0, 부분취소 1 [전체취소 Default]
 cancelRequest.put("MerchantMode", request.getParameter("MerchantMode")==null?"":request.getParameter("MerchantMode"));				//6.상점모드 - 서브몰정산 가맹점 전용 (MerchantMode : "T")

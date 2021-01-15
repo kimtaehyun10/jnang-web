@@ -24,7 +24,7 @@ var data = {
 		});
 		if (mode =="del") {
 			if (arrayParam.length == 0) {
-				alert("데이타를 1건이상 선택하세요.");
+				alert("데이타를 1건이상 선택하세요.\n\n[확정]된 예약은 현장에서 취소 가능합니다. ");
 				return false;
 			}
 			seq = arrayParam.toString();

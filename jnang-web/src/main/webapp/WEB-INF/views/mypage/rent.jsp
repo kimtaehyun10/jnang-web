@@ -32,13 +32,21 @@
 					<c:if test="${result.APP_TYPE == '10'}">	
 					<input type="checkbox" id="cbox" name="cbox[]" value="${result.RENT_IDX}" style='width:30px; height:30px;'></td>
 					</c:if>
-				<td>${result.COMNM}  >  ${result.PLACE_NM}
-				
+				<td>${result.COMNM}  &nbsp; > &nbsp;  ${result.PLACE_NM}
 					<c:if test="${result.OBJECT ne null}">
 						&nbsp; ( ${result.OBJECT} )
-					</c:if> 
+					</c:if>
+					<c:if test="${result.item ne ''}">
+						&nbsp; / ( ${result.item} ) 시간   
+					</c:if>
+					<c:if test="${result.place_tab ne 0}">
+						&nbsp; / ( ${result.place_tab} ) 코트
+					</c:if>
+					<c:if test="${result.add_light ne 0}">
+						&nbsp; / 조명 사용
+					</c:if>
 				</td>
-				<td>${result.SALE_AMT}</td>
+				<td>${result.PAY_AMT}</td>
 				<td>${result.RESERVE_DATE}</td>
 				<td>${result.APP_TYPE_NM}</td>
 				<td>${result.CHNG_DH}</td>

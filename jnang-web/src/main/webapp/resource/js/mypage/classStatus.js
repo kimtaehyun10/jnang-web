@@ -13,9 +13,6 @@ $(function(){
 
 function cancelPay(tid, s_no, pay) {
 	
-	alert("준비중입니다.");
-	return false;
-	
 	if (confirm("\n 당일 상품 결제를 취소  하시겠습니까?\n\n취소시 복구 되지 않습니다.")) {
 		
 	} else {
