@@ -235,6 +235,18 @@ var searchLectureList = function(){
 							 tableBody += '<td >'+"피아노교실"+'</td>';	
 								}else  if( data.resultList[i].sportsCd === '04' && data.resultList[i].comcd === 'JUNGNANG01'  ){				
 							 tableBody += '<td >'+"(3개월)체육/문화/수영"+'</td>';	
+								}else  if( data.resultList[i].sportsCd === '25' && data.resultList[i].comcd === 'JUNGNANG01'  ){				
+							 tableBody += '<td >'+"피아노교실"+'</td>';	
+								}else  if( data.resultList[i].sportsCd === '22' && data.resultList[i].comcd === 'JUNGNANG01'  ){				
+							 tableBody += '<td >'+"패키지반"+'</td>';	
+								}else  if( data.resultList[i].sportsCd === '21' && data.resultList[i].comcd === 'JUNGNANG01'  ){				
+							 tableBody += '<td >'+"기타"+'</td>';	
+								}else  if( data.resultList[i].sportsCd === '13' && data.resultList[i].comcd === 'JUNGNANG01'  ){				
+							 tableBody += '<td >'+"기타"+'</td>';	
+								}else  if( data.resultList[i].sportsCd === '20' && data.resultList[i].comcd === 'JUNGNANG01'  ){				
+							 tableBody += '<td >'+"패키지반"+'</td>';	
+								}else  if( data.resultList[i].sportsCd === '12' && data.resultList[i].comcd === 'JUNGNANG01'  ){				
+							 tableBody += '<td >'+"기타"+'</td>';	
 								}
 					
 						tableBody += '<td >'+data.resultList[i].classNm+'</td>';
@@ -344,7 +356,21 @@ var searchLectureList = function(){
 							 tableBody += '<td rowspan='+prgCount+' >'+"(3개월)체육/문화/수영"+'</td>';	
 								}else  if( data.resultList[i].sportsCd === '18' && data.resultList[i].comcd === 'JUNGNANG01'  ){				
 							 tableBody += '<td rowspan='+prgCount+' >'+"피아노교실"+'</td>';	
+								}else  if( data.resultList[i].sportsCd === '25' && data.resultList[i].comcd === 'JUNGNANG01'  ){				
+							 tableBody += '<td rowspan='+prgCount+' >'+"피아노교실"+'</td>';	
+								}else  if( data.resultList[i].sportsCd === '22' && data.resultList[i].comcd === 'JUNGNANG01'  ){				
+							 tableBody += '<td rowspan='+prgCount+' >'+"패키지반"+'</td>';	
+								}else  if( data.resultList[i].sportsCd === '21' && data.resultList[i].comcd === 'JUNGNANG01'  ){				
+							 tableBody += '<td rowspan='+prgCount+' >'+"기타"+'</td>';	
+								}else  if( data.resultList[i].sportsCd === '13' && data.resultList[i].comcd === 'JUNGNANG01'  ){				
+							 tableBody += '<td rowspan='+prgCount+' >'+"기타"+'</td>';	
+								}else  if( data.resultList[i].sportsCd === '20' && data.resultList[i].comcd === 'JUNGNANG01'  ){				
+							 tableBody += '<td rowspan='+prgCount+' >'+"패키지반"+'</td>';	
+								}else  if( data.resultList[i].sportsCd === '12' && data.resultList[i].comcd === 'JUNGNANG01'  ){				
+							 tableBody += '<td rowspan='+prgCount+' >'+"기타"+'</td>';	
 								}
+								
+								
 								
 					
 								tableBody += '<td rowspan='+prgCount+' >'+data.resultList[i].classNm+'</td>';
