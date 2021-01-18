@@ -18,11 +18,12 @@
     
     <!-- 위에 장바구니 오래된 파일 삭제 후 리스트 보여주기  -->
     <select id="basketList" parameterType="String" resultType="java.util.HashMap">
-   SELECT 
+ 	SELECT 
     	  t1.SEQ 
 	 	 ,t1.COMCD 
-	 	 ,t3.COMNM 
-		 ,t1.ITM_TYPE 
+	 	 ,t3.COMNM
+         ,t5.CLASS_NM
+		 ,t1.ITM_TYPE
 		 ,t1.CLASS_CD  
 		 ,t1.PART_CD 
 		 ,t1.SPORTS_CD 
@@ -38,13 +39,12 @@
 		 ,t1.WRITE_DH 
 		 ,t2.ITEM_NM 
 		 ,t2.UP_ITEM_CD 
-		 ,t2.VAT_YN
-         ,t4.CLASS_NM
-    	FROM MEM_CART t1 
-        left join program_item t2 on t1.COMCD = t2.COMCD and t1.ITEM_CD = t2.ITEM_CD 
-    	left join cominfo t3 on t1.COMCD = t3.COMCD
-        left join train_class t4 on t3.COMCD = t4.COMCD
-        WHERE MEM_NO = #{MEM_NO}
+		 ,t2.VAT_YN 
+    	FROM MEM_CART t1 left join program_item t2 on t1.COMCD = t2.COMCD and t1.ITEM_CD = t2.ITEM_CD
+    	left join cominfo t3 on t1.COMCD = t3.COMCD 
+        left join ITEM_CLASS t4 on t1.COMCD = t4.COMCD AND t1.ITEM_CD = t4.ITEM_CD
+        left join train_class t5 on t1.COMCD = t5.COMCD and t4.CLASS_CD = t5.CLASS_CD
+    	WHERE MEM_NO = #{MEM_NO}
     	Order by t1.SEQ
     </select>	
     

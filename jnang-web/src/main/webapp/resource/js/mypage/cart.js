@@ -37,7 +37,7 @@ var data = {
 								+ "<td><input type='checkbox' id='cbox' name='cbox[]' value='"+ data[i].SEQ +"' style='width:30px; height:30px;'></td> "
 								+ "<td>"+ data[i].COMNM +"</td> "
 								+ "<td>"+ data[i].SPORTS_NM +"</td> "
-								+ "<td>"+ data[i].CLASS_NM + "</td>"
+								+ "<td>"+ data[i].CLASS_NM +"</td> "
 								+ "<td>"+ data[i].ITEM_NM +"</td> "
 								+ "<td>"+ comma_str_y(saleAmt) +"</td>"
 								+ "</tr>";
