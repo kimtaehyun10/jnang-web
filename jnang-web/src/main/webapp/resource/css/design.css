@@ -461,13 +461,13 @@ pre {white-space: pre-wrap;word-wrap:break-word;text-align:justify;}
 
 
 /* 서브본문영역1 */
-.sub_cont1 {min-height:400px;padding:50px 0;}
+.sub_cont1 {min-height:400px;padding:50px 0; }
 
 /* 탭메뉴__최대4개 */
-.tab_ty1_cnt_4a {float:left;width:100%;}
-.tab_ty1_cnt_4a li {float:left;border-right:1px solid #ddd;border-bottom:1px solid #ddd;}
-.tab_ty1_cnt_4a li.on {border:1px solid #227b39 !important;background:#f3f9f5;margin-top:-1px;}
-.tab_ty1_cnt_4a li:nth-child(3).on {margin-top:0;}
+.tab_ty1_cnt_4a {float:left;width:100%;  }
+.tab_ty1_cnt_4a li {float:left;border-right:1px solid #ddd;border-bottom:1px solid #ddd; width:33.3%; }
+.tab_ty1_cnt_4a li.on {border:1px solid #227b39 !important;background:#f3f9f5;margin-top:-1px; }
+.tab_ty1_cnt_4a li:nth-child(3).on {margin-top:0; }
 .tab_ty1_cnt_4a li:hover {background:#f5f5f5;}
 .tab_ty1_cnt_4a li:nth-child(1),
 .tab_ty1_cnt_4a li:nth-child(2),

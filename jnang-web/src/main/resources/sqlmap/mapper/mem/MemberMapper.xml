@@ -2,14 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.dwict.jfmc.client.mem.mapper.MemberMapper">
 
-<select id="memCard" parameterType="String" resultType="java.util.HashMap">
-select c.card_no
-FROM member_damo P
-left join mem_card C
-on P.MEM_NO = C.mem_no
-where  C.mem_no = #{mem_no};
 
-</select>
 
 
 	<select id="isExistingMember" parameterType="member" resultType="boolean">

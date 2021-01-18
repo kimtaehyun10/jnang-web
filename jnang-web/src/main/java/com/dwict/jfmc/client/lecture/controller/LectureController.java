@@ -65,8 +65,7 @@ public class LectureController {
 			modelAndView.setViewName("/lecture/lectureView3");
 			return modelAndView;
 		}
-		
-//		Map<String, Object> memCard = lectureService.memCard(member.getMemNo());
+
 
 		String memc = member.getCardNo();
 	 if(memc == null){

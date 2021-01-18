@@ -8,7 +8,7 @@ import com.dwict.jfmc.client.mem.model.Member;
 
 public interface MemberService {
 
-	Map<String, Object> memCard(String CardNo);
+
 	
 	boolean isExistingMember(Member param);
 	Member findExistingMember(Member param);

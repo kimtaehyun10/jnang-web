@@ -25,11 +25,7 @@ public class MemberServiceImpl implements MemberService {
 	@Resource(name = "memberMapper")
 	private MemberMapper memberMapper;
 
-    @Override
-    public Map<String, Object> memCard(String CardNo) {
-  	  return memberMapper.memCard(CardNo);
-    }
-	
+
 	@Override
 	public boolean isExistingMember(Member param) {
 		return memberMapper.isExistingMember(param);
