@@ -8,6 +8,8 @@ import com.dwict.jfmc.client.mem.model.Member;
 
 public interface MemberService {
 
+	Map<String, Object> memCard(String CardNo);
+	
 	boolean isExistingMember(Member param);
 	Member findExistingMember(Member param);
 	boolean isDuplicatedId(Member param);
@@ -29,5 +31,7 @@ public interface MemberService {
 	String apiCheckId(HttpServletRequest request);
 	String apiMembership(HttpServletRequest request);
 	
+	
+
 
 }

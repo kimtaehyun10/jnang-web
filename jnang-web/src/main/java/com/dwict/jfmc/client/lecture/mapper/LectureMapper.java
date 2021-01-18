@@ -12,7 +12,10 @@ import egovframework.rte.psl.dataaccess.mapper.Mapper;
 
 @Mapper("lectureMapper")
 public interface LectureMapper {
+	
 
+	
+	
 	List<ComInfo> conditionSb1();
 	List<Grpcd> conditionSb2(Grpcd grpcd);
 	List<Grpcd> conditionSb3(Grpcd grpcd);

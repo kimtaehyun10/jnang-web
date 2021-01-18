@@ -25,6 +25,8 @@ import com.dwict.jfmc.client.mem.model.Member;
 @Service("lectureService")
 public class LectureServiceImpl implements LectureService {
 
+
+	
 	@Resource(name = "lectureMapper")
 	private LectureMapper mapper;
 
@@ -101,6 +103,7 @@ public class LectureServiceImpl implements LectureService {
 		
 		//회원정보
 		Member member = memMapper.findById(userId);
+
 
 		//없는 회원정보 ,로그인 첵크
 		if (userId.equals("anonymousUser") || member == null)

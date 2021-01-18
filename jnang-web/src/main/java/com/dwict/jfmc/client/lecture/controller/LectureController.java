@@ -60,10 +60,17 @@ public class LectureController {
 		final String userId = auth.getName();
 		
 		Member member = memMapper.findById(userId);
-//		Map<String, Object> memCard = lectureService.memCard(member.getMemNo());
 		
-		if (userId.equals("anonymousUser") || member == null){
+		if(member == null) {
 			modelAndView.setViewName("/lecture/lectureView3");
+			return modelAndView;
+		}
+		
+//		Map<String, Object> memCard = lectureService.memCard(member.getMemNo());
+
+		String memc = member.getCardNo();
+	 if(memc == null){
+			modelAndView.setViewName("/lecture/lectureView2");
 		}else {
 			modelAndView.setViewName("/lecture/lectureView1");
 		}
@@ -71,11 +78,13 @@ public class LectureController {
 		return modelAndView;
 	}
 	
-	@GetMapping(value = "/lecture/view2")
+	@GetMapping(value = "/lecture/view3")
 	public ModelAndView lectureView3(ModelAndView modelAndView, HttpServletRequest request) {
-		modelAndView.setViewName("/lecture/lectureView2");
+		modelAndView.setViewName("/lecture/lectureView3");
 		return modelAndView;
 		
 	}
+	
+	
 
 }

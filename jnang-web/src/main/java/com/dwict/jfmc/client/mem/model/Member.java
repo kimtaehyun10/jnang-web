@@ -216,4 +216,8 @@ public class Member {
 		this.hp = hp;
 	}
 
+
+
+	
+
 }

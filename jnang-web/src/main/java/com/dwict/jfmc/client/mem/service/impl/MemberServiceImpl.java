@@ -20,10 +20,16 @@ import com.google.gson.JsonParser;
 
 @Service("memberService")
 public class MemberServiceImpl implements MemberService {
-
+ 
+	
 	@Resource(name = "memberMapper")
 	private MemberMapper memberMapper;
 
+    @Override
+    public Map<String, Object> memCard(String CardNo) {
+  	  return memberMapper.memCard(CardNo);
+    }
+	
 	@Override
 	public boolean isExistingMember(Member param) {
 		return memberMapper.isExistingMember(param);
@@ -81,6 +87,8 @@ public class MemberServiceImpl implements MemberService {
 		final HttpSession session = request.getSession(true);
 		session.setMaxInactiveInterval(120*60);
 		final Member member = memberMapper.findById(userId);
+		
+	
 		session.setAttribute("member", member);        
 	}
 	

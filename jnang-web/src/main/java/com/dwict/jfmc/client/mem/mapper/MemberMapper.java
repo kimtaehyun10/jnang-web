@@ -20,6 +20,10 @@ public interface MemberMapper {
 	//회원검색 ID로
 	Member findById(String param);
 	
+	
+	Map<String, Object> memCard(String CardNo);
+	
+	
 	/**########################################################
 	 * 혁산 API 시작 
 	 *#########################################################
