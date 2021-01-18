@@ -10,8 +10,12 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -21,6 +25,8 @@ import com.dwict.jfmc.client.mypage.service.MypageService;
 import com.dwict.jfmc.client.page.model.Menu;
 import com.dwict.jfmc.client.page.service.PageService;
 import com.dwict.jfmc.client.smpay.service.PayService;
+
+
 
 @RestController
 public class MypageController {
@@ -36,6 +42,36 @@ public class MypageController {
 
 	@Resource(name = "payService")
 	private PayService payService;
+	
+	
+	@GetMapping(value = "/imre/imReView")
+	public ModelAndView saleGo(ModelAndView modelAndView, HttpServletRequest request) {
+		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		final String userId = auth.getName();
+		
+		
+		memberService.memSession(request, userId);
+//		final HttpSession session = request.getSession(false);
+//		modelAndView.addObject("member",session.getAttribute("member"));
+		modelAndView.setViewName("mypage/imreView_P");
+
+	
+
+		return modelAndView;
+	}
+    
+//    //즉시감면 확인
+//    @RequestMapping(value = "/imre/imReCk.json")
+//    @ResponseBody
+//    public Map<String, String> imReCk(@RequestParam Map<String, Object> requestMap, DiscountItemVO discountItemVO) throws Exception {
+//    	
+////    	Map<String, String> result = imreService.mainService(requestMap, discountItemVO);
+////    	
+////    	if (result.size()>0){
+////    		result.put("result", "OK");
+////    	}
+//        return ;
+//    }
 	
 	
 	//장바구니
