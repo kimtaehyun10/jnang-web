@@ -180,6 +180,20 @@ alert('테스트 중입니다. 결제하셔도 예약  안됩니다.');
 		return false;
 	}
 	
+	//즉시감면 데이터 세팅
+	function saleGo(){
+		
+		//데이터 세팅
+    	var param = "imreName=이수현&" //넘기지 않는 경우 이름 input 확성화
+	          + "imreBirth=870802&" //넘기지 않는 경우 이름 주민등록번호 앞자리 확성화
+	          + "imreDisCode=";   //넘기지 않는경우 할인항목 전체 노출
+    	window.open( "/imre/imReView",param, 600, 400 );
+    //	openPopLayer( "/imre/imReView", encodeURI(param), "", 800, 500, null ,null );
+	}
+	
+
+
+	
 	
 </script>
 
@@ -191,8 +205,9 @@ alert('테스트 중입니다. 결제하셔도 예약  안됩니다.');
 			<col width="5%">
 			<col width="15%">
 			<col width="15%">
-			<col width="50%">
-			<col width="10%">
+			<col width="30%">
+			<col width="20%">
+			<col width="20%">
 		</colgroup>
 		<thead>
 			<tr>
@@ -201,6 +216,7 @@ alert('테스트 중입니다. 결제하셔도 예약  안됩니다.');
 				<th>센터명</th>
 				<th>종목</th>
 				<th>강좌명</th>
+				<th>대상</th>
 				<th>수강료</th>
 			</tr>
 		</thead>
@@ -209,6 +225,11 @@ alert('테스트 중입니다. 결제하셔도 예약  안됩니다.');
 
 	</table>
 	</form>
+	
+<div class="btnarea margin_t80">
+	  <a href="#none" onclick="saleGo();" id=" " class="blue">할인적용</a>
+	</div>
+
     <div class="btnarea margin_t80">
         <a href="#none" onClick="data.list('del');" id=" " class="gray2">선택삭제</a>
         <a href="#none" onclick="goPay();" id=" " class="green">전체 결제</a>

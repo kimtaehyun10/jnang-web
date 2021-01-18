@@ -80,7 +80,17 @@ var writeCondition = function(type, data){
 		var sb1Html = commonHtml;
 		for(var i=0; i<data.length; i++){
 	
+				if(data[i].comcd == "JUNGNANG08"){
+				sb1Html += '';
+			}else if(data[i].comcd == "JUNGNANG09"){
+				sb1Html += '';
+			}else if(data[i].comcd == "JUNGNANG10"){
+				sb1Html += '';
+			}else if(data[i].comcd == "JUNGNANG13"){
+				sb1Html += '';
+			}else{
 			sb1Html += '<option value='+ data[i].comcd +'>'+data[i].comnm+'</option>';	
+			}
 	
 		}
 		$('#sb1').empty().append(sb1Html);
@@ -468,6 +478,7 @@ var needAuthorize = {
 
 var addBasket1 = function(comcd, classCd, itemCd){
 	var lecture = { comcd:comcd, classCd:classCd, itemCd:itemCd };
+	
 	$.get('/data/encode/text', {text:JSON.stringify(lecture)}, function(data){
 		localStorage.setItem('lecture', data);
 	}).done(function(){
