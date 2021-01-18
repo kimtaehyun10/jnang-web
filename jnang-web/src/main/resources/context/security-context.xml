@@ -12,7 +12,7 @@
     <http pattern="/data/file/**" security="none"/>
     <http pattern="/data/image/**" security="none"/>
     <http pattern="/smartPay/**" security="none"/>
-
+	
     <http auto-config='true' use-expressions="true">
     	<access-denied-handler error-page="/?loginError=02" />
         <intercept-url pattern="/mypage/**" access="hasRole('ROLE_USER')" />
@@ -33,6 +33,12 @@
         <session-management>
             <concurrency-control max-sessions="1" expired-url="/"/>
         </session-management>
+        
+		<headers>
+	    	<!-- 익스에서 jpg 다운안됨 문제 this section disable put the header 'X-Content-Type-Options' -->
+	    	<content-type-options disabled="true"/>
+		</headers>
+		        
         <csrf/>
     </http>
 
