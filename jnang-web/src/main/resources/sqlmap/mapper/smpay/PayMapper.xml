@@ -416,6 +416,7 @@
 		, SLIP_NO = #{SLIP_NO}
 		, PAY_DATE =date_format(PAY_DATE, '%Y%m%d')
 		, PAY_AMT = #{PAY_AMT}
+		, PAY_DATE = DATE_FORMAT(SYSDATE(), '%Y%m%d')
  	WHERE 
  		RESERVE_DATE = #{RESERVE_DATE} 
  		AND APP_TYPE = 5
