@@ -324,8 +324,8 @@
 			 </choose>
 			 ,#{RENT_TYPE} 
 			 ,#{DISPLAY_YN} 
-			 ,#{SALE_AMT} 
-			 ,#{PAY_AMT} 
+			 ,0 
+			 ,0
 			 ,#{PAY_DATE} 
 			 ,#{RESERVE_DATE} 
 			 ,#{SLIP_NO} 

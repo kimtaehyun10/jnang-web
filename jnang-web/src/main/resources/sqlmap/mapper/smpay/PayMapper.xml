@@ -408,14 +408,20 @@
 
     </insert>	           
   
+
+	<!-- 대관 결제금액 저장 처리 -->	  
+	<insert id="rentOrderSEQ" parameterType="java.util.HashMap" useGeneratedKeys="true" keyProperty="SEQ">
+		INSERT INTO rent_app_price(COMCD, PAY_AMT, PG_CD, PG_NM, APP_TIME,APP_NO, PG_QUTOA,CARD_NO, WDATE) 
+		VALUES(#{COMCD}, #{PAY_AMT}, #{PG_CD}, #{PG_NM}, #{APP_TIME}, #{APP_NO}, #{PG_QUTOA}, #{CARD_NO}, #{WDATE}) 
+	</insert>
   
   	<!-- 대관 결제완료 처리 -->
-	<update id="rentOrderSave">
-	UPDATE rent_app SET 
-		APP_TYPE = 30 
+	<update id="rentOrderSave" parameterType="java.util.HashMap">
+	UPDATE rent_app SET
+		ORDER_SEQ = #{ORDER_SEQ}
+		,APP_TYPE = 30 
 		, SLIP_NO = #{SLIP_NO}
 		, PAY_DATE =date_format(PAY_DATE, '%Y%m%d')
-		, PAY_AMT = #{PAY_AMT}
 		, PAY_DATE = DATE_FORMAT(SYSDATE(), '%Y%m%d')
  	WHERE 
  		RESERVE_DATE = #{RESERVE_DATE} 

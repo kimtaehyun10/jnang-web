@@ -679,15 +679,6 @@ public class PayServiceImpl implements PayService {
 		  		int iDEPOSIT_AMT = 0; //보증금
 		  		
 		  		
-		  		
-	//	  		//결제금액에서 보증금을 빼기 위한
-	//	  		for (int i=0;i<aPrgList.size();i++ ) {
-	//	  			String GUBUN = aPrgList.getJSONObject(i).getString("ITM_TYPE").toString();
-	//	  			if ("war".equals(ITM_TYPE)){
-	//	  				int tmpDEPOSIT_AMT = aPrgList.getJSONObject(i).getInt("DEPOSIT_AMT"); // 보증금	  			
-	//		  			iDEPOSIT_AMT =  iDEPOSIT_AMT + tmpDEPOSIT_AMT;
-	//	  			}
-	//	  		}  		
 		  			  		
 		  		//select * from PAY_CHANGE_INFO
 		   		String NEXT_RECEIPT_NO = mapper.getNextReceiptNo();
@@ -709,10 +700,8 @@ public class PayServiceImpl implements PayService {
 				requestMapCalcMaster.put("PAY_AMT", CASH_AMT_SUM + CARD_AMT_SUM);//결제금액
 				requestMapCalcMaster.put("CASH_AMT",CASH_AMT_SUM);
 				requestMapCalcMaster.put("CARD_AMT",CARD_AMT_SUM);
-				
-				
 				//주문_결제정보(CALC_MASTER) 저장
-		  		mapper.setCalcMaster(requestMapCalcMaster);
+		  		//mapper.setCalcMaster(requestMapCalcMaster);
 		  		
 		    	String ymdhis = FormatUtil.getDefaultDate(1, "-","");
 	
@@ -807,20 +796,37 @@ public class PayServiceImpl implements PayService {
 		    	// select * from card_app_hist_damo  order by  WRITE_DH desc
 		    	
 		    	//결제정보 저장
-				mapper.setPayList(requestMapPayList);
+				//mapper.setPayList(requestMapPayList);
 				//일마감관리 > 일마감관리 > 카드결제처리현황
-				mapper.setPayList2(requestMapPayList);
-				
+				//mapper.setPayList2(requestMapPayList);
+		    	
+		    	
+		    	Map <String , Object > maps;
+		    	//결제 SEQ
+		    	maps = new HashMap<>();
+		    	maps.put("COMCD", COMCD);
+		    	maps.put("PAY_AMT", Amt);
+		    	maps.put("PG_CD", fn_cd);
+		    	maps.put("PG_NM", fn_name);
+		    	maps.put("APP_TIME", AuthDate);
+		    	maps.put("APP_NO", APP_NO);
+		    	maps.put("TID", TID);
+		    	maps.put("PG_QUTOA", APP_CARD_HALBU);
+		    	maps.put("CARD_NO", SEC_CARD_NO1 +"-"+ SEC_CARD_NO2 +"-"+ SEC_CARD_NO3+"-"+ SEC_CARD_NO4);
+		    	maps.put("WDATE", ymdhis);
+		    	maps.put("SEQ", "");
+		    	mapper.rentOrderSEQ(maps);
+		    	//int od_seq = (int) maps.get("SEQ");
 
 				// 대간 결제 정보 저장
-		    	Map <String , Object > maps = new HashMap<>();
 		    	//선택된 대관 idx 값들 배열화 //146,147,11,333,444
 		    	final String[] brdNoArr =  rtn_idx.split(",");
+		    	maps.put("ORDER_SEQ", maps.get("SEQ"));
 				maps.put("brdNoList", brdNoArr);
 				maps.put("MEM_NO", MEM_NO);
 				maps.put("PLACE_CD", PLACE_CD);
 				maps.put("RESERVE_DATE", RESERVE_DATE);
-				maps.put("PAY_AMT", Amt);
+				maps.put("PAY_AMT", 0);
 				
 				//대관 결제 정보 저장
 				mapper.rentOrderSave(maps);
