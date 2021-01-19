@@ -54,4 +54,10 @@ public class MainServiceImpl implements MainService {
 		return mapper.banner();
 	}
 
+	@Override
+	public List<Map<String, Object>> popupInfo(Map<String, Object> requestMap) {
+		
+		return mapper.popupInfo(requestMap);
+	}
+
 }

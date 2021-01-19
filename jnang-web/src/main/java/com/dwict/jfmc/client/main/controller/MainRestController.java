@@ -35,7 +35,7 @@ public class MainRestController {
 	
 	//공지사항/보도자료/입찰공고/채용공고 ..
 	@GetMapping(value = "/cmsBoard")
-	public List<Map<String, Object>> cmsBoard(HttpServletRequest request,  @RequestParam Map<String, Object> requestMap) {
+	public List<Map<String, Object>> cmsBoard(HttpServletRequest request, @RequestParam Map<String, Object> requestMap) {
 		List<Map<String, Object>> rtn = service.cmsBoard(requestMap);
 		return rtn;
 	}
@@ -43,5 +43,11 @@ public class MainRestController {
 	@GetMapping(value = "/banner")
 	public List<Banner> banner(HttpServletRequest request) {
 		return service.banner();
+	}
+	
+	//팝업창 관리
+	@GetMapping(value = "/popupInfo")
+	public List<Map<String, Object>> popupInfo(HttpServletRequest request, @RequestParam Map<String, Object> requestMap) {
+		return service.popupInfo(requestMap);
 	}
 }

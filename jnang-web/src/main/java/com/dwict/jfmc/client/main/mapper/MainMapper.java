@@ -25,4 +25,6 @@ public interface MainMapper {
 
 	List<Banner> banner();
 
+	List<Map<String, Object>> popupInfo(Map<String, Object> requestMap);
+
 }

@@ -670,7 +670,10 @@
 
 
 <script>
-	
+   $(function(){
+	   var coov = getCookie("popups_15");
+	   if (coov != "no") popupOpen(); 
+   });	
 	
    function setCookie (name, value, expires) {
        document.cookie = name + "=" + escape (value) + "; path=/; expires=" + expires.toGMTString();
@@ -692,20 +695,30 @@
        }
        return "";
    }
-   
+	// 팝업창 열기
+	function popupOpen(){
 	
-		// 팝업창 열기
-		function popupOpen(){
-			
- 		var popUrl1 = "popup/popup20.p";	//팝업창에 출력될 페이지 URL
-		var popOption1 = "width=470, height=660, resizable=no, scrollbars=no, status=no, left=0;"; //팝업창 옵션(optoin)
-		window.open(popUrl1,"",popOption1);
-			
-		}
-
-
-		var coov = getCookie("popups_15");
-		if (coov != "no") popupOpen();
+		$.ajax({
+	        type: "get",	        
+	        url:'/data/popupInfo',
+	        data: {},
+	        dataType: 'json',
+	        success: function (data) {
+	        	if(data.length !=0 ){
+	        		for(var i=0;i<data.length;i++){
+		        		var popUrl1 = "popup/popup20.p?NUM="+data[i].NUM;	//팝업창에 출력될 페이지 URL
+			    		var popOption1 = "width="+data[i].POP_WIDTH+", height="+data[i].POP_HEIGHT+", resizable=no, scrollbars=no, status=no, top="+data[i].POP_TOP+", left="+data[i].POP_LEFT+""; //팝업창 옵션(optoin)
+			    		window.open(popUrl1,"",popOption1);
+		        	}
+	        	} 		        	
+	        },        
+	        error: function (jqXHR,textStatus,errorThrown) { 
+	        	console.log(jqXHR,textStatus,errorThrown);
+	        }
+	    });
+	
+	}
+		
 		
 		
 		// 팝업창 열기

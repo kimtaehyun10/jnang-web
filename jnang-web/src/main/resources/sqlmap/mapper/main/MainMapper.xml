@@ -141,4 +141,14 @@
 		    WHERE DATE_FORMAT(NOW(),'%Y%m%d%h%i') BETWEEN B.SDT AND B.EDT		      
 		      AND B.DEL_YN = 'N'
     </select>
+    
+    <select id="popupInfo" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+	    	select * 
+	    	from popup_info
+			where DATE_FORMAT(now(),'%Y-%m-%d') between DATE_FORMAT(substr(start_date,1,8),'%Y-%m-%d') and DATE_FORMAT(substr(end_date,1,8),'%Y-%m-%d')
+			  and is_html='Y'
+			  <if test="NUM != null and NUM != ''">				  
+				   AND NUM = #{NUM}				         
+			  </if>
+    </select>
 </mapper>

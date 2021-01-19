@@ -22,4 +22,6 @@ public interface MainService {
 
 	List<Banner> banner();
 
+	List<Map<String, Object>> popupInfo(Map<String, Object> requestMap);
+
 }

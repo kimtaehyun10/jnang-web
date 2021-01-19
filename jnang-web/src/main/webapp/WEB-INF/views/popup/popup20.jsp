@@ -8,9 +8,9 @@
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resource/js/jquery-3.5.1.min.js"></script>
 	<style type='text/css'>
 		/* 팝업레이어 */
-		#popdiv {z-index:1000;position:relative;}
+		/* #popdiv {z-index:1000;position:relative;}
 		.popups {position:absolute;border:1px solid #e9e9e9;background:#fff}
-		.popups_con {}
+		.popups_con {} */
 		.popups_footer {padding:10px 0;background:#000;color:#fff;text-align:right}
 		.popups_footer button {margin-right:5px;padding:5px 10px;border:0;background:#393939;color:#fff}
 	</style>
@@ -25,10 +25,10 @@
     $('.popups_close').click(function() {
         window.close();
     });
-	$('.popups_con').click(function() {
+/* 	$('.popups_con').click(function() {
 		window.opener.top.location.href='/board/05010100/8';
         window.close();
-    });
+    }); */
 });
 
 
@@ -42,7 +42,10 @@ function set_Cookie(name, value, expiredays) {
 	<div id="popdiv">
 	<div id="popups_15" class="popups">
 		<div class="popups_con" style="cursor:pointer">
-			<a href="http://www.jungnanglib.seoul.kr/library/index.php" target="_blank"><img src="/resource/images/popup/popup_210103.jpg" title="도서관 이관안내" alt="도서관 이관안내" /></a>
+			<!-- <a href="http://www.jungnanglib.seoul.kr/library/index.php" target="_blank"><img src="/resource/images/popup/popup_210103.jpg" title="도서관 이관안내" alt="도서관 이관안내" /></a> -->
+			<a href="${popupInfo.SKIN}" target="_blank">
+				${popupInfo.CONTENT}
+			</a>			
 			<br style="clear:both;" />
 		</div>
 		<div class="popups_footer">
