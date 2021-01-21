@@ -96,8 +96,8 @@ var saveRtn = "${saveRtn}";
 				<tr>
 					<th>시설명</th>
 					<th>대관시설</th>
-					<th>비용</th>
-					<th>시설안내</th>
+					<!-- <th>비용</th> -->
+					<th>이용요금  및 시설안내</th>
 					<th>현황</th>
 					<th>신청</th>					
 				</tr>
