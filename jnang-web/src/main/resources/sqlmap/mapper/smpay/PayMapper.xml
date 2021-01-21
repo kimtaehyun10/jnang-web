@@ -408,6 +408,10 @@
 
     </insert>	           
   
+  	<!-- 대관 3번 저장되서 임시로 ㅜㅜ -->	  
+	<select id="rentDblChk" resultType="int" parameterType="java.util.HashMap">
+		select count(*) from rent_app_price where COMCD=#{COMCD} and APP_TIME =#{APP_TIME} and APP_NO =#{APP_NO}
+	</select>	
 
 	<!-- 대관 결제금액 저장 처리 -->	  
 	<insert id="rentOrderSEQ" parameterType="java.util.HashMap" useGeneratedKeys="true" keyProperty="SEQ">
