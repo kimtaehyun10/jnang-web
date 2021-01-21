@@ -79,6 +79,7 @@
 				cms_cont_ntc
 			where
 				CMS_CD = #{brd1}
+			  AND DEL_YN = 'N'
 			order by
 				BRD_NO desc
 			limit 5 ) as t1
@@ -93,6 +94,7 @@
 				cms_cont_ntc
 			where
 				CMS_CD = #{brd2}
+			  AND DEL_YN = 'N'
 			order by
 				BRD_NO desc
 			limit 5 ) as t2
@@ -107,6 +109,7 @@
 				cms_cont_ntc
 			where
 				CMS_CD = #{brd3}
+			  AND DEL_YN = 'N'
 			order by
 				BRD_NO desc
 			limit 5 ) as t3
@@ -121,6 +124,7 @@
 				cms_cont_ntc
 			where
 				CMS_CD = #{brd4}
+			  AND DEL_YN = 'N'
 			order by
 				BRD_NO desc
 			limit 5 ) as t4
