@@ -78,6 +78,9 @@ public class TrainClass {
 	@Column(name = "CAPA")
 	private int capa;
 	
+	@Column(name = "WEB_USER")
+	private int webUser;
+	
 	@Column(name = "REMAIN_CAPA")
 	private int remainCapa;
 	

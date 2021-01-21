@@ -20,6 +20,9 @@ public class ProgramItem extends TrainClass {
 
 	@Column(name = "COST_AMT")
 	private int costAmt;
+	
+	@Column(name="SEQ")
+	private int seq;
 
 	@Column(name = "SALE_AMT")
 	private int saleAmt;

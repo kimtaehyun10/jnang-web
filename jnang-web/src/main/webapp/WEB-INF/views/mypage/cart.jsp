@@ -225,11 +225,11 @@ alert('테스트 중입니다. 결제하셔도 예약  안됩니다.');
 
 	</table>
 	</form>
-<!-- 	
+
 <div class="btnarea margin_t80">
 	  <a href="#none" onclick="saleGo();" id=" " class="blue">할인적용</a>
 	</div>
- -->
+
     <div class="btnarea margin_t80">
         <a href="#none" onClick="data.list('del');" id=" " class="gray2">선택삭제</a>
         <a href="#none" onclick="goPay();" id=" " class="green">전체 결제</a>

@@ -277,9 +277,13 @@ var searchLectureList = function(){
 										
 						tableBody += '<td>'+data.resultList[i].programItem[0].costAmt.toLocaleString(undefined, {maximumFractionDigits: 5})+'</td>';
 						
-				        tableBody += '<td >'+data.resultList[i].remainCapa+' 명</td>';
+				       	if(data.resultList[i].webCapa-data.resultList[i].webUser === 0 || data.resultList[i].webCapa-data.resultList[i].webUser < 0){
+									tableBody += '<td>'+0+' 명</td>';
+								}else{
+									tableBody += '<td>'+(data.resultList[i].webCapa-data.resultList[i].webUser)+' 명</td>';
+								}
 						
-                    		if(data.resultList[i].remainCapa === 0){
+                    		if(data.resultList[i].webCapa-data.resultList[i].webUser === 0 || data.resultList[i].webCapa-data.resultList[i].webUser < 0){
 									tableBody += '<td><a class="size_s2 btn_pink_redWrite">접수마감</a></td>';
 							}else{
 									tableBody += '<td ><a class="size_s3 btn_pink_blueWrite" onclick="addBasket1(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[0].itemCd+'\');">수강신청</a></td>';
@@ -391,8 +395,13 @@ var searchLectureList = function(){
 				
 								tableBody += '<td>'+data.resultList[i].programItem[j].costAmt.toLocaleString(undefined, {maximumFractionDigits: 5})+'</td>';
 								
-								tableBody += '<td rowspan='+prgCount+'>'+data.resultList[i].remainCapa+' 명</td>';
-							if(data.resultList[i].remainCapa === 0){
+								if(data.resultList[i].webCapa-data.resultList[i].webUser === 0 || data.resultList[i].webCapa-data.resultList[i].webUser < 0){
+									tableBody += '<td rowspan='+prgCount+'>'+0+' 명</td>';
+								}else{
+									tableBody += '<td rowspan='+prgCount+'>'+(data.resultList[i].webCapa-data.resultList[i].webUser)+' 명</td>';
+								}
+								
+							if(data.resultList[i].webCapa-data.resultList[i].webUser === 0 || data.resultList[i].webCapa-data.resultList[i].webUser < 0){
 									tableBody += '<td><a class="size_s2 btn_pink_redWrite">접수마감</a></td>';
 							}else{
 								tableBody += '<td><a class="size_s2 btn_pink_blueWrite" onclick="addBasket1(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[j].itemCd+'\');">수강신청</a></td>';
@@ -409,7 +418,7 @@ var searchLectureList = function(){
 								tableBody += '<td>'+data.resultList[i].programItem[j].costAmt.toLocaleString(undefined, {maximumFractionDigits: 5})+'</td>';
 								
 								
-						if(data.resultList[i].remainCapa === 0){
+						if(data.resultList[i].webCapa-data.resultList[i].webUser === 0 || data.resultList[i].webCapa-data.resultList[i].webUser < 0){
 									tableBody += '<td><a class="size_s2 btn_pink_redWrite">접수마감</a></td>';
 							}else{
 								tableBody += '<td><a class="size_s2 btn_pink_blueWrite" onclick="addBasket1(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[j].itemCd+'\');">수강신청</a></td>';
@@ -430,7 +439,7 @@ var searchLectureList = function(){
 			tableBody += '<tr>';
 			tableBody += '<td colspan="7">프로그램이 없습니다.</td>';
 			tableBody += '</tr>';
-		}
+		}	debugger;
 	
 		$('#lectureTable').empty().append(tableDesc+tableHead+tableBody);
 		if($('#sb2').val() === 'all' || data.resultList.length === 0){

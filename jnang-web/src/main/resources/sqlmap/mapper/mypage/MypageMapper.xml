@@ -18,7 +18,7 @@
     
     <!-- 위에 장바구니 오래된 파일 삭제 후 리스트 보여주기  -->
     <select id="basketList" parameterType="String" resultType="java.util.HashMap">
- 	SELECT 
+SELECT 
     	  t1.SEQ 
 	 	 ,t1.COMCD 
 	 	 ,t3.COMNM
@@ -42,9 +42,10 @@
 		 ,t2.VAT_YN 
     	FROM MEM_CART t1 left join program_item t2 on t1.COMCD = t2.COMCD and t1.ITEM_CD = t2.ITEM_CD
     	left join cominfo t3 on t1.COMCD = t3.COMCD 
-        left join ITEM_CLASS t4 on t1.COMCD = t4.COMCD AND t1.ITEM_CD = t4.ITEM_CD
-        left join train_class t5 on t1.COMCD = t5.COMCD and t4.CLASS_CD = t5.CLASS_CD
-    	WHERE MEM_NO = #{MEM_NO}
+        left join ITEM_CLASS t4 on t1.COMCD = t4.COMCD AND t1.ITEM_CD = t4.ITEM_CD and t1.CLASS_CD = t4.CLASS_CD
+        left join train_class t5 on t1.COMCD = t5.COMCD and t1.CLASS_CD = t5.CLASS_CD
+    	WHERE t1.MEM_NO = #{mem_no}
+    	and t5.use_yn = 'Y'
     	Order by t1.SEQ
     </select>	
     

@@ -89,67 +89,86 @@
     </select>
     
    	<select id="lectureList" parameterType="java.util.HashMap" resultType="trainClass">
-   		SELECT R1.*
-   		  FROM ( SELECT A.COMCD
-   		              , A.CLASS_CD
-   		              , A.USER_NO
-   		              , CASE A.USER_NO WHEN 'NOASSIGN' THEN '미지정' ELSE Fn_GetEmpCodeNm(A.USER_NO) END USER_NM
-   		              , A.PART_CD
-   		              , Fn_GetGrpCodeNm(A.COMCD, 'SM_PART_TYPE', A.PART_CD) AS PART_CD_NM
-   		              , A.SPORTS_CD
-   		              , Fn_GetGrpCodeNm(A.COMCD, 'CM_SPORTS_CD', A.SPORTS_CD) AS SPORTS_CD_NM
-   		              , A.MSPORTS_CD
-   		              , Fn_GetGrpCodeNm(A.COMCD, 'CM_MCLASS_CD', A.MSPORTS_CD) AS MSPORTS_CD_NM
-   		              , A.CLASS_NM
-   		              , A.PLACE_CD
-   		              , Fn_GetGrpCodeNm(A.COMCD, 'CM_CLPLACE_CD', A.PLACE_CD) AS PLACE_CD_NM
-   		              , A.GRADE_CD
-   		              , Fn_GetGrpCodeNm(A.COMCD, 'CM_GRADE_CD', A.GRADE_CD) AS GRADE_CD_NM
-   		              , A.PROGRESS_CD
-   		              , Fn_GetGrpCodeNm(A.COMCD, 'CM_PROGRESS_CD', A.PROGRESS_CD) AS PROGRESS_CD_NM
-   		              , A.STYLE
-   		              , Fn_GetGrpCodeNm(A.COMCD, 'CM_STYLE_CD', A.STYLE) AS STYLE_NM
-   		              , A.TRAIN_DAY
-   		              , Fn_GetUseDayNm(A.TRAIN_DAY) AS TRAIN_DAY_NM
-   		              , A.TRAIN_STIME
-   		              , Fn_GetTimeFormat(A.TRAIN_STIME) AS TRAIN_STIME_NM
-   		              , A.TRAIN_ETIME
-   		              , Fn_GetTimeFormat(A.TRAIN_ETIME) AS TRAIN_ETIME_NM
-   		              , CONCAT(Fn_GetTimeFormat(A.TRAIN_STIME), '~', Fn_GetTimeFormat(A.TRAIN_ETIME)) AS TRAIN_TIME_NM
-   		              , A.CS_CAPA
-   		              , A.WEB_CAPA
-   		              , A.CAPA-WEB_CAPA AS REMAIN_CAPA
-   		              , A.CLASS_DESC
-   		              , A.CLASS_NOTE
-   		              , A.CLASS_READY
-   		              , A.MAT_COST
-   		              , A.MAT_TEACH
-   		              , A.BIGO
-   		              , A.CLASS_OBJ
-   		              , A.CLASS_SOBJ
-   		              , A.CLASS_EOBJ
-   		              , A.CHILD_YN
-   		              , A.DCRATE_YN
-   		              , A.WEB_DISPLAY
-   		              , A.SORT_ORDER
-   		              , A.USE_YN
-   		              , CASE A.USE_YN WHEN 'Y' THEN '사용' ELSE '미사용' END USE_YN_NM
-   		              , A.CLASS_PHOTO
-   		              , A.NEW_CHECK
-   		              , A.TDATE_USE_YN
-   		              , A.TC_SDATE
-   		              , A.TC_EDATE
-   		              , ( SELECT COUNT(1) 
-		                    FROM ITEM_CLASS B
-		                       , PROGRAM_ITEM C 
-		                   WHERE A.COMCD = B.COMCD
-		                     AND B.COMCD = C.COMCD
-		                     AND A.CLASS_CD = B.CLASS_CD
-		                     AND B.ITEM_CD = C.ITEM_CD
-		                     AND C.USE_YN = 'Y' ) AS PRG_COUNT
-		           FROM TRAIN_CLASS A
-	              WHERE USE_YN = 'Y'
-	                AND WEB_DISPLAY = 'Y' ) R1
+
+
+  <![CDATA[
+SELECT R1.*
+           FROM (
+           
+           SELECT A.COMCD
+                       , A.CLASS_CD
+                       , A.USER_NO
+                       , CASE A.USER_NO WHEN 'NOASSIGN' THEN '미지정' ELSE Fn_GetEmpCodeNm(A.USER_NO) END USER_NM
+                       , A.PART_CD
+                       , Fn_GetGrpCodeNm(A.COMCD, 'SM_PART_TYPE', A.PART_CD) AS PART_CD_NM
+                       , A.SPORTS_CD
+                       , Fn_GetGrpCodeNm(A.COMCD, 'CM_SPORTS_CD', A.SPORTS_CD) AS SPORTS_CD_NM
+                       , A.MSPORTS_CD
+                       , Fn_GetGrpCodeNm(A.COMCD, 'CM_MCLASS_CD', A.MSPORTS_CD) AS MSPORTS_CD_NM
+                       , A.CLASS_NM
+                       , A.PLACE_CD
+                       , Fn_GetGrpCodeNm(A.COMCD, 'CM_CLPLACE_CD', A.PLACE_CD) AS PLACE_CD_NM
+                       , A.GRADE_CD
+                       , Fn_GetGrpCodeNm(A.COMCD, 'CM_GRADE_CD', A.GRADE_CD) AS GRADE_CD_NM
+                       , A.PROGRESS_CD
+                       , Fn_GetGrpCodeNm(A.COMCD, 'CM_PROGRESS_CD', A.PROGRESS_CD) AS PROGRESS_CD_NM
+                       , A.STYLE
+                       , Fn_GetGrpCodeNm(A.COMCD, 'CM_STYLE_CD', A.STYLE) AS STYLE_NM
+                       , A.TRAIN_DAY
+                       , Fn_GetUseDayNm(A.TRAIN_DAY) AS TRAIN_DAY_NM
+                       , A.TRAIN_STIME
+                       , Fn_GetTimeFormat(A.TRAIN_STIME) AS TRAIN_STIME_NM
+                       , A.TRAIN_ETIME
+                       , Fn_GetTimeFormat(A.TRAIN_ETIME) AS TRAIN_ETIME_NM
+                       , CONCAT(Fn_GetTimeFormat(A.TRAIN_STIME), '~', Fn_GetTimeFormat(A.TRAIN_ETIME)) AS TRAIN_TIME_NM
+                       , A.CS_CAPA
+                       , A.WEB_CAPA
+                       , A.CAPA
+                       , A.CLASS_DESC
+                       , A.CLASS_NOTE
+                       , A.CLASS_READY
+                       , A.MAT_COST
+                       , A.MAT_TEACH
+                       , A.BIGO
+                       , A.CLASS_OBJ
+                       , A.CLASS_SOBJ
+                       , A.CLASS_EOBJ
+                       , A.CHILD_YN
+                       , A.DCRATE_YN
+                       , A.WEB_DISPLAY
+                       , A.SORT_ORDER
+                       , A.USE_YN
+                       , CASE A.USE_YN WHEN 'Y' THEN '사용' ELSE '미사용' END USE_YN_NM
+                       , A.CLASS_PHOTO
+                       , A.NEW_CHECK
+                       , A.TDATE_USE_YN
+                       , A.TC_SDATE
+                       , A.TC_EDATE
+                       , ( SELECT COUNT(1) 
+                          FROM ITEM_CLASS B
+                             , PROGRAM_ITEM C 
+                         WHERE A.COMCD = B.COMCD
+                           AND B.COMCD = C.COMCD
+                           AND A.CLASS_CD = B.CLASS_CD
+                           AND B.ITEM_CD = C.ITEM_CD
+                           AND C.USE_YN = 'Y' ) AS PRG_COUNT
+                      ,    (SELECT  count(*)
+                             FROM train_hist D,  MEM_SALE f
+                             WHERE D.CLASS_CD = A.CLASS_CD                      
+                             and a.comcd = f.comcd
+                             and d.sale_seq = f.sale_seq
+                             and D.MEM_NO  = F.MEM_NO 
+                      AND F.WEB_TYPE = "ONLINE") AS WEB_USER
+                 FROM TRAIN_CLASS A
+                  WHERE A.USE_YN = 'Y'
+                   AND WEB_DISPLAY = 'Y' 
+            limit 1300                   
+                   
+) R1
+                   
+                   
+]]>
+	               
 	  <where>
    		<if test="comcd != null and comcd != 'all'">
 		   AND R1.COMCD = #{comcd}
@@ -162,6 +181,7 @@
 		</if>
    	  </where>
    		 LIMIT #{startRow}, #{pageSize}
+   		
     </select>
     <select id="lectureListCnt" parameterType="java.util.HashMap" resultType="int">
     	   SELECT COUNT(1)
@@ -233,7 +253,7 @@
    		     , CONCAT(Fn_GetTimeFormat(C.TRAIN_STIME), '~', Fn_GetTimeFormat(C.TRAIN_ETIME)) AS TRAIN_TIME_NM
    		     , A.ITEM_NM
    		     , C.CAPA
-   		     , C.CS_CAPA-WEB_CAPA AS REMAIN_CAPA
+   		     , 0 AS REMAIN_CAPA
    		     , C.WEB_CAPA
    		     , C.CLASS_DESC
    		     , C.CLASS_NOTE
@@ -241,7 +261,7 @@
    		     , C.CHILD_YN
    		     , C.CLASS_PHOTO
    		     , C.TDATE_USE_YN
-	         , 2 AS SALE_COUNT
+	         , 0 AS SALE_COUNT
     	  FROM PROGRAM_ITEM A
     	  JOIN ITEM_CLASS B
     	    ON A.COMCD = B.COMCD
@@ -281,7 +301,7 @@
     </select>
     
     <insert id="setBasket" parameterType="java.util.HashMap" >
-		INSERT INTO  MEM_CART SET 
+	<!-- 	INSERT INTO  MEM_CART SET 
 			  COMCD 	=	 #{COMCD} 
 			 ,ITM_TYPE 	=	 #{ITM_TYPE} 
 			 ,PART_CD 	=	 #{PART_CD} 
@@ -311,8 +331,41 @@
 			 ,DC_CD2 	=	 #{DC_CD2} 
 			 ,SALE_AMT 	=	 #{SALE_AMT} 
 			 ,ADD_YMD 	=	 #{ADD_YMD} 
-			 ,WRITE_DH 	=	 #{WRITE_DH} 
-
+			 ,WRITE_DH 	=	 #{WRITE_DH}  -->
+			 
+	  	 INSERT INTO MEM_CART
+			( 
+             COMCD 
+			, ITM_TYPE
+			, PART_CD 
+			, SPORTS_CD 
+			, CLASS_CD 
+			, ITEM_CD
+			, MEM_NO 
+			, ITEM_SDATE 
+			, ITEM_EDATE 
+			, DC_CD1 
+			, DC_CD2 
+			, SALE_AMT 
+			, ADD_YMD 
+			, WRITE_DH )
+        VALUES 
+			( 
+            #{COMCD} 
+            , #{ITM_TYPE} 
+            , #{PART_CD} 
+            , #{SPORTS_CD}
+            , #{CLASS_CD}
+            , #{ITEM_CD}
+            , #{MEM_NO}
+            , #{ITEM_SDATE}
+            , #{ITEM_EDATE}
+            , #{DC_CD1}
+            , #{DC_CD2}
+            , #{SALE_AMT}
+            , #{ADD_YMD}
+            , #{WRITE_DH}
+            )
 		</insert>
 		
 		<!-- 이사장 전용 /lecture/class -->

@@ -2,6 +2,7 @@ package com.dwict.jfmc.client.mypage.service.impl;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,7 +56,8 @@ public class MypageServiceImpl implements MypageService {
 		final String MEM_NO = account.getMemNo();
 		requestMap.put("MEM_ID", MEM_ID);
 		requestMap.put("MEM_NO", MEM_NO);
-
+		
+		
 		//오래된 장바구니 비우기
 		//System.out.println(requestMap);
 		basketClear(requestMap);
@@ -86,17 +88,19 @@ public class MypageServiceImpl implements MypageService {
 		//장바구니 불러오기
 		int dataCnt = 0;
 		int goodsAmt = 0;
+		
+		//ClassNm 값 구
 		final List<Map<String, Object>> dataList = mapper.basketList(MEM_NO);
 		//list 값 정보 가져오기
 		for (int ii=0; ii < dataList.size(); ii++) {
-
-			final String ITEM_NM = dataList.get(ii).get("ITEM_NM").toString();	
-			final String SALE_AMT = dataList.get(ii).get("SALE_AMT").toString();
-			goodsAmt += Integer.parseInt(SALE_AMT);
-			if (ii==0) {
-				goodsNames = ITEM_NM;
+				final String ITEM_NM = dataList.get(ii).get("ITEM_NM").toString();	
+				final String SALE_AMT = dataList.get(ii).get("SALE_AMT").toString();
+				goodsAmt += Integer.parseInt(SALE_AMT);
+				
+				if (ii==0) {
+					goodsNames = ITEM_NM;
 			}
-
+	
 			dataCnt++;
 		}
 		final String strUrl = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort();
