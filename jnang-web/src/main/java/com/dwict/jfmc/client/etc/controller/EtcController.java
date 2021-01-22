@@ -32,6 +32,13 @@ public class EtcController {
 		return modelAndView;
 	}
 
+	@GetMapping(value = "/robots.txt")
+	@ResponseBody
+	public String robots() {
+		return "User-agent: *\nDisallow: /\n";
+	}
+	
+	
 	@GetMapping(value = "/etc/guide1")
 	public ModelAndView guide1(ModelAndView modelAndView) {
 		modelAndView.setViewName("etc/guide1");
