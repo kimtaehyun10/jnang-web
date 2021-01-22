@@ -158,10 +158,10 @@ SELECT R1.*
                              and a.comcd = f.comcd
                              and d.sale_seq = f.sale_seq
                              and D.MEM_NO  = F.MEM_NO 
-                      AND F.WEB_TYPE = "ONLINE") AS WEB_USER
+                      AND F.WEB_TYPE = "ONLINE" ) AS WEB_USER
                  FROM TRAIN_CLASS A
                   WHERE A.USE_YN = 'Y'
-                   AND WEB_DISPLAY = 'Y' 
+                   AND A.WEB_DISPLAY = 'Y' 
             limit 1300                   
                    
 ) R1
@@ -262,6 +262,13 @@ SELECT R1.*
    		     , C.CLASS_PHOTO
    		     , C.TDATE_USE_YN
 	         , 0 AS SALE_COUNT
+	            , (SELECT  count(*)
+                             FROM train_hist D,  MEM_SALE f
+                             WHERE D.CLASS_CD = C.CLASS_CD                      
+                             and C.comcd = f.comcd
+                             and d.sale_seq = f.sale_seq
+                             and D.MEM_NO  = F.MEM_NO 
+                      AND F.WEB_TYPE = "ONLINE") AS WEB_USER
     	  FROM PROGRAM_ITEM A
     	  JOIN ITEM_CLASS B
     	    ON A.COMCD = B.COMCD
@@ -272,6 +279,7 @@ SELECT R1.*
     	 WHERE A.COMCD = #{comcd}
     	   AND A.ITEM_CD = #{itemCd}
     	   AND B.CLASS_CD = #{classCd}
+
     </select>
     <select id="lectureGrpcd" parameterType="grpcd" resultType="grpcd">
     	SELECT COMCD
