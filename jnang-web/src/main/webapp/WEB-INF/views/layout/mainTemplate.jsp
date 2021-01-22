@@ -21,7 +21,7 @@
 		<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 		<meta id="_csrf" name="_csrf" content="${_csrf.token}" />
     	<meta id="_csrf_header" name="_csrf_header" content="${_csrf.headerName}" />
-		<title>메인 페이지</title>
+		<title>중랑구시설관리공단</title>
 		<link rel='shortcut icon' href='${pageContext.request.contextPath}/resource/images/common/favicon.ico'>
 		<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/reset.user.min.css?v=1" />
 		<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/design.css?v=1" />
