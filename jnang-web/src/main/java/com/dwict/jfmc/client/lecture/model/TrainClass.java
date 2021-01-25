@@ -16,7 +16,10 @@ public class TrainClass {
 
 	@Column(name = "COMCD")
 	private String comcd;
-
+	
+	@Column(name = "COMNM")
+	private String comnm;
+	
 	@Column(name = "CLASS_CD")
 	private String classCd;
 

@@ -82,10 +82,7 @@
 <script type="text/javascript">
 <%
 if (payURL.contains("https://tpay.sm")) {
-%>
-alert('테스트 중입니다. 결제하셔도 예약  안됩니다.');
-alert('테스트 중입니다. 결제하셔도 예약  안됩니다.');
-<%
+
 }
 %>
 
@@ -227,7 +224,7 @@ alert('테스트 중입니다. 결제하셔도 예약  안됩니다.');
 	</form>
 
 <div class="btnarea margin_t80">
-	  <a href="#none" onclick="saleGo();" id=" " class="blue">할인적용</a>
+	  <!-- <a href="#none" onclick="saleGo();" id=" " class="blue">할인적용</a> -->
 	</div>
 
     <div class="btnarea margin_t80">

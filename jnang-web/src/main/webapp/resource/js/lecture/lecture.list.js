@@ -34,10 +34,11 @@ var setCondition = function(type){
 	switch(type) {
 	case 'sb1':
 		$.get('/data/lecture/sb2/'+$('#sb1').val(), {}, function(data2){
-			writeCondition('sb2', data2);
+			writeCondition('sb2', data2);			
 		}).done(function(data2){
 			$.get('/data/lecture/sb3/'+$('#sb1').val()+'/'+$('#sb2').val(), {}, function(data3){
 				writeCondition('sb3', data3);
+				console.log(data3);
 			}).done(function(){
 				searchLectureList();
 			});
@@ -56,9 +57,10 @@ var setCondition = function(type){
 	default:
 		$.get('/data/lecture/sb1', {}, function(data1){
 			writeCondition('sb1', data1);
+			
 		}).done(function(data1){
 			var comcd = checkComCd($('#h_sb1').val()!=''?$('#h_sb1').val():'all');
-			$.get('/data/lecture/sb2/'+comcd, {}, function(data2){
+			$.get('/data/lecture/sb2/'+comcd, {}, function(data2){				
 				writeCondition('sb2', data2);
 			}).done(function(data2){
 				var cd = $('#sb2').val();
@@ -134,7 +136,7 @@ var searchLectureList = function(){
 		pageIndex:$('#h_pageIndex').val(), pageSize:$('#h_pageSize').val(), startRow:$('#h_startRow').val()
 	};
 	$.get('/data/lecture/lectureList/', param, function(data){
-		console.log(data.resultList.length);
+		console.log(data);
 		var tableDesc = '', tableHead = '', tableBody = '', reception = '', lectureBtn = '';
 		//tableDesc
 		tableDesc = '<caption>수강신청</caption>';
@@ -160,116 +162,32 @@ var searchLectureList = function(){
 		tableHead += '<th>상세보기</th>';
 		tableHead += '</tr>';
 		//tableBody
-		
-	
-			
-		
+
 		if(data.resultList.length > 0){
 			var prgTot = 0;
-			
-           
 
-		
-	
 			for(var i=0; i<data.resultList.length; i++){
 				if(data.resultList[i].prgCount != 0) prgTot++;
 				
 			};
 			if(prgTot != 0){
 				for(var i=0; i<data.resultList.length; i++){
-					if(data.resultList[i].prgCount === 1){					
+					if(data.resultList[i].prgCount === 1){
+						console.log(data.resultList[i].trainTimeNm);
 						tableBody += '<tr>';
-								if(data.resultList[i].comcd === 'JUNGNANG01'){
-							   tableBody += '<td >'+"중랑구민체육센터"+'</td>';
-						      }else if(data.resultList[i].comcd === 'JUNGNANG02'){
-							   tableBody += '<td >'+"중랑문화체육관"+'</td>';
-						      }else if(data.resultList[i].comcd === 'JUNGNANG03'){
-							   tableBody += '<td >'+"면목2동체육관"+'</td>';
-						      }else if(data.resultList[i].comcd === 'JUNGNANG05'){
-							   tableBody += '<td >'+"묵동다목적체육관"+'</td>';
-						      }else if(data.resultList[i].comcd === 'JUNGNANG06'){
-							   tableBody += '<td >'+"중랑구립정보도서관"+'</td>';
-						      }else if(data.resultList[i].comcd === 'JUNGNANG07'){
-							   tableBody += '<td >'+"중랑구립테니스장"+'</td>';
-						      }else if(data.resultList[i].comcd === 'JUNGNANG11'){
-							   tableBody += '<td >'+"용마폭포공원테니스장"+'</td>';
-						      }else if(data.resultList[i].comcd === 'JUNGNANG12'){
-							   tableBody += '<td >'+"서울중랑워터파크"+'</td>';
-						      }else if(data.resultList[i].comcd === 'JUNGNANG04'){
-							   tableBody += '<td>'+"신내다목적체육관"+'</td>';
-						      }
-
-		  if( data.resultList[i].sportsCd === '01' && data.resultList[i].comcd === 'JUNGNANG01' ){			
-							 tableBody += '<td >'+"수영"+'</td>';	
-								}else  if( data.resultList[i].sportsCd === '01' && data.resultList[i].comcd === 'JUNGNANG02' ){			
-							 tableBody += '<td >'+"수영"+'</td>';	
-								}else  if( data.resultList[i].sportsCd === '02' ){				
-							 tableBody += '<td >'+"헬스"+'</td>';	
-								}else  if( data.resultList[i].sportsCd === '03' && data.resultList[i].comcd === 'JUNGNANG02'  ){				
-							 tableBody += '<td  >'+"생활체육"+'</td>';	
-								}else  if( data.resultList[i].sportsCd === '01' && data.resultList[i].comcd === 'JUNGNANG03'  ){				
-							 tableBody += '<td >'+"생활체육"+'</td>';	
-								}else  if( data.resultList[i].sportsCd === '05' && data.resultList[i].comcd === 'JUNGNANG03'  ){				
-							 tableBody += '<td >'+"패키지(헬스+생활체육)"+'</td>';	
-								}else  if( data.resultList[i].sportsCd === '03' && data.resultList[i].comcd === 'JUNGNANG01'  ){				
-							 tableBody += '<td  >'+"(1개월)체육/문화/영어"+'</td>';	
-								}else  if( data.resultList[i].sportsCd === '06' && data.resultList[i].comcd === 'JUNGNANG01'  ){				
-							 tableBody += '<td  >'+"패키지반"+'</td>';	
-								}else  if( data.resultList[i].sportsCd === '07' && data.resultList[i].comcd === 'JUNGNANG01'  ){				
-							 tableBody += '<td  >'+"방학특강"+'</td>';	
-								}else  if( data.resultList[i].sportsCd === '11' && data.resultList[i].comcd === 'JUNGNANG02'  ){				
-							 tableBody += '<td  >'+"패키지"+'</td>';	
-								}else  if( data.resultList[i].sportsCd === '17' && data.resultList[i].comcd === 'JUNGNANG02'  ){				
-							 tableBody += '<td  >'+"피아노"+'</td>';	
-								}else  if( data.resultList[i].sportsCd === '11' && data.resultList[i].comcd === 'JUNGNANG04'  ){				
-							 tableBody += '<td  >'+"강습반(묵동)"+'</td>';	
-								}else  if( data.resultList[i].sportsCd === '08' && data.resultList[i].comcd === 'JUNGNANG04'  ){				
-							 tableBody += '<td>'+"강습반(신내)"+'</td>';	
-								}else  if( data.resultList[i].sportsCd === '09' && data.resultList[i].comcd === 'JUNGNANG04'  ){				
-							 tableBody += '<td>'+"봉화산클럽(목동)"+'</td>';	
-								}else  if( data.resultList[i].sportsCd === '17' && data.resultList[i].comcd === 'JUNGNANG04'  ){				
-							 tableBody += '<td >'+"방학특강(꿈나무)"+'</td>';	
-								}else  if( data.resultList[i].sportsCd === '10' && data.resultList[i].comcd === 'JUNGNANG04'  ){				
-							 tableBody += '<td>'+"월정기권(묵동)"+'</td>';	
-								}else  if( data.resultList[i].sportsCd === '07' && data.resultList[i].comcd === 'JUNGNANG04'  ){				
-							 tableBody += '<td >'+"봉화산클럽(신내)"+'</td>';	
-								}else  if( data.resultList[i].sportsCd === '05' && data.resultList[i].comcd === 'JUNGNANG01'  ){				
-							 tableBody += '<td >'+"아기스포츠단"+'</td>';	
-								}else  if( data.resultList[i].sportsCd === '18' && data.resultList[i].comcd === 'JUNGNANG01'  ){				
-							 tableBody += '<td >'+"피아노교실"+'</td>';	
-								}else  if( data.resultList[i].sportsCd === '04' && data.resultList[i].comcd === 'JUNGNANG01'  ){				
-							 tableBody += '<td >'+"(3개월)체육/문화/수영"+'</td>';	
-								}else  if( data.resultList[i].sportsCd === '25' && data.resultList[i].comcd === 'JUNGNANG01'  ){				
-							 tableBody += '<td >'+"피아노교실"+'</td>';	
-								}else  if( data.resultList[i].sportsCd === '22' && data.resultList[i].comcd === 'JUNGNANG01'  ){				
-							 tableBody += '<td >'+"패키지반"+'</td>';	
-								}else  if( data.resultList[i].sportsCd === '21' && data.resultList[i].comcd === 'JUNGNANG01'  ){				
-							 tableBody += '<td >'+"기타"+'</td>';	
-								}else  if( data.resultList[i].sportsCd === '13' && data.resultList[i].comcd === 'JUNGNANG01'  ){				
-							 tableBody += '<td >'+"기타"+'</td>';	
-								}else  if( data.resultList[i].sportsCd === '20' && data.resultList[i].comcd === 'JUNGNANG01'  ){				
-							 tableBody += '<td >'+"패키지반"+'</td>';	
-								}else  if( data.resultList[i].sportsCd === '12' && data.resultList[i].comcd === 'JUNGNANG01'  ){				
-							 tableBody += '<td >'+"기타"+'</td>';	
-								}else  if( data.resultList[i].sportsCd === '06' && data.resultList[i].comcd === 'JUNGNANG04'  ){				
-							 tableBody += '<td >'+"전체"+'</td>';	
-								}
-					
+						tableBody += '<td >'+data.resultList[i].comnm+'</td>';		  
+						tableBody += '<td>'+data.resultList[i].sportsCdNm+'</td>'
 						tableBody += '<td >'+data.resultList[i].classNm+'</td>';
-					
-		
-					    
-		
-		
+
 						if(data.resultList[i].comcd === 'JUNGNANG01' && data.resultList[i].sportsCd === '02'){
-							//중랑구민체육센터 헬스 시간 변경
+							//중랑구민체육센터 헬스 시간 변경 (분석하고 수정하자 : 관리자 강습반 등록관리에서 테이블 컬럼 추가하자)
 							tableBody += '<td>'+data.resultList[i].trainTimeNm+'<br>(토 06:00~20:50)</td>';
 						}else if(data.resultList[i].comcd === 'JUNGNANG03' && data.resultList[i].sportsCd === '02'){
 							tableBody += '<td>'+data.resultList[i].trainTimeNm+'<br>(토 06:00~20:50)</td>';
 						}else{
-								tableBody += '<td>'+data.resultList[i].trainTimeNm+'<br>'+data.resultList[i].trainDayNm+'</td>';
+							tableBody += '<td>'+data.resultList[i].trainTimeNm+'<br>'+data.resultList[i].trainDayNm+'</td>';
 						}
-							tableBody += '<td>'+data.resultList[i].programItem[0].itemNm+'</td>';
+						tableBody += '<td>'+data.resultList[i].programItem[0].itemNm+'</td>';
 										
 						tableBody += '<td>'+data.resultList[i].programItem[0].costAmt.toLocaleString(undefined, {maximumFractionDigits: 5})+'</td>';
 						
@@ -281,7 +199,7 @@ var searchLectureList = function(){
 								}
 						
                     		if(data.resultList[i].webCapa-data.resultList[i].webUser === 0 || data.resultList[i].webCapa-data.resultList[i].webUser < 0){
-									tableBody += '<td><a class="size_s2 btn_pink_redWrite">접수마감</a></td>';
+									tableBody += '<td><a class="size_s2 btn_pink_redWrite">접수마감</a></td>';                    				
 							}else{
 									tableBody += '<td ><a class="size_s3 btn_pink_blueWrite" onclick="addBasket1(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[0].itemCd+'\');">수강신청</a></td>';
 							}
@@ -300,96 +218,14 @@ var searchLectureList = function(){
 					     
 							if(j===0){
 							
-								tableBody += '<tr>';
-							
+								tableBody += '<tr>';															
+								tableBody += '<td rowspan='+prgCount+'>'+data.resultList[i].comnm+'</td>';							
+								tableBody += '<td rowspan='+prgCount+'>'+data.resultList[i].sportsCdNm+'</td>'			  					
+								tableBody += '<td rowspan='+prgCount+' >'+data.resultList[i].classNm+'</td>';		
 								
-								
-								if(data.resultList[i].comcd === 'JUNGNANG01'){
-							   tableBody += '<td rowspan='+prgCount+' >'+"중랑구민체육센터"+'</td>';
-						      }else if(data.resultList[i].comcd === 'JUNGNANG02'){
-							   tableBody += '<td rowspan='+prgCount+' >'+"중랑문화체육관"+'</td>';
-						      }else if(data.resultList[i].comcd === 'JUNGNANG03'){
-							   tableBody += '<td rowspan='+prgCount+' >'+"면목2동체육관"+'</td>';
-						      }else if(data.resultList[i].comcd === 'JUNGNANG05'){
-							   tableBody += '<td rowspan='+prgCount+' >'+"묵동다목적체육관"+'</td>';
-						      }else if(data.resultList[i].comcd === 'JUNGNANG06'){
-							   tableBody += '<td rowspan='+prgCount+' >'+"중랑구립정보도서관"+'</td>';
-						      }else if(data.resultList[i].comcd === 'JUNGNANG07'){
-							   tableBody += '<td rowspan='+prgCount+' >'+"중랑구립테니스장"+'</td>';
-						      }else if(data.resultList[i].comcd === 'JUNGNANG11'){
-							   tableBody += '<td rowspan='+prgCount+' >'+"용마폭포공원테니스장"+'</td>';
-						      }else if(data.resultList[i].comcd === 'JUNGNANG12'){
-							   tableBody += '<td rowspan='+prgCount+' >'+"서울중랑워터파크"+'</td>';
-						      }else if(data.resultList[i].comcd === 'JUNGNANG04'){
-							   tableBody += '<td  rowspan='+prgCount+'>'+"신내다목적체육관"+'</td>';
-						      }
-
-
-			  if( data.resultList[i].sportsCd === '01' && data.resultList[i].comcd === 'JUNGNANG01' ){			
-							 tableBody += '<td rowspan='+prgCount+' >'+"수영"+'</td>';	
-								}else  if( data.resultList[i].sportsCd === '01' && data.resultList[i].comcd === 'JUNGNANG02' ){			
-							 tableBody += '<td rowspan='+prgCount+' >'+"수영"+'</td>';	
-								}else  if( data.resultList[i].sportsCd === '02' ){				
-							 tableBody += '<td rowspan='+prgCount+' >'+"헬스"+'</td>';	
-								}else  if( data.resultList[i].sportsCd === '03' && data.resultList[i].comcd === 'JUNGNANG02'  ){				
-							 tableBody += '<td rowspan='+prgCount+' >'+"생활체육"+'</td>';	
-								}else  if( data.resultList[i].sportsCd === '01' && data.resultList[i].comcd === 'JUNGNANG03'  ){				
-							 tableBody += '<td rowspan='+prgCount+' >'+"생활체육"+'</td>';	
-								}else  if( data.resultList[i].sportsCd === '05' && data.resultList[i].comcd === 'JUNGNANG03'  ){				
-							 tableBody += '<td rowspan='+prgCount+' >'+"패키지(헬스+생활체육)"+'</td>';	
-								}else  if( data.resultList[i].sportsCd === '03' && data.resultList[i].comcd === 'JUNGNANG01'  ){				
-							 tableBody += '<td rowspan='+prgCount+' >'+"(1개월)체육/문화/영어"+'</td>';	
-								}else  if( data.resultList[i].sportsCd === '06' && data.resultList[i].comcd === 'JUNGNANG01'  ){				
-							 tableBody += '<td rowspan='+prgCount+' >'+"패키지반"+'</td>';	
-								}else  if( data.resultList[i].sportsCd === '07' && data.resultList[i].comcd === 'JUNGNANG01'  ){				
-							 tableBody += '<td rowspan='+prgCount+' >'+"방학특강"+'</td>';	
-								}else  if( data.resultList[i].sportsCd === '11' && data.resultList[i].comcd === 'JUNGNANG02'  ){				
-							 tableBody += '<td rowspan='+prgCount+' >'+"패키지"+'</td>';	
-								}else  if( data.resultList[i].sportsCd === '17' && data.resultList[i].comcd === 'JUNGNANG02'  ){				
-							 tableBody += '<td rowspan='+prgCount+' >'+"피아노"+'</td>';	
-								}else  if( data.resultList[i].sportsCd === '11' && data.resultList[i].comcd === 'JUNGNANG04'  ){				
-							 tableBody += '<td rowspan='+prgCount+'>'+"강습반(묵동)"+'</td>';	
-								}else  if( data.resultList[i].sportsCd === '08' && data.resultList[i].comcd === 'JUNGNANG04'  ){				
-							 tableBody += '<td rowspan='+prgCount+' >'+"강습반(신내)"+'</td>';	
-								}else  if( data.resultList[i].sportsCd === '09' && data.resultList[i].comcd === 'JUNGNANG04'  ){				
-							 tableBody += '<td rowspan='+prgCount+' >'+"봉화산클럽(목동)"+'</td>';	
-								}else  if( data.resultList[i].sportsCd === '17' && data.resultList[i].comcd === 'JUNGNANG04'  ){				
-							 tableBody += '<td rowspan='+prgCount+' >'+"방학특강(꿈나무)"+'</td>';	
-								}else  if( data.resultList[i].sportsCd === '10' && data.resultList[i].comcd === 'JUNGNANG04'  ){				
-							 tableBody += '<td rowspan='+prgCount+' >'+"월정기권(묵동)"+'</td>';	
-								}else  if( data.resultList[i].sportsCd === '07' && data.resultList[i].comcd === 'JUNGNANG04'  ){				
-							 tableBody += '<td rowspan='+prgCount+' >'+"봉화산클럽(신내)"+'</td>';	
-								}else  if( data.resultList[i].sportsCd === '06' && data.resultList[i].comcd === 'JUNGNANG04'  ){				
-							 tableBody += '<td rowspan='+prgCount+' >'+"전체"+'</td>';	
-								}else  if( data.resultList[i].sportsCd === '05' && data.resultList[i].comcd === 'JUNGNANG01'  ){				
-							 tableBody += '<td rowspan='+prgCount+' >'+"아기스포츠단"+'</td>';	
-								}else  if( data.resultList[i].sportsCd === '04' && data.resultList[i].comcd === 'JUNGNANG01'  ){				
-							 tableBody += '<td rowspan='+prgCount+' >'+"(3개월)체육/문화/수영"+'</td>';	
-								}else  if( data.resultList[i].sportsCd === '18' && data.resultList[i].comcd === 'JUNGNANG01'  ){				
-							 tableBody += '<td rowspan='+prgCount+' >'+"피아노교실"+'</td>';	
-								}else  if( data.resultList[i].sportsCd === '25' && data.resultList[i].comcd === 'JUNGNANG01'  ){				
-							 tableBody += '<td rowspan='+prgCount+' >'+"피아노교실"+'</td>';	
-								}else  if( data.resultList[i].sportsCd === '22' && data.resultList[i].comcd === 'JUNGNANG01'  ){				
-							 tableBody += '<td rowspan='+prgCount+' >'+"패키지반"+'</td>';	
-								}else  if( data.resultList[i].sportsCd === '21' && data.resultList[i].comcd === 'JUNGNANG01'  ){				
-							 tableBody += '<td rowspan='+prgCount+' >'+"기타"+'</td>';	
-								}else  if( data.resultList[i].sportsCd === '13' && data.resultList[i].comcd === 'JUNGNANG01'  ){				
-							 tableBody += '<td rowspan='+prgCount+' >'+"기타"+'</td>';	
-								}else  if( data.resultList[i].sportsCd === '20' && data.resultList[i].comcd === 'JUNGNANG01'  ){				
-							 tableBody += '<td rowspan='+prgCount+' >'+"패키지반"+'</td>';	
-								}else  if( data.resultList[i].sportsCd === '12' && data.resultList[i].comcd === 'JUNGNANG01'  ){				
-							 tableBody += '<td rowspan='+prgCount+' >'+"기타"+'</td>';	
-								}
-								
-								
-								
-					
-								tableBody += '<td rowspan='+prgCount+' >'+data.resultList[i].classNm+'</td>';
-						     
 								tableBody += '<td rowspan='+prgCount+'>'+data.resultList[i].trainTimeNm+'<br>'+data.resultList[i].trainDayNm+'</td>'
 								
-					        	tableBody += '<td>'+data.resultList[i].programItem[j].itemNm+'</td>';
-				
+					        	tableBody += '<td>'+data.resultList[i].programItem[j].itemNm+'</td>';				
 								tableBody += '<td>'+data.resultList[i].programItem[j].costAmt.toLocaleString(undefined, {maximumFractionDigits: 5})+'</td>';
 								
 								if(data.resultList[i].webCapa-data.resultList[i].webUser === 0 || data.resultList[i].webCapa-data.resultList[i].webUser < 0){
@@ -458,7 +294,7 @@ var searchLectureList = function(){
 };
 
 var searchLectureDetail = function(comcd, classCd, itemCd){
-	var lecture = { comcd:comcd, classCd:classCd, itemCd:itemCd };
+	var lecture = { comcd:comcd, classCd:classCd, itemCd:itemCd };	
 	$.get('/data/encode/text', {text:JSON.stringify(lecture)}, function(data){
 		localStorage.setItem('lecture', data);
 	}).done(function(){
@@ -479,15 +315,41 @@ var needAuthorize = {
 };
 
 
+var lectDate = { }; //신청할 강좌 시작종료값 임시 저장
 var addBasket1 = function(comcd, classCd, itemCd){
+	
 	var lecture = { comcd:comcd, classCd:classCd, itemCd:itemCd };
 	
 	$.get('/data/encode/text', {text:JSON.stringify(lecture)}, function(data){
 		localStorage.setItem('lecture', data);
+		
 	}).done(function(){
-		window.location.href='/lecture/view1';
+		$.get('/data/lecture/program', {secureText:localStorage.getItem('lecture')}, function(data){
+			var programStartDate = dateUtil.getProgramStartDate(data.grpcd.startdate);
+			var programEndDate = dateUtil.getProgramEndDate(programStartDate, data.monthCnt);			
+			//신청할 강좌 시작종료값 임시 저장
+			lectDate.sDate =  programStartDate;
+			lectDate.eDate =  programEndDate;
+						
+		}).done(function(){
+			$.get('/data/lecture/basketIn', {secureText:localStorage.getItem('lecture'), "lectDate" : lectDate }, function(data){
+				if (data == "1" || data == "2"){
+					window.location.href='/mypage/cart';
+				} else if (data == "-9"){
+					alert("세션이 종료되었거나 로그인 회원이 아닙니다.\n\n로그인 페이지로 이동합니다.");
+					window.location.href='/mem/login';
+				} else if(data == "-10"){
+					alert("회원카드번호가 없습니다. 센터에 방문하셔서 발급 받으세요.");
+					window.location.reload();
+				} else {
+					alert("접수오류 \n\n다시 시도 후 관리자에게 문의 하세요.");
+					window.location.reload();
+				}
+			});
+		});
 	});
 };
+
 
 
 

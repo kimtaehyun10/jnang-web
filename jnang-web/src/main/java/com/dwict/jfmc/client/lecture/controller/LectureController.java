@@ -41,7 +41,7 @@ public class LectureController {
 	
 	
 	@GetMapping(value = "/lecture/list/{comcd}")
-	public ModelAndView lectureList(ModelAndView modelAndView, @PathVariable String comcd) {
+	public ModelAndView lectureList(ModelAndView modelAndView, @PathVariable String comcd) {		
 		modelAndView.addObject("comcd", comcd);
 		modelAndView.setViewName("/lecture/lectureList");
 		return modelAndView;
@@ -51,39 +51,6 @@ public class LectureController {
 	public ModelAndView lectureView(ModelAndView modelAndView, HttpServletRequest request) {
 		modelAndView.setViewName("/lecture/lectureView");
 		return modelAndView;
-	}
-	
-	@GetMapping(value = "/lecture/view1")
-	public ModelAndView lectureView2(ModelAndView modelAndView, HttpServletRequest request) {
-	final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		
-		final String userId = auth.getName();
-		
-		Member member = memMapper.findById(userId);
-		
-		if(member == null) {
-			modelAndView.setViewName("/lecture/lectureView3");
-			return modelAndView;
-		}
-
-
-		String memc = member.getCardNo();
-	 if(memc == null){
-			modelAndView.setViewName("/lecture/lectureView2");
-		}else {
-			modelAndView.setViewName("/lecture/lectureView1");
-		}
-	
-		return modelAndView;
-	}
-	
-	@GetMapping(value = "/lecture/view3")
-	public ModelAndView lectureView3(ModelAndView modelAndView, HttpServletRequest request) {
-		modelAndView.setViewName("/lecture/lectureView3");
-		return modelAndView;
-		
-	}
-	
-	
+	}				
 
 }

@@ -61,7 +61,8 @@ public class LectureRestController {
 		param.put("startRow", startRow);
 		param.put("comcd", trainClass.getComcd());
 		param.put("sportsCd", trainClass.getSportsCd());
-		param.put("msportsCd", trainClass.getMsportsCd());
+		param.put("msportsCd", trainClass.getMsportsCd());		
+		
 		return service.lectureList(param);
 	}
 

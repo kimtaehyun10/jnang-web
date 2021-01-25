@@ -13,7 +13,7 @@ $(function(){
 var lectDate = { }; //신청할 강좌 시작종료값 임시 저장
 var initPage = function(){
 	$.get('/data/lecture/program', {secureText:localStorage.getItem('lecture')}, function(data){
-		//console.log(data);
+		console.log(data);
 		var programStartDate = dateUtil.getProgramStartDate(data.grpcd.startdate);
 		var programEndDate = dateUtil.getProgramEndDate(programStartDate, data.monthCnt);
 		var tableDesc = '', tableHead = '', tableBody = '', capaTableHead = '', capaTableBody = '', tableDetail = '';

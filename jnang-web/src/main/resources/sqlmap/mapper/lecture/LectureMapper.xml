@@ -89,13 +89,12 @@
     </select>
     
    	<select id="lectureList" parameterType="java.util.HashMap" resultType="trainClass">
-
-
-  <![CDATA[
-SELECT R1.*
-           FROM (
-           
-           SELECT A.COMCD
+		<![CDATA[
+		SELECT R1.*
+		           FROM (
+		           
+		           SELECT A.COMCD
+		           	   , (SELECT COMNM FROM COMINFO WHERE COMCD = A.COMCD) AS COMNM
                        , A.CLASS_CD
                        , A.USER_NO
                        , CASE A.USER_NO WHEN 'NOASSIGN' THEN '미지정' ELSE Fn_GetEmpCodeNm(A.USER_NO) END USER_NM
@@ -144,7 +143,7 @@ SELECT R1.*
                        , A.TDATE_USE_YN
                        , A.TC_SDATE
                        , A.TC_EDATE
-                       , ( SELECT COUNT(1) 
+                       , ( SELECT COUNT(*) 
                           FROM ITEM_CLASS B
                              , PROGRAM_ITEM C 
                          WHERE A.COMCD = B.COMCD
@@ -152,23 +151,18 @@ SELECT R1.*
                            AND A.CLASS_CD = B.CLASS_CD
                            AND B.ITEM_CD = C.ITEM_CD
                            AND C.USE_YN = 'Y' ) AS PRG_COUNT
-                      ,    (SELECT  count(*)
-                             FROM train_hist D,  MEM_SALE f
+                       , ( SELECT  count(*)
+                             FROM train_hist D,  MEM_SALE F
                              WHERE D.CLASS_CD = A.CLASS_CD                      
-                             and a.comcd = f.comcd
-                             and d.sale_seq = f.sale_seq
+                             and A.COMCD = D.COMCD
                              and D.MEM_NO  = F.MEM_NO 
-                      AND F.WEB_TYPE = "ONLINE" ) AS WEB_USER
+                     		 AND F.WEB_TYPE = "ONLINE"
+                     		 AND DATE_ADD(DATE_FORMAT(NOW(),'%Y-%m-%d'),INTERVAL 1 MONTH) BETWEEN DATE_FORMAT(D.TRAIN_SDATE,'%Y-%m-%d') AND DATE_FORMAT(D.TRAIN_EDATE,'%Y-%m-%d')) AS WEB_USER						     						     						     						     						     						     						     						     						                         	   
                  FROM TRAIN_CLASS A
                   WHERE A.USE_YN = 'Y'
-                   AND A.WEB_DISPLAY = 'Y' 
-            limit 1300                   
-                   
-) R1
-                   
-                   
-]]>
-	               
+                   AND A.WEB_DISPLAY = 'Y'    
+		) R1                  
+		]]>	               
 	  <where>
    		<if test="comcd != null and comcd != 'all'">
 		   AND R1.COMCD = #{comcd}
@@ -183,6 +177,7 @@ SELECT R1.*
    		 LIMIT #{startRow}, #{pageSize}
    		
     </select>
+    
     <select id="lectureListCnt" parameterType="java.util.HashMap" resultType="int">
     	   SELECT COUNT(1)
 		     FROM TRAIN_CLASS
@@ -227,6 +222,7 @@ SELECT R1.*
     
     <select id="getProgramInfo" parameterType="programItem" resultType="programItem">
     	SELECT A.COMCD
+    		 , (SELECT COMNM FROM COMINFO WHERE COMCD = A.COMCD) AS COMNM
     	     , A.ITEM_CD
     	     , B.CLASS_CD
     	     , C.CLASS_NM

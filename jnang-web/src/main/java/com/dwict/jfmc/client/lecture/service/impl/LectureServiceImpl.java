@@ -111,6 +111,12 @@ public class LectureServiceImpl implements LectureService {
 			return -9;
 		}
 		
+		//회원카드 없는 회원 체크
+		if (member.getCardNo() == null || member.getCardNo().equals(""))
+		{
+			return -10;
+		}		
+		
 		//상품정보 오류
 		if (ITEM_CD.length() < 5 || ITEM_SDATE.length() != 8 || ITEM_EDATE.length() != 8)
 		{
