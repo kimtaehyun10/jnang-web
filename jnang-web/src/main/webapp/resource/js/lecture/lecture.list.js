@@ -339,7 +339,7 @@ var addBasket1 = function(comcd, classCd, itemCd){
 					alert("세션이 종료되었거나 로그인 회원이 아닙니다.\n\n로그인 페이지로 이동합니다.");
 					window.location.href='/mem/login';
 				} else if(data == "-10"){
-					alert("회원카드번호가 없습니다. 센터에 방문하셔서 발급 받으세요.");
+					alert("회원카드를 발급받은 회원만 신청이 가능합니다. 센터에 방문하셔서 발급 받으세요.");
 					window.location.reload();
 				} else {
 					alert("접수오류 \n\n다시 시도 후 관리자에게 문의 하세요.");

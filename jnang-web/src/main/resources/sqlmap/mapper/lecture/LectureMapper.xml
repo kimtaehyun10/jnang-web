@@ -151,8 +151,8 @@
                            AND A.CLASS_CD = B.CLASS_CD
                            AND B.ITEM_CD = C.ITEM_CD
                            AND C.USE_YN = 'Y' ) AS PRG_COUNT
-                       , ( SELECT  count(*)
-                             FROM train_hist D,  MEM_SALE F
+                       , ( SELECT  COUNT(*)
+                             FROM TRAIN_HIST D,  MEM_SALE F
                              WHERE D.CLASS_CD = A.CLASS_CD                      
                              and A.COMCD = D.COMCD
                              and D.MEM_NO  = F.MEM_NO 

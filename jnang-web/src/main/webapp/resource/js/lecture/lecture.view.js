@@ -46,76 +46,43 @@ var initPage = function(){
 		tableHead += '<td>'+data.classObj+'</td>';
 		tableHead += '</tr>';
 		tableHead += '<tr>';
-		tableHead += '<th>센터명</th>';
-	if(data.comcd === 'JUNGNANG01'){
-							   tableHead += '<td >'+"중랑구민체육센터"+'</td>';
-						      }else if(data.comcd === 'JUNGNANG02'){
-							   tableHead += '<td >'+"중랑문화체육관"+'</td>';
-						      }else if(data.comcd === 'JUNGNANG03'){
-							   tableHead += '<td >'+"면목2동체육관"+'</td>';
-						      }else if(data.comcd === 'JUNGNANG05'){
-							   tableHead += '<td >'+"묵동다목적체육관"+'</td>';
-						      }else if(data.comcd === 'JUNGNANG06'){
-							   tableHead += '<td >'+"중랑구립정보도서관"+'</td>';
-						      }else if(data.comcd === 'JUNGNANG07'){
-							   tableHead += '<td >'+"중랑구립테니스장"+'</td>';
-						      }else if(data.comcd === 'JUNGNANG11'){
-							   tableHead += '<td >'+"용마폭포공원테니스장"+'</td>';
-						      }else if(data.comcd === 'JUNGNANG12'){
-							   tableHead += '<td >'+"서울중랑워터파크"+'</td>';
-						      }else if(data.comcd === 'JUNGNANG04'){
-							   tableHead += '<td>'+"신내다목적체육관"+'</td>';
-						      }
-	
-	
+		tableHead += '<th>센터명</th>';		
+		tableHead += '<td >'+data.comnm+'</td>';
 		tableHead += '</tr>';
 		tableHead += '<th>접수방식</th>';
 		tableHead += '<td>'+'선착순 접수'+'</td>';
 		tableHead += '</tr>';
-
 		tableHead += '<tr>';
-		tableHead += '<th>수강료</th>';
-	/*	 if(data.adultGubn === '03' && data.comcd === 'JUNGNANG01'){
-			tableHead += '<td>'+'중고생'+' '+comma_str_y(data.costAmt)+'원'+'</td>';
-			
-		}else if(data.adultGubn === '03' && data.comcd === 'JUNGNANG02'){
-			tableHead += '<td>'+'중고생'+' '+comma_str_y(data.costAmt)+'원'+'</td>';
-			
-		}else if(data.adultGubn === '03' && data.comcd === 'JUNGNANG03'){
-			tableHead += '<td>'+'중고생'+' '+comma_str_y(data.costAmt)+'원'+'</td>';
-			
-		}else if(data.adultGubn === '03' && data.comcd === 'JUNGNANG04'){
-			tableHead += '<td>'+'중고생'+' '+comma_str_y(data.costAmt)+'원'+'</td>';
-			
-		}else if(data.adultGubn === '03' && data.comcd === 'JUNGNANG05'){
-			tableHead += '<td>'+'중고생'+' '+comma_str_y(data.costAmt)+'원'+'</td>';
-			
-		}else if(data.adultGubn === '03' && data.comcd === 'JUNGNANG06'){
-			tableHead += '<td>'+'중고생'+' '+comma_str_y(data.costAmt)+'원'+'</td>';
-			
-		}else if(data.adultGubn === '03' && data.comcd === 'JUNGNANG07'){
-			tableHead += '<td>'+'중고생'+' '+comma_str_y(data.costAmt)+'원'+'</td>';
-			
-		}else if(data.adultGubn === '03' && data.comcd === 'JUNGNANG11'){
-			tableHead += '<td>'+'중고생'+' '+comma_str_y(data.costAmt)+'원'+'</td>';
-			
-		}else if(data.adultGubn === '03' && data.comcd === 'JUNGNANG12'){
-			tableHead += '<td>'+'중고생'+' '+comma_str_y(data.costAmt)+'원'+'</td>';
-			
-		}else if(data.adultGubn === '04' && data.comcd === 'JUNGNANG01'){
-			tableHead += '<td>'+'성인'+' '+comma_str_y(data.costAmt)+'원'+'</td>';
-			
-		}else{
-			tableHead += '<td>'+data.classObj+' '+comma_str_y(data.costAmt)+'원'+'</td>';
-		}
-*/		
-		tableHead += '<td>'+data.itemNm+' '+comma_str_y(data.costAmt)+'원'+'</td>';
+		tableHead += '<th>수강료</th>';	
+		tableHead += '<td>'+data.itemNm+'<br>'+comma_str_y(data.costAmt)+'원'+'</td>';
 		tableHead += '</tr>';
 		
-	
+		tableDesc += '<caption>강좌 상세보기</caption>';
+		tableDesc += '<colgroup>';
+		tableDesc += '<col width="100px"/>';
+		tableDesc += '<col width="*"/>';
+		tableDesc += '</colgroup>';
+		
+		tableDetail += '<tr>';
+		tableDetail += '<th>강좌소개</th>';
+		tableDetail += '<td>'+data.classDesc+'</td>';
+		tableDetail += '</tr>';
+		
+		tableDetail += '<tr>';
+		tableDetail += '<th>강좌세부내용</th>';
+		tableDetail += '<td>'+data.classNote+'</td>';
+		tableDetail += '</tr>';
+		
+		tableDetail += '<tr>';
+		tableDetail += '<th>기타</th>';
+		tableDetail += '<td>'+data.bigo+'</td>';
+		tableDetail += '</tr>';
 
-	
-			 if(data.sportsCd === '01' && data.comcd === 'JUNGNANG01' || data.sportsCd === '01' && data.comcd === 'JUNGNANG02' ){
+		tableDetail += '<br>';
+
+		$('#programDetailTable').empty().append(tableDesc+tableDetail);
+		
+		/*if(data.sportsCd === '01' && data.comcd === 'JUNGNANG01' || data.sportsCd === '01' && data.comcd === 'JUNGNANG02' ){
 		tableDetail += '<tr>';
 		tableDetail += '<th>강좌소개</th>';
 		tableDetail += '<td>'+'수업내용: 트레이닝을 통한 건강증진 및 기술 강화 훈련'+'<br>'
@@ -164,8 +131,8 @@ var initPage = function(){
 
 		tableDetail += '<br>';
 
-			$('#programDetailTable').empty().append(tableDesc+tableDetail);
-		}
+		$('#programDetailTable').empty().append(tableDesc+tableDetail);
+		}*/
 		
 
 		$('#programTable').empty().append(tableDesc+tableHead+tableBody);
