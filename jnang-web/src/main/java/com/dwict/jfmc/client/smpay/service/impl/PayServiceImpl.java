@@ -294,8 +294,8 @@ public class PayServiceImpl implements PayService {
 	
 	       		String APP_CARD_NO = ""; //aPayList.getJSONObject(ii).getString("APP_CARD_NO").toString(); //카드 번호
 	       		String SEC_CARD_NO1 = "";
-	       		String SEC_CARD_NO2 = "****";
-	       		String SEC_CARD_NO3 = "****";
+	       		String SEC_CARD_NO2 = "";
+	       		String SEC_CARD_NO3 = "";
 	       		String SEC_CARD_NO4 = "";       		
 	       		if (APP_CARD_NO.length() > 10)
 	       		{
