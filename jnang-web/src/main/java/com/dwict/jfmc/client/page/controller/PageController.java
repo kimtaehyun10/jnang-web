@@ -196,6 +196,10 @@ public class PageController {
 		return modelAndView;
 	}
 
+	
+	
+	
+	
 	//대관 리스트 출력 (달력)
 	@GetMapping(value = "/calendar/")
 	public ModelAndView calendar(ModelAndView modelAndView, Map<String, Object> requestMap,HttpServletRequest request) {
@@ -232,6 +236,14 @@ public class PageController {
 		return modelAndView;
 	}
 	
+	
+	//특정 안내페이지는 꼭 수동으로 별도 페이지로 해달라고 해서 해준다.
+	@GetMapping(value = "/html/rent/{COMCD}")
+	public ModelAndView rentPage(ModelAndView modelAndView, @PathVariable String COMCD) {
+		modelAndView.addObject("COMCD", COMCD);			
+		modelAndView.setViewName("/rent/html");
+		return modelAndView;
+	}
 	
 	/*
 	//전체맵
