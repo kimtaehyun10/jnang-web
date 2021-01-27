@@ -379,7 +379,7 @@
 	<delete id="rentNoPayClear">
 	delete
  	from rent_app
- 	where  APP_TYPE = 5 and TIMESTAMPDIFF(hour,WRITE_DH, now()) > 100
+ 	where  APP_TYPE = 5 and TIMESTAMPDIFF(hour,WRITE_DH, now()) > 1
 	</delete>
 
 	<!-- 달력에 표시될 예약가능/ 예약 불가능 -->
