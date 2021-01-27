@@ -177,16 +177,9 @@ var searchLectureList = function(){
 						tableBody += '<tr>';
 						tableBody += '<td >'+data.resultList[i].comnm+'</td>';		  
 						tableBody += '<td>'+data.resultList[i].sportsCdNm+'</td>'
-						tableBody += '<td >'+data.resultList[i].classNm+'</td>';
-
-						if(data.resultList[i].comcd === 'JUNGNANG01' && data.resultList[i].sportsCd === '02'){
-							//중랑구민체육센터 헬스 시간 변경 (분석하고 수정하자 : 관리자 강습반 등록관리에서 테이블 컬럼 추가하자)
-							tableBody += '<td>'+data.resultList[i].trainTimeNm+'<br>(토 06:00~20:50)</td>';
-						}else if(data.resultList[i].comcd === 'JUNGNANG03' && data.resultList[i].sportsCd === '02'){
-							tableBody += '<td>'+data.resultList[i].trainTimeNm+'<br>(토 06:00~20:50)</td>';
-						}else{
-							tableBody += '<td>'+data.resultList[i].trainTimeNm+'<br>'+data.resultList[i].trainDayNm+'</td>';
-						}
+						tableBody += '<td >'+data.resultList[i].classNm+'</td>';						
+						//토요일 시간 변경 (임시로 기타항목에 들어감 추후에 개발해야함)
+						tableBody += '<td>'+data.resultList[i].trainTimeNm+'<br>'+data.resultList[i].trainDayNm+'</td>';
 						tableBody += '<td>'+data.resultList[i].programItem[0].itemNm+'</td>';
 										
 						tableBody += '<td>'+data.resultList[i].programItem[0].costAmt.toLocaleString(undefined, {maximumFractionDigits: 5})+'</td>';

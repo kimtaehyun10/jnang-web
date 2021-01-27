@@ -128,9 +128,7 @@ if (payURL.contains("https://tpay.sm")) {
 	}
 
 	function goPay() 
-	{
-		alert("개발중입니다.");
-		return;
+	{		
 		
 		var form = document.tranMgr;
 		form.action = '<%=actionUrl%>';
