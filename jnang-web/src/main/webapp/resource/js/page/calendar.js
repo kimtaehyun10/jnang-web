@@ -126,9 +126,9 @@ function getDataList(p_cd,p_tab) {
 							
 							tmpList += item;
 							if (dataIn) {
-								tmpList += "[<span class='btn_red1'>예약완료</span>]<br>";
+								tmpList += "[<span class='red1'>예약완료</span>]<br>";
 							} else {
-								tmpList += "[<span class='btn_green1'>예약가능</span>]<br>";
+								tmpList += "<a href='/rent/write/?q=1/0'>[<span class='btn_green1'>예약가능</span>]</a><br>";
 							}
 									
 	
