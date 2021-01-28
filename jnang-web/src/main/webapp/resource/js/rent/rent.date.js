@@ -14,13 +14,13 @@ function send(tabCnt) {
 		return false;
 	}
 	if(teamCnt == 0) {
-		alert("대관신청 전 팀이 있어야 합니다.");
+		alert("팀을 생성하셔야 합니다. 팀을 먼저 신청해주세요.\n팀 신청 후 관리자의 승인이 필요합니다.");
 		return false;
 		
-	} else if(10 >= teamCnt) {
+	} /*else if(10 >= teamCnt) {
 		alert("대관신청을 하시기 위해선  팀원이 10명 이상이어야 합니다.");
 		return false;
-	}
+	}*/
 	
 	for(var ii=0; ii<noSave.length; ii++){
 		

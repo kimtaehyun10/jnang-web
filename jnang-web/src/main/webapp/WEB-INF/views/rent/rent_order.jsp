@@ -164,6 +164,7 @@ var data = {
 	selectDC: function(dcPer){
 
 	if (confirm("\n 이용자의 50%가 할인대상자입니까? (할인여부 현장확인) ")) {
+		
 	} else {
 		return false;	
 	}
@@ -508,6 +509,26 @@ function send(){
 		</td>
     	</tr>
     </c:if>
+    
+    <c:if test="${rentCfg.PLACE_GROUP eq '3' || rentCfg.PLACE_GROUP eq '2' }">
+	  <tr>
+	    <th>할인</th>
+	    <td>
+	    	<select name="" class="inputbox_01a" onchange="data.selectDC(this.value);">
+	    	<option value="">==할인 선택==</option>
+	    	<option value="0" selected>일반</option>
+	    	<option value="10">중랑구민(10%)</option>
+	    	<option value="10">관내팀(10%)</option>
+	    	<option value="30">경로우대(30%)</option>
+	    	<option value="50">장애인(50%)</option>
+	    	<option value="50">기초수급자(50%)</option>
+	    	<option value="50">국가유공자(50%)</option>
+	    	</select>
+	    	(단, 코드당 이용자의 50% 이상이 할인 대상자일 경우 - 현장확인)
+		</td>
+    	</tr>
+    </c:if>
+    
 	  <tr>
 	    <th>합계</th>
 	    <td>
@@ -595,7 +616,7 @@ if (PLACE_GROUP == 2 || PLACE_GROUP == 3) {
 </form>
 <%
 final String strUrl = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort();
-totalSum = (strUrl.contains("localhost") || strUrl.contains("14.36.179.143") || MEM_ID.equals("powerjyc")) ? 10 : totalSum;
+//totalSum = (strUrl.contains("localhost") || strUrl.contains("14.36.179.143") || MEM_ID.equals("powerjyc")) ? 10 : totalSum;
 
 String EncryptData = encodeMD5HexBase64(ediDate + MID + totalSum + merchantKey);
 
