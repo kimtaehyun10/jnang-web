@@ -443,7 +443,8 @@
 		UPDATE				
 			CMS_CONT_PRICE			
 		SET
-			${columnValue} = #{price}		   				
+			${columnValue} = #{price},
+			MOD_DT = NOW()		   				
 		WHERE BRD_NO = #{brdNo}					
 	</update>
 </mapper>
