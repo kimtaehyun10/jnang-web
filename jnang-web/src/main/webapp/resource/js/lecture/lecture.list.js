@@ -38,7 +38,7 @@ var setCondition = function(type){
 		}).done(function(data2){
 			$.get('/data/lecture/sb3/'+$('#sb1').val()+'/'+$('#sb2').val(), {}, function(data3){
 				writeCondition('sb3', data3);
-				console.log(data3);
+				
 			}).done(function(){
 				searchLectureList();
 			});
@@ -80,19 +80,27 @@ var writeCondition = function(type, data){
 	switch(type) {
 	case 'sb1':
 		var sb1Html = commonHtml;
-		for(var i=0; i<data.length; i++){
-	
-				if(data[i].comcd == "JUNGNANG08"){
+		for(var i=0; i<data.length; i++){			
+			 
+			if(data[i].comcd == "JUNGNANG06"){
 				sb1Html += '';
-			}else if(data[i].comcd == "JUNGNANG09"){
+			}else if(data[i].comcd == "JUNGNANG08"){
+				sb1Html += '';
+			}else if(data[i].comcd == "JUNGNANG18"){
 				sb1Html += '';
 			}else if(data[i].comcd == "JUNGNANG10"){
 				sb1Html += '';
-			}else if(data[i].comcd == "JUNGNANG13"){
+			}else if(data[i].comcd == "JUNGNANG14"){
+				sb1Html += '';
+			}else if(data[i].comcd == "JUNGNANG15"){
+				sb1Html += '';
+			}else if(data[i].comcd == "JUNGNANG16"){
+				sb1Html += '';
+			}else if(data[i].comcd == "JUNGNANG17"){
 				sb1Html += '';
 			}else{
 			sb1Html += '<option value='+ data[i].comcd +'>'+data[i].comnm+'</option>';	
-			}
+			}						
 	
 		}
 		$('#sb1').empty().append(sb1Html);
@@ -100,9 +108,9 @@ var writeCondition = function(type, data){
 	case 'sb2':
 		var sb2Html = commonHtml;
 		for(var i=0; i<data.length; i++){
-	
-			sb2Html += '<option value='+ data[i].cd +'>'+data[i].cdNm+'</option>';
-			
+			if(data[i].item2 === 'Y'){ //웹표시 여부
+				sb2Html += '<option value='+ data[i].cd +'>'+data[i].cdNm+'</option>';
+			}						
 		};
 		$('#sb2').empty().append(sb2Html).val('all');
 		break;
@@ -110,9 +118,9 @@ var writeCondition = function(type, data){
 		var sb3Html = commonHtml;
     
 		for(var i=0; i<data.length; i++){
-
+			if(data[i].item2 === 'Y'){ //웹표시 여부
 				sb3Html += '<option value=' + data[i].cd + '>' +data[i].cdNm+'</option>';
-		
+			}					
 		}
 		
 		$('#sb3').empty().append(sb3Html).val('all');
@@ -136,7 +144,7 @@ var searchLectureList = function(){
 		pageIndex:$('#h_pageIndex').val(), pageSize:$('#h_pageSize').val(), startRow:$('#h_startRow').val()
 	};
 	$.get('/data/lecture/lectureList/', param, function(data){
-		console.log(data);
+		
 		var tableDesc = '', tableHead = '', tableBody = '', reception = '', lectureBtn = '';
 		//tableDesc
 		tableDesc = '<caption>수강신청</caption>';
@@ -172,8 +180,7 @@ var searchLectureList = function(){
 			};
 			if(prgTot != 0){
 				for(var i=0; i<data.resultList.length; i++){
-					if(data.resultList[i].prgCount === 1){
-						console.log(data.resultList[i].trainTimeNm);
+					if(data.resultList[i].prgCount === 1){						
 						tableBody += '<tr>';
 						tableBody += '<td >'+data.resultList[i].comnm+'</td>';		  
 						tableBody += '<td>'+data.resultList[i].sportsCdNm+'</td>'
