@@ -61,17 +61,25 @@ function send() {
 		var frm = document.frm1;
 		var dataCnt = $("input[name=uname]").length;
 		var aItemList = new Array();
-		
 		var arrayData = "";
+		
+		if (dataCnt < 1) {
+			alert("팀원을 추가 하세요.");
+			mem_add();
+			mem_add();
+			return false;
+		}
+		
+		
 		for (ii = 0 ; ii < dataCnt; ii++) {
 			var uname = $("input[name=uname]").eq(ii).val();
 			var ubrth = $("input[name=ubrth]").eq(ii).val();
 			if (uname == "") {
-				alert(dataCnt +"번째 이름 입력은 필수값입니다.");
+				alert((ii+1) +"번째줄 이름 입력은 필수값입니다.");
 				return false;
 			}
 			if (ubrth == "") {
-				alert(dataCnt +"번째 생년월일 입력은 필수값입니다.");
+				alert((ii+1) +"번째줄 생년월일 입력은 필수값입니다.");
 				return false;
 			}
 			var data = uname
@@ -92,7 +100,7 @@ function send() {
 		
 		$.post('/rent/teamSave',  $("#frm1").serialize() , function(data){
 			
-			if (data == "1") {
+			if (data == "1" || data == "2") {
 				alert('팀이 저장 되었습니다.');
 				top.location.href ='/rent/team';
 			} else if (data == "-9") {

@@ -100,8 +100,67 @@ public class RentServiceImpl implements RentService {
 
 		try {
 
-			//팀정보 저장
-			mapper.teamSave(requestMap);
+			String teamSEQ = (String) requestMap.get("teamSEQ");
+			if (teamSEQ == "") {
+				//팀정보 저장
+				mapper.teamSave(requestMap);
+			} else {
+				//팀정보 저장
+				mapper.teamUpdate(requestMap);
+			}
+			
+		  	//삭제 팀회원 삭제
+			final String[] brdNoArr = ((String) requestMap.get("arryDel")).split(",");
+			requestMap.put("brdNoList", brdNoArr);
+		  	mapper.teamMemDel(requestMap);
+		  	
+			String strData =  (String) requestMap.get("arryData");//주문상품 정보
+		  	System.out.println("sssssssssss:"+ strData);
+		  	String [] arrayData = strData.split("//");
+		  	int xxx = arrayData.length;
+		  	
+	  	
+		  	//팀 회원 등록
+	  		for (int ii = 0; ii < xxx; ii++) {
+	  			Map <String, Object> strMap = new HashMap<>();
+	  			String arStr =  arrayData[ii] +" | | | ";
+	  			String[] tmpStr = arStr.split("\\|");
+	  			
+	  			strMap.put("mem_id", requestMap.get("mem_id"));
+	  			strMap.put("mem_nm", tmpStr[0]);
+	  			strMap.put("mem_birth", tmpStr[1]);
+	  			strMap.put("mem_addr", tmpStr[2]);
+	  			strMap.put("mem_addr2", tmpStr[3]);
+				System.out.println("sssssssssss:"+ strMap);
+				mapper.teamMemSave(strMap);
+			}
+			
+			
+		} catch (final Exception ex)
+		{
+			return 0;
+		}
+		
+		return 1;
+	}
+	
+	/*
+	//팀  신청 수정
+	@Override
+	public int teamUpdate(Map<String, Object> requestMap, HttpServletRequest request) {
+
+		System.out.println(requestMap);
+
+		try {
+
+			String teamSEQ = (String) requestMap.get("teamSEQ");
+			if (teamSEQ == "") {
+				//팀정보 저장
+				mapper.teamSave(requestMap);
+			} else {
+				//팀정보 저장
+				mapper.teamUpdate(requestMap);
+			}
 			
 			
 
@@ -139,8 +198,8 @@ public class RentServiceImpl implements RentService {
 		
 		return 1;
 	}
-	
-
+	*/
+		
 	//대관 환경설정값
 	@Override
 	public Map<String, Object> rentConfig(HttpServletRequest request) {
@@ -376,7 +435,7 @@ public class RentServiceImpl implements RentService {
 
 	
 	//팀 정보 가져오기
-	@Override
+/*	@Override
 	public Map <String, Object> getTeam() {
 		final Account account = (Account) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		final String MEM_ID = account.getUsername();
@@ -384,16 +443,41 @@ public class RentServiceImpl implements RentService {
 		Map <String , Object > maps = new HashMap<>();
 		maps.put("MEM_ID", MEM_ID);
 		return mapper.getTeamData(maps);
+	}*/
+	
+	//팀 정보 가져오기
+	@Override
+	public List<Map<String, Object>>  getTeamList() {
+		final Account account = (Account) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		final String MEM_ID = account.getUsername();
+				
+		Map <String , Object > maps = new HashMap<>();
+		maps.put("MEM_ID", MEM_ID);
+		return mapper.getTeamList(maps);
 	}
+	
+	//선택 팀 정보 가져오기
+	@Override
+	public Map <String, Object> getTeam(String SEQ) {
+		final Account account = (Account) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		final String MEM_ID = account.getUsername();
+				
+		Map <String , Object > maps = new HashMap<>();
+		maps.put("MEM_ID", MEM_ID);
+		maps.put("SEQ", SEQ);
+		return mapper.getTeamData(maps);
+	}
+	
 	//팀 회원 정보
 	@Override
-	public List <Map <String, Object>> getTeamMemberList() {
+	public List <Map <String, Object>> getTeamMemberList(String SEQ) {
 
 		final Account account = (Account) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		final String MEM_ID = account.getUsername();
 				
 		Map <String , Object > maps = new HashMap<>();
 		maps.put("MEM_ID", MEM_ID);
+		maps.put("SEQ", SEQ);
 		return  mapper.getTeamMemberList(maps);
 	}
 	

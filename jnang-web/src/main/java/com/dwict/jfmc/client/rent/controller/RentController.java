@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -165,20 +166,20 @@ public class RentController {
 		//결제전 세션 저장
 		memberService.memSession(request, MEM_ID);
 		
-		//셋팅 값
-		//final List< Map <String,Object> > rentCfg = rentService.rentConfig(MEM_ID);
-		//modelAndView.addObject("rentCfg", rentCfg);
+		String SEQ = request.getParameter("seq");
 				
 		//회원정보 가져오기
 		final Map <String,Object> myData = mypgService.myInfo(MEM_ID);
 		modelAndView.addObject("myData", myData);
 
-		//팀 정보 
-		final Map <String,Object> team = rentService.getTeam();
+		//생성팀 리스트
+		final List<Map<String, Object>> teamList = rentService.getTeamList();
+		modelAndView.addObject("teamList", teamList);		//팀 정보 
+		final Map <String,Object> team = rentService.getTeam(SEQ);
 		modelAndView.addObject("teamData", team);
 
 		//팀 멤버 리스트 
-		final List<Map <String,Object>> teamMemList = rentService.getTeamMemberList();
+		final List<Map <String,Object>> teamMemList = rentService.getTeamMemberList(SEQ);
 		modelAndView.addObject("teamMemList", teamMemList);
 		
 		

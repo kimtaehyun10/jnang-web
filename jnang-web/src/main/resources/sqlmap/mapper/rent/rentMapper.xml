@@ -132,21 +132,19 @@
 
 	<!-- 팀명 저장 -->
 	<insert id="teamSave" parameterType="java.util.HashMap" >
-		INSERT INTO rent_team  SET 
-			 mem_id 	=	 #{mem_id} 
-			 ,sp_type 	=	 #{sp_type} 
-			 ,tm_type 	=	 #{tm_type} 
-			 ,tm_nm 	=	 #{tm_nm} 
-			 ,wdate 	=	 now()
+		INSERT INTO  rent_team  ( mem_id, sp_type, tm_type, tm_nm, wdate ) 
+		VALUES ( #{mem_id} , #{sp_type}, #{tm_type},  #{tm_nm}, now()	);
+	</insert>
 
-		ON DUPLICATE 
-		KEY UPDATE 
+	<!-- 팀명 수정 -->
+	<update id="teamUpdate" parameterType="java.util.HashMap" >
+		UPDATE rent_team  SET 
 			 sp_type 	=	 #{sp_type} 
 			 ,tm_type 	=	 #{tm_type} 
 			 ,tm_nm 	=	 #{tm_nm} 
 			 ,wdate 	=	 now()
-
-	</insert>
+		where mem_id = #{mem_id} and seq = #{teamSEQ}
+	</update>
 
 	<!-- 팀 회원  선택 삭제 -->
 	<delete id="teamMemDel" parameterType="java.util.HashMap" >
@@ -156,14 +154,14 @@
 		<foreach item="item" collection="brdNoList" index="index" open="(" close=")" separator=",">
 	       #{item}
 		</foreach> 
-		and team_seq = (select seq from rent_team where mem_id =#{mem_id})
+		and team_seq =  #{teamSEQ}
 	</delete>
 	
 	
 	<!-- 팀회원 저장 -->
 	<insert id="teamMemSave" parameterType="java.util.HashMap" >
 		<selectKey keyProperty="team_seq" resultType="_int" order="BEFORE"> 
-		select seq from rent_team where mem_id= #{mem_id}  order by seq desc limit 1
+		select seq from rent_team where mem_id= #{mem_id}  and seq = #{teamSEQ}  order by seq desc limit 1
 		</selectKey>	
 		INSERT INTO  rent_team_mem  SET 
 			 team_seq 	=	 #{team_seq} 
@@ -181,11 +179,28 @@
 			 ,mem_addr2 	=	 #{mem_addr2} 	
 	</insert>
 
-	<!-- 팀 정보  -->
+
+	<!-- 팀리스트 정보  -->
+	<select id="getTeamList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT seq, mem_id, sp_type
+			,case (sp_type)
+				when '1' then '체육관'
+				when '2' then '축구장'
+				when '3' then '야구장'
+				when '4' then '테니스장'
+			end as sp_typeNm
+		, tm_type, tm_nm, confirm_yn, wdate
+		FROM rent_team
+		WHERE mem_id = #{MEM_ID} 
+		order by sp_type, tm_nm
+	</select>
+
+
+	<!-- 선택팀 정보  -->
 	<select id="getTeamData" parameterType="java.util.HashMap" resultType="java.util.HashMap">
 		SELECT seq, mem_id, sp_type, tm_type, tm_nm, confirm_yn, wdate
 		FROM rent_team
-		WHERE mem_id = #{MEM_ID}
+		WHERE mem_id = #{MEM_ID}  AND seq = #{SEQ}
 	</select>
 	
 	<!-- 팀 회원 리스트 -->
@@ -193,7 +208,7 @@
 		select 
 			seq, team_seq, mem_nm, mem_birth, mem_addr, mem_addr2
 		from rent_team_mem 
-		where team_seq = (select seq from rent_team where mem_id = #{MEM_ID} )
+		where team_seq = (select seq from rent_team where mem_id = #{MEM_ID}  AND seq = #{SEQ} )
  		order by mem_nm, mem_birth
 	</select>
 
@@ -391,7 +406,7 @@
 	<delete id="rentNoPayClear">
 	delete
  	from rent_app
- 	where  APP_TYPE = 5 and TIMESTAMPDIFF(hour,WRITE_DH, now()) > 100
+ 	where  APP_TYPE = 5 and TIMESTAMPDIFF(hour,WRITE_DH, now()) > 1
 	</delete>
 
 	<!-- 달력에 표시될 예약가능/ 예약 불가능 -->

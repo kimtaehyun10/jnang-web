@@ -1,3 +1,4 @@
+<%@page import="javax.persistence.Convert"%>
 <%@ page import="java.util.Date"%>
 <%@ page import="java.text.SimpleDateFormat"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -8,7 +9,8 @@
 Date from = new Date();
 SimpleDateFormat transFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
 String today = transFormat.format(from);
-
+String sSEQ = request.getParameter("seq");
+sSEQ = (sSEQ == null || sSEQ == "") ? "0" : sSEQ;
 %>
 <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/jquery-ui.css?v=1" />
 <script type="text/javascript" src="${pageContext.request.contextPath}/resource/js/rent/rent.team.js"></script>
@@ -32,6 +34,17 @@ if (pageContext.getAttribute("tm_type") != null) {
 }
 
 %>
+<script type="text/javascript">
+
+function teamSelect(val1) {
+	var frm = document.frm2;
+	frm.seq.value = val1;
+	frm.action="/rent/team";
+	frm.submit();
+}
+
+
+</script>
 <div class="sub_cont1">
 <div class="con_bx">
 	
@@ -57,11 +70,14 @@ if (pageContext.getAttribute("tm_type") != null) {
 	<br>
 	<br>
 	-->
-	
-<form name="frm1" id="frm1" method="post" onsubmit="return send();"> 
 
-	<div class="border_top_3_green"></div>
-	
+
+<form name="frm2" id="frm2" method="get">
+	<input type="hidden" name="seq" value="">
+</form>
+<form name="frm1" id="frm1" method="post" onsubmit="return send();"> 
+<div class="border_top_3_green"></div>
+
 <table class="stbl_w3b border_top_0" summary="이 표는 제목/내용 등의 정보로 구성된 팀등록/수정 폼입니다.">
 	<caption>
 	팀 등록신청
@@ -74,15 +90,39 @@ if (pageContext.getAttribute("tm_type") != null) {
 	<tr>
     	<td colspan="4"><div class="bg_icon_circle_green1a fontsize_1dot60 padding_left_1dot5">팀 정보</div></td>
     </tr>
+    <tr>
+    	<th>팀리스트</th>
+    <td colspan="2">
+	    <select id="teamSEQ" name="teamSEQ" class="inputbox_01a" onchange="teamSelect(this.value);">
+		    <option value=''>신규팀생성</option>
+			<c:forEach items="${teamList}" var="result" varStatus="status">
+				<c:set var="intSeq" value="${result.seq}" />
+				<c:set var="tm_nm" value="${result.tm_nm}" />
+				<c:set var="sp_typeNm" value="${result.sp_typeNm}" />
+				<%
+			 	int intSeq = (int)pageContext.getAttribute("intSeq") ;
+				String  tm_nm = (String) pageContext.getAttribute("tm_nm") ;
+				String  sp_typeNm = (String) pageContext.getAttribute("sp_typeNm") ;
+				//out.print("RESERVE_DATE==>:"+ RESERVE_DATE +"<BR>");
+				if (intSeq == Integer.parseInt(sSEQ)) {
+					out.println("<option value='"+ intSeq +"' SELECTED >["+ sp_typeNm +"] "+ tm_nm +"</option>");
+				} else {
+					out.println("<option value='"+ intSeq +"' >["+ sp_typeNm +"] "+ tm_nm +"</option>");
+				}
+			 	%>				
+			</c:forEach>
+		</select>
+	</td>
+	</tr>
 	<tr>
 		<th>종목선택</th>
 		<td>
 			<select id="sp_type" name="sp_type" class="inputbox_01a" required>
 			  <option value='' /> == 종목 == </option>
 			  <!-- <option value='1'/> 체육관 </option> -->
-			  <option value='2' <% if (sp_type == 2 ) { out.print(" selected "); } %> /> 축구팀</option>
-			  <option value='2' <% if (sp_type == 3 ) { out.print(" selected "); } %> /> 야구팀</option>
-			  <option value='4' <% if (sp_type == 4) { out.print(" selected "); } %>/> 테니스팀 </option>
+			  <option value='2' <% if (sp_type == 2 ) { out.print(" selected "); } %> />축구장</option>
+			  <option value='3' <% if (sp_type == 3 ) { out.print(" selected "); } %> />야구장 </option>
+			  <option value='4' <% if (sp_type == 4) { out.print(" selected "); } %>/> 테니스장 </option>
 		    </select>
 		 </td>
 		<th>신청구분</th>
@@ -145,8 +185,7 @@ if (pageContext.getAttribute("tm_type") != null) {
 		<input type="hidden" id="mem_id" name="mem_id" value="<c:out value='${myData.ID}'/>">
 		<input type="hidden" id="arryData" name="arryData">
 		<input type="hidden" id="arryDel" name="arryDel">
-		
-		<input type="submit" class="size_m2 btn_green1" value="<%=(sp_type ==0) ? "팀 신청" : "팀 수정" %>">
+		<input type="submit" class="size_m2 btn_green1" value="<%=(sSEQ =="0") ? "팀 신청" : "팀 수정" %>">
 		<input type="button" class="size_m2 btn_green1" value="대관신청" onClick="top.location.href='/rentlist';">
 	</div>
 
