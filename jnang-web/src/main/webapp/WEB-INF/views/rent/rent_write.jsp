@@ -11,7 +11,10 @@ Date from = new Date();
 SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
 String today = transFormat.format(from);
 String param 	= request.getParameter("q");
+String [] arrParam = param.split("\\/"); 
+String PLACE_CD = arrParam[0];
 String YMD 		= request.getParameter("ymd");
+YMD = (YMD == null) ? today : YMD;
 %>
 <script type="text/javascript">
 /**
@@ -43,9 +46,12 @@ $(function(){
 	</c:forEach>
 	$(".mbx1:eq(1)>ul").append(cont);	
 	
-	var clareCalendar = {maxDate: '+60d',minDate: '+7d' }
+	//당일 예약불가능 3일후 가능하도록 +3
+	var clareCalendar = {maxDate: '+60d',minDate: '+2d' }
 	$("#RENT_DATE").datepicker(clareCalendar);
 
+	//선택 날짜 로드
+	setTimeout("getRent('<%=YMD%>',<%=PLACE_CD%>,0)",500);
 	
 });
 function send() {
@@ -65,8 +71,9 @@ function send() {
 			return false;	
 		}
 		
-		console.log($("#frm1").serialize());
-		return false;
+		//이미 신청 중콕첵크
+		getRent('',<%=PLACE_CD%>,9);
+		
 		var aItemList = new Array();
 		$.post('/rent/writeSave',  $("#frm1").serialize() , function(data){
 			
@@ -120,10 +127,28 @@ function send() {
 		</td>
 	</tr>
 	<tr>
+		<th>예약현황</th>
+		<td><div id="reservedList"></div></td>
+	</tr>
+	<tr>
 		<th>대관일/시</th>
 		<td>
-			<input type="text" id="RENT_DATE" name="RENT_DATE" maxlength="10" class="inputbox_01a" required="" onchange="getRent(this.value,1);">
-			<div id="data_tab1">getRent1</div>
+			<input type="text" id="RENT_DATE" name="RENT_DATE" maxlength="10" value="<%=YMD%>" class="inputbox_01a" required="" onchange="getRent('',<%=PLACE_CD%>,9);">
+			/ 
+			<select id="STIME" name="STIME" class="inputbox_01a" required="">
+				<option value="">시작 시간</option>
+				<c:forEach var="ii" begin="06" end="23" step="1">
+				<option value="${ii}">${ii}:00</option>
+				</c:forEach> 
+			</select>
+			 ~  
+			<select id="ETIME" name="ETIME" class="inputbox_01a" required="" onchange="getRent('',<%=PLACE_CD%>,9);">
+				<option value="">종료 시간</option>
+				<c:forEach var="ii" begin="06" end="23" step="1">
+				<option value="${ii}">${ii}:00</option>
+				</c:forEach> 
+			</select>
+			 (종료시간 : 정리시간을 포함한 시간)
 		</td>
 	</tr>
 	<tr>
@@ -149,11 +174,12 @@ function send() {
 <br>
 <br>
 	<div class="bx_btns_01a ali_c">
-		<input type="hidden" name="q" value="<%=param%>/${rentCfg.COMCD}">
+		<input type="hidden" name="q" value="<%=param%>">
+		<input type="hidden" name="COMCD" value="${rentCfg.COMCD}">
 		<input type="hidden" name="id" value="<c:out value='${myData.ID}'/>">
 		<input type="hidden" name="MEM_NO" value="<c:out value='${myData.MEM_NO}'/>">
 		<input type="hidden" id="arryData" name="arryData">
-		<input type="button" class="size_m2 btn_green1" value="대관 문의" onClick="send();">
+		<!-- <input type="button" class="size_m2 btn_green1" value="대관 문의 테스트" onClick="send();"> -->
 		<input type="submit" class="size_m2 btn_green1" value="대관 문의">
 		<a href="/rentlist" id=" " class="size_m2 btn_green1" class="gray2">취 소</a>
 		<!-- <input type="button" class="size_m2 btn_green1" value="대관신청" onClick="send();"> -->

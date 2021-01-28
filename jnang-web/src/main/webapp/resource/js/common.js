@@ -336,23 +336,30 @@ function fn_dateDiff(_type, _date1, _date2) {
     diffDate_2 = new Date(diffDate_2.getFullYear(), diffDate_2.getMonth()+1, diffDate_2.getDate());
     
     var diff = "";
+    var sign = ""; //부호
     //일 차이
     if (_type =="d"){
-    	diff = Math.abs(diffDate_2.getTime() - diffDate_1.getTime());
+    	diff = diffDate_2.getTime() - diffDate_1.getTime();
+    	sign = (diff > 0) ? "" : "-";
+    	diff = Math.abs(diff);
     	diff = Math.ceil(diff / (1000 * 3600 * 24));
     }
     //월 차이
     if (_type =="m"){
-    	diff = Math.abs(diffDate_2.getTime() - diffDate_1.getTime());
+    	diff = diffDate_2.getTime() - diffDate_1.getTime();
+    	sign = (diff > 0) ? "" : "-";
+    	diff = Math.abs(diff);
     	diff = Math.ceil(diff / (1000 * 3600 * 24 * 30));
     }
     
     //월 차이
     if (_type =="y"){
-    	diff = Math.abs(diffDate_2.getTime() - diffDate_1.getTime());
+    	diff = diffDate_2.getTime() - diffDate_1.getTime();
+    	sign = (diff > 0) ? "" : "-";
+    	diff = Math.abs(diff);    	
     	diff = Math.ceil(diff / (1000 * 3600 * 24 * 30 * 12));
     }
     
-    return diff;
+    return sign +""+ diff;
 }
 

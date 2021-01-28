@@ -606,8 +606,14 @@
 						else ''
 					end as APP_TYPE_NM
 					from rent_app t1 
-				 where left(t1.RESERVE_DATE , 6) = #{YYMM} 
-				 and t1.PLACE_CD = #{PLACE_CD}
+				 where t1.PLACE_CD = #{PLACE_CD}
+				 <if test='YYMM !="" and YYMM != null'> 
+				 	and left(t1.RESERVE_DATE , 6) = #{YYMM} 
+				 </if>
+				 <if test='YYMMDD !="" and YYMMDD != null'> 
+				 	and t1.RESERVE_DATE = #{YYMMDD} 
+				 </if>
+				 order by SDATE
 				 		 	
 		 	</when>
 		 	<!--   축구장,야구장,테니스장 용 -->

@@ -89,7 +89,7 @@ function getDataList(p_cd,p_tab) {
 					var m_diff = fn_dateDiff("m", fn_convertDate("2",yymmdd), fn_convertDate("2",nyymmdd));
 					//console.log("diff :"+ m_diff);
 					if (Number(yymmdd) > Number(nyymmdd)) {
-						tmpList += "[<span class='btn_gray1'>예약종료</span>]<br>";
+						tmpList += "[<span class='gray1'>예약종료</span>]<br>";
 					//if ( (todayYYMM == cntYYMM && ii < (23-1)) || (int_today <= sortEndTime && int_today >= int_LimitYmd) 
 					//	|| (diffMonth <= 1 && todayYYMM < cntYYMM && ii < (23-1) && int_toYYMM <= int_today) ) {
 						
@@ -97,13 +97,14 @@ function getDataList(p_cd,p_tab) {
 						
 					} else if ( (Number(yymmdd) < Number(nyymm+""+23) && ii >= 23) ||  m_diff > 1 
 							|| (Number(yymm) < Number(nyymm) && Number(yymmdd) < Number(yymm+""+23) )) {
-						tmpList += "[<span class='btn_gray1'>준비중</span>]<br>";
+						tmpList += "[<span class='gray1'>준비중</span>]<br>";
 					} else {
 							
 						//DB 예약 일정 매칭 
 						for(var xx=0; xx< aItemList.length; xx++) {
 							var seq 		= aItemList[xx].seq;
 							var item 		= aItemList[xx].item;
+							var place_cd	= aItemList[xx].place_cd;
 							
 						
 							//예약 리스트
@@ -128,7 +129,7 @@ function getDataList(p_cd,p_tab) {
 							if (dataIn) {
 								tmpList += "[<span class='red1'>예약완료</span>]<br>";
 							} else {
-								tmpList += "<a href='/rent/write/?q=1/0'>[<span class='btn_green1'>예약가능</span>]</a><br>";
+								tmpList += "<a href='/rent/date/?ymd="+ nyymmdd +"&q="+ p_cd +"/0'>[<span class='btn_green1'>예약가능</span>]</a><br>";
 							}
 									
 	
@@ -164,18 +165,36 @@ function getDataList(p_cd,p_tab) {
 						//return false;
 					}
 
+					/*
 					var today = new Date();
 					var yyyy = today.getFullYear();
 					var mm 	 = today.getMonth();
 					var today = new Date(yyyy,mm,today.getDate());
+					*/
+
+					var today = new Date();
+					//console.log(today.toLocaleString());
+					var arrayTmp = (today.toLocaleString()).split(".");
+					var yy = arrayTmp[0];
+					var mm = Number(arrayTmp[1]); //(Number(mm) > 9) ? mm : "0"+mm;
+					var dd = Number(arrayTmp[2]); //(Number(dd) > 9) ? dd : "0"+dd;
+					mm = (Number(mm) > 9) ? mm : "0"+ mm;
+					dd = (Number(dd) > 9) ? dd : "0"+ dd;
+					today = new Date(yy,mm,dd ,0,0,0);
+					console.log("today1: "+ yy +"/"+ mm +"/"+ dd);
+				
+					var yymmdd = yy +""+ mm +""+ dd;
+					var yymm = yy +""+ mm;
+					var nyymm = YYMM;
+					
 					//달력 출력
 					for(var ii=1; ii<= 31; ii++) {
 						
-						var loopDay = new Date(YYMM.substring(0,4)+"/"+ Number(YYMM.substring(4,6)) +"/"+ii);
-						var tmpList = "";
+						//var loopDay = new Date(YYMM.substring(0,4)+"/"+ Number(YYMM.substring(4,6)) +"/"+ii);
+						//var tmpList = "";
 						
 						//console.log(today.getFullYear() +"/"+today.getMonth() +"/"+today.getDate()  +" > 비교 "+ loopDay.getFullYear() +"/"+loopDay.getMonth() +"/"+loopDay.getDate() +" ");
-						
+						/*
 						var xxx = fn_dateDiff("m",today.getFullYear() +"/"+today.getMonth() +"/"+today.getDate(), loopDay.getFullYear() +"/"+loopDay.getMonth() +"/"+loopDay.getDate());
 						xxx = isNaN(xxx) ? 1: xxx;
 						//console.log("xxxx:"+ xxx +", "+ isNaN(xxx));
@@ -185,6 +204,28 @@ function getDataList(p_cd,p_tab) {
 						} else if (xxx > 1) {
 							tmpList += "[<span class='btn_gray1'>준비중</span>]<br>";
 						} else {
+						*/
+						var ndd = (Number(ii) > 9) ? ii : "0"+ ii;
+						var nyymmdd = YYMM +""+ ndd;
+						var tmpList = "";
+						//console.log(" xxxx:"+ yymmdd +" > "+ nyymmdd);
+						var d_diff = fn_dateDiff("d", fn_convertDate("2",yymmdd), fn_convertDate("2",nyymmdd));
+						var m_diff = fn_dateDiff("m", fn_convertDate("2",yymmdd), fn_convertDate("2",nyymmdd));
+						console.log("YYMM :"+ YYMM);
+						
+						//지난기간 이거나 , 당일 예약불가능 3일후 가능하도록
+						if ((Number(yymmdd) > Number(nyymmdd)) || (Number(yymm) >= Number(nyymm) && d_diff < 2 ) ) {
+							tmpList += "[<span class='gray1'>예약종료</span>]<br>";
+						//if ( (todayYYMM == cntYYMM && ii < (23-1)) || (int_today <= sortEndTime && int_today >= int_LimitYmd) 
+						//	|| (diffMonth <= 1 && todayYYMM < cntYYMM && ii < (23-1) && int_toYYMM <= int_today) ) {
+							
+						//이전작업본} else if ( (Number(yymmdd) < Number(nyymm+""+23) && ii >= 23) ||  m_diff > 1 ) {
+							
+						} else if ( (Number(yymmdd) < Number(nyymm+""+23) && ii >= 23) ||  m_diff > 1 
+								|| (Number(yymm) < Number(nyymm) && Number(yymmdd) < Number(yymm+""+23) )) {
+							tmpList += "[<span class='gray1'>준비중</span>]<br>";
+						} else {
+							
 								
 								//예약 리스트
 								var dataIn = false;
@@ -195,6 +236,7 @@ function getDataList(p_cd,p_tab) {
 									var RESERVE_DATE= rentAppList[jj].RESERVE_DATE;
 									var STIME= rentAppList[jj].STIME;
 									var ETIME= rentAppList[jj].ETIME;
+									var PLACE_CD 	= rentAppList[jj].PLACE_CD;
 									var APP_TYPE_NM= rentAppList[jj].APP_TYPE_NM;
 									
 									
@@ -204,7 +246,7 @@ function getDataList(p_cd,p_tab) {
 										tmpList += STIME +"~"+ ETIME + "["+ APP_TYPE_NM +"]<br>";
 									} 
 								}//jj for
-								
+								tmpList += "<a href='/rent/write/?ymd="+ nyymmdd +"&q="+ p_cd +"/0'>[<span class='btn_green1'>대관문의</span>]</a><br>";
 										
 		
 						} //end if
@@ -219,7 +261,7 @@ function getDataList(p_cd,p_tab) {
 			
 			}).done(function(data){
 
-				//선택
+				//TAB(코드 ) 선택
 				var lentTabCnt = $(".rentTab").length;
 				var cssObj = {
 						"background-color": "#ffffff",
