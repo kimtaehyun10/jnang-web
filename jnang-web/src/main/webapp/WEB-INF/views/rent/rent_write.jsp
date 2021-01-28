@@ -217,7 +217,7 @@ function send() {
 </table>
 ※ 담당자가 (매일)일정확인 후 개별 연락 드립니다.
 <br>
-<br>  
+<br>
 	<div class="bx_btns_01a ali_c">
 		<input type="hidden" name="q" value="<%=param%>/${rentCfg.COMCD}">
 		<input type="hidden" name="id" value="<c:out value='${myData.ID}'/>">
