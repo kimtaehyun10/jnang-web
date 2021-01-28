@@ -196,6 +196,7 @@ public class RentServiceImpl implements RentService {
 		
 		
 		try {
+			
 			final Account account = (Account) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			final String MEM_ID = account.getUsername();
 			final String MEM_NO = account.getMemNo();
@@ -247,6 +248,9 @@ public class RentServiceImpl implements RentService {
 		String param = (String) requestMap.get("q");
 		param = (param == null) ? "0/0/0/" : param;
 		param = ((param.contains("/"))) ? param : param +"/0" ;
+		System.out.println("########################################################################");
+		System.out.println(requestMap);
+		System.out.println("########################################################################");
 		
 		String [] arrParam = param.split("\\/"); 
 		
@@ -254,21 +258,35 @@ public class RentServiceImpl implements RentService {
 		requestMap.put("PLACE_TAB", arrParam[1]);
 		requestMap.put("COMCD", arrParam[2]);
 		
-		String RENT_DATE = (String) requestMap.get("RENT_DATE");
-		RENT_DATE = RENT_DATE.replace("-", "");
-		String STIME = requestMap.get("STIME").toString();
-		STIME = (Integer.parseInt(STIME) > 9) ? STIME : "0"+STIME;
-		String ETIME = (String) requestMap.get("ETIME");
-		ETIME = (Integer.parseInt(ETIME) > 9) ? ETIME : "0"+ETIME;
+//		String RENT_DATE = (String) requestMap.get("RENT_DATE");
+//		RENT_DATE = RENT_DATE.replace("-", "");
+//		String STIME = requestMap.get("STIME").toString();
+//		STIME = (Integer.parseInt(STIME) > 9) ? STIME : "0"+STIME;
+//		String ETIME = (String) requestMap.get("ETIME");
+//		ETIME = (Integer.parseInt(ETIME) > 9) ? ETIME : "0"+ETIME;
+		
+		String rentDate = (String)requestMap.get("datepicker1");
+		rentDate = rentDate.replace("-","");
+		String RENT_DATE = rentDate.substring(0,8);
+		
+		String sDate = (String) requestMap.get("datepicker1");
+		String startDate = sDate.substring(11);
+		System.out.println(startDate);
+		
+		String eDate = (String) requestMap.get("datepicker2");
+		String endDate = eDate.substring(11);
+		System.out.println(endDate);
 		
 		
 		
-		requestMap.put("PART_CD", "00");
+ 		requestMap.put("PART_CD", "00");
 		requestMap.put("COM_NM", "");
 		requestMap.put("TIME_SEQ", 0);
 		requestMap.put("RESERVE_DATE", RENT_DATE);
-		requestMap.put("SDATE", STIME + ":00");
-		requestMap.put("EDATE", ETIME + ":00");
+		requestMap.put("SDATE",startDate);
+		requestMap.put("START_DATE",sDate);
+		requestMap.put("EDATE",endDate);
+		requestMap.put("END_DATE",eDate);
 		requestMap.put("APP_TYPE", "10");
 		
 		

@@ -2,18 +2,17 @@
 <%@ page import="java.text.SimpleDateFormat"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<script type="text/javascript" src="${pageContext.request.contextPath}/resource/js/jquery-ui.min.js"></script>
-<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/jquery-ui.css?v=1" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/datepicker.min.css">
+<script src="${pageContext.request.contextPath}/resource/js/jquery-3.1.1.min.js"></script>
+<script src="${pageContext.request.contextPath}/resource/js/datepicker.min.js"></script>
+<script src="${pageContext.request.contextPath}/resource/js/i18n/datepicker.ko.js"></script>
 <%
 Date from = new Date();
 SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
 String today = transFormat.format(from);
-
 String param = request.getParameter("q");
-
 %>
 <script type="text/javascript">
-
 /**
 * @projectDescription rent.list.js
 *
@@ -43,13 +42,92 @@ $(function(){
 	</c:forEach>
 	$(".mbx1:eq(1)>ul").append(cont);	
 	
-	var clareCalendar = {maxDate: '+60d',minDate: '+7d' }
-	$("#RENT_DATE").datepicker(clareCalendar);
-	
+	/* var clareCalendar = {maxDate: '+60d',minDate: '+7d' }
+	$("#RENT_DATE").datepicker(clareCalendar); */
+
+	//두개짜리 제어 연결된거 만들어주는 함수
+	datePickerSet($("#datepicker1"), $("#datepicker2"), true); //다중은 시작하는 달력 먼저, 끝달력 2번째
+
+	/*
+	  * 달력 생성기
+	  * @param sDate 파라미터만 넣으면 1개짜리 달력 생성
+	  * @example   datePickerSet($("#datepicker"));
+	  * 
+	  * 
+	  * @param sDate, 
+	  * @param eDate 2개 넣으면 연결달력 생성되어 서로의 날짜를 넘어가지 않음
+	  * @example   datePickerSet($("#datepicker1"), $("#datepicker2"));
+	  */
+	function datePickerSet(sDate, eDate, flag) {
+	  //시작 ~ 종료 2개 짜리 달력 datepicker	
+	  if (!isValidStr(sDate) && !isValidStr(eDate) && sDate.length > 0 && eDate.length > 0) {
+	      var sDay = sDate.val();
+	      var eDay = eDate.val();
+
+	      if (flag && !isValidStr(sDay) && !isValidStr(eDay)) { //처음 입력 날짜 설정, update...			
+	          var sdp = sDate.datepicker().data("datepicker");
+	          sdp.selectDate(new Date(sDay.replace(/-/g, "/")));  //익스에서는 그냥 new Date하면 -을 인식못함 replace필요
+
+	          var edp = eDate.datepicker().data("datepicker");
+	          edp.selectDate(new Date(eDay.replace(/-/g, "/")));  //익스에서는 그냥 new Date하면 -을 인식못함 replace필요
+	      }
+
+	      //시작일자 세팅하기 날짜가 없는경우엔 제한을 걸지 않음
+	      if (!isValidStr(eDay)) {
+	          sDate.datepicker({
+	              maxDate: new Date(eDay.replace(/-/g, "/"))
+	          });
+	      }
+	      sDate.datepicker({
+	          language: 'ko',
+	          autoClose: true,
+	          timepicker: true,
+			  timeFormat: "hh:ii AA",
+	          onSelect: function () {
+	              datePickerSet(sDate, eDate);
+	          }
+	      });
+
+	      //종료일자 세팅하기 날짜가 없는경우엔 제한을 걸지 않음
+	      if (!isValidStr(sDay)) {
+	          eDate.datepicker({
+	              minDate: new Date(sDay.replace(/-/g, "/"))
+	          });
+	      }
+	      eDate.datepicker({
+	          language: 'ko',
+	          autoClose: true,
+			  timepicker: true,
+			  timeFormat: "hh:ii AA",
+	          onSelect: function () {
+	              datePickerSet(sDate, eDate);
+	          }
+	      });
+
+	      //한개짜리 달력 datepicker
+	  } else if (!isValidStr(sDate)) {
+	      var sDay = sDate.val();
+	      if (flag && !isValidStr(sDay)) { //처음 입력 날짜 설정, update...			
+	          var sdp = sDate.datepicker().data("datepicker");
+	          sdp.selectDate(new Date(sDay.replace(/-/g, "/"))); //익스에서는 그냥 new Date하면 -을 인식못함 replace필요
+	      }
+
+	      sDate.datepicker({
+	          language: 'ko',
+	          autoClose: true
+	      });
+	  }
+
+
+	  function isValidStr(str) {
+	      if (str == null || str == undefined || str == "")
+	          return true;
+	      else
+	          return false;
+	  }
+	}
 	
 });
-
-
 function send() {
 	try {
 		var frm = document.frm1;
@@ -77,8 +155,6 @@ function send() {
 		return false;
 	
 };
-
-
 
 
 </script>
@@ -116,21 +192,8 @@ function send() {
 	<tr>
 		<th>대관일/시</th>
 		<td>
-			<input type="text" id="RENT_DATE" name="RENT_DATE" maxlength="10" class="inputbox_01a" required="">
-			/ 
-			<select name="STIME" class="inputbox_01a" required="">
-				<option value="">시작 시간</option>
-				<c:forEach var="ii" begin="06" end="23" step="1">
-				<option value="${ii}">${ii}:00</option>
-				</c:forEach> 
-			</select>
-			 ~  
-			<select name="ETIME" class="inputbox_01a" required="">
-				<option value="">종료 시간</option>
-				<c:forEach var="ii" begin="06" end="23" step="1">
-				<option value="${ii}">${ii}:00</option>
-				</c:forEach> 
-			</select>
+			<input id="datepicker1" name="datepicker1" type="text" class="inputbox_01a"> -
+        	<input id="datepicker2" name="datepicker2" type="text" class="inputbox_01a">	
 		</td>
 	</tr>
 	<tr>

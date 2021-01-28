@@ -141,7 +141,6 @@ param = (param == null) ? "": param;
 	
 	setTimeout("getDataList('<%=PLACE_CD%>',1);",500);
 	
-	 
 </script>
 <style TYPE="text/css">
 		.day{
@@ -226,6 +225,7 @@ param = (param == null) ? "": param;
 			background-color:#EFEFEF;
 			vertical-align: top;
 			text-align: left;
+			font-size: 12.5px;
 		}
 		.before_after_month{
 			margin: 10px;
@@ -424,9 +424,12 @@ int tmpDay =0; */
 	    	   out.println("<span class=\"normal_day\"><span class=\"date\">" + day + "</span><Br>");
 	       }
 	       //out.println(rentDays[day] +"</span>");
+	       
+	       //일정삽입
 	       out.println("<div id='d"+day+"'></div></span>");
 	       currentCal.set(Calendar.DATE, ++day);
 	       dayCheck = true;
+	       
 	      }
 	       
 	     }else{

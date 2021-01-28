@@ -193,7 +193,7 @@ public class RentController {
 		modelAndView.setViewName("/rent/lectureList");
 		return modelAndView;
 	}
-
+	
 	@GetMapping(value = "/rent/view")
 	public ModelAndView lectureView(ModelAndView modelAndView, HttpServletRequest request) {
 		modelAndView.setViewName("/rent/lectureView");

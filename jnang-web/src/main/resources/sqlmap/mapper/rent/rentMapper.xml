@@ -199,7 +199,15 @@
 
 	<!-- 팀 회원수 -->
 	<select id="teamCount" parameterType="java.util.HashMap" resultType="int">
-		select count(*) from rent_team_mem where team_seq = (select seq from rent_team where mem_id =#{MEM_ID})
+		SELECT COUNT(*) 
+		FROM RENT_TEAM TEAM
+		JOIN RENT_TEAM_MEM MEM
+		ON TEAM.SEQ = MEM.TEAM_SEQ
+		WHERE TEAM.MEM_ID = #{MEM_ID}
+		AND TEAM.CONFIRM_YN = 'N';
+		<!-- SELECT COUNT(*) 
+		FROM RENT_TEAM_MEM 
+		WHERE TEAM_SEQ = (SELECT SEQ FROM RENT_TEAM WHERE MEM_ID =#{MEM_ID}) -->
 	</select>	
 
 	<!-- 예약 중복 접수 첵크 -->
@@ -291,6 +299,8 @@
 			 ,CHNGR 
 			 ,PRODUCT_CNT 
 			 ,PRODUCT_SIZE 
+			 ,START_DATE
+			 ,END_DATE
 		 ) VALUES ( 
 			  #{COMCD} 
 			 ,#{RENT} 
@@ -310,7 +320,7 @@
 			 ,#{ADDR} 
 			 ,#{OBJECT} 
 			 ,#{INWON} 
-			 ,replace(#{SDATE} ,'-','')
+			 ,#{SDATE}
 			 ,#{EDATE} 
 			 ,#{RENT_READY} 
 			 ,#{ETC}
@@ -340,7 +350,9 @@
 			 ,now()
 			 ,#{MEM_NM} 
 			 ,#{PRODUCT_CNT} 
-			 ,#{PRODUCT_SIZE} 
+			 ,#{PRODUCT_SIZE}
+			 ,#{START_DATE}
+			 ,#{END_DATE}   
 		)
 	</insert>
 
@@ -379,7 +391,7 @@
 	<delete id="rentNoPayClear">
 	delete
  	from rent_app
- 	where  APP_TYPE = 5 and TIMESTAMPDIFF(hour,WRITE_DH, now()) > 1
+ 	where  APP_TYPE = 5 and TIMESTAMPDIFF(hour,WRITE_DH, now()) > 100
 	</delete>
 
 	<!-- 달력에 표시될 예약가능/ 예약 불가능 -->

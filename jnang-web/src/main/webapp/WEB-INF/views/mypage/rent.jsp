@@ -19,7 +19,8 @@
 				<th>취소</th>
 				<th>대관장소</th>
 				<th>대관료</th>
-				<th>대관일</th>
+				<th>대관시작일</th>
+				<th>대관종료일</th>
 				<th>확정여부</th>
 				<th>접수일</th>
 			</tr>
@@ -47,7 +48,8 @@
 					</c:if>
 				</td>
 				<td>${result.PAY_AMT}</td>
-				<td>${result.RESERVE_DATE}</td>
+				<td>${result.START_DATE}</td>
+				<td>${result.END_DATE}</td>
 				<td>${result.APP_TYPE_NM}</td>
 				<td>${result.CHNG_DH}</td>
 			</tr>

@@ -216,7 +216,7 @@ SELECT
 			ADDR,
 			OBJECT,
 			INWON,
-			fn_int_to_date(SDATE,'-') as SDATE,
+			SDATE,
 			EDATE,
 			RENT_READY,
 			RENT,
@@ -247,7 +247,9 @@ SELECT
 			date_format(CHNG_DH, '%Y-%m-%d') as CHNG_DH ,
 			CHNGR,
 			PRODUCT_CNT,
-			PRODUCT_SIZE
+			PRODUCT_SIZE,
+			START_DATE,
+			END_DATE
 		from
 			rent_app t1
 			left join rent_times t2 on t1.PLACE_CD  = t2.place_cd and t1.PLACE_TIME_SEQ = t2.seq 

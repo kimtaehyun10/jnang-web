@@ -136,16 +136,23 @@ param = (param == null) ? "": param;
 	});
 	
 var teamMemCnt = "${rentCfg.teamMemCnt}";
+var teamCnt = "<%= teamMemCnt %>" ;
 if (teamMemCnt == "" || Number(teamMemCnt) == 0) {
-	//alert("팀이 없는 개인으로 신청됩니다.");
+	//alert("신청은 현재 팀이 있고, 팀원이 10명 이상이어야 합니다.");
 } else if (Number(teamMemCnt) < 10) {
-	//alert("팀이 있으나 10명 이내 입니다.");
+	//alert("팀이 있으나 10명 미만 입니다.");
 }
 </script>
 <%
 if (teamMemCnt < 10) {
 	//return;
 }
+%>
+<%
+if(teamMemCnt == 0) {
+	//return;
+}
+
 %>
 <style TYPE="text/css">
 		.chkbxSize { width:25px; height:25px; }

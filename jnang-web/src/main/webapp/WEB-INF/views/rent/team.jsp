@@ -80,9 +80,9 @@ if (pageContext.getAttribute("tm_type") != null) {
 			<select id="sp_type" name="sp_type" class="inputbox_01a" required>
 			  <option value='' /> == 종목 == </option>
 			  <!-- <option value='1'/> 체육관 </option> -->
-			  <option value='2' <% if (sp_type == 2 ) { out.print(" selected "); } %> /> 축구장/야구장 </option>
-			  <!-- <option value='3'/> 야구 </option> -->
-			  <option value='4' <% if (sp_type == 4) { out.print(" selected "); } %>/> 테니스장 </option>
+			  <option value='2' <% if (sp_type == 2 ) { out.print(" selected "); } %> /> 축구팀</option>
+			  <option value='2' <% if (sp_type == 3 ) { out.print(" selected "); } %> /> 야구팀</option>
+			  <option value='4' <% if (sp_type == 4) { out.print(" selected "); } %>/> 테니스팀 </option>
 		    </select>
 		 </td>
 		<th>신청구분</th>

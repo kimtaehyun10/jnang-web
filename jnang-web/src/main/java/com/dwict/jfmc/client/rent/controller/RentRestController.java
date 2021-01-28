@@ -42,7 +42,9 @@ public class RentRestController {
 	@PostMapping(value = "/writeSave")
 	@ResponseBody
 	public int writeSave(@RequestParam  Map<String, Object> requestMap, HttpServletRequest request) {
-	
+		System.out.println("########################################################################");
+		System.out.println(requestMap);
+		System.out.println("########################################################################");
 		//예약 저장
 		int rtn = rtnService.writeSave(requestMap);
 		return rtn;

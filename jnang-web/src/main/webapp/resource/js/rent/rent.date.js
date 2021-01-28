@@ -8,9 +8,18 @@ var rntYMD;
 function send(tabCnt) {
 	$.ajaxSetup({ cache: false });
 	var frm = document.frm3;
+	alert(teamCnt);
 	var chkCnt = $("input:checkbox[name='tseq']:checked").length;
 	if (chkCnt == 0) {
 		alert("신청하실 시간을 선택하세요.");
+		return false;
+	}
+	if(teamCnt == 0) {
+		alert("대관신청을 하시기 위해선 팀이 있어야하며, 팀원이 10명 이상이어야 합니다.");
+		return false;
+		
+	} else if(teamCnt < 10) {
+		alert("대관신청을 하시기 위해선 팀이 있어야하며, 팀원이 10명 이상이어야 합니다.");
 		return false;
 	}
 	
@@ -28,6 +37,7 @@ function send(tabCnt) {
 		alert("예약 불가 2시간(2개)이상 연속되게  예약을 선택하여 주세요.\n(★★ 한개만 선택할수 없습니다. ★★ );");
 		return false;
 	}
+	
 	
 	
 	if (confirm("\n 총 [ "+ chkCnt +" ] 건 선택\n\n              대관 신청  하시겠습니까?\n ")) {
