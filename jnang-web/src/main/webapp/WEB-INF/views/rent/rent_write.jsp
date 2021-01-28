@@ -192,8 +192,8 @@ function send() {
 	<tr>
 		<th>대관일/시</th>
 		<td>
-			<input id="datepicker1" name="datepicker1" type="text" class="inputbox_01a"> -
-        	<input id="datepicker2" name="datepicker2" type="text" class="inputbox_01a">	
+			<input id="datepicker1" name="datepicker1" type="text" class="inputbox_01a" readonly="readonly"> -
+        	<input id="datepicker2" name="datepicker2" type="text" class="inputbox_01a" readonly="readonly">	
 		</td>
 	</tr>
 	<tr>

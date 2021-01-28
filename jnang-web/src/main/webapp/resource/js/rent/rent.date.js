@@ -8,18 +8,17 @@ var rntYMD;
 function send(tabCnt) {
 	$.ajaxSetup({ cache: false });
 	var frm = document.frm3;
-	alert(teamCnt);
 	var chkCnt = $("input:checkbox[name='tseq']:checked").length;
 	if (chkCnt == 0) {
 		alert("신청하실 시간을 선택하세요.");
 		return false;
 	}
 	if(teamCnt == 0) {
-		alert("대관신청을 하시기 위해선 팀이 있어야하며, 팀원이 10명 이상이어야 합니다.");
+		alert("대관신청 전 팀이 있어야 합니다.");
 		return false;
 		
-	} else if(teamCnt < 10) {
-		alert("현대 팀신청이 [승인대기중] 이거나, 팀원이 10명이상인지 확인 하세요.");
+	} else if(10 >= teamCnt) {
+		alert("대관신청을 하시기 위해선  팀원이 10명 이상이어야 합니다.");
 		return false;
 	}
 	
