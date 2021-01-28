@@ -15,7 +15,7 @@
 			<ul>
 				<li>
 					<div class='bd1'>
-						<div class='tit1'>센터</div>
+						<div class='tit1'>체육시설</div>
 						<select id="sb1" name='sb1' class='selbox_multi_01' size='4'></select>
 					</div>
 				</li>

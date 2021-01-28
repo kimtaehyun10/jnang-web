@@ -98,6 +98,8 @@ var writeCondition = function(type, data){
 				sb1Html += '';
 			}else if(data[i].comcd == "JUNGNANG17"){
 				sb1Html += '';
+			}else if(data[i].comcd == "JUNGNANG13"){
+				sb1Html += '';
 			}else{
 			sb1Html += '<option value='+ data[i].comcd +'>'+data[i].comnm+'</option>';	
 			}						
