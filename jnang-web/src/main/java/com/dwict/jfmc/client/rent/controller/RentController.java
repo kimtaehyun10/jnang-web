@@ -98,7 +98,7 @@ public class RentController {
 			return modelAndView;
 		}
 		//팀 회원수
-		int teamCount =  rentService.teamCount(MEM_ID);
+		int teamCount =  rentService.teamCount(MEM_ID, rentCfg);
 		rentCfg.put("teamMemCnt",teamCount );
 		modelAndView.addObject("rentCfg", rentCfg);
 

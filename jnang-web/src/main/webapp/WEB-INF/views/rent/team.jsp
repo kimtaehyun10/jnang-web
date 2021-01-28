@@ -43,7 +43,11 @@ function teamSelect(val1) {
 	frm.submit();
 }
 
+$(function(){
 
+	setTimeout('$("#teamSEQ").focus();',1000);
+
+});
 </script>
 <div class="sub_cont1">
 <div class="con_bx">
@@ -92,7 +96,7 @@ function teamSelect(val1) {
     </tr>
     <tr>
     	<th>팀리스트</th>
-    <td colspan="2">
+    <td>
 	    <select id="teamSEQ" name="teamSEQ" class="inputbox_01a" onchange="teamSelect(this.value);">
 		    <option value=''>신규팀생성</option>
 			<c:forEach items="${teamList}" var="result" varStatus="status">
@@ -113,6 +117,8 @@ function teamSelect(val1) {
 			</c:forEach>
 		</select>
 	</td>
+   	<th>신청(승인)상태</th>
+	<td><c:out value="${teamData.confirm_NM}"/></td>
 	</tr>
 	<tr>
 		<th>종목선택</th>

@@ -161,7 +161,11 @@
 	<!-- 팀회원 저장 -->
 	<insert id="teamMemSave" parameterType="java.util.HashMap" >
 		<selectKey keyProperty="team_seq" resultType="_int" order="BEFORE"> 
-		select seq from rent_team where mem_id= #{mem_id}  and seq = #{teamSEQ}  order by seq desc limit 1
+		select seq from rent_team where mem_id= #{mem_id}
+			<if test='teamSEQ !="" and teamSEQ != null'> 
+				and seq = #{teamSEQ}
+			</if>
+		   order by seq desc limit 1
 		</selectKey>	
 		INSERT INTO  rent_team_mem  SET 
 			 team_seq 	=	 #{team_seq} 
@@ -198,7 +202,12 @@
 
 	<!-- 선택팀 정보  -->
 	<select id="getTeamData" parameterType="java.util.HashMap" resultType="java.util.HashMap">
-		SELECT seq, mem_id, sp_type, tm_type, tm_nm, confirm_yn, wdate
+		SELECT seq, mem_id, sp_type, tm_type, tm_nm, confirm_yn
+		,case (confirm_yn)
+			when 'Y' then '승인'
+			else '승인대기'
+		end as confirm_NM
+		, wdate
 		FROM rent_team
 		WHERE mem_id = #{MEM_ID}  AND seq = #{SEQ}
 	</select>
@@ -218,8 +227,8 @@
 		FROM RENT_TEAM TEAM
 		JOIN RENT_TEAM_MEM MEM
 		ON TEAM.SEQ = MEM.TEAM_SEQ
-		WHERE TEAM.MEM_ID = #{MEM_ID}
-		AND TEAM.CONFIRM_YN = 'N';
+		WHERE TEAM.MEM_ID = #{MEM_ID} and TEAM.sp_type = #{PLACE_GROUP} 
+		AND TEAM.CONFIRM_YN = 'Y';
 		<!-- SELECT COUNT(*) 
 		FROM RENT_TEAM_MEM 
 		WHERE TEAM_SEQ = (SELECT SEQ FROM RENT_TEAM WHERE MEM_ID =#{MEM_ID}) -->

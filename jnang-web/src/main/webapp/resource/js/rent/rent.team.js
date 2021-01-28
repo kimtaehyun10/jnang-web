@@ -102,7 +102,9 @@ function send() {
 			
 			if (data == "1" || data == "2") {
 				alert('팀이 저장 되었습니다.');
-				top.location.href ='/rent/team';
+				//top.location.href ='/rent/team';
+				top.location.reload();
+				
 			} else if (data == "-9") {
 				alert("사용자 동의후 접수 가능합니다.");
 			} else {

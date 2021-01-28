@@ -19,7 +19,7 @@ function send(tabCnt) {
 		return false;
 		
 	} else if(teamCnt < 10) {
-		alert("대관신청을 하시기 위해선 팀이 있어야하며, 팀원이 10명 이상이어야 합니다.");
+		alert("현대 팀신청이 [승인대기중] 이거나, 팀원이 10명이상인지 확인 하세요.");
 		return false;
 	}
 	

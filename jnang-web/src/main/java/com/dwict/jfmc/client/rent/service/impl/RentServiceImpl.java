@@ -131,6 +131,7 @@ public class RentServiceImpl implements RentService {
 	  			strMap.put("mem_birth", tmpStr[1]);
 	  			strMap.put("mem_addr", tmpStr[2]);
 	  			strMap.put("mem_addr2", tmpStr[3]);
+	  			strMap.put("teamSEQ", teamSEQ);
 				System.out.println("sssssssssss:"+ strMap);
 				mapper.teamMemSave(strMap);
 			}
@@ -483,10 +484,9 @@ public class RentServiceImpl implements RentService {
 	
 	//팀별 회원수
 	@Override
-	public int teamCount(String MEM_ID) {
-		Map<String, Object> param = new HashMap<>();
-		param.put("MEM_ID", MEM_ID);
-		return mapper.teamCount(param);
+	public int teamCount(String MEM_ID, Map <String,Object> maps) {
+		maps.put("MEM_ID", MEM_ID);
+		return mapper.teamCount(maps);
 	}
 	
 

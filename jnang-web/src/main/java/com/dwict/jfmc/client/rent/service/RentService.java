@@ -57,7 +57,7 @@ public interface RentService {
 	Map<String, Object> getTeam(String SEQ);
 	
 	//팀 회원수
-	int teamCount(String mEM_ID);
+	int teamCount(String mEM_ID, Map<String, Object> maps);
 	
 
 
