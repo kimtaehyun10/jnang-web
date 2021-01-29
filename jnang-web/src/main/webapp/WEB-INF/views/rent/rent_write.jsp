@@ -50,8 +50,11 @@ $(function(){
 	var clareCalendar = {maxDate: '+60d',minDate: '+2d' }
 	$("#RENT_DATE").datepicker(clareCalendar);
 
-	//선택 날짜 로드
-	setTimeout("getRent('<%=YMD%>',<%=PLACE_CD%>,0)",500);
+	var sYMD = fn_convertDate(2,'<%=YMD%>');
+	$("#RENT_DATE").val(sYMD);
+	
+	//선택 날짜 예약 로드
+	setTimeout("getRent("+ sYMD +",<%=PLACE_CD%>,0);",500);
 	
 });
 function send() {
@@ -133,7 +136,7 @@ function send() {
 	<tr>
 		<th>대관일/시</th>
 		<td>
-			<input type="text" id="RENT_DATE" name="RENT_DATE" maxlength="10" value="<%=YMD%>" class="inputbox_01a" required="" onchange="getRent('',<%=PLACE_CD%>,9);">
+			<input type="text" id="RENT_DATE" name="RENT_DATE" maxlength="10" value="" class="inputbox_01a" required="" onchange="getRent('',<%=PLACE_CD%>,9);">
 			/ 
 			<select id="STIME" name="STIME" class="inputbox_01a" required="">
 				<option value="">시작 시간</option>

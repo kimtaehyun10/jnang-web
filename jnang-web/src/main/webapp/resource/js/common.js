@@ -363,3 +363,16 @@ function fn_dateDiff(_type, _date1, _date2) {
     return sign +""+ diff;
 }
 
+//선택일자의 X일 추가
+function getAddDay(pDay, pDayCnt){
+    var yy = parseInt(pDay.substr(0, 4), 10);
+    var mm = parseInt(pDay.substr(4, 2), 10);
+    var dd = parseInt(pDay.substr(6, 2), 10);
+ 
+    d = new Date(yy, mm - 1, dd + pDayCnt);
+ 
+    yy = d.getFullYear();
+    mm = d.getMonth() + 1; mm = (mm < 10) ? '0' + mm : mm;
+    dd = d.getDate(); dd = (dd < 10) ? '0' + dd : dd;
+    return '' + yy + '-' +  mm  + '-' + dd;
+}
