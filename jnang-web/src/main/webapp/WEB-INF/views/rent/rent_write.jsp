@@ -14,7 +14,7 @@ String param 	= request.getParameter("q");
 String [] arrParam = param.split("\\/"); 
 String PLACE_CD = arrParam[0];
 String YMD 		= request.getParameter("ymd");
-YMD = (YMD == null) ? today : YMD;
+YMD = (YMD == null || YMD == "") ? today : YMD;
 %>
 <script type="text/javascript">
 /**
@@ -50,11 +50,28 @@ $(function(){
 	var clareCalendar = {maxDate: '+60d',minDate: '+2d' }
 	$("#RENT_DATE").datepicker(clareCalendar);
 
-	var sYMD = fn_convertDate(2,'<%=YMD%>');
+	var sYMD = "<%=YMD%>";
+	if (sYMD.length == 8) {
+		sYMD = fn_convertDate(2,sYMD);
+	}
+	sYMD = fn_convertDate(1,sYMD)
+	<%
+	//선택된 날짜값없을경우 자동날짜  처리 오늘날짜 +3일 (당일 예약 불가능하도록)
+	if (request.getParameter("ymd") == null || request.getParameter("ymd") == "") {
+	%>
+		sYMD = getAddDay(sYMD, 2);
+	<%
+	} else {
+	%>
+		sYMD = fn_convertDate(2,sYMD);
+	<%
+	}
+	%>
+	
 	$("#RENT_DATE").val(sYMD);
 	
 	//선택 날짜 예약 로드
-	setTimeout("getRent("+ sYMD +",<%=PLACE_CD%>,0);",500);
+	setTimeout("getRent('',<%=PLACE_CD%>,0);",500);
 	
 });
 function send() {
