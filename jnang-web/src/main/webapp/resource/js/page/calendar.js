@@ -61,12 +61,7 @@ function getDataList(p_cd,p_tab) {
 					//return false;
 				}
 			
-				//for(var ii=0; ii< rentAppList.length; ii++) {
-					//console.log(rentAppList[ii].days +"/" + rentAppList[ii].TIME_SEQ +"/"+rentAppList[ii].RESERVE_DATE);
-				//}
-
 				var today = new Date();
-				//console.log(today.toLocaleString());
 				var arrayTmp = (today.toLocaleString()).split(".");
 				var yy = arrayTmp[0];
 				var mm = Number(arrayTmp[1]); //(Number(mm) > 9) ? mm : "0"+mm;
@@ -79,7 +74,8 @@ function getDataList(p_cd,p_tab) {
 				var yymmdd = yy +""+ mm +""+ dd;
 				var yymm = yy +""+ mm;
 				var nyymm = YYMM;
-				//console.log("today:"+ yymmdd +" <<<=>> "+ yymmdd +",,"+ YYMM);
+
+
 				//달력 출력
 				for(var ii=1; ii<= 31; ii++) {
 					var ndd = (Number(ii) > 9) ? ii : "0"+ ii;
@@ -129,7 +125,7 @@ function getDataList(p_cd,p_tab) {
 							if (dataIn) {
 								tmpList += "[<span class='red1'>예약완료</span>]<br>";
 							} else {
-								tmpList += "<a href='/rent/date/?ymd="+ nyymmdd +"&q="+ p_cd +"/0'>[<span class='btn_green1'>예약가능</span>]</a><br>";
+								tmpList += "<a href='/rent/date/?yy="+ nyymmdd.substring(0,4) +"&mm="+  nyymmdd.substring(4,6) +"&q="+ p_cd +"/0'>[<span class='btn_green1'>예약가능</span>]</a><br>";
 							}
 									
 	
@@ -141,9 +137,7 @@ function getDataList(p_cd,p_tab) {
 				
 			} else {
 				
-				//console.log(data);
-				//if(data.length != 0) {
-									
+					//체육관 대관 ########################################
 					var rentAppList = new Array();
 					if(data.length != 0) {
 						
@@ -165,12 +159,6 @@ function getDataList(p_cd,p_tab) {
 						//return false;
 					}
 
-					/*
-					var today = new Date();
-					var yyyy = today.getFullYear();
-					var mm 	 = today.getMonth();
-					var today = new Date(yyyy,mm,today.getDate());
-					*/
 
 					var today = new Date();
 					//console.log(today.toLocaleString());
@@ -190,21 +178,7 @@ function getDataList(p_cd,p_tab) {
 					//달력 출력
 					for(var ii=1; ii<= 31; ii++) {
 						
-						//var loopDay = new Date(YYMM.substring(0,4)+"/"+ Number(YYMM.substring(4,6)) +"/"+ii);
-						//var tmpList = "";
-						
-						//console.log(today.getFullYear() +"/"+today.getMonth() +"/"+today.getDate()  +" > 비교 "+ loopDay.getFullYear() +"/"+loopDay.getMonth() +"/"+loopDay.getDate() +" ");
-						/*
-						var xxx = fn_dateDiff("m",today.getFullYear() +"/"+today.getMonth() +"/"+today.getDate(), loopDay.getFullYear() +"/"+loopDay.getMonth() +"/"+loopDay.getDate());
-						xxx = isNaN(xxx) ? 1: xxx;
-						//console.log("xxxx:"+ xxx +", "+ isNaN(xxx));
-						if (today.getTime() > loopDay.getTime()) {
-							
-							tmpList += "[<span class='btn_gray1'>예약종료</span>]<br>";
-						} else if (xxx > 1) {
-							tmpList += "[<span class='btn_gray1'>준비중</span>]<br>";
-						} else {
-						*/
+
 						var ndd = (Number(ii) > 9) ? ii : "0"+ ii;
 						var nyymmdd = YYMM +""+ ndd;
 						var tmpList = "";
