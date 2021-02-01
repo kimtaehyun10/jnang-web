@@ -9,11 +9,11 @@ String subTitle = "";
 //out.println("COMCD:"+ COMCD +"<BR>");
 switch(COMCD) {
 	case "JUNGNANG01" :
-		subTitle = "구민체육센터 > 이용안내";
+		subTitle = "구민체육센터 > 대관안내";
 	break;
 	
 	case "JUNGNANG02" :
-		subTitle = "중랑문화체육관 > 시설안내";
+		subTitle = "중랑문화체육관 > 대관안내";
 	break;
 }
 
@@ -89,7 +89,7 @@ if (COMCD.equals("JUNGNANG01")) {
 		<br>
 
 		<div class="ali_r margin_b10">
-		<a href="/data/file/01010100_20210120.hwp" class="size_m2 btn_green1 fontsize_1dot50" >대관신청 다운로드</a>
+		<a href="/data/file/제3호서식_대관 사용 허가 신청서.hwp" class="size_m2 btn_green1 fontsize_1dot50" >대관신청 다운로드</a>
 		</div>
 
 		<br>
@@ -361,8 +361,8 @@ if (COMCD.equals("JUNGNANG02")) {
 		<br>
 
 		<div class="ali_r margin_b10">
-                   <a href="/data/file/01010100_20210120.hwp" class="size_m2 btn_green1 fontsize_1dot50" >대관신청 다운로드</a>
-		</div>
+			<a href="/data/file/제3호서식_대관 사용 허가 신청서.hwp" class="size_m2 btn_green1 fontsize_1dot50" >대관신청 다운로드</a>
+        </div>
 
 		<br>
 		<br>
