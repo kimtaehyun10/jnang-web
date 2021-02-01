@@ -59,6 +59,10 @@ public interface RentService {
 	//팀 회원수
 	int teamCount(String mEM_ID, Map<String, Object> maps);
 	
+	void pubRentApplyWrite(Map<String, Object> param) throws Exception;
+	
+	
+	
 
 
 }

@@ -326,6 +326,7 @@
 			 ,PRODUCT_SIZE 
 			 ,START_DATE
 			 ,END_DATE
+			 ,ATTACH_ID
 		 ) VALUES ( 
 			  #{COMCD} 
 			 ,#{RENT} 
@@ -378,6 +379,7 @@
 			 ,#{PRODUCT_SIZE}
 			 ,#{START_DATE}
 			 ,#{END_DATE}   
+			 ,#{ATTACH_ID}
 		)
 	</insert>
 

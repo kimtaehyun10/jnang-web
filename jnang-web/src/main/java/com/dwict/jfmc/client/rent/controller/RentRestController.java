@@ -1,5 +1,6 @@
 package com.dwict.jfmc.client.rent.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.dwict.jfmc.client.com.service.CommonService;
 import com.dwict.jfmc.client.rent.service.RentService;
@@ -41,11 +44,25 @@ public class RentRestController {
 	//댸관 문의 저장
 	@PostMapping(value = "/writeSave")
 	@ResponseBody
-	public int writeSave(@RequestParam  Map<String, Object> requestMap, HttpServletRequest request) {
-		System.out.println("########################################################################");
-		System.out.println(requestMap);
-		System.out.println("########################################################################");
+	public int writeSave(@RequestParam  Map<String, Object> requestMap, HttpServletRequest request, MultipartHttpServletRequest files) throws Exception {
+		
+		
+		
+		final Map<String, Object> param = new HashMap<>();
+		final List<MultipartFile> fileList = files.getFiles("files");
+		
+		param.put("fileList", fileList);
+		
+		rtnService.pubRentApplyWrite(param);
+		
+		String ATTACH_ID = (String) param.get("attach_id");
 		//예약 저장
+		
+		System.out.println(requestMap);
+		System.out.println(param);
+		
+		requestMap.put("ATTACH_ID", ATTACH_ID);
+		
 		int rtn = rtnService.writeSave(requestMap);
 		return rtn;
 	}

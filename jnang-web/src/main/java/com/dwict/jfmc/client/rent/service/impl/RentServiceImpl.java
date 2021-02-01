@@ -1,9 +1,11 @@
 package com.dwict.jfmc.client.rent.service.impl;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.print.attribute.HashPrintJobAttributeSet;
@@ -13,7 +15,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.dwict.jfmc.client.board.mapper.BoardMapper;
 import com.dwict.jfmc.client.com.model.Paging;
 import com.dwict.jfmc.client.com.util.FormatUtil;
 import com.dwict.jfmc.client.lecture.model.ComInfo;
@@ -21,6 +25,7 @@ import com.dwict.jfmc.client.lecture.model.Grpcd;
 import com.dwict.jfmc.client.lecture.model.ProgramItem;
 import com.dwict.jfmc.client.lecture.model.TrainClass;
 import com.dwict.jfmc.client.mypage.service.MypageService;
+import com.dwict.jfmc.client.park.mapper.ParkMapper;
 import com.dwict.jfmc.client.rent.mapper.RentMapper;
 import com.dwict.jfmc.client.rent.service.RentService;
 import com.dwict.jfmc.client.security.model.Account;
@@ -34,11 +39,20 @@ public class RentServiceImpl implements RentService {
 	@Resource(name = "mypageService")
 	private MypageService mypgService;
 	
+	@Resource(name = "boardMapper")
+	private BoardMapper boardMapper;
+	
+	@Resource(name="parkMapper")
+	private ParkMapper parkMapper;
+	
 	@Value("#{appConfig['smpay.merchant.key']}")
 	private String merchantKey;
 	
 	@Value("#{appConfig['smpay.mid.key']}")
 	private String storeMID;
+	
+	@Value("#{appConfig['Globals.fileUploadStorePath']}")
+	private String storePath;
 	
 	@Override
 	public List<ComInfo> conditionSb1() {
@@ -305,7 +319,7 @@ public class RentServiceImpl implements RentService {
 	//대관 문의 저장 ###################################################################################
 	@Override
 	public int writeSave(Map<String, Object> requestMap) {
-		String param = (String) requestMap.get("q");
+ 		String param = (String) requestMap.get("q");
 		param = (param == null) ? "0/0/0/" : param;
 		param = ((param.contains("/"))) ? param : param +"/0" ;
 		String [] arrParam = param.split("\\/"); 
@@ -313,24 +327,28 @@ public class RentServiceImpl implements RentService {
 		requestMap.put("PLACE_TAB", arrParam[1]);
 		
 		String RENT_DATE = (String) requestMap.get("RENT_DATE");
-		RENT_DATE = RENT_DATE.replace("-", "");
 		String STIME = requestMap.get("STIME").toString();
 		STIME = (Integer.parseInt(STIME) > 9) ? STIME : "0"+STIME;
 		String ETIME = (String) requestMap.get("ETIME");
 		ETIME = (Integer.parseInt(ETIME) > 9) ? ETIME : "0"+ETIME;
 		
+		String START_DATE = RENT_DATE + " " + STIME + ":00";
+		String END_DATE = RENT_DATE + " " + ETIME + ":00";
 		
+		RENT_DATE = RENT_DATE.replace("-", "");
 		
 		requestMap.put("PART_CD", "00");
 		requestMap.put("COM_NM", "");
 		requestMap.put("TIME_SEQ", 0);
 		requestMap.put("RESERVE_DATE", RENT_DATE);
 		requestMap.put("SDATE", STIME + ":00");
+		requestMap.put("START_DATE", START_DATE);
 		requestMap.put("EDATE", ETIME + ":00");
+		requestMap.put("END_DATE", END_DATE);
 		requestMap.put("APP_TYPE", "10");
 		
 		//return mapper.rentWriteSave(requestMap);
-		return mapper.rentSave(requestMap);
+ 		return mapper.rentSave(requestMap);
 	}
 	
 	//대관 예약 확인
@@ -467,6 +485,34 @@ public class RentServiceImpl implements RentService {
 		maps.put("MEM_ID", MEM_ID);
 		return mapper.teamCount(maps);
 	}
+
+	@Override
+	public void pubRentApplyWrite(Map<String, Object> param) throws Exception {
+		final List<MultipartFile> fileList = (List<MultipartFile>) param.get("fileList");
+		parkMapper.pubParkApplyWrite(param);
+		int index = 1;		
+		if (!fileList.isEmpty()) {
+			final File saveFolder = new File(storePath);
+			if (!saveFolder.exists() || saveFolder.isFile()) {
+				saveFolder.mkdirs();
+			}								
+			for(final MultipartFile mf : fileList) {
+				final String originFileName = mf.getOriginalFilename();
+				final String extName = originFileName.substring(originFileName.lastIndexOf("."), originFileName.length());				
+				final String reFileName = "PPK" + "_" + UUID.randomUUID().toString().replaceAll("-", "") + extName;
+				final String saveFile = storePath + reFileName;
+				mf.transferTo(new File(saveFile));
+				param.put("attachNo", index);
+				param.put("attachId", param.get("attach_id"));
+				param.put("fileNm", originFileName);
+				param.put("virFileNm", reFileName);
+				param.put("fileExtsn", extName.replace(".", ""));
+				
+				boardMapper.saveAttach(param);
+				index++;
+			}
+		}
+ 	}
 	
 
 }

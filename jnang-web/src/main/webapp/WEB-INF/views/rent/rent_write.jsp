@@ -95,7 +95,52 @@ function send() {
 		getRent('',<%=PLACE_CD%>,9);
 		
 		var aItemList = new Array();
-		$.post('/rent/writeSave',  $("#frm1").serialize() , function(data){
+			
+			var formData=new FormData();
+			var inputFile=$("#file");
+			var files=inputFile[0].files;	
+			var fileCheck = document.getElementById("file").value;
+			
+			formData.append("MEM_NO",$("#MEM_NO").val());
+			formData.append("PLACE_CD",$("#PLACE_CD").val());
+			formData.append("MEM_NM",$("#MEM_NM").val());
+			formData.append("TEL",$("#TEL").val());
+			formData.append("COMCD",$("#COMCD").val());		
+			formData.append("CONCEPT",$("#CONCEPT").val());
+			formData.append("OBJECT",$("#OBJECT").val());
+			formData.append("ETIME",$("#ETIME").val());
+			formData.append("STIME",$("#STIME").val());
+			formData.append("RENT_DATE",$("#RENT_DATE").val());
+			formData.append("q",$("#q").val());
+			
+		    if(!fileCheck){
+		        alert("대관사용허가 신청서 , 대관 계약서를 첨부해주세요.");
+		        return false;
+		    }
+			
+			for(var i=0;i<files.length;i++){
+				formData.append("files",files[i]);
+			}		
+			
+			$.ajax({
+		        type: "post",
+		        enctype: 'multipart/form-data',
+		        url:'/rent/writeSave',
+		        data: formData,
+		        processData: false,
+		        contentType: false,       
+		        success: function (data) {
+		        	alert('신청이 완료 되었습니다.');
+					top.location.href ='/mypage/rent';	        	
+		        },        
+		        error: function (jqXHR,textStatus,errorThrown) { 
+		        	alert('접수 오류 !  다시 신청 하십시요!~');
+		        }
+		    });				
+		
+		
+		
+	/* 	$.post('/rent/writeSave',  $("#frm1").serialize() , function(data){
 			
 			if (data == "1") {
 				alert('신청이 완료 되었습니다.');
@@ -103,7 +148,7 @@ function send() {
 			} else {
 				alert('접수 오류 !  다시 신청 하십시요!~');
 			}
-		},"json");
+		},"json"); */
 /* 	} catch (exception) 
 	{
 		console.log(exception);
@@ -121,7 +166,7 @@ function send() {
 
 <div class="sub_cleanreport">
 	
-<form name="frm1" id="frm1" method="post" onsubmit="return send();"> 
+<form name="frm1" id="frm1" method="post" onsubmit="return send();" enctype="multipart/form-data"> 
 
 	<div class="border_top_3_green"></div>
 	
@@ -137,13 +182,13 @@ function send() {
 	<tr>
 		<th>이름</th>
 		<td>
-			<input type="text" name="MEM_NM" value="<c:out value='${myData.MEM_NM}'/>" maxlength="20" class="inputbox_01a" required="" placeholder="이름">
+			<input type="text" id="MEM_NM" name="MEM_NM" value="<c:out value='${myData.MEM_NM}'/>" maxlength="20" class="inputbox_01a" required="" placeholder="이름">
 		</td>
 	</tr>
 	<tr>
 		<th>연락처</th>
 		<td>
-			<input type="text" name="TEL" value="<c:out value='${myData.HP}'/>" maxlength="20" class="inputbox_01a" required="" placeholder="휴대폰">
+			<input type="text" id="TEL" name="TEL" value="<c:out value='${myData.HP}'/>" maxlength="20" class="inputbox_01a" required="" placeholder="휴대폰">
 		</td>
 	</tr>
 	<tr>
@@ -174,13 +219,34 @@ function send() {
 	<tr>
 		<th>대관 용도</th>
 		<td>
-			<input type="text" name="OBJECT" value="" maxlength="100" class="inputbox_01a inputbox_01_s3" required="" placeholder="제목">
+			<input type="text" id="OBJECT" name="OBJECT" value="" maxlength="100" class="inputbox_01a inputbox_01_s3" required="" placeholder="제목">
+		</td>
+	</tr>
+	<tr>
+		<th>대관신청서 양식</th>
+		<td>
+			<a href="/data/file/제3호서식_대관 사용 허가 신청서.hwp" class="fc_blue1 line_under">대관 사용 허가 신청서 다운로드</a>
+		</td>
+	</tr>
+	<tr>
+		<th>대관계약서 양식</th>
+		<td>
+			<a href="/data/file/제4호서식_대관 계약서.hwp" class="fc_blue1 line_under">대관 계약서 다운로드</a>
+		</td>
+	</tr>
+	<tr>
+		<th>파일 업로드</th>
+		<td>
+			<span style="color:red">작성하신 대관 사용 허가 신청서와 대관계약서를 첨부해주세요.</span>
+			<br>
+			<input type="file" id="file" name="file" multiple>
+			
 		</td>
 	</tr>
 	<tr>
 		<th>문의내용</th>
 		<td>
-			<textarea name="CONCEPT" maxlength="1000" style="height:200px;width:80%;" class="inputbox_01a" required="" placeholder="1,000자 이내로 작성하세요.">
+			<textarea name="CONCEPT" id="CONCEPT" maxlength="1000" style="height:200px;width:80%;" class="inputbox_01a" required="" placeholder="1,000자 이내로 작성하세요.">
 사용인원 : (예:최대 00명 )
 장비대여 : (예:마이크/조명시설/축구공)
 문의 내용 :  
@@ -194,10 +260,11 @@ function send() {
 <br>
 <br>
 	<div class="bx_btns_01a ali_c">
-		<input type="hidden" name="q" value="<%=param%>">
-		<input type="hidden" name="COMCD" value="${rentCfg.COMCD}">
+		<input type="hidden" id="q" name="q" value="<%=param%>">
+		<input type="hidden" id="COMCD" name="COMCD" value="${rentCfg.COMCD}">
 		<input type="hidden" name="id" value="<c:out value='${myData.ID}'/>">
-		<input type="hidden" name="MEM_NO" value="<c:out value='${myData.MEM_NO}'/>">
+		<input type="hidden" id="MEM_NO" name="MEM_NO" value="<c:out value='${myData.MEM_NO}'/>">
+		<input type="hidden" id="PLACE_CD" name="PLACE_CD" value="<%=PLACE_CD%>">
 		<input type="hidden" id="arryData" name="arryData">
 		<!-- <input type="button" class="size_m2 btn_green1" value="대관 문의 테스트" onClick="send();"> -->
 		<input type="submit" class="size_m2 btn_green1" value="대관 문의">
