@@ -34,7 +34,7 @@ Timestamp toDay = new Timestamp((new Date()).getTime()); // 현재날짜
 //VbankExpDate = VbankExpDate.replaceAll("-", "");
 String ediDate = getyyyyMMddHHmmss(); // 전문생성일시
 String Moid = "Moid"; 
-
+final String strUrl = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort();
 // 상점서명키 (꼭 해당 상점키로 바꿔주세요)
 //String merchantKey = "0/4GFsSd7ERVRGX9WHOzJ96GyeMTwvIaKSWUCKmN3fDklNRGw3CualCFoMPZaS99YiFGOuwtzTkrLo4bR4V+Ow==";
 //String merchantKey = "KiS8NWHjZ49FzG91HMI9hVXOSxYrvFBKzl2bYpr2ac7lg369iZxy0xhCJfg4juCuVH27mO/TQ4kG2qnjEr5Z4Q==";
@@ -50,10 +50,12 @@ String MID 			= (String) request.getAttribute("MID");
 String payURL 		= (String) request.getAttribute("URL");
 String PWD 			= (String) request.getAttribute("PWD");
 
-out.println("merchantKey:"+ merchantKey +"<BR>");
-out.println("storeMID:"+ MID +"<BR>");
-out.println("payURL:"+ payURL +"<BR>");
-out.println("PWD:"+ PWD +"<BR>");
+if (strUrl.contains("localhost")) {
+	out.println("LOCAL ==> merchantKey:"+ merchantKey +"<BR>");
+	out.println("LOCAL ==> storeMID:"+ MID +"<BR>");
+	out.println("LOCAL ==> payURL:"+ payURL +"<BR>");
+	out.println("LOCAL ==> PWD:"+ PWD +"<BR>");
+}
 
 //final String DEV_PAY_ACTION_URL = "https://tpay.smilepay.co.kr/interfaceURL.jsp";	//개발테스트
 //final String PRD_PAY_ACTION_URL = "https://pay.smilepay.co.kr/interfaceURL.jsp";	//운영
@@ -68,22 +70,14 @@ Date from = new Date();
 SimpleDateFormat transFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
 String today = transFormat.format(from);
 
-%>
-<c:set var="merchantKey" value="${dataList.merchantKey}" />
-<c:set var="storeMID" value="${dataList.storeMID}" />
-<c:set var="MEM_NM" value="${memData.MEM_NM}" />
-<%
-//String merchantKey = (String) pageContext.getAttribute("merchantKey");
-//out.println("merchantKey:"+ merchantKey +"<BR>");
-//String MID = (String) pageContext.getAttribute("storeMID");
-//out.println("storeMID:"+ MID +"<BR>");
-String MEM_NM 		= (String) pageContext.getAttribute("MEM_NM");
 
+//String MEM_NM 		= (String) pageContext.getAttribute("MEM_NM");
+Member member 	= (Member) session.getAttribute("member");
+String MEM_ID	= member.getId();
+String MEM_NM 	= member.getMemNm();
+String MEM_MAIL = member.getEmail();
 
-Member member = (Member) session.getAttribute("member");
-String MEM_ID = member.getId();
-//out.println("ssssssssssssssss"+ member.getId());
-
+MEM_MAIL = (MEM_MAIL.length() <= 10) ? "" : " | &nbsp; "+ MEM_MAIL;
 %>
 
 
@@ -336,7 +330,7 @@ function send(){
 	  </tr>
 	  <tr>	
 	  <th>신청자정보</th>
-	  <td><c:out value='${memData.HP}'/> &nbsp; | &nbsp; <c:out value='${memData.EMAIL}'/></td>
+	  <td><c:out value='${memData.HP}'/> &nbsp; <%=MEM_MAIL%></td>
 	  </tr>
 	  <tr>
 		<th> 시설명 </th>
@@ -618,7 +612,6 @@ if (PLACE_GROUP == 2 || PLACE_GROUP == 3) {
 
 </form>
 <%
-final String strUrl = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort();
 totalSum = (strUrl.contains("localhost") || MEM_ID.equals("powerjyc")) ? 10 : totalSum;
 
 String EncryptData = encodeMD5HexBase64(ediDate + MID + totalSum + merchantKey);

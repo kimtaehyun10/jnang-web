@@ -38,8 +38,7 @@ function send(tabCnt) {
 	}
 	
 	
-	
-	if (confirm("\n 총 [ "+ chkCnt +" ] 건 선택\n\n              대관 신청  하시겠습니까?\n ")) {
+	if (confirm("\n일        자 : "+ fn_convertDate(2,rntYMD) +" \n예약시간 : 총 [ "+ chkCnt +" ]시간(건) 선택\n\n              대관 신청  하시겠습니까?\n ")) {
 		
 	} else {
 		return false;	
