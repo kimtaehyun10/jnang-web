@@ -78,21 +78,13 @@ function send() {
 	//try {
 		var frm = document.frm1;
 
-		var selectCnt = 0;
-		$('input[sid="chk_tab_1"]:checked').each(function() {
-			if (this.value != "") {
-				selectCnt++;
-				console.log("idx: "+ this.value);
-			}
-		});
+		//이미 신청 중콕첵크
+		getRent('',<%=PLACE_CD%>,9);
 		
 		if (confirm("\n 대관 상담신청  하시겠습니까?\n ")) {
 		} else {
 			return false;	
 		}
-		
-		//이미 신청 중콕첵크
-		getRent('',<%=PLACE_CD%>,9);
 		
 		var aItemList = new Array();
 			
@@ -208,7 +200,7 @@ function send() {
 		<td>
 			<input type="text" id="RENT_DATE" name="RENT_DATE" maxlength="10" value="" class="inputbox_01a" required="" onchange="getRent('',<%=PLACE_CD%>,9);">
 			/ 
-			<select id="STIME" name="STIME" class="inputbox_01a" required="">
+			<select id="STIME" name="STIME" class="inputbox_01a" required="" onchange="getRent('',<%=PLACE_CD%>,9);">
 				<option value="">시작 시간</option>
 				<c:forEach var="ii" begin="06" end="23" step="1">
 				<option value="${ii}">${ii}:00</option>

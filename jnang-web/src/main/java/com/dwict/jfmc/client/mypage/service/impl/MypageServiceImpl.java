@@ -23,13 +23,10 @@ import com.dwict.jfmc.client.mem.model.Member;
 import com.dwict.jfmc.client.mypage.mapper.MypageMapper;
 import com.dwict.jfmc.client.mypage.service.MypageService;
 import com.dwict.jfmc.client.security.model.Account;
+import com.dwict.jfmc.client.smpay.service.PayService;
 
 @Service("mypageService")
 public class MypageServiceImpl implements MypageService {
-
-	@Value("#{appConfig['smpayPG.mode']}")
-	private String PG_MODE; //1:실제, 0:테스트
-	
 
 	@Resource(name="mypageMapper")
 	private MypageMapper mapper;
@@ -37,6 +34,9 @@ public class MypageServiceImpl implements MypageService {
 	@Resource(name = "memberMapper")
 	private MemberMapper memberMapper;
 
+	@Resource(name = "payService")
+	private PayService payService;
+	
 	//오래된 장바구니 비우기,  선택 삭제
 	@Override
 	public int basketClear(Map<String, Object> requestMap ) {
@@ -87,8 +87,11 @@ public class MypageServiceImpl implements MypageService {
 		int dataCnt = 0;
 		int goodsAmt = 0;
 		
-		final List<Map<String, Object>> maps
-		maps = payService.payKeyInfo(rentCfg);
+		//사업장별 PG결제 키값 정보불러오기 
+		Map<String, Object> maps = new HashMap<>();
+		maps = payService.payKeyInfo(requestMap);
+		String  merchantKey = (String) maps.get("KEY");
+		String  storeMID = (String) maps.get("MID");
 		
 		//ClassNm 값 구
 		final List<Map<String, Object>> dataList = mapper.basketList(MEM_NO);
@@ -259,7 +262,12 @@ public class MypageServiceImpl implements MypageService {
 		final String EMAIL = member.getEmail();
 		HP = (HP == null || HP == "") ? ETC_NO : HP ;
 
-		//장바구니 불러오기
+		//사업장별 PG결제 키값 정보불러오기 
+		Map<String, Object> maps = new HashMap<>();
+		maps = payService.payKeyInfo(param);
+		String  merchantKey = (String) maps.get("KEY");
+		String  storeMID = (String) maps.get("MID");
+		
 
 		//리턴 값 저장  
 		final Map<String, Object> addMap = new HashMap<>();

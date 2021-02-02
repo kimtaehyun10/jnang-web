@@ -29,10 +29,14 @@ import com.dwict.jfmc.client.park.mapper.ParkMapper;
 import com.dwict.jfmc.client.rent.mapper.RentMapper;
 import com.dwict.jfmc.client.rent.service.RentService;
 import com.dwict.jfmc.client.security.model.Account;
+import com.dwict.jfmc.client.smpay.service.PayService;
 
 @Service("rentService")
 public class RentServiceImpl implements RentService {
 
+	@Resource(name = "payService")
+	private PayService payService;
+	
 	@Resource(name = "rentMapper")
 	private RentMapper mapper;
 
@@ -364,6 +368,8 @@ public class RentServiceImpl implements RentService {
 		val2 = val2.substring(1,val2.length());
 		String RESERVE_DATE = request.getParameter("val3");
 		String PLACE_CD = request.getParameter("val4");
+		String COMCD = request.getParameter("val5");
+		
 		String yoil ="";
 		try {
 			yoil = FormatUtil.getDateYoil(RESERVE_DATE, "yyyyMMdd");
@@ -371,6 +377,13 @@ public class RentServiceImpl implements RentService {
 		} catch (Exception e) {
 			yoil = "";
 		}
+		
+		//사업장별 PG결제 키값 정보불러오기 
+		Map<String, Object> maps2 = new HashMap<>();
+		maps.put("COMCD", COMCD);
+		maps2 = payService.payKeyInfo(maps);
+		String  merchantKey = (String) maps2.get("KEY");
+		String  storeMID = (String) maps2.get("MID");
 		
 		
 		final String[] brdNoArr =  request.getParameter("val1").split(",");
@@ -389,7 +402,7 @@ public class RentServiceImpl implements RentService {
 		//rtnMap.add(maps);
 		
 
-		
+		/*
 		//다시 
 		for (int ii = 0 ; ii < rtnMap.size(); ii++) {
 			
@@ -397,7 +410,7 @@ public class RentServiceImpl implements RentService {
 			
 			
 		}
-		
+		*/
 		
 
 		maps.put("dataList", rtnMap);

@@ -127,6 +127,8 @@ public class RentController {
 		//결제전 세션 저장
 		memberService.memSession(request, MEM_ID);
 		
+		System.out.println("requestMap:"+ requestMap);
+		System.out.println("request:"+ request);
 		//회원정보 가져오기
 		final Map <String,Object> myData = mypgService.myInfo(MEM_ID);
 		String MEM_NO = (String) myData.get("MEM_NO");
@@ -150,7 +152,6 @@ public class RentController {
 		
 		//결제키
 		Map<String, Object> maps = new HashMap<>();
-		rentCfg.put("MEM_ID",MEM_ID);
 		maps = payService.payKeyInfo(rentCfg);
 		modelAndView.addAllObjects(maps);
 		

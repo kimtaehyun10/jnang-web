@@ -26,9 +26,9 @@
 	//String ediDate = getyyyyMMddHHmmss(); // 전문생성일시
 	//상품주문번호	
 	
-	String merchantKey = (String) request.getAttribute("merchantKey");
-	String storeMID 	= (String) request.getAttribute("storeMID");
-	String payURL 		= (String) request.getAttribute("payURL");
+	String merchantKey = ""; //(String) request.getAttribute("merchantKey");
+	String storeMID 	= ""; //(String) request.getAttribute("storeMID");
+	String payURL 		= ""; //(String) request.getAttribute("payURL");
 	//out.println("payURL:"+ payURL +"<BR>");
 	//out.println("storeMID:"+ storeMID +"<BR>");
 	

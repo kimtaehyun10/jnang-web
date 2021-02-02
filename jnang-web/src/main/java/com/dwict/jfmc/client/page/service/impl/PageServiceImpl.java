@@ -20,15 +20,14 @@ import com.dwict.jfmc.client.page.model.Cont;
 import com.dwict.jfmc.client.page.model.Menu;
 import com.dwict.jfmc.client.page.service.PageService;
 import com.dwict.jfmc.client.rent.mapper.RentMapper;
+import com.dwict.jfmc.client.smpay.service.PayService;
 
 @Service("pageService")
 public class PageServiceImpl implements PageService {
 
-	@Value("#{appConfig['smpayPG.mode']}")
-	private String PG_MODE; //1:실제, 0:테스트
-	
-	
-	
+	@Resource(name = "payService")
+	private PayService payService;
+		
 	@Resource(name = "pageMapper")
 	private PageMapper mapper;
 
@@ -318,6 +317,13 @@ public class PageServiceImpl implements PageService {
 		
 		String ediDate = (String) requestMap.get("ediDate");
 		String goodsAmt = (String) requestMap.get("goodsAmt");
+		
+		//사업장별 PG결제 키값 정보불러오기 
+		Map<String, Object> maps = new HashMap<>();
+		maps = payService.payKeyInfo(requestMap);
+		String  merchantKey = (String) maps.get("KEY");
+		String  storeMID = (String) maps.get("MID");
+				
 		
 		final String EncryptData = FormatUtil.encodeMD5HexBase64(ediDate + storeMID + goodsAmt + merchantKey);
 	

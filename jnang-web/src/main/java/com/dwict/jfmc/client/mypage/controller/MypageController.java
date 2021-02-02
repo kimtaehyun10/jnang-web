@@ -86,10 +86,10 @@ public class MypageController {
 		final Member members = (Member) session.getAttribute("member");
 		System.out.println("세션=========================>"+ members.getId());
 		
-	
+		
 		Map<String, Object> maps = new HashMap<>();
-		maps = payService.payKeyInfo(request);
-		modelAndView.addAllObjects(maps);
+		//사업장 별로 PG결제코드로 변경 maps = payService.payKeyInfo(request);
+		//modelAndView.addAllObjects(maps);
 		
 		maps.put("MEM_ID", members.getId());
 		maps.put("MEM_NO", members.getMemNo());
@@ -134,8 +134,8 @@ public class MypageController {
 
 		//결제키
 		Map<String, Object> maps = new HashMap<>();
-		maps = payService.payKeyInfo(request);
-		modelAndView.addAllObjects(maps);
+		//maps = payService.payKeyInfo(request);
+		//modelAndView.addAllObjects(maps);
 
 		return modelAndView;
 	}

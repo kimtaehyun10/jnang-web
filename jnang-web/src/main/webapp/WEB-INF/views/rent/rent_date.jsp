@@ -548,6 +548,7 @@ if (PLACE_GROUP == 4) {
     	<input type="hidden" id="val2" name="val2" value="0">
     	<input type="hidden" id="val3" name="val3" value="0">
     	<input type="hidden" id="val4" name="val4" value="0">
+    	<input type="hidden" id="val5" name="val5" value="${rentCfg.COMCD}">
     	<input type="hidden" name="q" value="<%=param %>">
     </form>
     
