@@ -59,6 +59,8 @@ public interface PayMapper {
 
 	void lockerOrderSave(Map<String, Object> maps);
 
+	Map<String, Object> payKeyInfo(Map<String, Object> maps);
+
 
 
 	

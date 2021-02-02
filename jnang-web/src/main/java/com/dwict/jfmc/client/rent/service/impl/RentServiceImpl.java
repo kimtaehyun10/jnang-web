@@ -45,11 +45,9 @@ public class RentServiceImpl implements RentService {
 	@Resource(name="parkMapper")
 	private ParkMapper parkMapper;
 	
-	@Value("#{appConfig['smpay.merchant.key']}")
-	private String merchantKey;
+	@Value("#{appConfig['smpayPG.mode']}")
+	private String PG_MODE; //1:실제, 0:테스트
 	
-	@Value("#{appConfig['smpay.mid.key']}")
-	private String storeMID;
 	
 	@Value("#{appConfig['Globals.fileUploadStorePath']}")
 	private String storePath;

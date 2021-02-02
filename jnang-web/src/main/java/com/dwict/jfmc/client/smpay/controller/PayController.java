@@ -89,7 +89,15 @@ public class PayController {
 					rtn = "/smartPay/"+ dirPath;
 					break;
 				case "CancelPayAct":
-					rtnMap = service.payKeyInfo(request);
+					String userParam	= request.getParameter("q")==null? "//" : request.getParameter("q"); // 사용자 파람
+					String [] arrayTmp 	= userParam.split("\\/"); //20201225/8
+					String COMCD		= arrayTmp[0]; //장소
+					String MEM_NO		= arrayTmp[1]; //회원번호
+					
+					Map<String, Object> maps = new HashMap<>();
+					maps.put("COMCD", COMCD);
+					
+					rtnMap = service.payKeyInfo(maps);
 					modelAndView.addAllObjects(rtnMap);
 					rtn = "/smartPay/"+ dirPath;
 					break;				

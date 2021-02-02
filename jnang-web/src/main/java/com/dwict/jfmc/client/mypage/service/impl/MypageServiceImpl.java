@@ -27,11 +27,9 @@ import com.dwict.jfmc.client.security.model.Account;
 @Service("mypageService")
 public class MypageServiceImpl implements MypageService {
 
-	@Value("#{appConfig['smpay.merchant.key']}")
-	private String merchantKey;
+	@Value("#{appConfig['smpayPG.mode']}")
+	private String PG_MODE; //1:실제, 0:테스트
 	
-	@Value("#{appConfig['smpay.mid.key']}")
-	private String storeMID;
 
 	@Resource(name="mypageMapper")
 	private MypageMapper mapper;
@@ -89,6 +87,9 @@ public class MypageServiceImpl implements MypageService {
 		int dataCnt = 0;
 		int goodsAmt = 0;
 		
+		final List<Map<String, Object>> maps
+		maps = payService.payKeyInfo(rentCfg);
+		
 		//ClassNm 값 구
 		final List<Map<String, Object>> dataList = mapper.basketList(MEM_NO);
 		//list 값 정보 가져오기
@@ -104,7 +105,7 @@ public class MypageServiceImpl implements MypageService {
 			dataCnt++;
 		}
 		final String strUrl = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort();
-		goodsAmt = (strUrl.contains("localhost") || strUrl.contains("14.36.179.143") || MEM_ID.equals("powerjyc")) ? 10 : goodsAmt;
+		goodsAmt = (strUrl.contains("localhost") || MEM_ID.equals("powerjyc")) ? 10 : goodsAmt;
 
 		//리턴 값 저장  
 		goodsNames = (dataCnt > 1) ? goodsNames +" 외"+ (dataCnt-1) + "건" : goodsNames;

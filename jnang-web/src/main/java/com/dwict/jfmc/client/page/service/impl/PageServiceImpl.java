@@ -24,18 +24,17 @@ import com.dwict.jfmc.client.rent.mapper.RentMapper;
 @Service("pageService")
 public class PageServiceImpl implements PageService {
 
+	@Value("#{appConfig['smpayPG.mode']}")
+	private String PG_MODE; //1:실제, 0:테스트
+	
+	
+	
 	@Resource(name = "pageMapper")
 	private PageMapper mapper;
 
 	@Resource(name = "rentMapper")
 	private RentMapper rentMapper;
-	
-	@Value("#{appConfig['smpay.merchant.key']}")
-	private String merchantKey;
-	
-	@Value("#{appConfig['smpay.mid.key']}")
-	private String storeMID;
-	
+
 
 	@Override
 	public Cont htmlPage(String cmsCd) {

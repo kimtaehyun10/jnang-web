@@ -16,8 +16,13 @@
 <%
 	String actionUrl = "/smartPay/CancelPayAct";
 	String TID			= request.getParameter("p1");
+						TID	= (TID == null) ? "" : TID;
 	String userID		= request.getParameter("q");
+						userID = (userID == null) ? "" : userID;
 	String CancelAmt    = request.getParameter("p2");
+						CancelAmt = (CancelAmt == null) ? "" : CancelAmt;
+	String COMCD   	 	= request.getParameter("p3");
+						COMCD = (COMCD == null) ? "" : COMCD;
 	String CancelMSG	= "사용자 당일 취소"; //request.getParameter("CancelMSG");
 	
 	TID = TID == null ? "" : TID.trim();
@@ -94,7 +99,7 @@ if (strUrl.contains("localhost") || strUrl.contains("14.36.179.143") || userID.e
 	
 } else {
 		
-	if (TID != "" && TID != null && CancelAmt != "" && CancelAmt != null) {
+	if (TID != "" && CancelAmt != "" && COMCD != "") {
 	%>
 		setTimeout("goCancelCard();",200);
 	<%
@@ -196,6 +201,7 @@ input {
 				</tr>
 				 -->
 				<input name="Cancelpw" type="hidden" class="input" id="Cancelpw" value=""/>
+				<input name="COMCD" type="hidden" class="input" id="COMCD" value="<%=COMCD%>"/>
 				<tr>
 					<th scope="row">취소금액</th>
 					<td>CancelAmt</td>

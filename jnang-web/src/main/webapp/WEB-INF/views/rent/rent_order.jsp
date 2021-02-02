@@ -45,12 +45,15 @@ String Moid = "Moid";
 
 String DivideInfo = "";
 
-String merchantKey 	= (String) request.getAttribute("merchantKey");
-String MID 			= (String) request.getAttribute("storeMID");
-String payURL 		= (String) request.getAttribute("payURL");
-//out.println("merchantKey:"+ merchantKey +"<BR>");
-//out.println("storeMID:"+ MID +"<BR>");
-//out.println("payURL:"+ payURL +"<BR>");
+String merchantKey 	= (String) request.getAttribute("KEY");
+String MID 			= (String) request.getAttribute("MID");
+String payURL 		= (String) request.getAttribute("URL");
+String PWD 			= (String) request.getAttribute("PWD");
+
+out.println("merchantKey:"+ merchantKey +"<BR>");
+out.println("storeMID:"+ MID +"<BR>");
+out.println("payURL:"+ payURL +"<BR>");
+out.println("PWD:"+ PWD +"<BR>");
 
 //final String DEV_PAY_ACTION_URL = "https://tpay.smilepay.co.kr/interfaceURL.jsp";	//개발테스트
 //final String PRD_PAY_ACTION_URL = "https://pay.smilepay.co.kr/interfaceURL.jsp";	//운영
@@ -616,7 +619,7 @@ if (PLACE_GROUP == 2 || PLACE_GROUP == 3) {
 </form>
 <%
 final String strUrl = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort();
-//totalSum = (strUrl.contains("localhost") || strUrl.contains("14.36.179.143") || MEM_ID.equals("powerjyc")) ? 10 : totalSum;
+totalSum = (strUrl.contains("localhost") || MEM_ID.equals("powerjyc")) ? 10 : totalSum;
 
 String EncryptData = encodeMD5HexBase64(ediDate + MID + totalSum + merchantKey);
 

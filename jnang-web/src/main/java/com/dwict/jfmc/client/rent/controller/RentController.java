@@ -150,7 +150,8 @@ public class RentController {
 		
 		//결제키
 		Map<String, Object> maps = new HashMap<>();
-		maps = payService.payKeyInfo(request);
+		rentCfg.put("MEM_ID",MEM_ID);
+		maps = payService.payKeyInfo(rentCfg);
 		modelAndView.addAllObjects(maps);
 		
 		modelAndView.setViewName("/rent/rent_order");

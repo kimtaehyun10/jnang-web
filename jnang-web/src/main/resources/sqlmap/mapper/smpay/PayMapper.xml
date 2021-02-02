@@ -497,4 +497,11 @@
 			NULL
 		)
     </insert>
+    
+    <!-- 상업장별 PG 결제코드 -->
+	<select id="payKeyInfo" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select t2.COMNM , t1.MID, t1.KEY, t1.URL, t1.PWD 
+		from cominfokey t1 left join cominfo t2 on t1.COMCD = t2.COMCD
+		WHERE t1.COMCD =  #{COMCD} and ifnull(MID,'') != ''
+	</select>    
 </mapper>

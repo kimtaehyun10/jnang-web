@@ -44,14 +44,8 @@ import com.dwict.jfmc.client.security.model.Account;
 @Service("payService")
 public class PayServiceImpl implements PayService {
 
-	@Value("#{appConfig['smpay.merchant.key']}")
-	private String merchantKey;
-	
-	@Value("#{appConfig['smpay.mid.key']}")
-	private String storeMID;
-	
-	@Value("#{appConfig['smpay.url.key']}")
-	private String payURL;
+	@Value("#{appConfig['smpayPG.mode']}")
+	private String PG_MODE; //1:실제, 0:테스트
 	
 	@Resource(name = "memberService")
 	private MemberService memberService;
@@ -78,16 +72,14 @@ public class PayServiceImpl implements PayService {
 	}
 	
 	@Override
-	public Map <String,Object> payKeyInfo(HttpServletRequest request) {
+	//사업장(comcd)별 결제코드 키 값 불러오기 
+	public Map <String,Object> payKeyInfo(Map<String, Object> maps) {
 		
-		Map <String,Object> maps = new HashMap<>();
-		
-		maps.put("merchantKey",merchantKey);
-		maps.put("storeMID",storeMID);
-		maps.put("payURL",payURL);
-
-		return maps;
-		
+		if (PG_MODE.equals("0"))//1:실제, 0:테스트
+		{
+			maps.put("COMCD", "TEST");
+		}
+		return mapper.payKeyInfo(maps);
 	}
 	
 	
