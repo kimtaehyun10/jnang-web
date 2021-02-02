@@ -332,7 +332,8 @@ public class RentServiceImpl implements RentService {
 		String ETIME = (String) requestMap.get("ETIME");
 		ETIME = (Integer.parseInt(ETIME) > 9) ? ETIME : "0"+ETIME;
 		
-		String START_DATE = RENT_DATE + " " + STIME + ":00";
+		String INWON = (String) requestMap.get("INWON");
+ 		String START_DATE = RENT_DATE + " " + STIME + ":00";
 		String END_DATE = RENT_DATE + " " + ETIME + ":00";
 		
 		RENT_DATE = RENT_DATE.replace("-", "");
@@ -340,6 +341,7 @@ public class RentServiceImpl implements RentService {
 		requestMap.put("PART_CD", "00");
 		requestMap.put("COM_NM", "");
 		requestMap.put("TIME_SEQ", 0);
+		requestMap.put("INWON", INWON + "명");
 		requestMap.put("RESERVE_DATE", RENT_DATE);
 		requestMap.put("SDATE", STIME + ":00");
 		requestMap.put("START_DATE", START_DATE);

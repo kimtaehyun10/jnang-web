@@ -110,6 +110,7 @@ function send() {
 			formData.append("OBJECT",$("#OBJECT").val());
 			formData.append("ETIME",$("#ETIME").val());
 			formData.append("STIME",$("#STIME").val());
+			formData.append("INWON",$("#INWON").val());
 			formData.append("RENT_DATE",$("#RENT_DATE").val());
 			formData.append("q",$("#q").val());
 			
@@ -188,7 +189,14 @@ function send() {
 	<tr>
 		<th>연락처</th>
 		<td>
-			<input type="text" id="TEL" name="TEL" value="<c:out value='${myData.HP}'/>" maxlength="20" class="inputbox_01a" required="" placeholder="휴대폰">
+			<input type="text" id="TEL" name="TEL" value="<c:out value='${myData.HP}'/>" maxlength="20" class="inputbox_01a" required="" placeholder="숫자만 입력해주세요.">
+		</td>
+	</tr>
+	<tr>
+		<th>행사 참여 인원</th>
+		<td>
+			<input type="text" name="INWON" id="INWON" placeholder="숫자만 기입해주세요." maxlength="10" class="inputbox_01a" required=""
+    			   oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
 		</td>
 	</tr>
 	<tr>
@@ -217,7 +225,7 @@ function send() {
 		</td>
 	</tr>
 	<tr>
-		<th>대관 용도</th>
+		<th>행사명</th>
 		<td>
 			<input type="text" id="OBJECT" name="OBJECT" value="" maxlength="100" class="inputbox_01a inputbox_01_s3" required="" placeholder="제목">
 		</td>

@@ -64,7 +64,8 @@ var pubParkfind = {
 		
 		var formData=new FormData();
 		var inputFile=$("#file");
-		var files=inputFile[0].files;						
+		var files=inputFile[0].files;	
+							
 		formData.append("name",$("#name").val());		
 		formData.append("phone",$("#phone").val());		
 		formData.append("car_number",$("#car_number").val());
