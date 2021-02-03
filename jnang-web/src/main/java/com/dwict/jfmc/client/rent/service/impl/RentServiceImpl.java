@@ -305,9 +305,9 @@ public class RentServiceImpl implements RentService {
 			if (dbl_idx ==0) {
 				//저장
 				rtn =  mapper.rentSave(maps);
-				rentYN += ",Y";
+				rentYN += ",Y"; //선착순 예약완료 출력용 
 			} else {
-				rentYN += ",N";
+				rentYN += ",N"; //이미 예약됨 출력용
 			}
 			
 		}

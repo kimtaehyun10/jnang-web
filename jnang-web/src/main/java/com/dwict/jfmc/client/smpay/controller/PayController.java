@@ -56,7 +56,13 @@ public class PayController {
 				case "mainPay":
 					rtn = "/smartPay/"+ dirPath;
 					break;
-				
+
+				case "returnTestPay":
+					//창닫을경우 이동할 URL
+					//rtnMap.put("goURL", "/mypage/classStatus");
+					rtn = "/smartPay/"+ dirPath;
+					break;
+					
 				//장바구니 강좌 결제
 				case "returnPay":
 					//결과

@@ -67,7 +67,7 @@
 	String BuyerEmail = "";
 	BuyerEmail = (BuyerEmail == null) ? "" : BuyerEmail;
 	
-	String ReturnURL = "http://localhost:8080/smartPay/returnPay"; //"https://tpay.smilepay.co.kr/returnPay.jsp"; //리턴url
+	String ReturnURL = "http://localhost:8080/smartPay/returnTestPay"; //"https://tpay.smilepay.co.kr/returnPay.jsp"; //리턴url
 	
 	if (GoodsName == null || goodsAmt == null || GoodsCnt == null || ReturnURL == null) {
 		%>
