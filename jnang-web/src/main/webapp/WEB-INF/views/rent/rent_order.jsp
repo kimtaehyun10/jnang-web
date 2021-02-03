@@ -175,7 +175,7 @@ var data = {
 		try {
 			var dataList = "";
 			if(data.length != 0){
-				$("#EncryptData").val(data);
+				$("#EncryptData").val(data.EncryptData);
 			} 
 		} catch (exception) {
 			alert("할인적용 오류 : 잠시후 다시 시도하여 주세요..");
