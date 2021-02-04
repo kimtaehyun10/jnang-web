@@ -81,7 +81,7 @@ var writeCondition = function(type, data){
 	case 'sb1':
 		var sb1Html = commonHtml;
 		for(var i=0; i<data.length; i++){			
-			 
+			console.log(data[i].comcd, data[i].comnm); 
 			if(data[i].comcd == "JUNGNANG06"){
 				sb1Html += '';
 			}else if(data[i].comcd == "JUNGNANG08"){
@@ -99,6 +99,8 @@ var writeCondition = function(type, data){
 			}else if(data[i].comcd == "JUNGNANG17"){
 				sb1Html += '';
 			}else if(data[i].comcd == "JUNGNANG13"){
+				sb1Html += '';
+			}else if(data[i].comcd == "JUNGNANG09"){
 				sb1Html += '';
 			}else{
 			sb1Html += '<option value='+ data[i].comcd +'>'+data[i].comnm+'</option>';	
