@@ -313,7 +313,7 @@ public class PageServiceImpl implements PageService {
 	
 	//할인 변경시 금액 변경으로  EncryptData값 받기
 	@Override
-	public String getOdEncryptData(Map<String, Object> requestMap ) {
+	public Map <String, Object> getOdEncryptData(Map<String, Object> requestMap ) {
 		
 		String ediDate = (String) requestMap.get("ediDate");
 		String goodsAmt = (String) requestMap.get("goodsAmt");
@@ -326,8 +326,9 @@ public class PageServiceImpl implements PageService {
 				
 		
 		final String EncryptData = FormatUtil.encodeMD5HexBase64(ediDate + storeMID + goodsAmt + merchantKey);
-	
-		return EncryptData;
+		maps.put("EncryptData",EncryptData);
+		
+		return maps;
 	}
 	
 

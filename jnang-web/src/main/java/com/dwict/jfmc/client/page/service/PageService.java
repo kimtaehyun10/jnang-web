@@ -35,7 +35,7 @@ public interface PageService {
 	
 	
 	//할인 변경시 금액 변경으로  EncryptData값 받기
-	String getOdEncryptData(Map<String, Object> param);
+	Map <String, Object> getOdEncryptData(Map<String, Object> param);
 	
 
 }

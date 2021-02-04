@@ -6,6 +6,9 @@
 */
 var rntYMD;
 function send(tabCnt) {
+	
+	debugger;
+	
 	$.ajaxSetup({ cache: false });
 	var frm = document.frm3;
 	var chkCnt = $("input:checkbox[name='tseq']:checked").length;
@@ -103,6 +106,8 @@ function selectSport(selCT) {
 		
 		$.get('/data/rentList', { "ct1" : ct1, "ct2" : ct2 }, function(data){
 			//try {
+				debugger;
+				
 				var dataList = "";
 				if(data.length != 0){
 					for(var i=0; i<data.length; i++){

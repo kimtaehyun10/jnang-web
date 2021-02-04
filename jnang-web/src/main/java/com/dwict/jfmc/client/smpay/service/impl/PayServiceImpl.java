@@ -604,17 +604,19 @@ public class PayServiceImpl implements PayService {
 		String MemberNo			= request.getParameter("MemberNo")==null?"":request.getParameter("MemberNo"); // 매입사코드
 		String userParam		= request.getParameter("q")==null? "//" : request.getParameter("q"); // 사용자 파람
 								String [] arrayTmp 	= userParam.split("\\/"); //20201225/8
-		String RESERVE_DATE		= arrayTmp[0]; //예약일
+		String RESERVE_DATE1	= arrayTmp[0]; //예약일
 		String PLACE_CD			= arrayTmp[1]; //대관장소값
 		String COMCD			= arrayTmp[2]; //COMCD
 		String rtn_idx			= arrayTmp[3]; //대관 idx
 		String MEM_ID			= arrayTmp[4]; //memID
 
+		int RESERVE_DATE = Integer.parseInt(RESERVE_DATE1.replaceAll("-", ""));
+		
 		final Member member = memberMapper.findById(MEM_ID);
 		String MEM_NO		= member.getMemNo();
 		String MEM_NM		= member.getMemNm();
 		
-    	
+		
 		// 웹 링크 버전일 경우에 실제 스마트로 서버의 승인 값을 검증 하기 위해서 아래의 값을 비교 합니다..
 	    if (ResultCode.equals("3001")) {// CARD
 	    	// 승인 성공 시 DB 처리 하세요.
@@ -654,7 +656,7 @@ public class PayServiceImpl implements PayService {
 		  		//select * from PAY_CHANGE_INFO
 		   		//String NEXT_RECEIPT_NO = mapper.getNextReceiptNo();
 		   		//다음정산번호 가져오기 select * from PAY_LIST
-		   		//String NEXT_SLIP_NO = mapper.getNextSlipNo();
+		   		String NEXT_SLIP_NO = mapper.getNextSlipNo();
 		   		
 		   		//현금영수번호 가 없을경우 보조추가용
 		   		String NEXT_APP_NO = "";
@@ -731,6 +733,7 @@ public class PayServiceImpl implements PayService {
 			    	final String[] brdNoArr =  rtn_idx.split(",");
 			    	maps.put("ORDER_SEQ", maps.get("SEQ"));
 					maps.put("brdNoList", brdNoArr);
+					maps.put("SLIP_NO", NEXT_SLIP_NO);
 					maps.put("MEM_NO", MEM_NO);
 					maps.put("PLACE_CD", PLACE_CD);
 					maps.put("RESERVE_DATE", RESERVE_DATE);
@@ -765,6 +768,130 @@ public class PayServiceImpl implements PayService {
 	    else if (ResultCode.equals("B000")) {// CLGIFT
 	    	// 승인 성공 시 DB 처리 하세요.
 			// TID 결제 성공한 데이터 존재시 UPDATE, 존재하지 않을 경우 INSERT
+	    }
+	    else if (ResultCode.equals("TS10")) {// 토스
+	    	// 승인 성공 시 DB 처리 하세요.
+			// TID 결제 성공한 데이터 존재시 UPDATE, 존재하지 않을 경우 INSERT
+	    	
+	    	int goodsAmt = 0;
+	    	String goodsNames = "";
+	    	int dataCnt = 0;
+	    	
+		
+	    	
+	  		//등록강습반 및 프로그램 저장
+	  		//String prgList = List; //request.getParameter("PRG");//array 강습반 및 프로그램 정보
+	  		//String payList = request.getParameter("PAY"); //(String)requestMap.get("PAY");//array 주문상품 정보
+	  		//JSONArray aPrgList = JSONArray.fromObject(prgList); 
+	  		//JSONArray aPayList = JSONArray.fromObject(payList);
+	  		
+	  		String userId = MEM_ID;//(String)requestMap.get("userId");
+	  		String userNm = ""; //(String)requestMap.get("userNm");
+
+	  		//ACT_MODE : "Change" 강좌 변경
+	  		String ACT_MODE =""; // (String)requestMap.get("ACT_MODE");
+			//METHOD_CD:결제수단코드(00:현금, 99:현금영수증, 01:비씨카드.....)
+	  		
+	  		int CASH_AMT_SUM = 0;//현금결제금액
+	  		int CARD_AMT_SUM = Integer.parseInt(Amt);//카드결제금액
+	  		int RECEIVE_AMT = 0;
+	  		int RETURN_AMT = 0;
+	  		
+	  		int iDEPOSIT_AMT = 0; //보증금
+	  		
+	  		
+	  			  		
+	  		//select * from PAY_CHANGE_INFO
+	   		//String NEXT_RECEIPT_NO = mapper.getNextReceiptNo();
+	   		//다음정산번호 가져오기 select * from PAY_LIST
+	   		//String NEXT_SLIP_NO = mapper.getNextSlipNo();
+	   		
+	   		//현금영수번호 가 없을경우 보조추가용
+	   		String NEXT_APP_NO = "";
+	
+	   		
+	  		
+	    	String ymdhis = FormatUtil.getDefaultDate(1, "-","");
+
+			
+			
+  			String P_COMCD =  fn_cd; // aPayList.getJSONObject(ii).getString("P_COMCD").toString(); //결제업체코드
+  			String P_TYPE =  "TOSS"; //aPayList.getJSONObject(ii).getString("P_TYPE").toString(); //결제수단구분(CARD,CASH)
+  			
+  			//if (P_TYPE.equals("CARD")) {
+  				
+			
+  	  		int PAY_AMT = Integer.parseInt(Amt); //aPayList.getJSONObject(ii).getInt("PAY_AMT"); //결제금액
+  			
+  			//METHOD_CD:결제수단코드(00:현금, 99:현금영수증, 01:비씨카드.....)
+  			String METHOD_CD = "01";// aPayList.getJSONObject(ii).getString("METHOD_CD").toString(); //결제수단코드
+       		String APP_DATE = AuthDate; //aPayList.getJSONObject(ii).getString("APP_DATE").toString(); //카드_승인일시__van또는pg또는현금영수증
+       		String APP_NO = AuthCode; //aPayList.getJSONObject(ii).getString("APP_NO").toString(); //카드_승인번호__van또는pg또는현금영수증
+       		String APP_TIME = ""; //aPayList.getJSONObject(ii).getString("APP_TIME").toString(); //카드_승인시분Hi__van또는pg또는현금영수증
+       		
+       		
+       		if ("".equals(APP_DATE) || APP_DATE.equals(null)) {
+  				APP_DATE = FormatUtil.getDefaultDate(3, "",""); 
+  			}
+       		
+       		if (APP_NO.equals("") || APP_NO == null ) {
+       			APP_NO = NEXT_APP_NO;
+       		}
+
+       		String APP_CARD_NO = ""; //aPayList.getJSONObject(ii).getString("APP_CARD_NO").toString(); //카드 번호
+       		String SEC_CARD_NO1 = "";
+       		String SEC_CARD_NO2 = "****";
+       		String SEC_CARD_NO3 = "****";
+       		String SEC_CARD_NO4 = "";       		
+       		if (APP_CARD_NO.length() > 10)
+       		{
+       			SEC_CARD_NO1 = APP_CARD_NO.substring(4);
+       			SEC_CARD_NO4 = APP_CARD_NO.substring(APP_CARD_NO.length()-4, APP_CARD_NO.length());
+       		}
+
+       		
+       		String APP_CARD_CD = fn_cd; //aPayList.getJSONObject(ii).getString("APP_CARD_CD").toString(); //카드사 코드
+       		String APP_CARD_HALBU = CardQuota; //aPayList.getJSONObject(ii).getString("APP_CARD_HALBU").toString(); //카드사 할부       		
+       		String APP_CASH_INFO = "";//aPayList.getJSONObject(ii).getString("APP_CASH_INFO").toString(); //현금영수 입력정보
+       		
+       		Map <String , Object > maps;
+       		
+	    	//결제 SEQ
+	    	maps = new HashMap<>();
+	    	maps.put("COMCD", COMCD);
+	    	maps.put("PAY_AMT", Amt);
+	    	maps.put("PG_CD", fn_cd);
+	    	maps.put("PG_NM", fn_name);
+	    	maps.put("APP_TIME", AuthDate);
+	    	maps.put("APP_NO", APP_NO);
+	    	maps.put("TID", TID);
+	    	maps.put("PG_QUTOA", APP_CARD_HALBU);
+	    	maps.put("CARD_NO", SEC_CARD_NO1 +"-"+ SEC_CARD_NO2 +"-"+ SEC_CARD_NO3+"-"+ SEC_CARD_NO4);
+	    	maps.put("WDATE", ymdhis);
+	    	maps.put("SEQ", "");
+	    	
+	    	//실서버에서 3번 중복저장됨 그래서 중복첵크용 나는 초보자니 이렇게 해도됨 
+	    	dataCnt = mapper.rentDblChk(maps);
+	    	if (dataCnt ==0) {
+		    	mapper.rentOrderSEQ(maps);
+		    	//int od_seq = (int) maps.get("SEQ");
+
+				// 대간 결제 정보 저장
+		    	//선택된 대관 idx 값들 배열화 //146,147,11,333,444
+		    	final String[] brdNoArr =  rtn_idx.split(",");
+		    	maps.put("ORDER_SEQ", maps.get("SEQ"));
+				maps.put("brdNoList", brdNoArr);
+				maps.put("MEM_NO", MEM_NO);
+				maps.put("PLACE_CD", PLACE_CD);
+				maps.put("RESERVE_DATE", RESERVE_DATE);
+				maps.put("PAY_AMT", 0);
+				
+				//대관 결제 정보 저장
+				mapper.rentOrderSave(maps);
+				
+	    	}
+			
+	    	
 	    }
 	    else
 	    {

@@ -129,6 +129,7 @@ public class RentController {
 		
 		System.out.println("requestMap:"+ requestMap);
 		System.out.println("request:"+ request);
+		
 		//회원정보 가져오기
 		final Map <String,Object> myData = mypgService.myInfo(MEM_ID);
 		String MEM_NO = (String) myData.get("MEM_NO");

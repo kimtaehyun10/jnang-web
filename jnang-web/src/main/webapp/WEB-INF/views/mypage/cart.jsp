@@ -137,7 +137,7 @@ if (payURL.contains("https://tpay.sm")) {
 			alert("수강 신청 내역이 없습니다.");
 			return false;
 		}
-			
+		
 		
 		if (form.GoodsName.value == "" || form.Amt.value == "" || form.GoodsCnt.value == "" ||form.ReturnURL.value == "")
 		{

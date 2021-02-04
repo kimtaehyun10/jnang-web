@@ -253,7 +253,7 @@ SELECT
 		from
 			rent_app t1
 			left join rent_times t2 on t1.PLACE_CD  = t2.place_cd and t1.PLACE_TIME_SEQ = t2.seq 
-		where MEM_NO = (select MEM_NO from v_member where id= #{userId}) and APP_TYPE != 5
+		where MEM_NO = (select MEM_NO from v_member where id= #{userId})
 		order by RENT_IDX desc
 		limit 20
 	

@@ -421,18 +421,18 @@
   
   	<!-- 대관 결제완료 처리 -->
 	<update id="rentOrderSave" parameterType="java.util.HashMap">
-	UPDATE rent_app SET
+	UPDATE rent_app 
+	SET
 		ORDER_SEQ = #{ORDER_SEQ}
 		,APP_TYPE = 30 
 		, SLIP_NO = #{SLIP_NO}
-		, PAY_DATE =date_format(PAY_DATE, '%Y%m%d')
 		, PAY_DATE = DATE_FORMAT(SYSDATE(), '%Y%m%d')
  	WHERE 
  		RESERVE_DATE = #{RESERVE_DATE} 
  		AND APP_TYPE = 5
  		AND MEM_NO = #{MEM_NO}
  		AND PLACE_CD = #{PLACE_CD}
-		AND PLACE_TIME_SEQ IN  
+		AND RENT_IDX IN  
 		<foreach item="item" collection="brdNoList" index="idx" open="(" close=")" separator=",">
 	       #{item}
 		</foreach>

@@ -8,10 +8,47 @@
 $(function(){
 	setMenuTitle('bg_99', '마이페이지', '대관신청현황', true);
 	
-	//data.list('');
-	
 });
 
+
+function test(ediDate, goodsAmt, GoodsName, RESERVE_DATE, PLACE_CD, COMCD, RTN_IDX, MEM_ID){
+		
+		//GoodsName = encodeURI(GoodsName);
+
+		
+		//debugger;
+		$.get("/data/getOdEncryptData/"+ ediDate +"/"+ goodsAmt, function(data){
+		//try {
+			//console.log(data);
+			debugger;
+			var dataList = "";
+			if(data.length != 0){				
+				$("#EncryptData").val(data.EncryptData);
+				$("#merchantKey").val(data.KEY);
+				$("#MID").val(data.MID);
+				$("#Amt").val(goodsAmt);
+				$("#GoodsName").val(GoodsName);
+				
+				var html1=$("#returnURL").val();
+				var html2='';
+				html2+=html1 + "?q=";
+				html2+= RESERVE_DATE+"/";
+				html2+= PLACE_CD + "/";
+				html2+= COMCD + "/";
+				html2+= RTN_IDX + "/";
+				html2+= MEM_ID;
+				
+				$("#returnURL").val(html2);
+			goPay();	
+			} 
+		/*} catch (exception) {
+			alert("할인적용 오류 : 잠시후 다시 시도하여 주세요..");
+			window.location.reload();
+			return;
+		}*/
+	});
+	
+}
 
 var data = {
 	list: function(mode){
@@ -52,3 +89,4 @@ var data = {
 	//var param = { "seq" : seq };
 
 };
+

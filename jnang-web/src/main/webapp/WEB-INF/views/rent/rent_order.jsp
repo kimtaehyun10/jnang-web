@@ -50,12 +50,12 @@ String MID 			= (String) request.getAttribute("MID");
 String payURL 		= (String) request.getAttribute("URL");
 String PWD 			= (String) request.getAttribute("PWD");
 
-if (strUrl.contains("localhost")) {
-	out.println("LOCAL ==> merchantKey:"+ merchantKey +"<BR>");
-	out.println("LOCAL ==> storeMID:"+ MID +"<BR>");
-	out.println("LOCAL ==> payURL:"+ payURL +"<BR>");
-	out.println("LOCAL ==> PWD:"+ PWD +"<BR>");
-}
+//if (strUrl.contains("localhost")) {
+//	out.println("LOCAL ==> merchantKey:"+ merchantKey +"<BR>");
+//	out.println("LOCAL ==> storeMID:"+ MID +"<BR>");
+//	out.println("LOCAL ==> payURL:"+ payURL +"<BR>");
+//	out.println("LOCAL ==> PWD:"+ PWD +"<BR>");
+//}
 
 //final String DEV_PAY_ACTION_URL = "https://tpay.smilepay.co.kr/interfaceURL.jsp";	//개발테스트
 //final String PRD_PAY_ACTION_URL = "https://pay.smilepay.co.kr/interfaceURL.jsp";	//운영
@@ -77,7 +77,7 @@ String MEM_ID	= member.getId();
 String MEM_NM 	= member.getMemNm();
 String MEM_MAIL = member.getEmail();
 
-MEM_MAIL = (MEM_MAIL.length() <= 10) ? "" : " | &nbsp; "+ MEM_MAIL;
+MEM_MAIL = (MEM_MAIL == null) ? "" : " | &nbsp; "+ MEM_MAIL;
 %>
 
 
@@ -137,6 +137,7 @@ int [][] rentPrice = new int [20][20];
 <script type="text/javascript">
 
 $(function(){
+	
 	setMenuTitle('bg_99', '체육시설', '<%=COMNM%> > 예약/결제', true);
 	$('.sub_navi1 .navi1 .mbx1 > a').on('click',function(){
 		if($('.sub_navi1 .bg1').css('display')==='none'){
@@ -157,7 +158,7 @@ $(function(){
 
 
 var data = {
-		
+	
 	selectDC: function(dcPer){
 
 	if (confirm("\n 이용자의 50%가 할인대상자입니까? (할인여부 현장확인) ")) {
@@ -171,11 +172,11 @@ var data = {
 	$("#AmtDP").text(goodsAmt );
 	$("#Amt").val(goodsAmt);
 	
-	$.post("/data/getOdEncryptData/<%=ediDate%>/"+ goodsAmt, function(data){
+	$.get("/data/getOdEncryptData/<%=ediDate%>/"+ goodsAmt, function(data){
 		try {
 			var dataList = "";
 			if(data.length != 0){
-				$("#EncryptData").val(data);
+				$("#EncryptData").val(data.EncryptData);
 			} 
 		} catch (exception) {
 			alert("할인적용 오류 : 잠시후 다시 시도하여 주세요..");
@@ -648,11 +649,11 @@ try {
 	    
 		    <input type="hidden" name="MID" maxlength="2" value="<%=MID%>">
 			
-		    <input type="hidden" name="ReturnURL" maxlength="2" value="<%=ReturnURL%>?q=${dataList.RESERVE_DATE}/${dataList.PLACE_CD}/${rentCfg.COMCD}/${dataList.rtn_idx}/<%=member.getId()%>">
+		    <input type="hidden" name="ReturnURL" maxlength="2" value="<%=ReturnURL%>?q=${dataList.RESERVE_DATE}/${dataList.PLACE_CD}/${rentCfg.COMCD}/${dataList.rtn_idx}/<%=MEM_ID%>">
 			
 		    <input type="hidden" name="ReceiptType" maxlength="2" value="0">
 			
-		    <input type="hidden" name="RetryURL" maxlength="2" value="<%=ReturnURL%>?q=${dataList.RESERVE_DATE}/${dataList.PLACE_CD}/${rentCfg.COMCD}/${dataList.rtn_idx}/<%=member.getId()%>">
+		    <input type="hidden" name="RetryURL" maxlength="2" value="<%=ReturnURL%>?q=${dataList.RESERVE_DATE}/${dataList.PLACE_CD}/${rentCfg.COMCD}/${dataList.rtn_idx}/<%=MEM_ID%>">
 			<!-- 
 		    <tr>
 		        <th scope="row">mallUserID</th>
