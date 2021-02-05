@@ -214,13 +214,14 @@
 								<dt><a href='/mem/logout'>로그아웃</a></dt>
 								<dt><a href='/mypage/cart'>마이페이지</a></dt>
 							</sec:authorize>
-							<div><a>시설통합예약</a></div>
+							/*<div><a>시설통합예약</a></div>
 							<dl><dt><a href='/lecture/list'>수강신청</a></dt></dl>
 							<dl><dd><a href='/lecture/class/1'>수영</a></dd></dl>
 							<dl><dd><a href='/lecture/class/2'>헬스</a></dd></dl>
 							<dl><dd><a href='/lecture/class/3'>문화ㆍ체육</a></dd></dl>
 							<dl><dt><a href='/rentlist'>대관신청</a></dt></dl>
 							<dl><dt><a href='/locker/list'>사물함신청</a></dt></dl>
+							*/
 						</li>
 						<c:forEach items="${menuList}" var="topMenuList">
 							<c:if test="${topMenuList.DEP eq '1'}">
