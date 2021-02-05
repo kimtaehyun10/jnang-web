@@ -94,7 +94,7 @@
 	String MEM_ID	= member.getId();
 	String MEM_NM 	= member.getMemNm();
 	String MEM_MAIL = member.getEmail();
-
+	
 	
 %> 
 
@@ -210,13 +210,14 @@ function goPay()
 	return false;
 }
 
+
 </script>
 
 <div id="sub_cart" class=' '>
 	<form name="frm" method="post">
 	<table class="stbl_l1a">
 		<colgroup>
-			<col width="5%"><col width="5%"><col width="*"><col width="100"><col width="100"><col width="100"><col width="100">
+			<col width="5%"><col width="5%"><col width="*"><col width="120"><col width="100"><col width="100"><col width="100">
 		</colgroup>
 		<thead>
 			<tr>
@@ -233,7 +234,8 @@ function goPay()
 		<tbody id="dataList">
 			<c:forEach items="${rentList}" var="result" varStatus="status">
 			<!-- 체육관 대관만 현재 확인 가능 -->
-			<c:if test="${result.PLACE_NM ne '축구장'  && result.PLACE_NM ne '야구장' && result.PALCE_NM ne '테니스장'}">
+			<%-- <c:if test="${result.PLACE_NM ne '축구장'  && result.PLACE_NM ne '야구장' && result.PALCE_NM ne '테니스장' && result.PLACE_NM ne '잔디운동장'}"> --%>
+			<%-- <c:if test="${result.PLACE_GROUP == '1' }"> --%>
 			<tr>
 				<td>${status.count}</td>
 				<td>
@@ -256,7 +258,12 @@ function goPay()
 					</c:if>
 				</td>
 				<td>
-					<fmt:formatNumber value="${result.PAY_AMT}" pattern="#,###"/>
+					<%-- <c:if test="${result.PLACE_NM == '축구장' }">
+						
+					</c:if> --%>
+					<%-- <c:if test="${result.PLACE_NM == '생활체육실' }"> --%>
+						<fmt:formatNumber value="${result.PAY_AMT}" pattern="#,###"/>원
+					<%-- </c:if> --%>
 				</td>
 				<td>${result.RESERVE_DATE}</td>
 				<td>${result.APP_TYPE_NM}</td>
@@ -268,15 +275,14 @@ function goPay()
 				 	test = URLEncoder.encode(test, "EUC-KR");
 				 %>
 				
-					<c:if test="${result.APP_TYPE == '5' }">
+					<c:if test="${result.APP_TYPE == '15' }">
 						<input type="button" class="size_m2 btn_green1" value="결제" onClick="test('<%=ediDate%>', '${result.PAY_AMT}','<%=test%>', '${result.RESERVE_DATE}', ${result.PLACE_CD}, '${result.COMCD }',${result.RENT_IDX },'${otherData.MEM_ID }' );">
 					</c:if>
 				</td>
 			</tr>
-			</c:if>
+			<%-- </c:if> --%>
 			</c:forEach>
 		</tbody>
-
 	</table>
 	</form>
     <div class="btnarea margin_t80">

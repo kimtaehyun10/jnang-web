@@ -196,6 +196,7 @@ SELECT
 			t1.RENT_IDX
 			,(select COMNM from cominfo where COMCD = t1.COMCD) as COMNM
 			,(select PLACE_NM from rent_place rp where PLACE_CD = t1.PLACE_CD ) as PLACE_NM
+			,(select PLACE_GROUP from rent_place rp where PLACE_CD = t1.PLACE_CD ) as PLACE_GROUP
 			,t1.COMCD,
 			t1.PART_CD,
 			t1.PLACE_TIME_SEQ,
@@ -224,6 +225,8 @@ SELECT
 			APP_TYPE,
 			case APP_TYPE
 				when '5' then '결제대기'
+				<!-- 체육관 결제대기는 15번 나머지는 5번 -->
+				when '15' then '결제대기'
 				when '10' then '접수대기'
 				when '20' then '확인중'
 				when '30' then '확정'
@@ -254,6 +257,7 @@ SELECT
 			rent_app t1
 			left join rent_times t2 on t1.PLACE_CD  = t2.place_cd and t1.PLACE_TIME_SEQ = t2.seq 
 		where MEM_NO = (select MEM_NO from v_member where id= #{userId})
+		and T1.APP_TYPE != 5
 		order by RENT_IDX desc
 		limit 20
 	

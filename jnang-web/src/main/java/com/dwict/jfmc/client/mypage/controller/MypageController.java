@@ -24,6 +24,7 @@ import com.dwict.jfmc.client.mem.service.MemberService;
 import com.dwict.jfmc.client.mypage.service.MypageService;
 import com.dwict.jfmc.client.page.model.Menu;
 import com.dwict.jfmc.client.page.service.PageService;
+import com.dwict.jfmc.client.rent.service.RentService;
 import com.dwict.jfmc.client.smpay.service.PayService;
 
 
@@ -34,6 +35,9 @@ public class MypageController {
 	@Resource(name = "memberService")
 	private MemberService memberService;
 
+	@Resource(name = "rentService")
+	RentService rentService;
+	
 	@Resource(name = "mypageService")
 	private MypageService service;
 
@@ -145,11 +149,18 @@ public class MypageController {
 	public ModelAndView rentList(ModelAndView modelAndView, HttpServletRequest request) {
 		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		final String userId = auth.getName();
+		
 		final HttpSession session = request.getSession(false);
 		final Member members = (Member) session.getAttribute("member");
+		String MEM_NO = (String) members.getMemNo();
+		
 		final List<Map <String,Object>> rentList = service.getMyRentList(userId);
 		modelAndView.addObject("rentList", rentList);
  
+		//축구장 단가표
+		List <Map <String, Object>> rentPriceList= rentService.rentPriceList(MEM_NO, request);
+		modelAndView.addObject("rentPriceList", rentPriceList);
+		
 		Map<String, Object> maps = new HashMap<>();
 		maps.put("MEM_ID", members.getId());
 		maps.put("MEM_NO", members.getMemNo());
