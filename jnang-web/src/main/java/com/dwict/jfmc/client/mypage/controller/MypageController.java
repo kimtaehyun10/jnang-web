@@ -145,12 +145,20 @@ public class MypageController {
 	public ModelAndView rentList(ModelAndView modelAndView, HttpServletRequest request) {
 		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		final String userId = auth.getName();
-
+		final HttpSession session = request.getSession(false);
+		final Member members = (Member) session.getAttribute("member");
 		final List<Map <String,Object>> rentList = service.getMyRentList(userId);
 		modelAndView.addObject("rentList", rentList);
-
+ 
+		Map<String, Object> maps = new HashMap<>();
+		maps.put("MEM_ID", members.getId());
+		maps.put("MEM_NO", members.getMemNo());
 		//memberService.memSession(request, userId);		
+		modelAndView.addObject("otherData", maps);
 		modelAndView.setViewName("mypage/rent");
+		
+		System.out.println(modelAndView);
+		
 		return modelAndView;
 	}
 

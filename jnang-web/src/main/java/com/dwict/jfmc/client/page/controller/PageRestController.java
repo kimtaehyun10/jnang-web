@@ -85,8 +85,8 @@ public class PageRestController {
 	
 	//할인 변경시 금액 변경으로  EncryptData값 받기 
 	///rent/rentOrder 사용
-	@PostMapping(value = "/getOdEncryptData/{ediDate}/{goodsAmt}")
-	public String getOdEncryptData(HttpServletRequest request, @PathVariable String ediDate, @PathVariable String goodsAmt) {
+	@RequestMapping(value = "/getOdEncryptData/{ediDate}/{goodsAmt}")
+	public Map <String, Object> getOdEncryptData(HttpServletRequest request, @PathVariable String ediDate, @PathVariable String goodsAmt) {
 		
 		final Account account = (Account) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		final String MEM_ID = account.getUsername();
