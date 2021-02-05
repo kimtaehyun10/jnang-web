@@ -75,6 +75,7 @@ $(function(){
 	
 });
 function send() {
+	
 	//try {
 		var frm = document.frm1;
 
@@ -106,11 +107,18 @@ function send() {
 			formData.append("RENT_DATE",$("#RENT_DATE").val());
 			formData.append("q",$("#q").val());
 			
-		    if(!fileCheck){
+		   /*  if(!fileCheck){
 		        alert("대관사용허가 신청서 , 대관 계약서를 첨부해주세요.");
 		        return false;
+		    } */
+		    
+		    
+		    if(files.length < 2){
+		    	alert("대관사용허가 신청서, 대관계약서를 모두 첨부해주세요.");
+		    	return false;
 		    }
-			
+		    
+		    
 			for(var i=0;i<files.length;i++){
 				formData.append("files",files[i]);
 			}		
@@ -239,7 +247,7 @@ function send() {
 		<td>
 			<span style="color:red">작성하신 대관 사용 허가 신청서와 대관계약서를 첨부해주세요.</span>
 			<br>
-			<input type="file" id="file" name="file" multiple>
+			<input type="file" id="file" name="file" multiple >
 			
 		</td>
 	</tr>
