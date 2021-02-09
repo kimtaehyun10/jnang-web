@@ -88,7 +88,11 @@
 			#{USER_ID}
 		)
     </insert>	
-    	
+	
+	<!-- <insert id="setPayRentList" parameterType="java.util.HashMap">
+		
+	
+	</insert>  -->   	
     	
 	<!-- 주문상품리스트 등록 저장 -->
 	<insert id="setPayList2" parameterType="java.util.HashMap">
@@ -418,6 +422,15 @@
 		INSERT INTO rent_app_price(COMCD, PAY_AMT, PG_CD, PG_NM, APP_TIME,APP_NO, PG_QUTOA,CARD_NO, WDATE) 
 		VALUES(#{COMCD}, #{PAY_AMT}, #{PG_CD}, #{PG_NM}, #{APP_TIME}, #{APP_NO}, #{PG_QUTOA}, #{CARD_NO}, #{WDATE}) 
 	</insert>
+	
+  	<update id="updateCancelRentApp" parameterType="java.util.HashMap">
+  	 	UPDATE RENT_APP
+  	 	SET APP_TYPE = '40'
+  	 	WHERE SLIP_NO = #{SLIP_NO}
+  	 	AND MEM_NO = #{MEM_NO}
+  	</update>
+  	
+  
   
   	<!-- 대관 결제완료 처리 -->
 	<update id="rentOrderSave" parameterType="java.util.HashMap">
@@ -429,7 +442,7 @@
 		, PAY_DATE = DATE_FORMAT(SYSDATE(), '%Y%m%d')
  	WHERE 
  		RESERVE_DATE = #{RESERVE_DATE} 
- 		AND APP_TYPE = 5
+ 		AND APP_TYPE = 15
  		AND MEM_NO = #{MEM_NO}
  		AND PLACE_CD = #{PLACE_CD}
 		AND RENT_IDX IN  

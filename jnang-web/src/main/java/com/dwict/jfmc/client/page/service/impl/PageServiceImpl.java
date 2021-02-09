@@ -320,10 +320,10 @@ public class PageServiceImpl implements PageService {
 		
 		//사업장별 PG결제 키값 정보불러오기 
 		Map<String, Object> maps = new HashMap<>();
-		maps = payService.payKeyInfo(requestMap);
+		maps = payService.payKeyInfo(requestMap); 
 		String  merchantKey = (String) maps.get("KEY");
 		String  storeMID = (String) maps.get("MID");
-				
+		
 		
 		final String EncryptData = FormatUtil.encodeMD5HexBase64(ediDate + storeMID + goodsAmt + merchantKey);
 		maps.put("EncryptData",EncryptData);

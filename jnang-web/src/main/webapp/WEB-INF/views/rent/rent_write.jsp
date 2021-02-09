@@ -113,10 +113,10 @@ function send() {
 		    } */
 		    
 		    
-		    if(files.length < 2){
+		 /*    if(files.length < 2){
 		    	alert("대관사용허가 신청서, 대관계약서를 모두 첨부해주세요.");
 		    	return false;
-		    }
+		    } */
 		    
 		    
 			for(var i=0;i<files.length;i++){
@@ -230,24 +230,34 @@ function send() {
 			<input type="text" id="OBJECT" name="OBJECT" value="" maxlength="100" class="inputbox_01a inputbox_01_s3" required="" placeholder="제목">
 		</td>
 	</tr>
-	<tr>
-		<th>대관신청서 양식</th>
-		<td>
-			<a href="/data/file/제3호서식_대관 사용 허가 신청서.hwp" class="fc_blue1 line_under">대관 사용 허가 신청서 다운로드</a>
-		</td>
-	</tr>
-	<tr>
-		<th>대관계약서 양식</th>
-		<td>
-			<a href="/data/file/제4호서식_대관 계약서.hwp" class="fc_blue1 line_under">대관 계약서 다운로드</a>
-		</td>
-	</tr>
+	<c:if test="${rentCfg.COMNM ne '중랑구민회관'}">
+		<tr>
+			<th>대관신청서 양식</th>
+			<td>
+				<a href="/data/file/제3호서식_대관 사용 허가 신청서.hwp" class="fc_blue1 line_under">대관 사용 허가 신청서 다운로드</a>
+			</td>
+		</tr>
+		<tr>
+			<th>대관계약서 양식</th>
+			<td>
+				<a href="/data/file/제4호서식_대관 계약서.hwp" class="fc_blue1 line_under">대관 계약서 다운로드</a>
+			</td>
+		</tr>
+	</c:if>
+	<c:if test="${rentCfg.COMNM eq '중랑구민회관'}">
+		<tr>
+			<th>대관계약서 양식</th>
+			<td>
+				<a class="btn_download_01_blue1a" href="/data/file/arsp.zip" download="">대관신청 다운로드</a>
+			</td>
+		</tr>
+	</c:if>	
 	<tr>
 		<th>파일 업로드</th>
 		<td>
 			<span style="color:red">작성하신 대관 사용 허가 신청서와 대관계약서를 첨부해주세요.</span>
 			<br>
-			<input type="file" id="file" name="file" multiple >
+			<input type="file" id="file" name="file" required="" multiple >
 			
 		</td>
 	</tr>

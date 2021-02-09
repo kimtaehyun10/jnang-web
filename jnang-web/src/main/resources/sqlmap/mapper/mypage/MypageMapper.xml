@@ -197,6 +197,7 @@ SELECT
 			,(select COMNM from cominfo where COMCD = t1.COMCD) as COMNM
 			,(select PLACE_NM from rent_place rp where PLACE_CD = t1.PLACE_CD ) as PLACE_NM
 			,(select PLACE_GROUP from rent_place rp where PLACE_CD = t1.PLACE_CD ) as PLACE_GROUP
+			,(select TID from card_app_hist_damo where MEM_NO = t1.MEM_NO and SLIP_NO = t1.SLIP_NO ) as TID
 			,t1.COMCD,
 			t1.PART_CD,
 			t1.PLACE_TIME_SEQ,

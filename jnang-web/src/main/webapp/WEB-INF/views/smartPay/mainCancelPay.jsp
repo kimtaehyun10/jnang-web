@@ -1,3 +1,4 @@
+<%@ page import="com.dwict.jfmc.client.mem.model.Member"%>
 <%
 /******************************************************************************
 *
@@ -21,10 +22,13 @@
 						userID = (userID == null) ? "" : userID;
 	String CancelAmt    = request.getParameter("p2");
 						CancelAmt = (CancelAmt == null) ? "" : CancelAmt;
-	String COMCD   	 	= request.getParameter("p3");
-						COMCD = (COMCD == null) ? "" : COMCD;
+	String slipOn  	 	= request.getParameter("p3");
+						slipOn = (slipOn == null) ? "" : slipOn;
+	String COMCD   	 	= request.getParameter("p4");
+						COMCD = (COMCD == null) ? "" : COMCD;					
 	String CancelMSG	= "사용자 당일 취소"; //request.getParameter("CancelMSG");
-	
+	Member member 	= (Member) session.getAttribute("member");
+	String MEM_ID	= member.getId();
 	TID = TID == null ? "" : TID.trim();
 	//MID = MID == null ? "" : MID.trim();
 	CancelMSG = CancelMSG == null ? "" : CancelMSG;
@@ -95,7 +99,7 @@ function goCancelCard() {
 <%
 //테스트 PC에서는 확인하던지 수동으로 되도록
 final String strUrl = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort();
-if (strUrl.contains("localhost") || strUrl.contains("14.36.179.143") || userID.equals("powerjyc")) {
+if (strUrl.contains("localhost") || strUrl.contains("14.36.179.143") || userID.equals("kjseo")) {
 	
 } else {
 		
@@ -192,6 +196,7 @@ input {
 					<td></td>
 				</tr>
 				 -->
+				<input name="MEM_ID" type="hidden" class="input" id="MEM_ID" value="<%=MEM_ID%>" size="30" maxlength="30" />
 				<input name="TID" type="hidden" class="input" id="TID" value="<%=TID%>" size="30" maxlength="30" />
 				<!-- 
 				<tr>
@@ -201,11 +206,12 @@ input {
 				</tr>
 				 -->
 				<input name="Cancelpw" type="hidden" class="input" id="Cancelpw" value=""/>
+				<input name="slipOn" type="hidden" class="input" id="slipOn" value="<%=slipOn%>"/>
 				<input name="COMCD" type="hidden" class="input" id="COMCD" value="<%=COMCD%>"/>
 				<tr>
 					<th scope="row">취소금액</th>
 					<td>CancelAmt</td>
-					<td><input name="CancelAmt" type="text" class="input" id="CancelAmt" value="<%=CancelAmt == null ? "" : CancelAmt%>" /></td>
+					<td><input name="CancelAmt" type="text" class="input" id="CancelAmt" readonly="readonly" value="<%=CancelAmt == null ? "" : CancelAmt%>" /></td>
 				</tr>
 
 				<tr>

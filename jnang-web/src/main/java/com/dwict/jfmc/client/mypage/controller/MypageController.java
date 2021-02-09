@@ -152,17 +152,16 @@ public class MypageController {
 		
 		final HttpSession session = request.getSession(false);
 		final Member members = (Member) session.getAttribute("member");
-		String MEM_NO = (String) members.getMemNo();
+		
 		
 		final List<Map <String,Object>> rentList = service.getMyRentList(userId);
 		modelAndView.addObject("rentList", rentList);
  
-		//축구장 단가표
-		List <Map <String, Object>> rentPriceList= rentService.rentPriceList(MEM_NO, request);
-		modelAndView.addObject("rentPriceList", rentPriceList);
+		//final List<Map <String,Object>> cancelPay = service.getMyClssList(userId);
+		//modelAndView.addObject("cancelPay", cancelPay);
 		
 		Map<String, Object> maps = new HashMap<>();
-		maps.put("MEM_ID", members.getId());
+		maps.put("MEM_ID", members.getId()); 
 		maps.put("MEM_NO", members.getMemNo());
 		//memberService.memSession(request, userId);		
 		modelAndView.addObject("otherData", maps);

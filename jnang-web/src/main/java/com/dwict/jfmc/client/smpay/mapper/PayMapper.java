@@ -50,6 +50,10 @@ public interface PayMapper {
 	void setPayList(Map<String, Object> requestMapPayList);
 	
 	void setPayList2(Map<String, Object> requestMapPayList);
+	
+	//void updatePayList(Map<String, Object> requestMapPayList);
+	
+	//void setPayRentList(Map<String, Object> maps);
 
 	int rentDblChk(Map<String, Object> maps);
 	
@@ -60,6 +64,8 @@ public interface PayMapper {
 	void lockerOrderSave(Map<String, Object> maps);
 
 	Map<String, Object> payKeyInfo(Map<String, Object> maps);
+
+	void updateCancelRentApp(Map<String, Object> maps);
 
 
 

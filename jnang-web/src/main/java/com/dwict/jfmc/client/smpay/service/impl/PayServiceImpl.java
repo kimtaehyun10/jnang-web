@@ -1,10 +1,3 @@
-/**
- * 
- */
-/**
- * @author powerjyc
- *
- */
 package com.dwict.jfmc.client.smpay.service.impl;
 
 
@@ -74,6 +67,35 @@ public class PayServiceImpl implements PayService {
 	@Override
 	//사업장(comcd)별 결제코드 키 값 불러오기 
 	public Map <String,Object> payKeyInfo(Map<String, Object> maps) {
+		
+		if(maps.get("COMCD") != null) {
+			String comCd = maps.get("COMCD").toString();
+			String slipNo = maps.get("SLIP_NO").toString();
+			String tId = maps.get("TID").toString();
+			String payAmt = maps.get("PAY_AMT").toString();
+			String MEM_NO = maps.get("MEM_NO").toString();
+			String NEXT_RECEIPT_NO = mapper.getNextReceiptNo();
+			
+			int cancelPay = Integer.parseInt(payAmt);
+			
+			mapper.updateCancelRentApp(maps);
+			
+			//일단 테스트용
+			if (PG_MODE.equals("0"))//1:실제, 0:테스트
+			{
+				maps.put("COMCD", "TEST");
+			}
+			return mapper.payKeyInfo(maps);
+		}
+		
+		
+		
+		// select * from CALC_MASTER order by  WRITE_DH desc 
+		
+		
+	  	
+		
+		//mapper.updatePayList(requestPayList);
 		
 		if (PG_MODE.equals("0"))//1:실제, 0:테스트
 		{
@@ -741,6 +763,13 @@ public class PayServiceImpl implements PayService {
 					
 					//대관 결제 정보 저장
 					mapper.rentOrderSave(maps);
+					
+					String APP_GBN	= (P_TYPE.equals("CARD")) ? "1" : "3";
+					
+					maps.put("APP_DATE", APP_DATE);
+					maps.put("APP_GBN", APP_GBN);
+					
+					mapper.setPayList2(maps);
 					
 		    	}
 				

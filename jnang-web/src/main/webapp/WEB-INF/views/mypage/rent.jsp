@@ -278,6 +278,9 @@ function goPay()
 					<c:if test="${result.APP_TYPE == '15' }">
 						<input type="button" class="size_m2 btn_green1" value="결제" onClick="test('<%=ediDate%>', '${result.PAY_AMT}','<%=test%>', '${result.RESERVE_DATE}', ${result.PLACE_CD}, '${result.COMCD }',${result.RENT_IDX },'${otherData.MEM_ID }' );">
 					</c:if>
+					<c:if test="${result.APP_TYPE == '30' }">
+						<input type="button" class="size_m2 btn_green1" value="취소" onClick="cancelPay('${result.TID}', '${result.SLIP_NO}', '${result.PAY_AMT}','${result.PAY_DATE }','${result.COMCD}' );">
+					</c:if> 
 				</td>
 			</tr>
 			<%-- </c:if> --%>
@@ -462,6 +465,15 @@ try {
 	</form>
 	<%-- iframe --%>
 	<iframe src="" name="payFrame" frameborder="no" width="0" height="0" scrolling="yes" align="center"></iframe>
+	
+	
+	<form name='frmCancel' method='post' action=''>
+		<input type='hidden' name='p1' maxlength='2'>
+		<input type='hidden' name='p2' maxlength='2'>
+		<input type='hidden' name='p3' maxlength='2'>
+		<input type='hidden' name='p4' maxlength='2'>
+	</form>
+	
 	<%!
 /**
  * 기준날짜에서 몇일 전,후의 날짜를 구한다.

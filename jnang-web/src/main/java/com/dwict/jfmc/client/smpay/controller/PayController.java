@@ -41,6 +41,7 @@ public class PayController {
 		) throws Exception {
 		String rtn = "";
 		final HttpSession session = request.getSession(false);
+		
 		int dirPathLen = dirPath.length();
 		//try {
 			dirPath = (dirPathLen >= 20) ? dirPath.substring(0,20) : dirPath.substring(0,dirPathLen);
@@ -97,11 +98,29 @@ public class PayController {
 				case "CancelPayAct":
 					String userParam	= request.getParameter("q")==null? "//" : request.getParameter("q"); // 사용자 파람
 					String [] arrayTmp 	= userParam.split("\\/"); //20201225/8
-					String COMCD		= arrayTmp[0]; //장소
-					String MEM_NO		= arrayTmp[1]; //회원번호
+					//String COMCD		= arrayTmp[0]; //장소
+					//String MEM_NO		= arrayTmp[1]; //회원번호
+					
+					//String CancelAmt = request.getParameter("CancelAmt");
+					//String slipOn = request.getParameter("slipOn");
+					//String TID = request.getParameter("TID");
+					//String COMCD = request.getParameter("COMCD");
+					
 					
 					Map<String, Object> maps = new HashMap<>();
-					maps.put("COMCD", COMCD);
+					maps.put("COMCD", request.getParameter("COMCD"));
+					maps.put("SLIP_NO", request.getParameter("slipOn"));
+					maps.put("TID", request.getParameter("TID"));
+					maps.put("PAY_AMT", request.getParameter("CancelAmt"));
+					Member	members = (Member) session.getAttribute("member");
+					String MEM_ID = members.getId();
+			    	String MEM_NO = members.getMemNo();
+			    	String MEM_NM = members.getMemNm();
+					maps.put("MEM_ID", MEM_ID);
+					maps.put("MEM_NO", MEM_NO);
+					maps.put("MEM_NM", MEM_NM);
+					
+					System.out.println(maps);
 					
 					rtnMap = service.payKeyInfo(maps);
 					modelAndView.addAllObjects(rtnMap);

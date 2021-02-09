@@ -50,6 +50,46 @@ function test(ediDate, goodsAmt, GoodsName, RESERVE_DATE, PLACE_CD, COMCD, RTN_I
 	
 }
 
+function cancelPay( TID, slipNo, payAmt, payDt, comCd){
+	
+	//debugger;
+	var sysDate = new Date();
+	var year = sysDate.getFullYear();
+	var month = sysDate.getMonth() + 1;
+	var date = sysDate.getDate();
+	if(month < 10){
+		 month = '0' + month;	
+	}
+	if(date < 10){
+		date = '0' + date;
+	}
+	var today = year+month+date;
+	
+	if(payDt != today) {
+		alert("결제 취소는 접수 당일에만 가능합니다.");
+		return false;
+	}
+	
+	if (confirm("\n 당일 대여 결제를 취소  하시겠습니까?\n\n취소시 복구 되지 않습니다.")) {
+		
+	} else {
+		return false;	
+	}
+	
+	
+	payAmt = payAmt.replace(/,/g,"");
+	var param = {"TID" : TID, "SLIP_NO" : slipNo};
+	var frm = document.frmCancel;
+	frm.p1.value = TID;
+	frm.p2.value = payAmt;
+	frm.p3.value = slipNo;
+	frm.p4.value = comCd;
+	frm.action="/smartPay/mainCancelPay"
+	
+	frm.submit();
+	
+}
+
 var data = {
 	list: function(mode){
 		
