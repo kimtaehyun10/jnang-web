@@ -256,7 +256,7 @@
 									</a>
 								</li>
 								<li>
-									<a href='/emp/05061201'>
+									<a href='/emp/05061200'>
 										<img src='${pageContext.request.contextPath}/resource/images/main/icon_main_addm1_04.png' alt=''>
 										<div><span class='br1'></span>사전정보공표</div>
 									</a>
