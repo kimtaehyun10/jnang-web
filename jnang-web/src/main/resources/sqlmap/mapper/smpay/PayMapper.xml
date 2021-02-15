@@ -131,7 +131,8 @@
 			CHNGR,
 			CHNG_DH,
 			WRITER,
-			WRITE_DH
+			WRITE_DH,
+			SEQ
 		)
 		VALUES
 		(
@@ -168,7 +169,8 @@
 			#{WRITER},
 			#{WRITE_DH},
 			#{WRITER},
-			#{WRITE_DH}
+			#{WRITE_DH},
+			#{SEQ}
 		)
     </insert>	
     

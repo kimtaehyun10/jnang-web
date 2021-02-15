@@ -87,5 +87,6 @@ public interface RentMapper {
 	
 	//센터별 대관 그룹 가져오기(대강당 ,소강당, 강의실)
 	List<Map<String, Object>> getCenterGroup(Map<String, Object> requestMap);
+	List<Map<String, Object>> rentSportsRentList();
 	
 }

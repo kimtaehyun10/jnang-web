@@ -317,6 +317,7 @@ public class PageServiceImpl implements PageService {
 		
 		String ediDate = (String) requestMap.get("ediDate");
 		String goodsAmt = (String) requestMap.get("goodsAmt");
+		String COMCD = (String) requestMap.get("COMCD");
 		
 		//사업장별 PG결제 키값 정보불러오기 
 		Map<String, Object> maps = new HashMap<>();

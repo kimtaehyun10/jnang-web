@@ -60,6 +60,7 @@ public interface RentService {
 	int teamCount(String mEM_ID, Map<String, Object> maps);
 	
 	void pubRentApplyWrite(Map<String, Object> param) throws Exception;
+	List<Map<String, Object>> rentSportsRentList(HttpServletRequest request);
 	
 	
 	

@@ -526,6 +526,11 @@ public class RentServiceImpl implements RentService {
 			}
 		}
  	}
+
+	@Override
+	public List<Map<String, Object>> rentSportsRentList(HttpServletRequest request) {
+		return mapper.rentSportsRentList();
+	}
 	
 
 }

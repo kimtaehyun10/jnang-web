@@ -303,8 +303,8 @@ for (int ii = 0 ; ii < arryDays.length; ii++) {
 	if (itemTot > rentCnt && int_today <= int_rentYmd ) {
 
 		//if (1 >= diffMonth && ((int_rentYmd < int_LimitYmd) || ( ii > 23)) ) {
-		if ( (todayYYMM == cntYYMM && ii < (23-1)) || (int_today <= sortEndTime && int_today >= int_LimitYmd) 
-				|| (diffMonth <= 1 && todayYYMM < cntYYMM && ii < (23-1) && int_toYYMM <= int_today) ) {
+		if ( (todayYYMM == cntYYMM && ii < (25-1)) || (int_today <= sortEndTime && int_today >= int_LimitYmd) 
+				|| (diffMonth <= 1 && todayYYMM < cntYYMM && ii < (25-1) && int_toYYMM <= int_today) ) {
 			rentDays[ii+1] = " <a class='size_m2 btn_green1' onclick=\"getRent('"+ int_rentYmd +"','"+PLACE_CD+"');\">예약 가능 ("+ (itemTot - rentCnt) +"건) </a>";	
 		} else {
 			rentDays[ii+1] = " <a class='size_m2 btn_gray1'>준비중</a> ";

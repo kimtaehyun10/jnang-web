@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -85,8 +84,8 @@ public class PageRestController {
 	
 	//할인 변경시 금액 변경으로  EncryptData값 받기 
 	///rent/rentOrder 사용
-	@RequestMapping(value = "/getOdEncryptData/{ediDate}/{goodsAmt}")
-	public Map <String, Object> getOdEncryptData(HttpServletRequest request, @PathVariable String ediDate, @PathVariable String goodsAmt) {
+	@RequestMapping(value = "/getOdEncryptData/{ediDate}/{goodsAmt}/{COMCD}")
+	public Map <String, Object> getOdEncryptData(HttpServletRequest request, @PathVariable String ediDate, @PathVariable String goodsAmt, @PathVariable String COMCD) {
 		
 		final Account account = (Account) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		final String MEM_ID = account.getUsername();
@@ -96,6 +95,7 @@ public class PageRestController {
 		final Map<String, Object> param = new HashMap<>();
 		param.put("ediDate", ediDate);				
 		param.put("goodsAmt", goodsAmt);
+		param.put("COMCD", COMCD);
 		
 		return service.getOdEncryptData(param);
 	}

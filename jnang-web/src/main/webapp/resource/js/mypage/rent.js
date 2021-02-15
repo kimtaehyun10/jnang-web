@@ -17,7 +17,7 @@ function test(ediDate, goodsAmt, GoodsName, RESERVE_DATE, PLACE_CD, COMCD, RTN_I
 
 		
 		//debugger;
-		$.get("/data/getOdEncryptData/"+ ediDate +"/"+ goodsAmt, function(data){
+		$.get("/data/getOdEncryptData/"+ ediDate +"/"+ goodsAmt +"/"+ COMCD, function(data){
 		//try {
 			//console.log(data);
 			debugger;

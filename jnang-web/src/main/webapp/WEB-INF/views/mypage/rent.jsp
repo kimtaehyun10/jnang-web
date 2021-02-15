@@ -38,18 +38,19 @@
 	String GoodsName = "";
 	//상품주문번호	
 	
-	String merchantKey = ""; //(String) request.getAttribute("merchantKey");
-	String storeMID 	= ""; //(String) request.getAttribute("storeMID");
-	String payURL 		= ""; //(String) request.getAttribute("payURL");
+	String merchantKey  = (String) request.getAttribute("merchantKey");
+	String storeMID 	= (String) request.getAttribute("storeMID");
+	String payURL 		= "https://pay.smilepay.co.kr/interfaceURL.jsp";//(String) request.getAttribute("payURL");
 	//out.println("payURL:"+ payURL +"<BR>");
 	//out.println("storeMID:"+ storeMID +"<BR>");
+	//out.println("merchantKey:"+ merchantKey +"<BR>");
 	
 	String Moid = "Moid"; 
 	final String DEV_PAY_ACTION_URL = "https://tpay.smilepay.co.kr/interfaceURL.jsp";	//개발테스트
 	final String PRD_PAY_ACTION_URL = "https://pay.smilepay.co.kr/interfaceURL.jsp";	//운영
-	String actionUrl = DEV_PAY_ACTION_URL;
+	String actionUrl = PRD_PAY_ACTION_URL;
 	String URL = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort();
-	String MID = "SMTPAY001m";
+	String MID = storeMID;//"SMTPAY001m";
 	//String MID = "jungnan01m"; //위에 URl 변경 DEV_PAY_ACTION_URL ==> PRD_PAY_ACTION_URL
 	String DivideInfo = ""; //서브몰 결제 정보 //request.getParameter("DivideInfo");
 	

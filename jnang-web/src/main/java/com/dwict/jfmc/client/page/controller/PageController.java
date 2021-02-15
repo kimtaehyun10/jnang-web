@@ -214,6 +214,10 @@ public class PageController {
 		}
 		modelAndView.addObject("rentCfg", rentCfg);
 		
+		final List<Map <String,Object>> rentSportsList = rentService.rentSportsRentList(request);
+		modelAndView.addObject("rentSportsList",rentSportsList);
+		
+		
 		//센터별 대관 그룹 가져오기(대강당 ,소강당, 강의실)
 		List<Map <String,Object>> centerGroup = service.getCenterGroup(requestMap, request);
 		modelAndView.addObject("centerGroup", centerGroup);

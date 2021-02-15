@@ -96,7 +96,24 @@
 	</select>
 		
 	
-	
+	<select id="rentSportsRentList" resultType="java.util.HashMap">
+		 SELECT
+			DISTINCT
+			(
+				SELECT
+					COMNM
+				FROM
+					COMINFO
+				WHERE
+					COMCD = T1.COMCD) AS COMNM
+				
+            , t1.*
+			
+		FROM
+			RENT_PLACE T1
+		WHERE
+			USE_YN = 1;
+	</select>
 
 	<!-- 대관 환경설정값 -->
 	<select id="rentConfig" parameterType="java.util.HashMap" resultType="java.util.HashMap">

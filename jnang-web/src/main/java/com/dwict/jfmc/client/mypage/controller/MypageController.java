@@ -161,7 +161,7 @@ public class MypageController {
 		//modelAndView.addObject("cancelPay", cancelPay);
 		
 		Map<String, Object> maps = new HashMap<>();
-		maps.put("MEM_ID", members.getId()); 
+		maps.put("MEM_ID", userId); 
 		maps.put("MEM_NO", members.getMemNo());
 		//memberService.memSession(request, userId);		
 		modelAndView.addObject("otherData", maps);

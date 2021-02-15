@@ -67,39 +67,40 @@ public class PayServiceImpl implements PayService {
 	@Override
 	//사업장(comcd)별 결제코드 키 값 불러오기 
 	public Map <String,Object> payKeyInfo(Map<String, Object> maps) {
-		
-		if(maps.get("COMCD") != null) {
-			String comCd = maps.get("COMCD").toString();
-			String slipNo = maps.get("SLIP_NO").toString();
-			String tId = maps.get("TID").toString();
-			String payAmt = maps.get("PAY_AMT").toString();
-			String MEM_NO = maps.get("MEM_NO").toString();
-			String NEXT_RECEIPT_NO = mapper.getNextReceiptNo();
+		if(PG_MODE.equals("1")) {
 			
-			int cancelPay = Integer.parseInt(payAmt);
-			
-			mapper.updateCancelRentApp(maps);
-			
-			//일단 테스트용
-			if (PG_MODE.equals("0"))//1:실제, 0:테스트
-			{
-				maps.put("COMCD", "TEST");
+			if(maps.get("SLIP_NO") != null && maps.get("COMCD") != null && maps.get("TID") != null) {
+				String comCd = maps.get("COMCD").toString();
+				String slipNo = maps.get("SLIP_NO").toString();
+				String tId = maps.get("TID").toString();
+				String payAmt = maps.get("PAY_AMT").toString();
+				String MEM_NO = maps.get("MEM_NO").toString();
+				String NEXT_RECEIPT_NO = mapper.getNextReceiptNo();
+				
+				int cancelPay = Integer.parseInt(payAmt);
+				
+				mapper.updateCancelRentApp(maps);
+				
+				/*
+				 * //일단 테스트용 if (PG_MODE.equals("0"))//1:실제, 0:테스트 { maps.put("COMCD", "TEST");
+				 * }
+				 */
+				return mapper.payKeyInfo(maps);
+				
+			} else if(maps.get("SEQ").equals("0")) {
+					maps.put("COMCD", "TEST");
+					
 			}
-			return mapper.payKeyInfo(maps);
+			
 		}
 		
-		
-		
-		// select * from CALC_MASTER order by  WRITE_DH desc 
-		
-		
-	  	
-		
-		//mapper.updatePayList(requestPayList);
-		
-		if (PG_MODE.equals("0"))//1:실제, 0:테스트
-		{
-			maps.put("COMCD", "TEST");
+		//0 테스트 1 실제
+		if (PG_MODE.equals("1")) {
+			if(maps.get("SEQ").equals("0")) {
+				maps.put("COMCD", "TEST");
+				
+			}
+			
 		}
 		return mapper.payKeyInfo(maps);
 	}
@@ -112,7 +113,7 @@ public class PayServiceImpl implements PayService {
 	public Map<String, Object> lecOrderInsert(HttpServletRequest request) {
 		// TODO Auto-generated method stub
 
-	
+		
 
 		
 		String ResultCode		= request.getParameter("ResultCode")==null?"":request.getParameter("ResultCode"); // 결과코드
@@ -631,7 +632,7 @@ public class PayServiceImpl implements PayService {
 		String COMCD			= arrayTmp[2]; //COMCD
 		String rtn_idx			= arrayTmp[3]; //대관 idx
 		String MEM_ID			= arrayTmp[4]; //memID
-
+		
 		int RESERVE_DATE = Integer.parseInt(RESERVE_DATE1.replaceAll("-", ""));
 		
 		final Member member = memberMapper.findById(MEM_ID);
@@ -759,6 +760,7 @@ public class PayServiceImpl implements PayService {
 					maps.put("MEM_NO", MEM_NO);
 					maps.put("PLACE_CD", PLACE_CD);
 					maps.put("RESERVE_DATE", RESERVE_DATE);
+					
 					maps.put("PAY_AMT", 0);
 					
 					//대관 결제 정보 저장
@@ -768,6 +770,7 @@ public class PayServiceImpl implements PayService {
 					
 					maps.put("APP_DATE", APP_DATE);
 					maps.put("APP_GBN", APP_GBN);
+					maps.put("SEQ", rtn_idx);
 					
 					mapper.setPayList2(maps);
 					
