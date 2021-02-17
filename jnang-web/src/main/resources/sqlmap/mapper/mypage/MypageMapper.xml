@@ -170,11 +170,11 @@ SELECT
 		AND TH.MEM_NO = A.MEM_NO
 		AND TH.SALE_SEQ = A.SALE_SEQ
 		<!-- AND @ROWNUM = 1 -->
-		) AS CLASS_NM
+		limit 1) AS CLASS_NM
 		,A.WRITE_DH
 		,DATE_FORMAT(A.WRITE_DH , '%Y%m%d') as WRITE_YMD
 		,(select TID from card_app_hist_damo where MEM_NO = a.MEM_NO and SLIP_NO =
-		a.SLIP_NO ) as TID
+		a.SLIP_NO limit 1) as TID
 		FROM PROGRAM_ITEM B, MEM_SALE A
 		left outer join RECESS C ON A.COMCD = C.COMCD AND A.SALE_SEQ = C.SALE_SEQ
 		AND A.MEM_NO = C.MEM_NO

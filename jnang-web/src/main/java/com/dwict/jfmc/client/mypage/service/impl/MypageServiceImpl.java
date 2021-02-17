@@ -87,15 +87,19 @@ public class MypageServiceImpl implements MypageService {
 		int dataCnt = 0;
 		int goodsAmt = 0;
 		
-		//사업장별 PG결제 키값 정보불러오기 
+		//사업장별 PG결제 키값 정보불러오기
+		/*
+		장바구니에서 어디 사업장을 불러와야 할지 모르기 때문에 적용안함  
 		Map<String, Object> maps = new HashMap<>();
 		maps = payService.payKeyInfo(requestMap);
 		String  merchantKey = (String) maps.get("KEY");
 		String  storeMID = (String) maps.get("MID");
+		*/
 		
 		//ClassNm 값 구
 		final List<Map<String, Object>> dataList = mapper.basketList(MEM_NO);
 		//list 값 정보 가져오기
+		/*
 		for (int ii=0; ii < dataList.size(); ii++) {
 				final String ITEM_NM = dataList.get(ii).get("ITEM_NM").toString();	
 				final String SALE_AMT = dataList.get(ii).get("SALE_AMT").toString();
@@ -111,7 +115,7 @@ public class MypageServiceImpl implements MypageService {
 		goodsAmt = (strUrl.contains("localhost") || MEM_ID.equals("powerjyc")) ? 10 : goodsAmt;
 
 		//리턴 값 저장  
-		goodsNames = (dataCnt > 1) ? goodsNames +" 외"+ (dataCnt-1) + "건" : goodsNames;
+		//goodsNames = (dataCnt > 1) ? goodsNames +" 외"+ (dataCnt-1) + "건" : goodsNames;
 		final Map<String, Object> addMap = new HashMap<>();
 
 		try {
@@ -121,8 +125,9 @@ public class MypageServiceImpl implements MypageService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		final String EncryptData = FormatUtil.encodeMD5HexBase64(ediDate + storeMID + goodsAmt + merchantKey);
+		//final String EncryptData = FormatUtil.encodeMD5HexBase64(ediDate + storeMID + goodsAmt + merchantKey);
 
+		
 		addMap.put("goodsCnt", dataCnt);
 		addMap.put("goodsAmt", goodsAmt);
 		addMap.put("goodsName", goodsNames +"");
@@ -138,7 +143,8 @@ public class MypageServiceImpl implements MypageService {
 		addMap.put("merchantKey", merchantKey);
 		addMap.put("storeMID", storeMID);
 		dataList.add(addMap);		
-
+		*/
+		
 		return dataList;
 	}
 
