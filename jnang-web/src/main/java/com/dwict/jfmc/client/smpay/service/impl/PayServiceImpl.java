@@ -97,7 +97,8 @@ public class PayServiceImpl implements PayService {
 				mapper.updateCancelRentApp(maps);
 				
 				/*
-				 * //일단 테스트용 if (PG_MODE.equals("0"))//1:실제, 0:테스트 { maps.put("COMCD", "TEST");
+				 * //일단 테스트용 
+				 * if (PG_MODE.equals("0"))//1:실제, 0:테스트 { maps.put("COMCD", "TEST");
 				 * }
 				 */
 				return mapper.payKeyInfo(maps);
@@ -109,15 +110,7 @@ public class PayServiceImpl implements PayService {
 			
 		}
 		
-		//0 테스트 1 실제
-		/*
-		 * if (PG_MODE.equals("1")) { if(maps.get("COMCD").toString() != null) {
-		 * maps.put("COMCD", "TEST");
-		 * 
-		 * }
-		 * 
-		 * }
-		 */
+	
 		return mapper.payKeyInfo(maps);
 	}
 	

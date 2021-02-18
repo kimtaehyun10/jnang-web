@@ -73,7 +73,21 @@ public class RentRestController {
 	@PostMapping(value = "/teamSave")
 	@ResponseBody
 	//public int teamSave(@RequestParam  Map<String, Object> requestMap, HttpServletRequest request) {
-	public int teamSave(@RequestParam  Map<String, Object> requestMap, HttpServletRequest request) {
+	public int teamSave(@RequestParam  Map<String, Object> requestMap, HttpServletRequest request, MultipartHttpServletRequest files) throws Exception {
+		final Map<String, Object> param = new HashMap<>();
+		final List<MultipartFile> fileList = files.getFiles("files");
+		
+		param.put("fileList", fileList);
+		
+		rtnService.pubRentApplyWrite(param);
+		
+		String ATTACH_ID = (String) param.get("attach_id");
+		//예약 저장
+		
+		System.out.println(requestMap);
+		System.out.println(param);
+		
+		requestMap.put("ATTACH_ID", ATTACH_ID);
 		
 		//예약 저장
 		final int rtn = rtnService.teamSave(requestMap, request);

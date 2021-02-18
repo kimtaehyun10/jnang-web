@@ -16,6 +16,7 @@
 .responsive_img01 {width:100%;max-width:1200px;}
 .responsive_img05 {width:100%;max-width:700px;}
 .autoscroll_x1 {width:100%;max-width:1200px;overflow-x:auto;}
+.autoscroll_x2 {width:1200px;max-width:1200px;overflow-x:scroll;}
 .con_wid {width:100% !important;}
 .con_wid2 {width:100% !important;}
 .con_tbl1 {width:100% !important;}
@@ -498,6 +499,17 @@ pre {white-space: pre-wrap;word-wrap:break-word;text-align:justify;}
 .tab_ty2_selbox_1a ul li.on a,
 .tab_ty2_selbox_1a ul li:hover a {font-weight:700;}
 
+
+/* 탭메뉴__오토 */
+.tab_auto_1a {float:left;width:100%;border-bottom:1px solid #227b39;}
+.tab_auto_1a li {float:left;margin:2px 1px 0 1px;}
+.tab_auto_1a li a {display:block;padding:5px 8px 3px 8px;border:1px solid #ddd;border-radius:5px 5px 0 0;}
+.tab_auto_1a li a.on,
+.tab_auto_1a li a:hover {border:1px solid #227b39;background:#227b39;color:#fff;}
+.jsc_tab_auto_1a_con {display:none;}
+.jsc_tab_auto_1a_con.on {display:block;}
+
+
 /* 테두리 */
 .border_top_3_green {height:3px;background:#227b39;}
 .border_top_0 {border-top:0 !important;}
@@ -530,6 +542,14 @@ pre {white-space: pre-wrap;word-wrap:break-word;text-align:justify;}
 .stbl_w3b th:first-child {border-left:0;}
 .stbl_w3b td {border-bottom:1px solid #ddd;padding:0.8em 0.5em;font-size:1.1em;line-height:1.6;border-left:1px solid #ddd;}
 .stbl_w3b td:first-child {border-left:0;}
+
+.stbl_w3c {width:100%;border-top:3px solid #377047;border-bottom:2px solid #ddd;padding:0.8em 0.5em;}
+/*
+.stbl_w3c th {border-bottom:2px solid #ddd;padding:0.8em 0.5em;font-size:1.1em;font-weight:300;line-height:1.3;border-left:1px solid #ddd;background:#f5f5f5;}
+.stbl_w3c th:first-child {border-left:0;}
+.stbl_w3c td {border-bottom:2px solid #ddd;padding:0.8em 0.5em;font-size:1.1em;line-height:1.6;border-left:1px solid #ddd;}
+.stbl_w3c td:first-child {border-left:0;}
+*/
 /* 1027 추가 두줄 */
 table .ipt-btn input[type='text']{width:78% !important; float:left; vertical-align: middle; margin-right:2%;}
 table .ipt-btn a.btn_form{display: inline-block; float:right; background:#555; color:#fff; height: 35px; line-height: 35px;  width:20%; text-align: center;}
@@ -541,7 +561,7 @@ table .ipt-btn a.btn_form{display: inline-block; float:right; background:#555; c
 .fontsize_1dot00 {font-size:1.00em !important;}
 .fontsize_1dot05 {font-size:1.05em !important;}
 .fontsize_1dot10 {font-size:1.10em !important;}
-.fontsize_1dot15 {font-size:1.8em !important;}
+.fontsize_1dot15 {font-size:1.15em !important;}
 .fontsize_1dot20 {font-size:1.20em !important;}
 .fontsize_1dot25 {font-size:1.25em !important;}
 .fontsize_1dot30 {font-size:1.30em !important;}
@@ -612,7 +632,7 @@ table .ipt-btn a.btn_form{display: inline-block; float:right; background:#555; c
 
 /* 들여쓰기 > 아이콘 */
 .ul_hyphen1a10 > li {background:url('../images/sub/bg_dot_000000_5x1.gif') left top 10px no-repeat;padding-left:0.8em;line-height:1.8;}
-.ul_hyphen1a13 > li {background:url('../images/sub/bg_dot_000000_5x1.gif') left top 13px no-repeat;padding-left:0.8em;line-height:1.8; font-size:18px;}
+.ul_hyphen1a13 > li {background:url('../images/sub/bg_dot_000000_5x1.gif') left top 13px no-repeat;padding-left:0.8em;line-height:1.8;}
 
 /* 테이블셀 */
 .tablecell_3_1a > ul {display:table;width:100%;}

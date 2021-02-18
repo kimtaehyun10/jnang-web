@@ -4,6 +4,8 @@
 * @author 
 * @version 1.21
 */
+
+
 $(function(){
 	setMenuTitle('bg_99', '체육시설', '팀등록', true);
 	$('.sub_navi1 .navi1 .mbx1 > a').on('click',function(){
@@ -21,7 +23,60 @@ $(function(){
 	});
 	
 	$(".sdate").datepicker();
+	
+	
+	/*var formData = new FormData();
+	
+	formData.append("attach_id",$("#attach_id").val());
+alert()*/
+	
+	
+/*	$.ajax({
+            type: "GET",
+            url: "/data/ntc/noticeNo/boardNo/ " + selectedAttachId,
+            data: {},
+			dataType: 'json',
+            success: function (data) {
+				alert("asfd");
+				if (data == "1" || data == "2") {
+					alert('팀이 저장 되었습니다.');
+					//top.location.href ='/rent/team';
+					top.location.reload();
+					
+				} else if (data == "-9") {
+					alert("사용자 동의후 접수 가능합니다.");
+				} else if (data == "3"){
+					alert("이미 등록된 팀이 있습니다. 확인해주십시요.")
+				}else {
+					alert('접수 오류 !  다시 신청 하십시요!~');
+				}
+				
+            },
+            error: function (e) {
+                console.log("ERROR : ", e);
+                alert("fail");
+            }
+        });*/
+	
+	
+	var selectedAttachId = $("#attach_id").val();
+	
+	
+	var param = {};
+	// dwict.board.const.js 재활용 (공지사항쪽)
+	// cmsCd, brdNo의 값이 필요 없어서 임의로 작성
+	$.get('/data/ntc/cmsCd/1/'+selectedAttachId, param, function(data){			
+		let cont3 = '';
+		for(var i=0;i<data.length;i++){								
+			cont3 += '<a onclick="fileDownload(\''+data[i].attachId+'\','+data[i].attachNo+');">'+data[i].fileNm+'</a><br>';
+			$("#ATTACH").html(cont3);								
+		}
+	});
 });
+const fileDownload = function(attachId, attachNo){
+	window.location.href = '/data/file/board/'+attachId+'/'+attachNo;
+}
+
 var arrayIdx =new Array(); //삭제
 var saveRtn = "${saveRtn}";
 if (saveRtn == "-9") {
@@ -58,8 +113,23 @@ function del(id,seq) {
 
 function send() {
 	try {
+		
+		
 		var frm = document.frm1;
 		var dataCnt = $("input[name=uname]").length;
+		var file = $("input[name=file]").val();
+		if (file != undefined) {
+			var inputFile=$("#fileFrm");
+			var files=inputFile[0].files;	
+			var fileCheck = document.getElementById("fileFrm").value;	
+		}
+		
+		var formData = new FormData();
+		
+		
+	
+		
+		
 		var aItemList = new Array();
 		var arrayData = "";
 		
@@ -69,7 +139,7 @@ function send() {
 			mem_add();
 			return false;
 		}
-		
+				
 		
 		for (ii = 0 ; ii < dataCnt; ii++) {
 			var uname = $("input[name=uname]").eq(ii).val();
@@ -92,13 +162,30 @@ function send() {
 		}
 		$("#arryData").val(arrayData);
 		$("#arryDel").val(arrayIdx);
+		
+		formData.append("uname",$("#uname").val());
+		formData.append("arryDel",$("#arryDel").val());
+		formData.append("arryData",$("#arryData").val());
+		formData.append("ubrth",$("#ubrth").val());
+		if (file != undefined) {
+			for(var i=0;i<files.length;i++){
+				formData.append("files",files[i]);
+			}	
+		}	
+		formData.append("uaddr",$("#uaddr").val());
+		formData.append("uaddr2",$("#uaddr2").val());
+		formData.append("tm_nm",$("#tm_nm").val());
+		formData.append("tm_type",$("input[name=tm_type]:checked").val());
+		formData.append("sp_type",$("#sp_type").val());
+		formData.append("teamSEQ",$("#teamSEQ").val());
+		formData.append("mem_id", $("#mem_id").val());
 		console.log(arrayIdx);
 		if (confirm("\n 팀 정보를 저장  하시겠습니까?\n ")) {
 		} else {
 			return false;	
 		}
 		
-		$.post('/rent/teamSave',  $("#frm1").serialize() , function(data){
+		/*$.post('/rent/teamSave', $("#frm1").serialize() ,function(data){
 			
 			debugger;
 						
@@ -114,7 +201,41 @@ function send() {
 			}else {
 				alert('접수 오류 !  다시 신청 하십시요!~');
 			}
-		},"json");
+		},"json");*/
+		
+		
+		
+		 $.ajax({
+            type: "POST",
+            enctype: 'multipart/form-data',
+            url: "/rent/teamSave",
+            data: formData,
+            processData: false,
+            contentType: false,
+            cache: false,
+            timeout: 600000,
+            success: function (data) {
+
+				if (data == "1" || data == "2") {
+					alert('팀이 저장 되었습니다.');
+					//top.location.href ='/rent/team';
+					top.location.reload();
+					
+				} else if (data == "-9") {
+					alert("사용자 동의후 접수 가능합니다.");
+				} else if (data == "3"){
+					alert("이미 등록된 팀이 있습니다. 확인해주십시요.")
+				}else {
+					alert('접수 오류 !  다시 신청 하십시요!~');
+				}
+				
+            },
+            error: function (e) {
+                console.log("ERROR : ", e);
+                alert("fail");
+            }
+        });
+
 	} catch (exception) 
 	{
 		console.log(exception);

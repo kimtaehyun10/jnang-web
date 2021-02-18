@@ -116,22 +116,22 @@ public class RentServiceImpl implements RentService {
 
 		try {
 			
-			int teamCnt = mapper.teamCnt(requestMap);
-			if(teamCnt > 0) {
-				return 3;
-			}
-
 			String teamSEQ = (String) requestMap.get("teamSEQ");
-			if (teamSEQ == "") {
-				//팀정보 저장
-				mapper.teamSave(requestMap);
+			if (teamSEQ.equals("") || teamSEQ == null) {
+			int teamCnt = mapper.teamCnt(requestMap);
+				if(teamCnt > 0) {
+					return 3;
+				}else {
+					//팀정보 저장
+					mapper.teamSave(requestMap);
+				}
 			} else {
 				//팀정보 저장
 				mapper.teamUpdate(requestMap);
 			}
 			
 		  	//삭제 팀회원 삭제
-			final String[] brdNoArr = ((String) requestMap.get("arryDel")).split(",");
+ 			final String[] brdNoArr = ((String) requestMap.get("arryDel")).split(",");
 			requestMap.put("brdNoList", brdNoArr);
 		  	mapper.teamMemDel(requestMap);
 		  	

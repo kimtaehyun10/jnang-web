@@ -79,7 +79,7 @@ $(function(){
 <form name="frm2" id="frm2" method="get">
 	<input type="hidden" name="seq" value="">
 </form>
-<form name="frm1" id="frm1" method="post" onsubmit="return send();"> 
+<form name="frm1" id="frm1" method="post" onsubmit="return send();" > 
 <div class="border_top_3_green"></div>
 
 <table class="stbl_w3b border_top_0" summary="이 표는 제목/내용 등의 정보로 구성된 팀등록/수정 폼입니다.">
@@ -118,7 +118,27 @@ $(function(){
 		</select>
 	</td>
    	<th>신청(승인)상태</th>
-	<td><c:out value="${teamData.confirm_NM}"/></td>
+		<td>
+			<c:choose>
+				<c:when test="${teamData.confirm_NM eq '승인완료' }">
+					<font color="green">
+						<c:out value="${teamData.confirm_NM}"/>
+					</font>					
+				</c:when>
+				<c:when test="${teamData.confirm_NM eq '승인거절' }">
+					<font color="red">
+						<c:out value="${teamData.confirm_NM}"/>
+					</font>
+				</c:when>
+				<c:otherwise>
+					<c:out value="${teamData.confirm_NM}"/>
+				</c:otherwise>
+			</c:choose>
+			<%-- <c:out value="${teamData.confirm_NM}"/>
+			<c:if test="${teamData.confirm_NM eq '승인완료'}">
+				<c:out value="${teamData.confirm_NM}"/>	
+			</c:if> --%>
+		</td>
 	</tr>
 	<tr>
 		<th>종목선택</th>
@@ -132,11 +152,16 @@ $(function(){
 		    </select>
 		 </td>
 		<th>신청구분</th>
-		<td><label><input type="radio" id="tm_type" name="tm_type" value="1" required
+		<td><label>
+		<input type="radio" name="tm_type" value="1" required
 		<% if (tm_type.equals("1") ) { out.print(" checked "); }%>
-		> 관내팀 </label> &nbsp; &nbsp; <label><input type="radio" id="tm_type" name="tm_type" value="2"
+		> 관내팀 
+		</label>
+		 &nbsp; &nbsp; 
+		 <label><input type="radio" name="tm_type" value="2"
 		<% if (tm_type.equals("2") ) { out.print(" checked "); }%>
-		>관외팀</label></td>
+		>관외팀
+		</label></td>
 	</tr>
 	<tr>
 		<th>단체명</th>
@@ -144,6 +169,27 @@ $(function(){
 		<th>회원수</th>
 		<td><div id="temMemCnt"> <c:out value="${fn:length(teamMemList)}"/>명 </div></td>
 	</tr>
+	<%
+		if(sSEQ == "0") {
+	%>
+	<tr>
+		<th>파일 업로드</th>
+		<td>
+			<input type="file" id="fileFrm" name="fileFrm" required="" multiple >
+		</td>
+	</tr>
+	<%
+		}else {
+			
+	%>
+	<tr>
+		<th>첨부파일</th>
+		<td><div id="ATTACH" style="width: 200px; display: inline-block;"></div></td>
+	</tr>	
+	
+	<%
+		}
+	%>
 	<tr>
     	<td colspan="4">
     		<div class="bg_icon_circle_green1a fontsize_1dot60 padding_left_1dot5">대표자 정보</div> 
@@ -189,6 +235,7 @@ $(function(){
 <br>
 	<div class="bx_btns_01a ali_c">
 		<input type="hidden" id="mem_id" name="mem_id" value="<c:out value='${myData.ID}'/>">
+		<input type="hidden" id="attach_id" name="attach_id" value="<c:out value='${teamData.ATTACH_ID}'/>">
 		<input type="hidden" id="arryData" name="arryData">
 		<input type="hidden" id="arryDel" name="arryDel">
 		<input type="submit" class="size_m2 btn_green1" value="<%=(sSEQ =="0") ? "팀 신청" : "팀 수정" %>">

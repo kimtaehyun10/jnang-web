@@ -103,7 +103,8 @@ function selectSport(selCT) {
 								//+ "<td>"+ comma_str_y(saleAmt) +"</td>"
 								+ "<td>"+ info_url +"</td>"
 								+ "<td><a href='/calendar/?q="+ data[i].PLACE_CD +"' class='size_m2 btn_green1'>대관 현황</a></td>"
-								+ "<td><a href='/rent/"+ rent_url +"/?q="+ data[i].PLACE_CD +"/0' class='size_m2 btn_green1' onclick=\"alert('테스트중입니다. 예약불가능합니다. ==>실수로 결제시 환불 불가능합니다.');\")>대관 신청</a></td>"
+								//+ "<td><a href='/rent/"+ rent_url +"/?q="+ data[i].PLACE_CD +"/0' class='size_m2 btn_green1' onclick=\"alert('테스트중입니다. 예약불가능합니다. ==>실수로 결제시 환불 불가능합니다.');\")>대관 신청</a></td>"
+								+ "<td><a href='/rent/"+ rent_url +"/?q="+ data[i].PLACE_CD +"/0' class='size_m2 btn_green1' onclick=\"\")>대관 신청</a></td>"
 								+ "</tr>";
 						}
 					}

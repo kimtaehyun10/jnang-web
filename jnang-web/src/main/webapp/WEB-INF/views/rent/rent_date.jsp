@@ -289,7 +289,6 @@ String days = (String)pageContext.getAttribute("days") ;
 //out.print("days:"+ days +"<BR>");
 
 String [] arryDays = days.split("\\/");
-
 if(myTeamList == null) {
 	out.println("<script>alert('팀을 먼저 등록해주세요.\\n팀을 등록하셨다면 승인을 기다려주세요.');</script>");	
 }

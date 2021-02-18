@@ -149,8 +149,8 @@
 
 	<!-- 팀명 저장 -->
 	<insert id="teamSave" parameterType="java.util.HashMap" >
-		INSERT INTO  rent_team  ( mem_id, sp_type, tm_type, tm_nm, wdate ) 
-		VALUES ( #{mem_id} , #{sp_type}, #{tm_type},  #{tm_nm}, now()	);
+		INSERT INTO  rent_team  ( mem_id, sp_type, tm_type, tm_nm, wdate, ATTACH_ID ) 
+		VALUES ( #{mem_id} , #{sp_type}, #{tm_type},  #{tm_nm}, now(), #{ATTACH_ID}	);
 	</insert>
 
 	<!-- 팀명 수정 -->
@@ -160,6 +160,7 @@
 			 ,tm_type 	=	 #{tm_type} 
 			 ,tm_nm 	=	 #{tm_nm} 
 			 ,wdate 	=	 now()
+			 ,confirm_yn = 'S'
 		where mem_id = #{mem_id} and seq = #{teamSEQ}
 	</update>
 
@@ -210,7 +211,7 @@
 				when '3' then '야구장'
 				when '4' then '테니스장'
 			end as sp_typeNm
-		, tm_type, tm_nm, confirm_yn, wdate
+		, tm_type, tm_nm, confirm_yn, wdate, ATTACH_ID
 		FROM rent_team
 		WHERE mem_id = #{MEM_ID} 
 		order by sp_type, tm_nm
@@ -238,10 +239,11 @@
 	<select id="getTeamData" parameterType="java.util.HashMap" resultType="java.util.HashMap">
 		SELECT seq, mem_id, sp_type, tm_type, tm_nm, confirm_yn
 		,case (confirm_yn)
-			when 'Y' then '승인'
-			else '승인대기'
+			when 'Y' then '승인완료'
+			when 'S' then '승인대기'
+			when 'N' then '승인거절'
 		end as confirm_NM
-		, wdate
+		, wdate, ATTACH_ID
 		FROM rent_team
 		WHERE mem_id = #{MEM_ID}  AND seq = #{SEQ}
 	</select>

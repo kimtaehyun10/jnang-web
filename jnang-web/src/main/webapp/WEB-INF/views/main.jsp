@@ -487,7 +487,7 @@
 						</div>
 					</li>
 					<li>
-						<a href='javascript:;' class='tab1'><img src='${pageContext.request.contextPath}/resource/images/main/bn_btn_main_sisul_c.jpg' alt='시설운영'></a>
+						<a href='javascript:;' class='tab1'><img src='${pageContext.request.contextPath}/resource/images/main/bn_btn_main_sisul_d.jpg' alt='시설운영'></a>
 						<div class='dta1 clbx'>
 							<ul>
 								<li>
