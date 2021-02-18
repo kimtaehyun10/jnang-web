@@ -142,7 +142,7 @@ if (payURL.contains("https://tpay.sm")) {
 		alert(seq +", "+ goodsAmt +", "+ GoodsName +", "+ COMCD);
 		
 		//debugger;
-		$.get("/data/getOdEncryptData/"+ <%=ediDate%> +"/"+ goodsAmt +"/"+ COMCD +"?GoodsName="+ GoodsName +"&BuyerName="+ BuyerName, function(data){
+		$.get("/data/getOdEncryptData/"+ <%=ediDate%> +"/"+ goodsAmt +"/"+ COMCD +"?GoodsName="+ encodeURI(GoodsName) +"&BuyerName="+ encodeURI(BuyerName), function(data){
 		//try {
 			console.log(data);
 			//debugger;

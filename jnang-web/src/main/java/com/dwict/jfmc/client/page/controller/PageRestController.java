@@ -97,17 +97,11 @@ public class PageRestController {
 		param.put("goodsAmt", goodsAmt);
 		param.put("COMCD", COMCD);
 		
-		//Encodeing
-		if (request.getParameter("GoodsName") != null) {
-			String goodsName = request.getParameter("GoodsName");
-			param.put("goodsName", goodsName); //Encodeing
-		}
+		String goodsName = request.getParameter("GoodsName");
+		param.put("goodsName", goodsName); //Encodeing
 		
-		//Encodeing
-		if (request.getParameter("BuyerName") != null) {
-			String BuyerName = request.getParameter("BuyerName");
-			param.put("BuyerName", BuyerName); //Encodeing
-		}
+		String BuyerName = request.getParameter("BuyerName");
+		param.put("BuyerName", BuyerName); //Encodeing
 		
 		return service.getOdEncryptData(param);
 	}

@@ -324,9 +324,14 @@ public class PageServiceImpl implements PageService {
 		String enBuyerName = "";
 		try {
 			String GoodsName = (String) requestMap.get("GoodsName");
-			enGoodsName = URLEncoder.encode(GoodsName, "EUC-KR");
+			if (GoodsName != null &&  GoodsName != "") {
+				enGoodsName = URLEncoder.encode(GoodsName, "EUC-KR");
+			}
+			
 			String BuyerName = (String) requestMap.get("BuyerName");
-			enBuyerName = URLEncoder.encode(BuyerName, "EUC-KR");
+			if (BuyerName != null &&  BuyerName != "") {
+				enBuyerName = URLEncoder.encode(BuyerName, "EUC-KR");
+			}
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
