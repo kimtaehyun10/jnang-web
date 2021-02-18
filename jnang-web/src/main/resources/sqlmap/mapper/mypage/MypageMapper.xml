@@ -186,6 +186,7 @@ SELECT
 		AND A.CANCEL_YN = 'N'
 		) R1
 		ORDER BY SALE_SEQ DESC
+		LIMIT 20
 
 	</select>
     

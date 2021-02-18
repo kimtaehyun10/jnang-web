@@ -1,6 +1,8 @@
 package com.dwict.jfmc.client.page.service.impl;
 
 import java.util.List;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -318,7 +320,17 @@ public class PageServiceImpl implements PageService {
 		String ediDate = (String) requestMap.get("ediDate");
 		String goodsAmt = (String) requestMap.get("goodsAmt");
 		String COMCD = (String) requestMap.get("COMCD");
-		
+		String enGoodsName = "";
+		String enBuyerName = "";
+		try {
+			String GoodsName = (String) requestMap.get("GoodsName");
+			enGoodsName = URLEncoder.encode(GoodsName, "EUC-KR");
+			String BuyerName = (String) requestMap.get("BuyerName");
+			enBuyerName = URLEncoder.encode(BuyerName, "EUC-KR");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		//사업장별 PG결제 키값 정보불러오기 
 		Map<String, Object> maps = new HashMap<>();
 		maps = payService.payKeyInfo(requestMap); 
@@ -328,6 +340,8 @@ public class PageServiceImpl implements PageService {
 		
 		final String EncryptData = FormatUtil.encodeMD5HexBase64(ediDate + storeMID + goodsAmt + merchantKey);
 		maps.put("EncryptData",EncryptData);
+		maps.put("enGoodsName",enGoodsName);
+		maps.put("enBuyerName",enBuyerName);
 		
 		return maps;
 	}

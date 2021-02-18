@@ -1,3 +1,12 @@
+<%@page import="java.util.Date"%>
+<%@page import="java.net.URLEncoder"%>
+<%@page import="java.sql.Timestamp"%>
+<%@page import="org.apache.commons.codec.binary.Base64"%>
+<%@page import="org.apache.commons.codec.digest.DigestUtils"%>
+<%@page import="java.util.Enumeration"%>
+<%@ page import="java.text.NumberFormat"%>
+<%@ page import="java.text.SimpleDateFormat"%>
+<%@ page import="com.dwict.jfmc.client.mem.model.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resource/js/common.js"></script>
@@ -23,7 +32,8 @@
 	//String VbankExpDate = nxDay.toString();
 	//VbankExpDate = VbankExpDate.substring(0, 10); 
 	//VbankExpDate = VbankExpDate.replaceAll("-", "");
-	//String ediDate = getyyyyMMddHHmmss(); // 전문생성일시
+	String ediDate = getyyyyMMddHHmmss(); // 전문생성일시
+	out.println("ediDate:"+ediDate +"<BR>");
 	//상품주문번호	
 	
 	String merchantKey = ""; //(String) request.getAttribute("merchantKey");
@@ -127,11 +137,54 @@ if (payURL.contains("https://tpay.sm")) {
 		 return version; 
 	}
 
+	//결제 버튼
+	function goBtn(seq, goodsAmt, GoodsName, COMCD) {
+		alert(seq +", "+ goodsAmt +", "+ GoodsName +", "+ COMCD);
+		
+		//debugger;
+		$.get("/data/getOdEncryptData/"+ <%=ediDate%> +"/"+ goodsAmt +"/"+ COMCD +"?GoodsName="+ GoodsName +"&BuyerName="+ BuyerName, function(data){
+		//try {
+			console.log(data);
+			//debugger;
+			var dataList = "";
+			if(data.length != 0){				
+				$("#EncryptData").val(data.EncryptData);
+				$("#merchantKey").val(data.KEY);
+				$("#MID").val(data.MID);
+				$("#Amt").val(goodsAmt);
+				$("#GoodsName").val(data.enGoodsName);
+				$("#BuyerName").val(data.enBuyerName);
+				actionUrl = data.URL;
+				
+				//var html1=$("#returnURL").val();
+				//var html2='';
+				//html2+=html1 + "?q=";
+				//html2+= RESERVE_DATE+"/";
+				//html2+= PLACE_CD + "/";
+				//html2+= COMCD + "/";
+				//html2+= RTN_IDX + "/";
+				//html2+= MEM_ID;
+				
+				//$("#returnURL").val(html2);
+			goPay();	
+			} 
+		/*} catch (exception) {
+			alert("할인적용 오류 : 잠시후 다시 시도하여 주세요..");
+			window.location.reload();
+			return;
+		}*/
+		});
+			
+		
+	}
+	
+
+	var actionUrl = "";
 	function goPay() 
 	{		
-		
+		console.log("actionUrl:"+ actionUrl);
 		var form = document.tranMgr;
-		form.action = '<%=actionUrl%>';
+		form.action = actionUrl; //'<%=actionUrl%>';
 		
 		if (form.GoodsCnt.value == "0") {
 			alert("수강 신청 내역이 없습니다.");
@@ -200,22 +253,22 @@ if (payURL.contains("https://tpay.sm")) {
 	<table class="stbl_l1a">
 		<colgroup>
 			<col width="5%">
-			<col width="5%">
 			<col width="15%">
 			<col width="15%">
 			<col width="30%">
 			<col width="20%">
 			<col width="20%">
+			<col width="15%">
 		</colgroup>
 		<thead>
 			<tr>
 				<th>No.</th>
-				<th><input type="checkbox" name="" id="" onclick="ac_cbox(this.form, 'cbox', this.checked);" style='width:30px; height:30px;'></th>
 				<th>센터명</th>
 				<th>종목</th>
 				<th>강좌명</th>
 				<th>대상</th>
 				<th>수강료</th>
+				<th>결제</th>
 			</tr>
 		</thead>
 		<tbody id="dataList">
@@ -228,10 +281,6 @@ if (payURL.contains("https://tpay.sm")) {
 	  <!-- <a href="#none" onclick="saleGo();" id=" " class="blue">할인적용</a> -->
 	</div>
 
-    <div class="btnarea margin_t80">
-        <a href="#none" onClick="data.list('del');" id=" " class="gray2">선택삭제</a>
-        <a href="#none" onclick="goPay();" id=" " class="green">전체 결제</a>
-    </div>
 </div>
 
 
@@ -244,23 +293,23 @@ if (payURL.contains("https://tpay.sm")) {
 		    <input type="hidden" name="PayMethod" maxlength="2" value="CARD">
 		    <input type="hidden" name="PayType" maxlength="2" value="">
 			<!-- 수량 -->
-		    <input type="hidden" id="GoodsCnt" name="GoodsCnt" maxlength="2" value="<%//=GoodsCnt%>">
+		    <input type="hiddenㅌ" id="GoodsCnt" name="GoodsCnt" maxlength="2" value="1">
 			<!--<div>상품명:</div>-->
-		    <input type="hidden" id="GoodsName" name="GoodsName" maxlength="2" value="<%//=GoodsName%>xxx">
+		    <input type="hiddenx" id="GoodsName" name="GoodsName" maxlength="2" value="<%//=GoodsName%>xxx">
 			
 			<!-- <div>상품금액:</div> -->
-		    <input type="hidden" id="Amt" name="Amt" maxlength="2" value="<%//=goodsAmt%>">
+		    <input type="hiddenx" id="Amt" name="Amt" maxlength="2" value="<%//=goodsAmt%>">
 			
 			<!-- <div>주문번호:</div> -->
-		    <input type="hidden" name="Moid" maxlength="2" value="Moid">
+		    <input type="hiddenx" name="Moid" maxlength="2" value="Moid">
 	    
-		    <input type="hidden" id="MID" name="MID" maxlength="2" value="<%=MID%>">
+		    <input type="hiddenx" id="MID" name="MID" maxlength="2" value="<%=MID%>">
 			
-		    <input type="hidden" name="ReturnURL" maxlength="2" value="<%=ReturnURL%>?q=${otherData.MEM_ID}//">
+		    <input type="hiddenx" name="ReturnURL" maxlength="2" value="<%=ReturnURL%>?q=${otherData.MEM_ID}//">
 			
 		    <input type="hidden" name="ReceiptType" maxlength="2" value="0">
 			
-		    <input type="hidden" name="RetryURL" maxlength="2" value="<%=ReturnURL%>?q=${otherData.MEM_ID}//">
+		    <input type="hiddenx" name="RetryURL" maxlength="2" value="<%=ReturnURL%>?q=${otherData.MEM_ID}//">
 			<!-- 
 		    <tr>
 		        <th scope="row">mallUserID</th>
@@ -268,11 +317,11 @@ if (payURL.contains("https://tpay.sm")) {
 		    </tr>		    
 		    <input type="hidden" name="mallUserID" maxlength="2" value=""> -->
 			<!-- <div>구매자:</div> -->
-		    <input type="hidden" id="BuyerName" name="BuyerName" maxlength="2" value="BuyerName">
+		    <input type="hiddenx" id="BuyerName" name="BuyerName" maxlength="2" value="BuyerName">
 			<!-- <div>연락처:</div> -->
-		    <input type="hidden" id="BuyerTel" name="BuyerTel" maxlength="2" value="BuyerTel">
+		    <input type="hiddenx" id="BuyerTel" name="BuyerTel" maxlength="2" value="BuyerTel">
 			<!-- <div>이메일:</div> -->
-		    <input type="hidden" id="BuyerEmail" name="BuyerEmail" maxlength="2" value="BuyerEmail">
+		    <input type="hiddenx" id="BuyerEmail" name="BuyerEmail" maxlength="2" value="BuyerEmail">
 			
 			<!-- 
 		    <tr>
@@ -295,7 +344,7 @@ if (payURL.contains("https://tpay.sm")) {
 		    
 		    <input type="hidden" name="VbankExpDate" maxlength="2" value="<%//=VbankExpDate%>">
 			
-		    <input type="hidden" id="EncryptData" name="EncryptData" maxlength="2" value="EncryptData">
+		    <input type="hiddenx" id="EncryptData" name="EncryptData" maxlength="2" value="EncryptData">
     
 		    <input type="hidden" name="FORWARD" maxlength="2" value="Y">
 			
@@ -303,7 +352,7 @@ if (payURL.contains("https://tpay.sm")) {
 			
 		    <input type="hidden" name="TransType" maxlength="2" value="0">
 			
-		    <input type="hidden" name="EncodingType" maxlength="2" value="<%=EncodingType%>">
+		    <input type="hiddenx" name="EncodingType" maxlength="2" value="<%=EncodingType%>">
 			
 		    <input type="hidden" name="OpenType" maxlength="2" value="KR">
 	    
@@ -365,7 +414,7 @@ if (payURL.contains("https://tpay.sm")) {
 	    
 		    <input type="hidden" name="CardPoint" maxlength="2" value="0">
 			
-		    <input type="hidden" id="ediDate" name="ediDate" maxlength="2" value="ediDate">
+		    <input type="hidden" id="ediDate" name="ediDate" maxlength="2" value="<%=ediDate%>">
 			
 		    <input type="hidden" name="UrlEncode" maxlength="2" value="Y">
 			<!-- 
@@ -399,3 +448,46 @@ if (payURL.contains("https://tpay.sm")) {
 	<iframe src="blank.html" name="payFrame" frameborder="no" width="0" height="0" scrolling="yes" align="center"></iframe>
 	
 	<!-- /smartPay/mainCancelPay -->
+	
+<%!
+/**
+ * 기준날짜에서 몇일 전,후의 날짜를 구한다.
+ * @param	sourceTS	기준날짜
+ * @param	day			변경할 일수
+ * @return	기준날짜에서 입력한 일수를 계산한 날짜
+ */
+public static Timestamp getTimestampWithSpan(Timestamp sourceTS, long day) throws Exception {
+	Timestamp targetTS = null;
+	
+	if (sourceTS != null) {
+		targetTS = new Timestamp(sourceTS.getTime() + (day * 1000 * 60 * 60 * 24));
+	}
+
+	return targetTS;
+}
+
+/**
+ * 현재날짜를 YYYYMMDDHHMMSS로 리턴
+ */
+public final synchronized String getyyyyMMddHHmmss(){
+	/** yyyyMMddHHmmss Date Format */
+	SimpleDateFormat yyyyMMddHHmmss = new SimpleDateFormat("yyyyMMddHHmmss");
+	
+	return yyyyMMddHHmmss.format(new Date());
+}
+
+/**
+ * <pre>
+ * MD5+Base64
+ * </pre>
+ * @param pw
+ * @return String
+ */
+public static final String encodeMD5Base64(String str){
+	return new String(Base64.encodeBase64(DigestUtils.md5(str)));
+}
+ 
+public static final String encodeMD5HexBase64(String pw){
+	return new String(Base64.encodeBase64(DigestUtils.md5Hex(pw).getBytes()));
+}
+%>	

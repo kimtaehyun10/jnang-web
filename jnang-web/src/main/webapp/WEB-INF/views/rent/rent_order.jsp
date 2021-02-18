@@ -172,7 +172,7 @@ var data = {
 	$("#AmtDP").text(goodsAmt );
 	$("#Amt").val(goodsAmt);
 	
-	$.get("/data/getOdEncryptData/<%=ediDate%>/"+ goodsAmt, function(data){
+	$.get("/data/getOdEncryptData/<%=ediDate%>/"+ goodsAmt +"/"+ COMCD, function(data){
 		try {
 			var dataList = "";
 			if(data.length != 0){

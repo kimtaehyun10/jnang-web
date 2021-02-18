@@ -29,26 +29,27 @@ var data = {
 				var dataList = "";
 				if(data.length != 0){
 					for(var i=0; i<data.length; i++){
-						
+						//debugger;
 						if (data[i].ITEM_CD != undefined) {
 							var saleAmt = data[i].SALE_AMT;
+							var GoodsName = data[i].ITEM_NM
+							GoodsName = (data[i].CLASS_NM != "") ? GoodsName +" "+ data[i].CLASS_NM : "";
+							GoodsName = GoodsName.replace("/","");
 							dataList += "<tr>"
 								+ "<td>"+ (i+1) +"</td> "
-								+ "<td><input type='checkbox' id='cbox' name='cbox[]' value='"+ data[i].SEQ +"' style='width:30px; height:30px;'></td> "
+								//+ "<td><input type='checkbox' id='cbox' name='cbox[]' value='"+ data[i].SEQ +"' style='width:30px; height:30px;'></td> "
 								+ "<td>"+ data[i].COMNM +"</td> "
 								+ "<td>"+ data[i].SPORTS_NM +"</td> "
 								+ "<td>"+ data[i].CLASS_NM +"</td> "
 								+ "<td>"+ data[i].ITEM_NM +"</td> "
 								+ "<td>"+ comma_str_y(saleAmt) +"</td>"
+								+ "<td><input type='button' class='size_m2 btn_green1' value='결제' onClick=\"goBtn('"+ data[i].SEQ +"','"+ 10 +"','"+ GoodsName +"','"+ data[i].COMCD +"', );\"></td>"
 								+ "</tr>";
 						}
 					}
 					var dataCnt = data.length-1;
 					
-					$("#GoodsCnt").val(data[dataCnt].goodsCnt);
-					$("#GoodsName").val(data[dataCnt].goodsNameEn);
-					$("#Amt").val(data[dataCnt].goodsAmt);
-					
+					/*
 					$("#BuyerName").val(data[dataCnt].buyerNameEn);
 					$("#BuyerTel").val(data[dataCnt].byerTel);
 					$("#BuyerEmail").val(data[dataCnt].buyerEmail);
@@ -56,7 +57,7 @@ var data = {
 					$("#ediDate").val(data[dataCnt].ediDate);
 					$("#merchantKey").val(data[dataCnt].merchantKey);
 					$("#MID").val(data[dataCnt].storeMID);
-					
+ 					*/					
 					$("#dataList").html(dataList);
 					
 					
@@ -74,6 +75,7 @@ var data = {
 	},
 	other: function(){
 	},	
+	
 	//var param = { "seq" : seq };
 
 };
