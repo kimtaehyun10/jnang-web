@@ -28,10 +28,10 @@
 	
 //InetAddress inet = InetAddress.getLocalHost(); // 서버 IP 가져오기
 Timestamp toDay = new Timestamp((new Date()).getTime()); // 현재날짜
-//Timestamp nxDay = getTimestampWithSpan(toDay, 1); // 가상계좌 입금만료일  1일후 가져오기
-//String VbankExpDate = nxDay.toString();
-//VbankExpDate = VbankExpDate.substring(0, 10); 
-//VbankExpDate = VbankExpDate.replaceAll("-", "");
+Timestamp nxDay = getTimestampWithSpan(toDay, 1); // 가상계좌 입금만료일  1일후 가져오기
+String VbankExpDate = nxDay.toString();
+VbankExpDate = VbankExpDate.substring(0, 10); 
+VbankExpDate = VbankExpDate.replaceAll("-", "");
 String ediDate = getyyyyMMddHHmmss(); // 전문생성일시
 String Moid = "Moid"; 
 final String strUrl = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort();
@@ -44,11 +44,15 @@ final String strUrl = request.getScheme()+"://"+request.getServerName()+":"+requ
 //String retryUrl = "https://tpay.smilepay.co.kr/inform.jsp"; // 가맹점 retryURL 설정
 
 String DivideInfo = "";
+String storeMID 	= (String) request.getAttribute("MID");
+//String payURL 		= "https://tpay.smilepay.co.kr/interfaceURL.jsp";
 
-String merchantKey 	= (String) request.getAttribute("KEY");
-String MID 			= (String) request.getAttribute("MID");
+String merchantKey  = (String) request.getAttribute("KEY");
+String MID 			= storeMID; //(String) request.getAttribute("MID");
 String payURL 		= (String) request.getAttribute("URL");
 String PWD 			= (String) request.getAttribute("PWD");
+//out.print("merchantKey =" + merchantKey + "<BR>");
+//out.print("MID =" + MID);
 
 //if (strUrl.contains("localhost")) {
 //	out.println("LOCAL ==> merchantKey:"+ merchantKey +"<BR>");
@@ -109,7 +113,7 @@ String [] arryCfg = otherCfg.split("\\/");
 String holiday_price = arryCfg[6];
 
 String GoodsName = COMNM;
-
+out.print("GoodsName = " + GoodsName);
 
 //축구장/야구장 (기본(평일주말)) 단가표
 int [][] rentPrice = new int [20][20];
@@ -159,14 +163,15 @@ $(function(){
 
 var data = {
 	
-	selectDC: function(dcPer){
+	selectDC: function(dcPer, COMCD){
 
 	if (confirm("\n 이용자의 50%가 할인대상자입니까? (할인여부 현장확인) ")) {
 		
 	} else {
 		return false;	
 	}
-		
+	
+	
 	var goodsAmt = Number($("#goodsAmt").val());
 	goodsAmt = goodsAmt - (goodsAmt * (dcPer/100));
 	$("#AmtDP").text(goodsAmt );
@@ -177,6 +182,12 @@ var data = {
 			var dataList = "";
 			if(data.length != 0){
 				$("#EncryptData").val(data.EncryptData);
+				$("#merchantKey").val(data.KEY);
+				$("#MID").val(data.MID);
+				$("#Amt").val(goodsAmt);
+				$("#GoodsName").val(GoodsName);
+				
+			goPay();	
 			} 
 		} catch (exception) {
 			alert("할인적용 오류 : 잠시후 다시 시도하여 주세요..");
@@ -188,12 +199,40 @@ var data = {
 	}
 };
 
-function send(){
-
+function send(COMCD){
 	
-	goPay();
-
-	return false;
+	var goodsAmt = Number($("#goodsAmt").val());
+	var goodsName = String($("#GoodsName").val());
+	
+	$("#AmtDP").text(goodsAmt );
+	$("#Amt").val(goodsAmt);
+	$("#GoodsName").val(goodsName);
+	
+	$.get("/data/getOdEncryptData/<%=ediDate%>/"+ goodsAmt +"/"+ COMCD, function(data){
+		try {
+			var dataList = "";
+			if(data.length != 0){
+				
+				$("#EncryptData").val(data.EncryptData);
+				$("#merchantKey").val(data.KEY);
+				$("#MID").val(data.MID);
+				$("#Amt").val(goodsAmt);
+				$("#GoodsName").val(goodsName);
+				
+				
+				
+				var html1=$("#returnURL").val();
+				
+				
+			goPay();	
+			} 
+		} catch (exception) {
+			alert("잠시후 다시 시도하여 주세요..");
+			window.location.reload();
+			return;
+		}
+	});
+	
 
 }
 </script>
@@ -255,10 +294,10 @@ function send(){
 		var form = document.tranMgr;
 		form.action = '<%=actionUrl%>';
 		
-		if (form.GoodsCnt.value == "0") {
+		/* if (form.GoodsCnt.value == "0") {
 			alert("수강 신청 내역이 없습니다.");
 			return false;
-		}
+		} */
 			
 		
 		if (form.GoodsName.value == "" || form.Amt.value == "" || form.GoodsCnt.value == "" ||form.ReturnURL.value == "")
@@ -494,7 +533,7 @@ function send(){
 	  <tr>
 	    <th>할인</th>
 	    <td>
-	    	<select name="" class="inputbox_01a" onchange="data.selectDC(this.value);">
+	    	<select name="" class="inputbox_01a" onchange="data.selectDC(this.value, '${rentCfg.COMCD }');">
 	    	<option value="">==할인 선택==</option>
 	    	<option value="0" selected>일반</option>
 	    	<option value="10">중랑구민(10%)</option>
@@ -512,7 +551,7 @@ function send(){
 	  <tr>
 	    <th>할인</th>
 	    <td>
-	    	<select name="" class="inputbox_01a" onchange="data.selectDC(this.value);">
+	    	<select name="" class="inputbox_01a" onchange="data.selectDC(this.value, '${rentCfg.COMCD }');">
 	    	<option value="">==할인 선택==</option>
 	    	<option value="0" selected>일반</option>
 	    	<option value="10">중랑구민(10%)</option>
@@ -548,7 +587,7 @@ function send(){
 	    String commaRent = NumberFormat.getInstance().format(rentSum);
 	    String commaLight = NumberFormat.getInstance().format(lightSum);
 	    %>
-	    <span id="AmtDP"><%=commaTot %></span> &nbsp; (대관료 : <%=commaRent %> / 조명료 : <%=commaLight %>)</td>
+	    <span id="AmtDP"><%=commaTot %></span>원 &nbsp; (대관료 : <%=commaRent %> / 조명료 : <%=commaLight %>)</td>
     </tr>
 	<tr>
     	<td colspan="2"><div class="bg_icon_circle_green1a fontsize_1dot60 padding_left_1dot5">주의사항 및 환불안내</div></td>
@@ -600,7 +639,7 @@ if (PLACE_GROUP == 2 || PLACE_GROUP == 3) {
     	//2시간이상 결제 해야함
     	if (rent_timeCnt >= 2) {
     	%>
-			<a href="#none" onclick="goPay();" id=" " class="green">결제</a>
+			<a href="#none" onclick="send('${rentCfg.COMCD}');" id=" " class="green">결제</a>
 		<%
     	} else {
     	%>
@@ -613,13 +652,14 @@ if (PLACE_GROUP == 2 || PLACE_GROUP == 3) {
 
 </form>
 <%
-totalSum = (strUrl.contains("localhost") || MEM_ID.equals("powerjyc")) ? 10 : totalSum;
+//totalSum = (strUrl.contains("localhost") || MEM_ID.equals("powerjyc")) ? 10 : totalSum;
 
 String EncryptData = encodeMD5HexBase64(ediDate + MID + totalSum + merchantKey);
 
 
 try {
 	GoodsName = URLEncoder.encode(GoodsName, "EUC-KR");
+	
 	MEM_NM = URLEncoder.encode(MEM_NM, "EUC-KR");
 } catch (Exception e) {
 	// TODO Auto-generated catch block
@@ -632,28 +672,30 @@ try {
 <form name="tranMgr" method="post" action="">
 	<table class="type">
 	    <tbody>
-		    <input type="hidden" name="PayMethod" maxlength="2" value="CARD">
+		    <input type="hidden" name="PayMethod" maxlength="2" value="VBANK">
+		    
 		    <input type="hidden" name="PayType" maxlength="2" value="">
 			<!-- 수량 -->
 		    <input type="hidden" id="GoodsCnt" name="GoodsCnt" maxlength="2" value="1">
 			<!--<div>상품명:</div>-->
-		    <input type="hidden" id="GoodsName" name="GoodsName" maxlength="2" value="<%=GoodsName%>">
-			
+		    <input type="hiasddden" id="GoodsName" name="GoodsName" maxlength="2" value="<%=GoodsName%>">
+		
 			<!-- <div>상품금액:</div> -->
 			
-		    <input type="hidden" id="goodsAmt" maxlength="2" value="<%=totalSum%>">
+		    <input type="hidde1n" id="goodsAmt" maxlength="2" value="<%=totalSum%>">
 		    <input type="hidden" id="Amt" name="Amt" maxlength="2" value="<%=totalSum%>">
 			
 			<!-- <div>주문번호:</div> -->
 		    <input type="hidden" name="Moid" maxlength="2" value="Moid">
 	    
-		    <input type="hidden" name="MID" maxlength="2" value="<%=MID%>">
+		    <input type="hiddesn" name="MID" maxlength="2" value="<%=MID%>">
 			
-		    <input type="hidden" name="ReturnURL" maxlength="2" value="<%=ReturnURL%>?q=${dataList.RESERVE_DATE}/${dataList.PLACE_CD}/${rentCfg.COMCD}/${dataList.rtn_idx}/<%=MEM_ID%>">
+		    <input type="hidde1n" name="ReturnURL" maxlength="2" value="<%=ReturnURL%>?q=${dataList.RESERVE_DATE}/${dataList.PLACE_CD}/${rentCfg.COMCD}/${dataList.rtn_idx}/<%=MEM_ID%>">
+		    <%-- <input type="hidden" id="returnURL" name="ReturnURL" maxlength="2" value="<%=ReturnURL%>"> --%>
 			
 		    <input type="hidden" name="ReceiptType" maxlength="2" value="0">
 			
-		    <input type="hidden" name="RetryURL" maxlength="2" value="<%=ReturnURL%>?q=${dataList.RESERVE_DATE}/${dataList.PLACE_CD}/${rentCfg.COMCD}/${dataList.rtn_idx}/<%=MEM_ID%>">
+		    <input type="hidd1en" name="RetryURL" maxlength="2" value="<%=ReturnURL%>?q=${dataList.RESERVE_DATE}/${dataList.PLACE_CD}/${rentCfg.COMCD}/${dataList.rtn_idx}/<%=MEM_ID%>">
 			<!-- 
 		    <tr>
 		        <th scope="row">mallUserID</th>
@@ -686,9 +728,9 @@ try {
   
 		    <input type="hidden" name="MallIP" maxlength="2" value="<%//=InetAddress%>">
 		    
-		    <input type="hidden" name="VbankExpDate" maxlength="2" value="<%//=VbankExpDate%>">
+		    <input type="hidde12n" name="VbankExpDate" maxlength="2" value="<%=VbankExpDate%>">
 			
-		    <input type="hidden" id="EncryptData" name="EncryptData" maxlength="2" value="<%=EncryptData%>">
+		    <input type="hidden1" id="EncryptData" name="EncryptData" maxlength="2" value="EncryptData">
     
 		    <input type="hidden" name="FORWARD" maxlength="2" value="Y">
 			
@@ -758,7 +800,7 @@ try {
 	    
 		    <input type="hidden" name="CardPoint" maxlength="2" value="0">
 			
-		    <input type="hidden" id="ediDate" name="ediDate" maxlength="2" value="<%=ediDate%>">
+		    <input type="hidden1" id="ediDate" name="ediDate" maxlength="2" value="<%=ediDate%>">
 			
 		    <input type="hidden" name="UrlEncode" maxlength="2" value="Y">
 			<!-- 
@@ -781,7 +823,7 @@ try {
 		        <td></td>
 		    </tr>	
 		    -->	    
-		    <input type="hidden" id="merchantKey" name="merchantKey" maxlength="2" value="<%=merchantKey%>">
+		    <input type="hidden1" id="merchantKey" name="merchantKey" maxlength="2" value="<%=merchantKey%>">
 	
 	    </tbody>
 	

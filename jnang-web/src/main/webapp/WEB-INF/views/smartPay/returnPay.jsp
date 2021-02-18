@@ -1,5 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page import="java.net.URLDecoder"%>
+<%@ page import="org.apache.commons.lang.StringUtils"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<%
+	String VbankName = request.getParameter("VbankName")==null?"":request.getParameter("VbankName"); // 가상계좌은행명
+		
+	VbankName = URLDecoder.decode(VbankName, "utf-8");
+	
+%>
 <style type="text/css">
 <!--
 table.type {
@@ -91,6 +100,14 @@ function gtnUrl(val1) {
 				<td><strong><c:out value="${rtnMap.PayMethod}"/><%//=PayMethod%></strong></td>
 			</tr>
 			<tr>
+				<th scope="row">가상계좌번호</th>
+				<td><strong><c:out value="${rtnMap.VbankNum}"/><%//=VbankNum%></strong></td>
+			</tr>
+			<tr>
+				<th scope="row">가상계좌은행명</th>
+				<td><strong><%=VbankName%></strong></td>
+			</tr>	
+			<tr>
 				<th scope="row">금액
 					</td>
 					<td><strong><c:out value="${rtnMap.Amt}"/><%//=Amt%>원</strong></td>
@@ -134,6 +151,11 @@ function gtnUrl(val1) {
 				<th scope="row">결제카드사명
 					</td>
 					<td><strong><c:out value="${rtnMap.fn_name}"/><%//=fn_name%></strong></td>
+			</tr>
+			<tr>
+				<th scope="row">결제카드사코드
+					</td>
+					<td><strong><c:out value="${rtnMap.fn_cd}"/><%//=fn_name%></strong></td>
 			</tr>
 			<tr>
 				<th scope="row">할부개월수

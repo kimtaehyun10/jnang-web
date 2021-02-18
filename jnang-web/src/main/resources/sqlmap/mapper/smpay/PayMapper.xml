@@ -35,6 +35,11 @@
 	</select>	
 	
 	
+	<select id="getNextAppNo" resultType="String" parameterType="java.util.HashMap">
+		SELECT IFNULL(MAX(APP_NO),0) + 1 AS APP_NO
+		FROM CARD_APP_HIST_DAMO;	
+	</select>	
+	
 
 
 	<!-- 주문상품리스트 등록 저장 -->
@@ -132,7 +137,9 @@
 			CHNG_DH,
 			WRITER,
 			WRITE_DH,
-			SEQ
+			SEQ,
+			VBANKNUM,
+			VBANKNAME
 		)
 		VALUES
 		(
@@ -170,7 +177,9 @@
 			#{WRITE_DH},
 			#{WRITER},
 			#{WRITE_DH},
-			#{SEQ}
+			#{SEQ},
+			#{VBANKNUM},
+			#{VBANKNAME}
 		)
     </insert>	
     

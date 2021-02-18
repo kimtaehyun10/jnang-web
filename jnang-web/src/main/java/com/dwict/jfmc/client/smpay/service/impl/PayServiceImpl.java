@@ -15,7 +15,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
+import java.net.URLDecoder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -69,6 +69,7 @@ public class PayServiceImpl implements PayService {
 	public Map <String,Object> payKeyInfo(Map<String, Object> maps) {
 		
 		
+		
 		//0 테스트 1 실제
 		  if (PG_MODE.equals("0")) {
 			  maps.put("COMCD", "TEST");
@@ -82,7 +83,7 @@ public class PayServiceImpl implements PayService {
 	//사업장(comcd) 캔슬 
 	public Map <String,Object> payKeyInfoCancel(Map<String, Object> maps) {
 		
-		if(PG_MODE.equals("1")) {
+		if(PG_MODE.equals("0")) {
 			
 			if(maps.get("SLIP_NO") != null && maps.get("COMCD") != null && maps.get("TID") != null) {
 				String comCd = maps.get("COMCD").toString();
@@ -612,6 +613,11 @@ public class PayServiceImpl implements PayService {
 		ResultMsg				= rtnDecode(ResultMsg);
 		String VbankNum			= request.getParameter("VbankNum")==null?"":request.getParameter("VbankNum"); // 가상계좌번호
 		String VbankName			= request.getParameter("VbankName")==null?"":request.getParameter("VbankName"); // 가상계좌은행명
+		try {
+			VbankName = URLDecoder.decode(VbankName, "utf-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 		
 		String fn_cd			= request.getParameter("fn_cd")==null?"":request.getParameter("fn_cd"); // 결제카드사코드
 		String fn_name			= request.getParameter("fn_name")==null?"":request.getParameter("fn_name"); // 결제카드사명
@@ -746,7 +752,7 @@ public class PayServiceImpl implements PayService {
 		    	maps.put("PAY_AMT", Amt);
 		    	maps.put("PG_CD", fn_cd);
 		    	maps.put("PG_NM", fn_name);
-		    	maps.put("APP_TIME", AuthDate);
+		    	maps.put("APP_TIME", APP_DATE);
 		    	maps.put("APP_NO", APP_NO);
 		    	maps.put("TID", TID);
 		    	maps.put("PG_QUTOA", APP_CARD_HALBU);
@@ -801,6 +807,151 @@ public class PayServiceImpl implements PayService {
 	    else if (ResultCode.equals("4100")) {// VBANK
 	    	// 승인 성공 시 DB 처리 하세요.
 			// TID 결제 성공한 데이터 존재시 UPDATE, 존재하지 않을 경우 INSERT
+	    	
+	    	int goodsAmt = 0;
+	    	String goodsNames = "";
+	    	int dataCnt = 0;
+	    	
+		
+	    	
+	  		//등록강습반 및 프로그램 저장
+	  		//String prgList = List; //request.getParameter("PRG");//array 강습반 및 프로그램 정보
+	  		//String payList = request.getParameter("PAY"); //(String)requestMap.get("PAY");//array 주문상품 정보
+	  		//JSONArray aPrgList = JSONArray.fromObject(prgList); 
+	  		//JSONArray aPayList = JSONArray.fromObject(payList);
+	  		
+	  		String userId = MEM_ID;//(String)requestMap.get("userId");
+	  		String userNm = MEM_NM; //(String)requestMap.get("userNm");
+
+	  		//ACT_MODE : "Change" 강좌 변경
+	  		String ACT_MODE =""; // (String)requestMap.get("ACT_MODE");
+			//METHOD_CD:결제수단코드(00:현금, 99:현금영수증, 01:비씨카드.....)
+	  		
+	  		int CASH_AMT_SUM = 0;//현금결제금액
+	  		int CARD_AMT_SUM = Integer.parseInt(Amt);//카드결제금액
+	  		int RECEIVE_AMT = 0;
+	  		int RETURN_AMT = 0;
+	  		
+	  		int iDEPOSIT_AMT = 0; //보증금
+	  		
+	  		
+	  			  		
+	  		//select * from PAY_CHANGE_INFO
+	   		//String NEXT_RECEIPT_NO = mapper.getNextReceiptNo();
+	   		//다음정산번호 가져오기 select * from PAY_LIST
+	   		String NEXT_SLIP_NO = mapper.getNextSlipNo();
+	   		
+	   		//현금영수번호 가 없을경우 보조추가용
+	   		String NEXT_APP_NO = "";
+	
+	   		
+	  		
+	    	String ymdhis = FormatUtil.getDefaultDate(1, "-","");
+
+			
+			
+  			String P_COMCD =  fn_cd; // aPayList.getJSONObject(ii).getString("P_COMCD").toString(); //결제업체코드
+  			String P_TYPE =  "VBANK"; //aPayList.getJSONObject(ii).getString("P_TYPE").toString(); //결제수단구분(CARD,CASH)
+  			
+  			//if (P_TYPE.equals("CARD")) {
+  				
+			
+  	  		int PAY_AMT = Integer.parseInt(Amt); //aPayList.getJSONObject(ii).getInt("PAY_AMT"); //결제금액
+  			
+  			//METHOD_CD:결제수단코드(00:현금, 99:현금영수증, 01:비씨카드.....)
+  			String METHOD_CD = "01";// aPayList.getJSONObject(ii).getString("METHOD_CD").toString(); //결제수단코드
+       		String APP_DATE = AuthDate; //aPayList.getJSONObject(ii).getString("APP_DATE").toString(); //카드_승인일시__van또는pg또는현금영수증
+       		String APP_NO = AuthCode; //aPayList.getJSONObject(ii).getString("APP_NO").toString(); //카드_승인번호__van또는pg또는현금영수증
+       		String APP_TIME = ""; //aPayList.getJSONObject(ii).getString("APP_TIME").toString(); //카드_승인시분Hi__van또는pg또는현금영수증
+       		
+       		
+       		if ("".equals(APP_DATE) || APP_DATE.equals(null)) {
+  				APP_DATE = FormatUtil.getDefaultDate(3, "",""); 
+  			}
+       		
+       		if (APP_NO.equals("") || APP_NO == null ) {
+       			APP_NO = NEXT_APP_NO;
+       		}
+
+       		String APP_CARD_NO = ""; //aPayList.getJSONObject(ii).getString("APP_CARD_NO").toString(); //카드 번호
+       		String SEC_CARD_NO1 = "";
+       		String SEC_CARD_NO2 = "****";
+       		String SEC_CARD_NO3 = "****";
+       		String SEC_CARD_NO4 = "";       		
+       		if (APP_CARD_NO.length() > 10)
+       		{
+       			SEC_CARD_NO1 = APP_CARD_NO.substring(4);
+       			SEC_CARD_NO4 = APP_CARD_NO.substring(APP_CARD_NO.length()-4, APP_CARD_NO.length());
+       		}
+
+       		
+       		String APP_CARD_CD = fn_cd; //aPayList.getJSONObject(ii).getString("APP_CARD_CD").toString(); //카드사 코드
+       		String APP_CARD_HALBU = CardQuota; //aPayList.getJSONObject(ii).getString("APP_CARD_HALBU").toString(); //카드사 할부       		
+       		String APP_CASH_INFO = "";//aPayList.getJSONObject(ii).getString("APP_CASH_INFO").toString(); //현금영수 입력정보
+       		
+       		Map <String , Object > maps;
+       		
+	    	//결제 SEQ
+	    	maps = new HashMap<>();
+	    	maps.put("COMCD", COMCD);
+	    	maps.put("PAY_AMT", Amt);
+	    	maps.put("PG_CD", fn_cd);
+	    	maps.put("PG_NM", fn_name);
+	    	maps.put("APP_TIME", APP_DATE);
+	    	maps.put("APP_NO", APP_NO);
+	    	maps.put("TID", TID);
+	    	
+	    	if(APP_CARD_HALBU != null && !(APP_CARD_HALBU.equals(""))) {
+	    		maps.put("PG_QUTOA", APP_CARD_HALBU);
+	    	}
+	    	maps.put("CARD_NO", SEC_CARD_NO1 +"-"+ SEC_CARD_NO2 +"-"+ SEC_CARD_NO3+"-"+ SEC_CARD_NO4);
+	    	maps.put("WDATE", ymdhis);
+	    	maps.put("SEQ", "");
+	    	
+	    	//실서버에서 3번 중복저장됨 그래서 중복첵크용 나는 초보자니 이렇게 해도됨 
+	    	dataCnt = mapper.rentDblChk(maps);
+	    	if (dataCnt ==0) {
+		    	mapper.rentOrderSEQ(maps);
+		    	//int od_seq = (int) maps.get("SEQ");
+
+				// 대간 결제 정보 저장
+		    	//선택된 대관 idx 값들 배열화 //146,147,11,333,444
+		    	final String[] brdNoArr =  rtn_idx.split(",");
+		    	maps.put("ORDER_SEQ", maps.get("SEQ"));
+				maps.put("brdNoList", brdNoArr);
+				maps.put("SLIP_NO", NEXT_SLIP_NO);
+				maps.put("MEM_NO", MEM_NO);
+				maps.put("PLACE_CD", PLACE_CD);
+				maps.put("RESERVE_DATE", RESERVE_DATE);
+				
+				maps.put("PAY_AMT", 0);
+				
+				//대관 결제 정보 저장
+				mapper.rentOrderSave(maps);
+				
+				String nextAppNo1 = "";
+				String APP_GBN	= (P_TYPE.equals("VBANK")) ? "1" : "3";
+				
+				final String[] arryRtnIdx =  rtn_idx.split(",");
+				
+				for (int i = 0; i < brdNoArr.length; i++) {
+					
+					if (APP_NO.equals("") || APP_NO == null ) {
+						String nextAppNo = mapper.getNextAppNo(maps);
+						nextAppNo1 = nextAppNo;
+					}
+					
+					maps.put("APP_DATE", APP_DATE);
+					maps.put("APP_GBN", APP_GBN);
+					maps.put("APP_NO", nextAppNo1);
+					maps.put("SEQ", arryRtnIdx[i]);
+					maps.put("VBANKNUM", VbankNum);
+					maps.put("VBANKNAME", VbankName);
+					
+					mapper.setPayList2(maps);
+					
+				}
+	    	}
 	    }
 	    else if (ResultCode.equals("A000")) {// cellphone
 	    	// 승인 성공 시 DB 처리 하세요.
@@ -943,7 +1094,7 @@ public class PayServiceImpl implements PayService {
 	    
 	    
 		//mapper.testSlectx(request);
-		Map<String, Object>  rtnData = new HashMap<String, Object>();
+ 		Map<String, Object>  rtnData = new HashMap<String, Object>();
 		
 		
 		/*		rtnData.put("ResultCode", ResultCode);

@@ -7,8 +7,6 @@
 var rntYMD;
 function send(tabCnt) {
 	
-	debugger;
-	
 	$.ajaxSetup({ cache: false });
 	var frm = document.frm3;
 	var chkCnt = $("input:checkbox[name='tseq']:checked").length;
@@ -157,6 +155,7 @@ function getRent(ymd,seq) {
 		console.clear();
 		console.log('ymd:'+ ymd +', seq==>'+seq);
 		$("#ymd").val(''); rntYMD = ymd;
+		
 		$.get('/data/getRentList', { "ymd" : ymd, "q" : seq +"/0" } , function(data){
 			//try {
 				var arr = [];
@@ -241,6 +240,7 @@ var start_disabled = [0,0,0,0,0,0,0,0,0,0,0];
 var rentCnt = [];
 var noSave = [];
 function selectCheck(tab, mycnt) {
+	
 	$.ajaxSetup({ cache: false });
 	tab = Number(tab);
 	//mycnt = Number(mycnt);
@@ -268,7 +268,6 @@ function selectCheck(tab, mycnt) {
 	});
 	console.log("총 코스별 갯수:"+tabCnt);
 	console.log("총선택 갯수:"+selectCnt);
-	
 	if (selectCnt == 1) {
 		var chk1 = $('input:checkbox[sid="chk_tab_'+tab+'"]').eq(mycnt).prop('checked');
 		console.log("chk1:"+chk1);

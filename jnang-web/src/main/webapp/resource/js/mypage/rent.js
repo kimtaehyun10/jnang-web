@@ -16,11 +16,11 @@ function test(ediDate, goodsAmt, GoodsName, RESERVE_DATE, PLACE_CD, COMCD, RTN_I
 		//GoodsName = encodeURI(GoodsName);
 
 		
-		//debugger;
+		debugger;
 		$.get("/data/getOdEncryptData/"+ ediDate +"/"+ goodsAmt +"/"+ COMCD, function(data){
 		//try {
 			//console.log(data);
-			debugger;
+			//debugger;
 			var dataList = "";
 			if(data.length != 0){				
 				$("#EncryptData").val(data.EncryptData);

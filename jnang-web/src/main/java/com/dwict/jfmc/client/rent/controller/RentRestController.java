@@ -36,7 +36,8 @@ public class RentRestController {
 	@PostMapping(value = "/save")
 	@ResponseBody
 	public Map<String, Object> rtnSave(@RequestParam  Map<String, Object> requestMap, HttpServletRequest request) {
-	
+		System.out.println("requestMap = " + requestMap);
+		System.out.println("request = " + request);
 		//예약 저장
 		Map<String, Object> rtn = rtnService.rentSave(requestMap, request);
 		return rtn;

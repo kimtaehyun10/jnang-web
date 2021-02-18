@@ -175,7 +175,7 @@ $(function(){
 	<tr>
 		<th>파일 업로드</th>
 		<td>
-			<input type="file" id="fileFrm" name="fileFrm" required="" multiple >
+			<input type="file" id="fileFrm" name="fileFrm" multiple >
 		</td>
 	</tr>
 	<%

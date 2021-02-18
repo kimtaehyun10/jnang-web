@@ -67,6 +67,8 @@ public interface PayMapper {
 
 	void updateCancelRentApp(Map<String, Object> maps);
 
+	String getNextAppNo(Map<String, Object> maps);
+
 
 
 	
