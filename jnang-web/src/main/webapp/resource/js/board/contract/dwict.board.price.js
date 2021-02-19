@@ -58,7 +58,7 @@ const searchPrice = function(){
 				cont1 += '<tr class="">';
 				cont1 += '<td class="no01">'+data.resultList[i].brdNo+'</td>';
 				cont1 += '<td class="tit01 ali_l"><a onclick="priceDetailPage(\''+ data.resultList[i].cmsCd +'\','+data.resultList[i].brdNo+');">'+data.resultList[i].title+'</a></td>';
-				cont1 += '<td>'+data.resultList[i].comName+'</td>';												
+				cont1 += '<td>'+data.resultList[i].orderDepart+'</td>';												
 				cont1 += '<td>'+data.resultList[i].regDt.year+'-'+lpad(data.resultList[i].regDt.monthValue,2,"0")+'-'+lpad(data.resultList[0].regDt.dayOfMonth,2,"0")+'</td>';				
 				if(data.resultList[i].price1 === 0 && data.resultList[i].price2 === 0 && data.resultList[i].price3 === 0){
 					cont1 += '<td><span class="stat1 stat_n">시담대기</span></td>';
