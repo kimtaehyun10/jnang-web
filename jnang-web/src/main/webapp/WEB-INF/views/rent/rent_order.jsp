@@ -113,7 +113,7 @@ String [] arryCfg = otherCfg.split("\\/");
 String holiday_price = arryCfg[6];
 
 String GoodsName = COMNM;
-out.print("GoodsName = " + GoodsName);
+//out.print("GoodsName = " + GoodsName);
 
 //축구장/야구장 (기본(평일주말)) 단가표
 int [][] rentPrice = new int [20][20];
@@ -139,7 +139,6 @@ int [][] rentPrice = new int [20][20];
 </c:forEach>
 
 <script type="text/javascript">
-alert("예약 후 3시간 내 결제 미 완료 시 예약이 취소됩니다.");
 $(function(){
 	
 	setMenuTitle('bg_99', '체육시설', '<%=COMNM%> > 예약/결제', true);
@@ -599,6 +598,7 @@ function send(COMCD){
 if (PLACE_GROUP == 2 || PLACE_GROUP == 3) {
 %>
 예약후 결제 시 3시간 이내에 결제하지 않으면 자동으로 취소됩니다. <br>
+<span style="color:rgb(255, 0, 0);">결제시간이 3시간 지난 후 입금하셔도 예약이 되지 않습니다.</span><br>
 개별 결제만 가능합니다. <br>
 환불규정을 꼭 숙지해 주시기바랍니다 <br>
 서울특별시 도시공원조례의 환불규정에 의거하여 취소신청일 기준 해당하는 비율을 공제 후 환불 <br>
@@ -613,7 +613,8 @@ if (PLACE_GROUP == 2 || PLACE_GROUP == 3) {
 } else if (PLACE_GROUP == 4) {
 %>
 
-예약후 결제 시 1시간 이내 결제하지 않으면 자동으로 취소됩니다.<br>
+예약후 결제 시 3시간 이내 결제하지 않으면 자동으로 취소됩니다.<br>
+<span style="color:rgb(255, 0, 0);">결제시간이 3시간 지난 후 입금하셔도 예약이 되지 않습니다.</span><br>
 대관시간 결정은 행사준비 시간, 반출, 청소시간을 포함하여 신청합니다.<br>
 신청이외의 출입시 추가비용을 별도로 내야 합니다.<br>
 계약된 대관시간중 안전사고에 대하여 주의하여야 합니다.<br>
