@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.dwict.jfmc.client.main.service.MainService;
+import com.dwict.jfmc.client.rent.service.RentService;
 
 @RestController
 public class MainController {
@@ -22,8 +23,14 @@ public class MainController {
 	@Resource(name = "mainService")
 	private MainService mainService;
 	
+	@Resource(name = "rentService")
+	RentService rtnService;
+	
 	@RequestMapping(value = "/")
 	public ModelAndView mainRootPage(ModelAndView modelAndView) {
+		
+		rtnService.updateRtnAppType();
+		
 		modelAndView.setViewName("main.nomenu");
 		return modelAndView;
 	}
@@ -33,6 +40,9 @@ public class MainController {
 		List<Map<String, Object>> popupInfo = mainService.popupInfo(requestMap);
 		modelAndView.addObject("popupInfo", popupInfo.get(0));
 		modelAndView.setViewName("popup/popup20.none");
+		
+		
+		
 		return modelAndView;
 	}
 	

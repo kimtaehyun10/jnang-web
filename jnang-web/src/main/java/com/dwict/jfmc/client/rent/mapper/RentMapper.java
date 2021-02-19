@@ -90,5 +90,6 @@ public interface RentMapper {
 	List<Map<String, Object>> rentSportsRentList();
 	List<Map<String, Object>> getMyTeamList(Map<String, Object> maps);
 	int teamCnt(Map<String, Object> requestMap);
+	void updateRtnAppType();
 	
 }

@@ -139,7 +139,7 @@ int [][] rentPrice = new int [20][20];
 </c:forEach>
 
 <script type="text/javascript">
-
+alert("예약 후 3시간 내 결제 미 완료 시 예약이 취소됩니다.");
 $(function(){
 	
 	setMenuTitle('bg_99', '체육시설', '<%=COMNM%> > 예약/결제', true);
@@ -672,30 +672,39 @@ try {
 <form name="tranMgr" method="post" action="">
 	<table class="type">
 	    <tbody>
+<%
+//약관 축구장/야구장 #################################################################
+if (PLACE_GROUP == 2 || PLACE_GROUP == 3) {
+%>	    
 		    <input type="hidden" name="PayMethod" maxlength="2" value="VBANK">
+<%} else { %>
+			<input type="hidden" name="PayMethod" maxlength="2" value="CARD">
+<%
+}			
+%>		    
 		    
 		    <input type="hidden" name="PayType" maxlength="2" value="">
 			<!-- 수량 -->
 		    <input type="hidden" id="GoodsCnt" name="GoodsCnt" maxlength="2" value="1">
 			<!--<div>상품명:</div>-->
-		    <input type="hiasddden" id="GoodsName" name="GoodsName" maxlength="2" value="<%=GoodsName%>">
+		    <input type="hidden" id="GoodsName" name="GoodsName" maxlength="2" value="<%=GoodsName%>">
 		
 			<!-- <div>상품금액:</div> -->
 			
-		    <input type="hidde1n" id="goodsAmt" maxlength="2" value="<%=totalSum%>">
+		    <input type="hidden" id="goodsAmt" maxlength="2" value="<%=totalSum%>">
 		    <input type="hidden" id="Amt" name="Amt" maxlength="2" value="<%=totalSum%>">
 			
 			<!-- <div>주문번호:</div> -->
 		    <input type="hidden" name="Moid" maxlength="2" value="Moid">
 	    
-		    <input type="hiddesn" name="MID" maxlength="2" value="<%=MID%>">
+		    <input type="hidden" name="MID" maxlength="2" value="<%=MID%>">
 			
-		    <input type="hidde1n" name="ReturnURL" maxlength="2" value="<%=ReturnURL%>?q=${dataList.RESERVE_DATE}/${dataList.PLACE_CD}/${rentCfg.COMCD}/${dataList.rtn_idx}/<%=MEM_ID%>">
+		    <input type="hidden" name="ReturnURL" maxlength="2" value="<%=ReturnURL%>?q=${dataList.RESERVE_DATE}/${dataList.PLACE_CD}/${rentCfg.COMCD}/${dataList.rtn_idx}/<%=MEM_ID%>">
 		    <%-- <input type="hidden" id="returnURL" name="ReturnURL" maxlength="2" value="<%=ReturnURL%>"> --%>
 			
 		    <input type="hidden" name="ReceiptType" maxlength="2" value="0">
 			
-		    <input type="hidd1en" name="RetryURL" maxlength="2" value="<%=ReturnURL%>?q=${dataList.RESERVE_DATE}/${dataList.PLACE_CD}/${rentCfg.COMCD}/${dataList.rtn_idx}/<%=MEM_ID%>">
+		    <input type="hidden" name="RetryURL" maxlength="2" value="<%=ReturnURL%>?q=${dataList.RESERVE_DATE}/${dataList.PLACE_CD}/${rentCfg.COMCD}/${dataList.rtn_idx}/<%=MEM_ID%>">
 			<!-- 
 		    <tr>
 		        <th scope="row">mallUserID</th>
@@ -728,9 +737,9 @@ try {
   
 		    <input type="hidden" name="MallIP" maxlength="2" value="<%//=InetAddress%>">
 		    
-		    <input type="hidde12n" name="VbankExpDate" maxlength="2" value="<%=VbankExpDate%>">
+		    <input type="hidden" name="VbankExpDate" maxlength="2" value="<%=VbankExpDate%>">
 			
-		    <input type="hidden1" id="EncryptData" name="EncryptData" maxlength="2" value="EncryptData">
+		    <input type="hidden" id="EncryptData" name="EncryptData" maxlength="2" value="EncryptData">
     
 		    <input type="hidden" name="FORWARD" maxlength="2" value="Y">
 			
@@ -800,7 +809,7 @@ try {
 	    
 		    <input type="hidden" name="CardPoint" maxlength="2" value="0">
 			
-		    <input type="hidden1" id="ediDate" name="ediDate" maxlength="2" value="<%=ediDate%>">
+		    <input type="hidden" id="ediDate" name="ediDate" maxlength="2" value="<%=ediDate%>">
 			
 		    <input type="hidden" name="UrlEncode" maxlength="2" value="Y">
 			<!-- 
@@ -823,7 +832,7 @@ try {
 		        <td></td>
 		    </tr>	
 		    -->	    
-		    <input type="hidden1" id="merchantKey" name="merchantKey" maxlength="2" value="<%=merchantKey%>">
+		    <input type="hidden" id="merchantKey" name="merchantKey" maxlength="2" value="<%=merchantKey%>">
 	
 	    </tbody>
 	

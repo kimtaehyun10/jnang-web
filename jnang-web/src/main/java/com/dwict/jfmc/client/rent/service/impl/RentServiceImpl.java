@@ -542,6 +542,15 @@ public class RentServiceImpl implements RentService {
 		maps.put("MEM_ID", mEM_ID);
 		return mapper.getMyTeamList(maps);
 	}
+
+	@Override
+	public void updateRtnAppType() {
+		
+		mapper.updateRtnAppType();
+		
+		return;
+		
+	}
 	
 
 }

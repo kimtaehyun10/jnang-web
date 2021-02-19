@@ -604,7 +604,14 @@
 			t1.seq
 	</select>
 		
-	
+	<update id="updateRtnAppType" parameterType="java.lang.Object">
+		UPDATE RENT_APP
+        SET APP_TYPE = '40'
+        <![CDATA[
+        	WHERE WRITE_DH > (SELECT DATE_ADD(NOW(), INTERVAL -3 HOUR))
+        ]]>
+		AND APP_TYPE = '5'
+	</update>
 	
 	<!-- 달력 탭별 예약 항목리스트  -->	
 	<select id="getCenterGroup" parameterType="java.util.HashMap" resultType="java.util.HashMap">
