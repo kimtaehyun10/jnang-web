@@ -79,6 +79,7 @@ SELECT
 		resultType="java.util.HashMap">
 		select TOTAL_CNT , R1.*
 		FROM (SELECT COUNT(*) OVER() AS TOTAL_CNT
+		,A.COMCD 
 		,CASE WHEN ifnull(TRIM(A.RETURN_YN), 'N') = 'Y' THEN '종료'
 		WHEN ifnull(TRIM(A.CHANGE_YN), 'N') = 'B' THEN '종료'
 		WHEN
@@ -185,7 +186,7 @@ SELECT
 		AND B.PROGRAM_KIND = '01'
 		AND A.CANCEL_YN = 'N'
 		) R1
-		ORDER BY SALE_SEQ DESC
+		ORDER BY WRITE_DH DESC
 		LIMIT 20
 
 	</select>

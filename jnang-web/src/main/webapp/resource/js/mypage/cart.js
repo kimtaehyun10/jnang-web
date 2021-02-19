@@ -37,7 +37,7 @@ var data = {
 							GoodsName = GoodsName.replace("/","");
 							dataList += "<tr>"
 								+ "<td>"+ (i+1) +"</td> "
-								//+ "<td><input type='checkbox' id='cbox' name='cbox[]' value='"+ data[i].SEQ +"' style='width:30px; height:30px;'></td> "
+								+ "<td><input type='checkbox' id='cbox' name='cbox[]' value='"+ data[i].SEQ +"' style='width:30px; height:30px;'></td> "
 								+ "<td>"+ data[i].COMNM +"</td> "
 								+ "<td>"+ data[i].SPORTS_NM +"</td> "
 								+ "<td>"+ data[i].CLASS_NM +"</td> "

@@ -97,8 +97,8 @@ public class PageRestController {
 		param.put("goodsAmt", goodsAmt);
 		param.put("COMCD", COMCD);
 		
-		String goodsName = request.getParameter("GoodsName");
-		param.put("goodsName", goodsName); //Encodeing
+		String GoodsName = request.getParameter("GoodsName");
+		param.put("GoodsName", GoodsName); //Encodeing
 		
 		String BuyerName = request.getParameter("BuyerName");
 		param.put("BuyerName", BuyerName); //Encodeing

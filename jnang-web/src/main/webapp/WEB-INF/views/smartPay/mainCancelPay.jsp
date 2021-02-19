@@ -100,12 +100,15 @@ function goCancelCard() {
 //테스트 PC에서는 확인하던지 수동으로 되도록
 final String strUrl = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort();
 if (strUrl.contains("localhost") || strUrl.contains("14.36.179.143") || userID.equals("kjseo")) {
+	CancelAmt = "10";
 	
+
 } else {
-		
+
+	//사용자 자동 폼 submit
 	if (TID != "" && CancelAmt != "" && COMCD != "") {
 	%>
-		setTimeout("goCancelCard();",200);
+		setTimeout("goCancelCard();",500);
 	<%
 	} else {
 	
@@ -196,8 +199,8 @@ input {
 					<td></td>
 				</tr>
 				 -->
-				<input name="MEM_ID" type="hidden" class="input" id="MEM_ID" value="<%=MEM_ID%>" size="30" maxlength="30" />
-				<input name="TID" type="hidden" class="input" id="TID" value="<%=TID%>" size="30" maxlength="30" />
+				<input name="MEM_ID" type="hiddenx" class="input" id="MEM_ID" value="<%=MEM_ID%>" size="30" maxlength="30" />
+				<input name="TID" type="hiddenx" class="input" id="TID" value="<%=TID%>" size="30" maxlength="30" />
 				<!-- 
 				<tr>
 					<th scope="row">취소 패스워드</th>
@@ -206,8 +209,8 @@ input {
 				</tr>
 				 -->
 				<input name="Cancelpw" type="hidden" class="input" id="Cancelpw" value=""/>
-				<input name="slipOn" type="hidden" class="input" id="slipOn" value="<%=slipOn%>"/>
-				<input name="COMCD" type="hidden" class="input" id="COMCD" value="<%=COMCD%>"/>
+				<input name="slipOn" type="hiddenx" class="input" id="slipOn" value="<%=slipOn%>"/>
+				<input name="COMCD" type="hiddenx" class="input" id="COMCD" value="<%=COMCD%>"/>
 				<tr>
 					<th scope="row">취소금액</th>
 					<td>CancelAmt</td>

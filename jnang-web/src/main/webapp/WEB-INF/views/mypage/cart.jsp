@@ -26,34 +26,20 @@
 *	1	스마트로	2017.12.01		결제요청페이지
 *******************************************************************************/
 	
-	//InetAddress inet = InetAddress.getLocalHost(); // 서버 IP 가져오기
-	//Timestamp toDay = new Timestamp((new Date()).getTime()); // 현재날짜
-	//Timestamp nxDay = getTimestampWithSpan(toDay, 1); // 가상계좌 입금만료일  1일후 가져오기
-	//String VbankExpDate = nxDay.toString();
-	//VbankExpDate = VbankExpDate.substring(0, 10); 
-	//VbankExpDate = VbankExpDate.replaceAll("-", "");
 	String ediDate = getyyyyMMddHHmmss(); // 전문생성일시
-	out.println("ediDate:"+ediDate +"<BR>");
-	//상품주문번호	
-	
-	String merchantKey = ""; //(String) request.getAttribute("merchantKey");
-	String storeMID 	= ""; //(String) request.getAttribute("storeMID");
-	String payURL 		= ""; //(String) request.getAttribute("payURL");
-	//out.println("payURL:"+ payURL +"<BR>");
-	//out.println("storeMID:"+ storeMID +"<BR>");
 	
 	String Moid = "Moid"; 
 	final String DEV_PAY_ACTION_URL = "https://tpay.smilepay.co.kr/interfaceURL.jsp";	//개발테스트
 	final String PRD_PAY_ACTION_URL = "https://pay.smilepay.co.kr/interfaceURL.jsp";	//운영
-	String actionUrl = payURL;
+	String actionUrl = DEV_PAY_ACTION_URL;
 	String URL = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort();
-	String MID = storeMID; //"SMTPAY001m";
+	String MID = ""; //"SMTPAY001m";
 	//String MID = "jungnan01m"; //위에 URl 변경 DEV_PAY_ACTION_URL ==> PRD_PAY_ACTION_URL
 	String DivideInfo = ""; //서브몰 결제 정보 //request.getParameter("DivideInfo");
 	
 	String ReturnURL = URL +"/smartPay/returnPay"; //Vos.getRtnPayURL(); //"http://localhost:8080/smartPay/returnPay"; //"https://tpay.smilepay.co.kr/returnPay.jsp"; //리턴url
 	String EncodingType = "utf8"; //euckr/utf8
-	
+	final String strUrl = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort();
  	// 상점서명키 (꼭 해당 상점키로 바꿔주세요)
  	//String merchantKey = "0/4GFsSd7ERVRGX9WHOzJ96GyeMTwvIaKSWUCKmN3fDklNRGw3CualCFoMPZaS99YiFGOuwtzTkrLo4bR4V+Ow==";
  	//String merchantKey = "KiS8NWHjZ49FzG91HMI9hVXOSxYrvFBKzl2bYpr2ac7lg369iZxy0xhCJfg4juCuVH27mO/TQ4kG2qnjEr5Z4Q==";
@@ -63,38 +49,19 @@
 
  	// 상점 ID MID
 
-
-	/*
-	if(StringUtils.isNotEmpty(DivideInfo) ) // Base64 인코딩(utf-8 인코딩)
-	{
-		String temp = DivideInfo.replaceAll("&#39;","\"");
-		Charset euckrCharset = Charset.forName("utf-8");
-		ByteBuffer byteBuffer = euckrCharset.encode(temp);
-		byte[] euckrStringBuffer = new byte[byteBuffer.remaining()];
-		byteBuffer.get(euckrStringBuffer);
-								
-		String b64Enc = new String(Base64.encodeBase64(euckrStringBuffer));
-		DivideInfo = b64Enc;
-	} */
+	Member member 	= (Member) session.getAttribute("member");
+	String MEM_ID	= member.getId();
+	String MEM_NM 	= member.getMemNm();
+	String MEM_MAIL = member.getEmail();
+	//out.println("MEM_ID:"+ MEM_ID +"<BR>");
+	//out.println("MEM_NM:"+ MEM_NM +"<BR>");
+	//out.println("MEM_MAIL:"+ MEM_MAIL +"<BR>");
+	
 
 	//String EncryptData = encodeMD5HexBase64(ediDate + MID + goodsAmt + merchantKey);
 
-
-	/*
-	String encodeString = "";
-	String encodedString = URLEncoder.encode(encodeString, "EUC-KR");
-	System.out.println(encodedString); 
-	encodedString = "%EC%B9%B4%EB%93%9C+%EA%B2%B0%EC%A0%9C+%EC%84%B1%EA%B3%B5";
-	String decodedString = URLDecoder.decode(encodedString, "UTF-8");    
-	System.out.println(decodedString); // 자바킹75! *-blog.me+=_~ 
-	*/
 %> 
 <script type="text/javascript">
-<%
-if (payURL.contains("https://tpay.sm")) {
-
-}
-%>
 
 	var encodingType = "EUC-KR";//EUC-KR
 	
@@ -139,13 +106,24 @@ if (payURL.contains("https://tpay.sm")) {
 
 	//결제 버튼
 	function goBtn(seq, goodsAmt, GoodsName, COMCD) {
+		
+		<%
+		if (strUrl.contains("localhost") || strUrl.contains("14.36.179.143") || MEM_ID.equals("powerjyc")) {
+		} else  {
+		%>
+		alert("현재 결제 서비스는 점검중입니다.");
+		return false;
+		<%
+		}
+		%>
+		
 		alert(seq +", "+ goodsAmt +", "+ GoodsName +", "+ COMCD);
+		var BuyerName = encodeURI("<%=MEM_NM%>");
 		
 		//debugger;
-		$.get("/data/getOdEncryptData/"+ <%=ediDate%> +"/"+ goodsAmt +"/"+ COMCD +"?GoodsName="+ encodeURI(GoodsName) +"&BuyerName="+ encodeURI(BuyerName), function(data){
+		$.get("/data/getOdEncryptData/"+ <%=ediDate%> +"/"+ goodsAmt +"/"+ COMCD +"?GoodsName="+ encodeURI(GoodsName) +"&BuyerName="+ BuyerName, function(data){
 		//try {
 			console.log(data);
-			//debugger;
 			var dataList = "";
 			if(data.length != 0){				
 				$("#EncryptData").val(data.EncryptData);
@@ -184,13 +162,17 @@ if (payURL.contains("https://tpay.sm")) {
 	{		
 		console.log("actionUrl:"+ actionUrl);
 		var form = document.tranMgr;
-		form.action = actionUrl; //'<%=actionUrl%>';
+		form.action = actionUrl;
 		
 		if (form.GoodsCnt.value == "0") {
 			alert("수강 신청 내역이 없습니다.");
 			return false;
 		}
 		
+		console.log("actionUrl:"+ form.GoodsName.value);
+		console.log("actionUrl:"+ form.Amt.value);
+		console.log("actionUrl:"+ form.GoodsCnt.value);
+		console.log("actionUrl:"+ form.ReturnURL.value);
 		
 		if (form.GoodsName.value == "" || form.Amt.value == "" || form.GoodsCnt.value == "" ||form.ReturnURL.value == "")
 		{
@@ -253,16 +235,18 @@ if (payURL.contains("https://tpay.sm")) {
 	<table class="stbl_l1a">
 		<colgroup>
 			<col width="5%">
+			<col width="5%">
 			<col width="15%">
+			<col width="10%">
+			<col width="*">
 			<col width="15%">
-			<col width="30%">
-			<col width="20%">
-			<col width="20%">
-			<col width="15%">
+			<col width="10%">
+			<col width="10%">
 		</colgroup>
 		<thead>
 			<tr>
 				<th>No.</th>
+				<th><input type="checkbox" name="" id="" onclick="ac_cbox(this.form, 'cbox', this.checked);" style='width:30px; height:30px;'></th>				
 				<th>센터명</th>
 				<th>종목</th>
 				<th>강좌명</th>
@@ -280,7 +264,9 @@ if (payURL.contains("https://tpay.sm")) {
 <div class="btnarea margin_t80">
 	  <!-- <a href="#none" onclick="saleGo();" id=" " class="blue">할인적용</a> -->
 	</div>
-
+    <div class="btnarea margin_t80">
+        <a href="#none" onClick="data.list('del');" id=" " class="gray2">선택삭제</a>
+    </div>
 </div>
 
 
@@ -293,23 +279,23 @@ if (payURL.contains("https://tpay.sm")) {
 		    <input type="hidden" name="PayMethod" maxlength="2" value="CARD">
 		    <input type="hidden" name="PayType" maxlength="2" value="">
 			<!-- 수량 -->
-		    <input type="hiddenㅌ" id="GoodsCnt" name="GoodsCnt" maxlength="2" value="1">
+		    <input type="hidden" id="GoodsCnt" name="GoodsCnt" maxlength="2" value="1">
 			<!--<div>상품명:</div>-->
-		    <input type="hiddenx" id="GoodsName" name="GoodsName" maxlength="2" value="<%//=GoodsName%>xxx">
+		    <input type="hidden" id="GoodsName" name="GoodsName" maxlength="2" value="">
 			
 			<!-- <div>상품금액:</div> -->
-		    <input type="hiddenx" id="Amt" name="Amt" maxlength="2" value="<%//=goodsAmt%>">
+		    <input type="hidden" id="Amt" name="Amt" maxlength="2" value="<%//=goodsAmt%>">
 			
 			<!-- <div>주문번호:</div> -->
-		    <input type="hiddenx" name="Moid" maxlength="2" value="Moid">
+		    <input type="hidden" name="Moid" maxlength="2" value="Moid">
 	    
-		    <input type="hiddenx" id="MID" name="MID" maxlength="2" value="<%=MID%>">
+		    <input type="hidden" id="MID" name="MID" maxlength="2" value="<%=MID%>">
 			
-		    <input type="hiddenx" name="ReturnURL" maxlength="2" value="<%=ReturnURL%>?q=${otherData.MEM_ID}//">
+		    <input type="hidden" name="ReturnURL" maxlength="2" value="<%=ReturnURL%>?q=${otherData.MEM_ID}//">
 			
 		    <input type="hidden" name="ReceiptType" maxlength="2" value="0">
 			
-		    <input type="hiddenx" name="RetryURL" maxlength="2" value="<%=ReturnURL%>?q=${otherData.MEM_ID}//">
+		    <input type="hidden" name="RetryURL" maxlength="2" value="<%=ReturnURL%>?q=${otherData.MEM_ID}//">
 			<!-- 
 		    <tr>
 		        <th scope="row">mallUserID</th>
@@ -317,11 +303,11 @@ if (payURL.contains("https://tpay.sm")) {
 		    </tr>		    
 		    <input type="hidden" name="mallUserID" maxlength="2" value=""> -->
 			<!-- <div>구매자:</div> -->
-		    <input type="hiddenx" id="BuyerName" name="BuyerName" maxlength="2" value="BuyerName">
+		    <input type="hidden" id="BuyerName" name="BuyerName" maxlength="2" value="BuyerName">
 			<!-- <div>연락처:</div> -->
-		    <input type="hiddenx" id="BuyerTel" name="BuyerTel" maxlength="2" value="BuyerTel">
+		    <input type="hidden" id="BuyerTel" name="BuyerTel" maxlength="2" value="BuyerTel">
 			<!-- <div>이메일:</div> -->
-		    <input type="hiddenx" id="BuyerEmail" name="BuyerEmail" maxlength="2" value="BuyerEmail">
+		    <input type="hidden" id="BuyerEmail" name="BuyerEmail" maxlength="2" value="BuyerEmail">
 			
 			<!-- 
 		    <tr>
@@ -344,7 +330,7 @@ if (payURL.contains("https://tpay.sm")) {
 		    
 		    <input type="hidden" name="VbankExpDate" maxlength="2" value="<%//=VbankExpDate%>">
 			
-		    <input type="hiddenx" id="EncryptData" name="EncryptData" maxlength="2" value="EncryptData">
+		    <input type="hidden" id="EncryptData" name="EncryptData" maxlength="2" value="EncryptData">
     
 		    <input type="hidden" name="FORWARD" maxlength="2" value="Y">
 			
@@ -352,7 +338,7 @@ if (payURL.contains("https://tpay.sm")) {
 			
 		    <input type="hidden" name="TransType" maxlength="2" value="0">
 			
-		    <input type="hiddenx" name="EncodingType" maxlength="2" value="<%=EncodingType%>">
+		    <input type="hidden" name="EncodingType" maxlength="2" value="<%=EncodingType%>">
 			
 		    <input type="hidden" name="OpenType" maxlength="2" value="KR">
 	    

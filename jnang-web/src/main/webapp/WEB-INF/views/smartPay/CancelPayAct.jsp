@@ -42,8 +42,8 @@ String payURL = (String) request.getAttribute("URL");
 String MERCHANT_KEY = (String) request.getAttribute("KEY");
 String Cancelpw = (String) request.getAttribute("PWD");
 //String MERCHANT_KEY = "0/4GFsSd7ERVRGX9WHOzJ96GyeMTwvIaKSWUCKmN3fDklNRGw3CualCFoMPZaS99YiFGOuwtzTkrLo4bR4V+Ow==";// MID(SMTPAY001m)의 상점키 설정 - 결제 요청한 상점ID의 상점키를 입력
-//out.println("merchantKey:"+ merchantKey +"<BR>");
-//out.println("storeMID:"+ MERCHANT_KEY +"<BR>");
+out.println("merchantKey:"+ Cancelpw +"<BR>");
+out.println("storeMID:"+ MERCHANT_KEY +"<BR>");
 out.println("payURL:"+ payURL +"<BR>");
 //
 String PRD_CANCEL_ACTION_URL = "";

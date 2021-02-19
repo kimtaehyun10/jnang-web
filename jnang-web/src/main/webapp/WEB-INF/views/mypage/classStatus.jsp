@@ -1,5 +1,6 @@
 <%@page import="java.util.Date"%>
 <%@page import="java.text.SimpleDateFormat"%>
+<%@ page import="com.dwict.jfmc.client.mem.model.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resource/js/mypage/mypageCommon.js"></script>
@@ -9,8 +10,14 @@
 Date from = new Date();
 SimpleDateFormat transFormat = new SimpleDateFormat("yyyyMMdd");
 String today = transFormat.format(from);
-String userID = request.getParameter("q");
-userID = (userID == null ) ? "" : userID;
+
+Member member 	= (Member) session.getAttribute("member");
+String MEM_ID	= member.getId();
+String MEM_NM 	= member.getMemNm();
+String MEM_MAIL = member.getEmail();
+out.println("MEM_ID:"+ MEM_ID +"<BR>");
+out.println("MEM_NM:"+ MEM_NM +"<BR>");
+//out.println("MEM_MAIL:"+ MEM_MAIL +"<BR>");
 %>
 
 <div id="sub_my_status" class=''>
@@ -56,11 +63,11 @@ userID = (userID == null ) ? "" : userID;
 				<td>${result.COST_AMT}원</td>
 				<td>
 					<span id="" class="cap_blue">${result.MIDCANCEL_YN_NM}</span>
-					
+					${result.WRITE_YMD} , ${TODAY} 
 					<!-- 당일취소 -->
 					<c:if test="${result.WRITE_YMD eq TODAY}">
-						<% if (userID.equals("powerjyc")) { %>
-						<br><a href="#none" onclick="cancelPay('${result.TID}', '${result.SLIP_NO}', '${result.COST_AMT}');" class="btn_green1">당일취소</a>
+						<% if (MEM_ID.equals("powerjyc")) { %>
+						<br><a href="#none" onclick="cancelPay('${result.TID}', '${result.SLIP_NO}', '${result.COST_AMT}','${result.COMCD}');" class="btn_green1">당일취소</a>
 						<% } else { %>
 						
 						<%	}	%>
@@ -94,4 +101,5 @@ userID = (userID == null ) ? "" : userID;
 	<input type='hidden' name='p1' maxlength='2'>
 	<input type='hidden' name='p2' maxlength='2'>
 	<input type='hidden' name='p3' maxlength='2'>
+	<input type='hidden' name='p4' maxlength='2'>
 </form>
