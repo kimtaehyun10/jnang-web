@@ -150,6 +150,13 @@ public class RentController {
 		}
 		modelAndView.addObject("rentCfg", rentCfg);
 		
+		List<Map <String,Object>> myTeamList = rentService.getMyTeamList(MEM_ID, rentCfg);
+		if(myTeamList.size() == 0) {
+			modelAndView.addObject("myTeamList",null);
+		}else {
+			modelAndView.addObject("myTeamList",myTeamList);
+		}
+		
 		//축구장 단가표
 		List <Map <String, Object>> rentPriceList= rentService.rentPriceList(MEM_NO, request);
 		modelAndView.addObject("rentPriceList", rentPriceList);

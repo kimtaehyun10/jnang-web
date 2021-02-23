@@ -33,7 +33,7 @@ public interface RentService {
 	
 	//예약접수
 	Map<String, Object> rentSave(Map<String, Object> requestMap, HttpServletRequest request);
-
+	Map<String, Object> rentSave2(Map<String, Object> requestMap, HttpServletRequest request);
 	//대관 문의 저장(게시판)
 	int writeSave(Map<String, Object> requestMap);
 	
@@ -63,6 +63,7 @@ public interface RentService {
 	List<Map<String, Object>> rentSportsRentList(HttpServletRequest request);
 	List<Map<String, Object>> getMyTeamList(String mEM_ID, Map<String, Object> maps);
 	void updateRtnAppType();
+	
 	
 	
 	

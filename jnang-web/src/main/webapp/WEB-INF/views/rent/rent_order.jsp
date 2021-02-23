@@ -65,7 +65,8 @@ String PWD 			= (String) request.getAttribute("PWD");
 //final String PRD_PAY_ACTION_URL = "https://pay.smilepay.co.kr/interfaceURL.jsp";	//운영
 String actionUrl = payURL; // 개발 서버 URL
 String URL = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort();
-String ReturnURL = URL +"/smartPay/rentPay"; //Vos.getRtnPayURL(); //"http://localhost:8080/smartPay/returnPay"; //"https://tpay.smilepay.co.kr/returnPay.jsp"; //리턴url
+String ReturnURL = URL +"/smartPay/rentPay"; //Vos.getfPayURL(); //"http://localhost:8080/smartPay/returnPay"; //"https://tpay.smilepay.co.kr/returnPay.jsp"; //리턴url
+String RetryURL = URL +"/smartPay/rentPay";
 String EncodingType = "utf8"; //euckr/utf8
 
 
@@ -87,14 +88,27 @@ MEM_MAIL = (MEM_MAIL == null) ? "" : " | &nbsp; "+ MEM_MAIL;
 
 
 <%
+int PRICE = 0;
+String commaTot = "";
+String commaRent = "";
+String commaLight = "";
 %>
 <c:set var="PLACE_GROUP" value="${rentCfg.PLACE_GROUP}" />
 <c:set var="RENT_AMT" value="${rentCfg.RENT_AMT}" />
 <c:set var="COMNM" value="${rentCfg.COMNM}" />
 <c:set var="otherCfg" value="${rentCfg.other_cfg}" />
+<c:set var="TM_TYPE" value="${myTeamList.get(0).TM_TYPE }" />
+<c:set var="yoil" value="${dataList.yoil }" />
+
 <%
 int PLACE_GROUP = (int) pageContext.getAttribute("PLACE_GROUP");
 //out.println("PLACE_GROUP:"+ PLACE_GROUP +"<BR>");
+
+String TM_TYPE = (String)pageContext.getAttribute("TM_TYPE");
+//out.print(TM_TYPE);
+
+String yoil = (String)pageContext.getAttribute("yoil");
+//out.print(yoil);
 
 //테니스장 기본가격(주간,평일)
 long RENT_AMT = (long) pageContext.getAttribute("RENT_AMT");
@@ -117,21 +131,36 @@ String GoodsName = COMNM;
 
 //축구장/야구장 (기본(평일주말)) 단가표
 int [][] rentPrice = new int [20][20];
+
 %>
 <c:forEach items="${rentPriceList}" var="result" varStatus="status">
 
 	<c:set var="days" value="${result.days}" />
 	<c:set var="playtime" value="${result.playtime}" />
 	<c:set var="price" value="${result.price}" />
+	<c:set var="inArea" value="${result.in_area }" />
+	<c:set var="person" value="${result.person }" />
 	<%
 	//1 평일, 0 주말
-	boolean days = (boolean)pageContext.getAttribute("days") ;
-	int int_days = (days) ? 1 : 0;
+	//boolean days = (boolean)pageContext.getAttribute("days") ;
+	//int int_days = (days) ? 1 : 0;
+	//1 비장애, 0 장애
+	//boolean person = (boolean)pageContext.getAttribute("person");
+	//int int_person = (person) ? 1 : 0;
+	//1 관내, 0 관외
+	//boolean inArea = (boolean)pageContext.getAttribute("inArea");
+	//int int_inArea = (inArea) ? 1 : 0;
+	
+	//out.print("days 1평일 or 0주말" + days + "<BR>");
+	//out.print("person 1비장애 or 0장애=" + person + "<BR>");
+	//out.print("inArea 1관내 or 0관외=" + inArea + "<BR><BR>");
+	
 	//사용시간
-	int playtime = (int)pageContext.getAttribute("playtime") ;
+	//int playtime = (int)pageContext.getAttribute("playtime") ;
 	//이용금액
-	int price = (int)pageContext.getAttribute("price") ;
-	rentPrice[int_days][playtime] = price;
+	//int price = (int)pageContext.getAttribute("price") ;
+	
+	//rentPrice[int_days][playtime] = price;
 	
 	//out.println("["+ int_days +"]"+"["+ playtime +"] = "+ price +"<BR>" );
 	%>
@@ -158,6 +187,70 @@ $(function(){
 	
 	//$(".sdate").datepicker();
 });
+
+/* function getPerson(){
+	var personCheck = $('input:radio[name="person"]:checked').val();
+	
+	$.ajax({
+		url: 'rent/rentOrder',
+		dataType:'json',
+		type:'post',
+		data:{
+			'personCheck'
+		}
+	
+	})
+	
+} */
+
+function sale(){
+	var commaTot = $("#commaTot").val();
+	var commaRent =	$("#commaRent").val();
+	var commaLight = $("#commaLight").val();
+	var saleRent = $("#saleRent").val();
+	var saleTot = $("#saleTot").val();
+	var COMCD =	$("#refComCd").val();
+	
+	
+	var html1='';
+	var html2='';
+	<%-- <span id="AmtDP">  <%=commaTot %></span>원 &nbsp; (대관료 : <%=commaRent %>	 / 조명료 : <%=commaLight %>)</td> --%>
+
+	if($('input[name=person]:checked').val() == '0'){
+		html1 += "<span id='AmtDP'>"
+		html1 += commaTot + "</span>원"
+		html1 += "&nbsp;"
+		html1 += "(대관료 : " + commaRent + "원/"
+		html1 += " 조명료 : " + commaLight + "원) </td>"
+		$('#saleResult').html(html1);
+		
+	} else {
+		html1 += "<span id='AmtDP'>"
+		html1 += saleTot + "</span>원"
+		html1 += "&nbsp;" 
+		html1 += "(대관료 : " + saleRent + "원/"
+		html1 += " 조명료 : " + commaLight + "원)</td>"
+		$('#saleResult').html(html1);
+	}
+	
+	if($('input[name=person]:checked').val() == '0'){
+		html2 += "<a href='#none' onClick=send('"
+		html2 += COMCD
+		html2 += "');"
+		html2 += " id='' class='green'>결제</a>"
+		html2 += "<a href='#none' onClick='history.back(-1);' id='' class='gray2'>취소</a>"
+		console.log(html2);
+		$('.margin_t80').html(html2);
+	} else {
+		html2 += "<a href='#none' onClick='rentSave()' id='' class='green'>예약저장</a>"
+		html2 += "<a href='#none' onClick='history.back(-1);' id='' class='gray2'>취소</a>"
+			console.log(html2);
+		$('.margin_t80').html(html2);
+	}
+	
+}
+
+
 
 
 var data = {
@@ -197,6 +290,31 @@ var data = {
 	
 	}
 };
+
+function rentSave(){
+	
+	alert("할인예약은 현장에서 확인 후 할인된 금액으로 결제합니다. \n예약 후 현장결제 해주세요.");
+	
+	var frm1 = document.frm1;
+	if(frm1.agree1.checked == false) {
+		alert('주의 사항 및 환불 안내를 확인하고 선택하여 주세요.');
+		frm1.agree1.focus();
+		return false;
+	}
+	var priceTimeSeq1 = $("#val1").val();
+	var priceTimeSeq2 = $("#val2").val();
+	var reserveDate = $("#val3").val();
+	
+	console.log(priceTimeSeq1, priceTimeSeq2, reserveDate);
+	
+	$.post('/rent/save2', $("#frm1").serialize() , function(data){
+		window.location.href = "/mypage/rent";
+	}).done(function(data){
+		
+	},"json");
+	return false;
+
+}
 
 function send(COMCD){
 	
@@ -343,6 +461,7 @@ function send(COMCD){
 	
 <form name="frm1" id="frm1" method="post"> 
 	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+	
 	<div class="border_top_3_green"></div>
 	
 <table class="stbl_w3b border_top_0" summary="이 표는 제목/내용 등의 정보로 구성된 팀등록/수정 폼입니다.">
@@ -376,7 +495,7 @@ function send(COMCD){
 		<td><c:out value='${rentCfg.COMNM}'/></td>
 	  </tr>	  
 	  <tr>
-	    <th>대관비용</th>
+	    <th>대관시간</th>
 	    <td>
 	   
 	    	<%
@@ -399,7 +518,7 @@ function send(COMCD){
 				priceMsg = "";
 				holiday_yn = (String)pageContext.getAttribute("holiday_yn") ;
 				//out.println("holiday_yn:"+ holiday_yn +"  <BR>");
-
+				
 				//주간 야간(18시이후) 구분용
 				String item = (String)pageContext.getAttribute("item");
 				int int_item_time = Integer.parseInt(item.substring(0,2));
@@ -409,6 +528,14 @@ function send(COMCD){
 				
 				<!--  예약성공 계산 -->
 				<c:if test="${result.orderYN eq 'Y'}"> 
+				<c:choose>
+					<c:when test="${dataList.yoil eq '토' || dataList.yoil eq '일'}">
+						<%holiday_yn = "Y"; %>
+					</c:when>
+					<c:otherwise>
+						<%holiday_yn = "N"; %>
+					</c:otherwise>
+				</c:choose>
 					[예약 성공]
 					<% 
 					rent_timeCnt ++;
@@ -532,61 +659,78 @@ function send(COMCD){
 	  <tr>
 	    <th>할인</th>
 	    <td>
-	    	<select name="" class="inputbox_01a" onchange="data.selectDC(this.value, '${rentCfg.COMCD }');">
-	    	<option value="">==할인 선택==</option>
-	    	<option value="0" selected>일반</option>
-	    	<option value="10">중랑구민(10%)</option>
-	    	<option value="30">경로우대(30%)</option>
-	    	<option value="50">장애인(50%)</option>
-	    	<option value="50">기초수급자(50%)</option>
-	    	<option value="50">국가유공자(50%)</option>
-	    	</select>
-	    	(단, 코드당 이용자의 50% 이상이 할인 대상자일 경우 - 현장확인)
+	    	<input type="radio" name="person" value="0" onClick="sale()" checked> 일반
+            <input type="radio" name="person" value="1" onClick="sale()" > 할인 50% (장애, 국가유공자, 초중고생)
 		</td>
     	</tr>
     </c:if>
     
     <c:if test="${rentCfg.PLACE_GROUP eq '3' || rentCfg.PLACE_GROUP eq '2' }">
 	  <tr>
-	    <th>할인</th>
+	    <th>할인여부</th>
 	    <td>
-	    	<select name="" class="inputbox_01a" onchange="data.selectDC(this.value, '${rentCfg.COMCD }');">
-	    	<option value="">==할인 선택==</option>
-	    	<option value="0" selected>일반</option>
-	    	<option value="10">중랑구민(10%)</option>
-	    	<option value="10">관내팀(10%)</option>
-	    	<option value="30">경로우대(30%)</option>
-	    	<option value="50">장애인(50%)</option>
-	    	<option value="50">기초수급자(50%)</option>
-	    	<option value="50">국가유공자(50%)</option>
-	    	</select>
-	    	(단, 코드당 이용자의 50% 이상이 할인 대상자일 경우 - 현장확인)
+	    	<%-- <select name="" class="inputbox_01a" onchange="data.selectDC(this.value, '${rentCfg.COMCD }');">
+		    	<option value="">==할인 선택==</option>
+		    	<option value="0" selected>일반</option>
+		    	<!-- <option value="10">중랑구민(10%)</option>
+		    	<option value="10">관내팀(10%)</option>
+		    	<option value="30">경로우대(30%)</option> -->
+		    	<option value="50">초/중/고생(50%)</option>
+		    	<option value="50">장애인(50%)</option>
+		    	<option value="50">기초수급자(50%)</option>
+		    	<option value="50">국가유공자(50%)</option>
+	    	</select> --%>
+	    	
+	    
+	    
+            <input type="radio" name="person" value="0" onClick="sale()" checked> 일반
+            <input type="radio" name="person" value="1" onClick="sale()" > 할인 50% (장애, 국가유공자, 초중고생)
+				            
 		</td>
     	</tr>
     </c:if>
-    
 	  <tr>
-	    <th>합계</th>
+	    <th>합계</th> 
+	   		<c:set var="PRICE" value="${rentPriceList[0].PRICE}" />
+	   		<c:set var="PRICE1" value="${rentPriceList[1].PRICE}" />
 	    <td>
 	    <%
+	    PRICE = (int) pageContext.getAttribute("PRICE");
+	    int PRICE1 = (int) pageContext.getAttribute("PRICE1");
 	  	//축구장/야구장 #################################################################
+	  	
 		if (PLACE_GROUP == 2 || PLACE_GROUP == 3) {
-			rentSum = 0;
 			
 			if (holiday_yn.equals("Y")) {
 				rentSum = rentPrice[0][rent_timeCnt];
 			} else {
 				rentSum = rentPrice[1][rent_timeCnt];
-			}
+			}  
 			
 		}
 	    
-	    totalSum = rentSum + lightSum;
-	    String commaTot = NumberFormat.getInstance().format(totalSum);
-	    String commaRent = NumberFormat.getInstance().format(rentSum);
-	    String commaLight = NumberFormat.getInstance().format(lightSum);
+	    totalSum = PRICE + lightSum;
+	    int totalSaleSum = PRICE1 + lightSum;
+	    commaTot = NumberFormat.getInstance().format(totalSum);
+	    commaRent = NumberFormat.getInstance().format(PRICE);
+	    commaLight = NumberFormat.getInstance().format(lightSum);
+	    String saleTot = NumberFormat.getInstance().format(totalSaleSum);
+	    String saleRent = NumberFormat.getInstance().format(PRICE1);
 	    %>
-	    <span id="AmtDP"><%=commaTot %></span>원 &nbsp; (대관료 : <%=commaRent %> / 조명료 : <%=commaLight %>)</td>
+	    <div id = "saleResult">
+	    	<span id="AmtDP">  <%=commaTot %></span>원 (대관료 : <%=commaRent %>원/ 조명료 : <%=commaLight %>원)</td>
+	    </div>
+	    <input type="hidden" id="commaTot" value="<%=commaTot %>" />
+	    <input type="hidden" id="saleTot" value="<%=saleTot %>" />
+	    <input type="hidden" id="commaRent" value="<%=commaRent %>" />
+	    <input type="hidden" id="commaLight" value="<%=commaLight %>" />
+	    <input type="hidden" id="saleRent" value="<%=saleRent %>" />
+	    <input type="hidden" id="refComCd" value="${rentCfg.COMCD}" />
+	    <input type="hidden" id="val1" name="val1" value="${dataList.dataList[0].PLACE_TIME_SEQ }">
+		<input type="hidden" id="val2" name="val2" value="${dataList.dataList[1].PLACE_TIME_SEQ }">
+		<input type="hidden" id="val3" name="val3" value="${dataList.dataList[0].RESERVE_DATE }">
+	    
+	    <%-- <input type="hidden" id="sale1" value="${rentPriceList[1].price}"> --%>
     </tr>
 	<tr>
     	<td colspan="2"><div class="bg_icon_circle_green1a fontsize_1dot60 padding_left_1dot5">주의사항 및 환불안내</div></td>
@@ -636,21 +780,10 @@ if (PLACE_GROUP == 2 || PLACE_GROUP == 3) {
 <br>
 
     <div class="btnarea margin_t80">
-    	<%
-    	//2시간이상 결제 해야함
-    	if (rent_timeCnt >= 2) {
-    	%>
-			<a href="#none" onclick="send('${rentCfg.COMCD}');" id=" " class="green">결제</a>
-		<%
-    	} else {
-    	%>
-    		<a href="#none" onclick="alert('1시간 예약은 결제를 하실수 없습니다.');" id=" " class="green">결제</a>
-    	<% 
-    	}
-		%>
+		<a href="#none" onclick="send('${rentCfg.COMCD}');" id=" " class="green">결제</a>
         <a href="#none" onClick="history.back(-1);" id=" " class="gray2">취소</a>
     </div>
-
+	
 </form>
 <%
 //totalSum = (strUrl.contains("localhost") || MEM_ID.equals("powerjyc")) ? 10 : totalSum;
@@ -705,8 +838,8 @@ if (PLACE_GROUP == 2 || PLACE_GROUP == 3) {
 			
 		    <input type="hidden" name="ReceiptType" maxlength="2" value="0">
 			
-		    <input type="hidden" name="RetryURL" maxlength="2" value="<%=ReturnURL%>?q=${dataList.RESERVE_DATE}/${dataList.PLACE_CD}/${rentCfg.COMCD}/${dataList.rtn_idx}/<%=MEM_ID%>">
-			<!-- 
+		    <input type="hidden" name="RetryURL" maxlength="2" value="http://14.36.179.143:80/smartPay/vbankPay">
+			<!-- "http://14.36.179.143:9470/smartPay/rentpay";
 		    <tr>
 		        <th scope="row">mallUserID</th>
 		        <td></td>

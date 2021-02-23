@@ -24,6 +24,7 @@ import com.dwict.jfmc.client.lecture.model.ComInfo;
 import com.dwict.jfmc.client.lecture.model.Grpcd;
 import com.dwict.jfmc.client.lecture.model.ProgramItem;
 import com.dwict.jfmc.client.lecture.model.TrainClass;
+import com.dwict.jfmc.client.mem.service.MemberService;
 import com.dwict.jfmc.client.mypage.service.MypageService;
 import com.dwict.jfmc.client.park.mapper.ParkMapper;
 import com.dwict.jfmc.client.rent.mapper.RentMapper;
@@ -39,6 +40,12 @@ public class RentServiceImpl implements RentService {
 	
 	@Resource(name = "rentMapper")
 	private RentMapper mapper;
+	
+	@Resource(name = "rentService")
+	RentService rentService;
+	
+	@Resource(name = "memberService")
+	private MemberService memberService;
 
 	@Resource(name = "mypageService")
 	private MypageService mypgService;
@@ -427,12 +434,68 @@ public class RentServiceImpl implements RentService {
 	public List <Map <String, Object>> rentPriceList(String MEM_NO, HttpServletRequest request) {
 
 		String val1 = request.getParameter("val1");
+		val1 = val1.substring(1,val1.length());
 		String val2 = request.getParameter("val2");
+		String RESERVE_DATE = request.getParameter("val3");
+		val2 = val2.substring(1,val2.length());
+		String PLACE_CD = request.getParameter("val4");
+		String COMCD = request.getParameter("val5");
 		
+		final Account account = (Account) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		final String MEM_ID = account.getUsername();
+		//결제전 세션 저장
+		memberService.memSession(request, MEM_ID);
+		//셋팅 값
+		final Map <String,Object> rentCfg = rentService.rentConfig(request);
+		
+		//마이 팀 리스트에서 관내 관외 가져와서 관외면 in_area = 1 삽입 관내면 
+		List<Map <String,Object>> myTeamList = rentService.getMyTeamList(MEM_ID, rentCfg);
+		
+		String inArea = "";
+		if(myTeamList.get(0).get("TM_TYPE").equals("1")) {
+			inArea = "1";
+		} else if (myTeamList.get(0).get("TM_TYPE").equals("2")) {
+			inArea = "0";
+		}
 		
 		Map <String , Object > maps = new HashMap<>();
-		maps.put("in_area", "1"); //1:관내거주, 0:관외/타지역
-		maps.put("person", "1"); //1:일반인 , 0:장애인
+		
+		String yoil ="";
+		try {
+			yoil = FormatUtil.getDateYoil(RESERVE_DATE, "yyyyMMdd");
+			maps.put("yoil", yoil); //해당일자 요일
+		} catch (Exception e) {
+			yoil = "";
+		}
+		
+		if(yoil.equals("토") || yoil.equals("일")) {
+			maps.put("days" , "0");
+		} else {
+			maps.put("days" , "1");
+		}
+		
+		final String[] brdNoArr =  request.getParameter("val1").split(",");
+		maps.put("brdNoList", brdNoArr);
+		maps.put("in_area", inArea); //1:관내거주, 0:관외/타지역
+		//maps.put("person", "1"); //1:일반인 , 0:장애인
+		maps.put("PLACE_CD", PLACE_CD);
+		maps.put("MEM_NO", MEM_NO);
+		maps.put("rtn_idx", val1); //예약 idx
+		maps.put("rtn_YN", val2); 	//예약결과 
+		maps.put("RESERVE_DATE", RESERVE_DATE);
+		
+		List <Map <String , Object>> rtnMap = mapper.rentOdList(maps);
+		
+		int playTime = 0;
+		
+		if (rtnMap.size() != 0) {
+			playTime = rtnMap.size();
+			maps.put("playtime", playTime);
+		}
+		
+		
+		
+		
 		return mapper.rentPriceList(maps);
 	}
 	
@@ -550,6 +613,25 @@ public class RentServiceImpl implements RentService {
 		
 		return;
 		
+	}
+
+	@Override
+	public Map<String, Object> rentSave2(Map<String, Object> requestMap, HttpServletRequest request) {
+		
+		String val1 = request.getParameter("val1");
+		String val2 = request.getParameter("val2");
+		String val3 = request.getParameter("val3");
+		
+		val3 = val3.replace("-", "");
+		String[] brdNoArr =  {val1, val2};
+		
+		Map <String , Object > maps = new HashMap<>();
+		maps.put("reserveDate", val3);
+		maps.put("brdNoList", brdNoArr);
+		
+		mapper.updateRentApp(maps);
+		
+		return maps;
 	}
 	
 

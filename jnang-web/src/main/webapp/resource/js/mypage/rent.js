@@ -26,6 +26,7 @@ function test(ediDate, goodsAmt, GoodsName, RESERVE_DATE, PLACE_CD, COMCD, RTN_I
 				$("#EncryptData").val(data.EncryptData);
 				$("#merchantKey").val(data.KEY);
 				$("#MID").val(data.MID);
+				$("#actionUrl").val(data.URL);
 				$("#Amt").val(goodsAmt);
 				$("#GoodsName").val(GoodsName);
 				
@@ -52,7 +53,7 @@ function test(ediDate, goodsAmt, GoodsName, RESERVE_DATE, PLACE_CD, COMCD, RTN_I
 
 function cancelPay( TID, slipNo, payAmt, payDt, comCd){
 	
-	//debugger;
+	debugger;
 	var sysDate = new Date();
 	var year = sysDate.getFullYear();
 	var month = sysDate.getMonth() + 1;

@@ -38,9 +38,9 @@
 	String GoodsName = "";
 	//상품주문번호	
 	
-	String merchantKey  = (String) request.getAttribute("merchantKey");
-	String storeMID 	= (String) request.getAttribute("storeMID");
-	String payURL 		= "https://pay.smilepay.co.kr/interfaceURL.jsp";//(String) request.getAttribute("payURL");
+	String merchantKey  = "";//(String) request.getAttribute("merchantKey");
+	String storeMID 	= "";//(String) request.getAttribute("storeMID");
+	String payURL 		= "";//(String) request.getAttribute("URL");
 	//out.println("payURL:"+ payURL +"<BR>");
 	//out.println("storeMID:"+ storeMID +"<BR>");
 	//out.println("merchantKey:"+ merchantKey +"<BR>");
@@ -48,7 +48,7 @@
 	String Moid = "Moid"; 
 	final String DEV_PAY_ACTION_URL = "https://tpay.smilepay.co.kr/interfaceURL.jsp";	//개발테스트
 	final String PRD_PAY_ACTION_URL = "https://pay.smilepay.co.kr/interfaceURL.jsp";	//운영
-	String actionUrl = PRD_PAY_ACTION_URL;
+	String actionUrl = payURL;
 	String URL = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort();
 	String MID = storeMID;//"SMTPAY001m";
 	//String MID = "jungnan01m"; //위에 URl 변경 DEV_PAY_ACTION_URL ==> PRD_PAY_ACTION_URL
@@ -100,11 +100,7 @@
 %> 
 
 <script type="text/javascript">
-<%
-if (payURL.contains("https://tpay.sm")) {
 
-}
-%>
 
 var encodingType = "EUC-KR";//EUC-KR
 
@@ -154,7 +150,7 @@ function goPay()
 {
 	
 	var form = document.tranMgr;
-	
+	var actinURL = form.actionUrl.value;
 
 
 	
@@ -176,7 +172,7 @@ function goPay()
 	//form.Amt.value = AMT;
 	//form.ReturnURL.value = ReturnURL;
 	
-	form.action = '<%=actionUrl%>';
+	form.action = actinURL;
 	
 	//form.GoodsName.value = encodeURI("<%//=GoodsName%>");
 	//form.BuyerName.value = "<%//=BuyerName%>";
@@ -277,10 +273,12 @@ function goPay()
 				 %>
 				
 					<c:if test="${result.APP_TYPE == '15' }">
-						<input type="button" class="size_m2 btn_green1" value="결제" onClick="test('<%=ediDate%>', '${result.PAY_AMT}','<%=test%>', '${result.RESERVE_DATE}', ${result.PLACE_CD}, '${result.COMCD }',${result.RENT_IDX },'${otherData.MEM_ID }' );">
+						<input type="button" class="size_m2 btn_green1" value="결제" onClick="test('<%=ediDate%>', '${result.PAY_AMT}','<%=test%>', '${result.RESERVE_DATE}', ${result.PLACE_CD}, '${result.COMCD }',${result.RENT_IDX },'${otherData.MEM_ID }','<%=actionUrl%>' );">
 					</c:if>
 					<c:if test="${result.APP_TYPE == '30' }">
-						<input type="button" class="size_m2 btn_green1" value="취소" onClick="cancelPay('${result.TID}', '${result.SLIP_NO}', '${result.PAY_AMT}','${result.PAY_DATE }','${result.COMCD}' );">
+						<c:if test="${result.COMCD eq JUNGNANG01 || result.COMCD eq JUNGNANG02 || result.COMCD eq JUNGNANG14 }">					
+							<input type="button" class="size_m2 btn_green1" value="취소" onClick="cancelPay('${result.TID}', '${result.SLIP_NO}', '${result.PAY_AMT}','${result.PAY_DATE }','${result.COMCD}' );">
+						</c:if>
 					</c:if> 
 				</td>
 			</tr>
@@ -459,7 +457,7 @@ try {
 		    </tr>	
 		    -->	    
 		    <input type="hidden" id="merchantKey" name="merchantKey" maxlength="2" value="merchantKey">
-	
+			<input type="ffhidden" id="actionUrl" name="actionUrl" maxlength="2" value="">	
 	    </tbody>
 	
 	</table>

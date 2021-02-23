@@ -1,5 +1,6 @@
 package com.dwict.jfmc.client.rent.controller;
 
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,10 +39,40 @@ public class RentRestController {
 	public Map<String, Object> rtnSave(@RequestParam  Map<String, Object> requestMap, HttpServletRequest request) {
 		System.out.println("requestMap = " + requestMap);
 		System.out.println("request = " + request);
+		
+		Enumeration params = request.getParameterNames();
+		while(params.hasMoreElements()) {
+		  String name = (String) params.nextElement();
+		  System.out.print(name + " : " + request.getParameter(name) + "     "); 
+		}
+		System.out.println();
+
+
 		//예약 저장
 		Map<String, Object> rtn = rtnService.rentSave(requestMap, request);
 		return rtn;
 	}
+	
+		//댸관 예약 저장
+		@PostMapping(value = "/save2")
+		@ResponseBody
+		public Map<String, Object> rtnSave2(@RequestParam  Map<String, Object> requestMap, HttpServletRequest request) {
+			System.out.println("requestMap = " + requestMap);
+			System.out.println("request = " + request);
+			
+			Enumeration params = request.getParameterNames();
+			while(params.hasMoreElements()) {
+			  String name = (String) params.nextElement();
+			  System.out.print(name + " : " + request.getParameter(name) + "     "); 
+			}
+			System.out.println();
+
+
+			//예약 저장
+			Map<String, Object> rtn = rtnService.rentSave2(requestMap, request);
+			return rtn;
+			
+		}
 
 	
 	//댸관 문의 저장

@@ -441,7 +441,19 @@
   	 	AND MEM_NO = #{MEM_NO}
   	</update>
   	
-  
+  	<update id="rentUpdateTid" parameterType="java.util.HashMap">
+	  	UPDATE RENT_APP
+	  	SET TID = #{TID}
+	  	WHERE 
+	  		MEM_NO = #{MEM_NO}
+		AND PLACE_CD = #{PLACE_CD}
+		AND RESERVE_DATE = #{RESERVE_DATE}
+		AND APP_TYPE= '5'
+		AND PLACE_TIME_SEQ IN  
+			<foreach item="item" collection="brdNoList" index="idx" open="(" close=")" separator=",">
+		       #{item}
+			</foreach>
+  	</update>
   
   	<!-- 대관 결제완료 처리 -->
 	<update id="rentOrderSave" parameterType="java.util.HashMap">
@@ -451,6 +463,7 @@
 		,APP_TYPE = 30 
 		, SLIP_NO = #{SLIP_NO}
 		, PAY_DATE = DATE_FORMAT(SYSDATE(), '%Y%m%d')
+		, TID = #{TID}
  	WHERE 
  		RESERVE_DATE = #{RESERVE_DATE} 
  		AND APP_TYPE = 15
@@ -528,4 +541,12 @@
 		from cominfokey t1 left join cominfo t2 on t1.COMCD = t2.COMCD
 		WHERE t1.COMCD =  #{COMCD} and ifnull(MID,'') != ''
 	</select>    
+	
+	<update id="rentSuceess" parameterType="java.util.HashMap">
+		UPDATE RENT_APP
+		SET APP_TYPE = '30'
+		WHERE TID = #{TID}
+		AND APP_TYPE = '5'
+	</update>
+	
 </mapper>

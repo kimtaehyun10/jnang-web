@@ -152,7 +152,17 @@
 		INSERT INTO  rent_team  ( mem_id, sp_type, tm_type, tm_nm, wdate, ATTACH_ID ) 
 		VALUES ( #{mem_id} , #{sp_type}, #{tm_type},  #{tm_nm}, now(), #{ATTACH_ID}	);
 	</insert>
-
+	
+	<update id="updateRentApp" parameterType="java.util.HashMap" >
+		UPDATE RENT_APP
+		SET APP_TYPE = '10'
+		WHERE APP_TYPE = '5'
+		AND RESERVE_DATE = #{reserveDate}
+		AND PLACE_TIME_SEQ IN
+		<foreach item="item" collection="brdNoList" index="index" open="(" close=")" separator=",">
+	       #{item}
+		</foreach> 
+	</update>
 	<!-- 팀명 수정 -->
 	<update id="teamUpdate" parameterType="java.util.HashMap" >
 		UPDATE rent_team  SET 
@@ -608,7 +618,7 @@
 		UPDATE RENT_APP
         SET APP_TYPE = '40'
         <![CDATA[
-        	WHERE WRITE_DH > (SELECT DATE_ADD(NOW(), INTERVAL -3 HOUR))
+        	WHERE WRITE_DH < (SELECT DATE_ADD(NOW(), INTERVAL -3 HOUR))
         ]]>
 		AND APP_TYPE = '5'
 	</update>
@@ -686,18 +696,28 @@
 	<!-- 축구장 /야구장 단가표 -->
 	<select id="rentPriceList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
 		
-		select 
-			days, playtime, price 
-		from rent_price 
-		where price_type = 2 and in_area = #{in_area}
-			<if test='person !="" and person != null'> 
-			and person = #{person}
-			</if>
-			<if test='days !="" and days != null'> 
-			and days = #{days}
-			</if>
-			and use_yn =1
-	 	order by days,playtime
+		SELECT 
+			DAYS, PLAYTIME, PRICE ,IN_AREA, PERSON
+		FROM RENT_PRICE 
+		WHERE PRICE_TYPE = 2
+		<if test='in_area !="" and in_area != null'>
+			AND IN_AREA = #{in_area}
+		</if>
+		<if test='days !="" and days != null'>
+			AND DAYS = #{days}
+		</if>
+		<if test='playtime !="" and playtime != null and playtime != 0'>
+			AND PLAYTIME = #{playtime}
+		</if>
+		<!--  AND IN_AREA = #{IN_AREA} -->
+		<!-- <if test="PERSON != null AND PERSON != ''">
+			AND PERSON = #{PERSON}
+		</if> -->
+			<!-- <if test='DAYS !="" AND DAYS != NULL'> 
+				AND DAYS = #{DAYS}
+			</if> -->
+			AND USE_YN =1
+	 	ORDER BY DAYS,PLAYTIME
  
 	</select>
 

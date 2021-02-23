@@ -638,15 +638,24 @@ public class PayServiceImpl implements PayService {
 		String rtnUrl 		= request.getParameter("ReturnURL")==null?"":request.getParameter("ReturnURL"); // 서브몰 정보
 		rtnUrl				= (rtnUrl == null) ? "" : rtnUrl;
 		
+		String RESERVE_DATE1 = request.getParameter("RESERVE_DATE1")==null?"":request.getParameter("RESERVE_DATE1"); // 서브몰 정보
+		String PLACE_CD = request.getParameter("PLACE_CD")==null?"":request.getParameter("PLACE_CD"); // 서브몰 정보
+		String COMCD= request.getParameter("COMCD")==null?"":request.getParameter("COMCD"); // 서브몰 정보
+		String rtn_idx	= request.getParameter("rtn_idx")==null?"":request.getParameter("rtn_idx"); // 서브몰 정보
+		String MEM_ID= request.getParameter("MEM_ID")==null?"":request.getParameter("MEM_ID"); // 서브몰 정보
+		//String rtnUrl = "http://14.36.179.143:9470/smartPay/rentpay";
 		String SspMallID			= request.getParameter("SspMallID")==null?"":request.getParameter("SspMallID"); // 매입사코드
 		String MemberNo			= request.getParameter("MemberNo")==null?"":request.getParameter("MemberNo"); // 매입사코드
 		String userParam		= request.getParameter("q")==null? "//" : request.getParameter("q"); // 사용자 파람
 								String [] arrayTmp 	= userParam.split("\\/"); //20201225/8
-		String RESERVE_DATE1	= arrayTmp[0]; //예약일
-		String PLACE_CD			= arrayTmp[1]; //대관장소값
-		String COMCD			= arrayTmp[2]; //COMCD
-		String rtn_idx			= arrayTmp[3]; //대관 idx
-		String MEM_ID			= arrayTmp[4]; //memID
+		if (!ResultCode.equals("4110")) {// CARD
+			RESERVE_DATE1	= arrayTmp[0]; //예약일
+			PLACE_CD		= arrayTmp[1]; //대관장소값
+			COMCD			= arrayTmp[2]; //COMCD
+			rtn_idx			= arrayTmp[3]; //대관 idx
+			MEM_ID			= arrayTmp[4]; //memID
+		}
+		
 		
 		int RESERVE_DATE = Integer.parseInt(RESERVE_DATE1.replaceAll("-", ""));
 		
@@ -929,6 +938,8 @@ public class PayServiceImpl implements PayService {
 				//대관 결제 정보 저장
 				mapper.rentOrderSave(maps);
 				
+				mapper.rentUpdateTid(maps);
+				
 				String nextAppNo1 = "";
 				String APP_GBN	= (P_TYPE.equals("VBANK")) ? "1" : "3";
 				
@@ -953,7 +964,9 @@ public class PayServiceImpl implements PayService {
 				}
 	    	}
 	    }
-	    else if (ResultCode.equals("A000")) {// cellphone
+	    else if (ResultCode.equals("4110")) {// 가상계좌 성공처리 RETURN URL
+	    	
+	    	System.out.println("가상계좌 입금성공 로직");
 	    	// 승인 성공 시 DB 처리 하세요.
 			// TID 결제 성공한 데이터 존재시 UPDATE, 존재하지 않을 경우 INSERT
 	    }
@@ -1468,6 +1481,51 @@ public class PayServiceImpl implements PayService {
 				rtnData.put("rtnEndUrl", rtnUrl); //완료후 이동
 				
 				return rtnData;
+	}
+
+	@Override
+	public Map<String, Object> vbankPayOrderInsert(HttpServletRequest request) {
+		String ResultCode		= request.getParameter("ResultCode")==null?"":request.getParameter("ResultCode"); // 결과코드
+		
+			String MID				= request.getParameter("MID");
+			String mallUserID		= request.getParameter("mallUserID");
+			String Amt				= request.getParameter("Amt");
+			String name				= request.getParameter("name");
+			String GoodsName		= request.getParameter("GoodsName");
+			String TID				= request.getParameter("TID");
+			String OTID				= request.getParameter("OTID");
+			String OID				= request.getParameter("OID");
+			String AuthDate			= request.getParameter("AuthDate");
+			String AuthCode			= request.getParameter("AuthCode");
+			String ResultMsg		= request.getParameter("ResultMsg");
+			String state_cd			= request.getParameter("state_cd");
+			String FnCd				= request.getParameter("FnCd");
+			String FnName			= request.getParameter("FnName");
+			String pinNo			= request.getParameter("pinNo");
+			String CardQuota		= request.getParameter("CardQuota");
+			String BuyerEmail		= request.getParameter("BuyerEmail");
+			String BuyerTel			= request.getParameter("BuyerTel");
+			String BuyerAuthNum		= request.getParameter("BuyerAuthNum");
+			String VbankNum			= request.getParameter("VbankNum");
+			String VbankName		= request.getParameter("VbankName");
+			String ReceiptType		= request.getParameter("ReceiptType");
+			String RcptAppNo		= request.getParameter("RcptAppNo");
+			String RcptCcNo			= request.getParameter("RcptCcNo");
+			String CardUsePoint		= request.getParameter("CardUsePoint");
+			String SignValue		= request.getParameter("SignValue");
+			 
+			mapper.rentSuceess(TID);
+			
+			Map<String, Object>  rtnData = new HashMap<String, Object>();
+			
+			rtnData = FormatUtil.formatMapRequest(request);
+			rtnData.put("GoodsNameDe", GoodsName);
+			rtnData.put("BuyerNameDe", name);
+			rtnData.put("ResultMsgDe", ResultMsg);
+			rtnData.put("rtnEndUrl", "/mypage/rent"); //완료후 이동
+		
+			return rtnData;
+		
 	}
 
 }

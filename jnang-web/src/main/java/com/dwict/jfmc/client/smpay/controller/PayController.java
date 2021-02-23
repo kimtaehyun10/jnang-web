@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -38,9 +39,11 @@ public class PayController {
 	
 	@RequestMapping(value = "/{dirPath}")
 	public ModelAndView otherPay(ModelAndView modelAndView, @PathVariable String dirPath, HttpServletRequest request, HttpServletResponse response
-		) throws Exception {
+		,@RequestParam Map<String, Object> testMap) throws Exception {
 		String rtn = "";
 		final HttpSession session = request.getSession(false);
+		
+		System.out.println("testMap =" + testMap);
 		
 		int dirPathLen = dirPath.length();
 		//try {
@@ -75,6 +78,7 @@ public class PayController {
 
 					//대관 (축구장/야구장,테니스장) 결제
 				case "rentPay":
+					
 					//결과
 					rtnMap = service.rentOrderInsert(request);
 					//창닫을경우 이동할 URL
@@ -82,6 +86,13 @@ public class PayController {
 					modelAndView.addObject("rtnMap", rtnMap);
 					break;
 					
+				case "vbankPay":
+					//결과
+					rtnMap = service.vbankPayOrderInsert(request);
+					//창닫을경우 이동할 URL
+					rtnMap.put("goURL", "/mypage/rent");
+					modelAndView.addObject("rtnMap", rtnMap);
+					break;
 					//사물함 결제
 				case "lockerPay":
 					//결과
