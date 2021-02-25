@@ -22,7 +22,7 @@ $(function(){
 		}
 	});
 	
-	$(".sdate").datepicker();
+	//$(".sdate").datepicker();
 	
 	
 	/*var formData = new FormData();
@@ -94,13 +94,17 @@ function mem_add() {
 	var dataCnt = $('input:text[name="uname"]').length;	
 	dataCnt ++;
 	var fld = "<div id='m_list"+ dataCnt +"' style='margin:5px;'>"+ dataCnt +". 성명 : <span style='margin:0px 5px 0 5px;display:inline-block; width:100px; border: none;'><input type='text' id='uname' name='uname' value='' style='width:100%;'></span> "
-		+ "생년월일 : <span style='margin:0px 5px 0 5px;display:inline-block; width:100px; border: none;' class='ali_c'><input type='text' class='sdate' value='' name='ubrth' style='width:100%;'></span> "
+		+ "생년월일 : <span style='margin:0px 5px 0 5px;display:inline-block; width:100px; border: none;' class='ali_c'><input type='text' class='sdate' id='ubrth' value='' name='ubrth' placeholder='ex)19830101' maxlength='8' style='width:100%;' oninput=\"this.value = this.value.replace(/[^0-9.]/g, '');\"></span> "
 		+ "주소 : <span style='margin:0px 5px 0 5px;display:inline-block; width:400px; border: none;' class='ali_c'><input type='text' id='addr"+dataCnt+"' value='' name='uaddr' style='width:100%;' onclick='execDaumPostcode(document.getElementById(\"zip\"), document.getElementById(\"addr"+dataCnt+"\"));'></span> "
 		+ "상세주소 : <span style='margin:0px 5px 0 5px;display:inline-block; width:200px; border: none;' class='ali_c'><input type='text' name='uaddr2' style='width:100%;'></span> "
 		+ "<a onclick='del(\""+ dataCnt +"\",0);'> - "+ dataCnt +". 삭제</a></div>";
 	//sessionStorage.setItem("k"+dataCnt, fld);
 	$('#mem_list').append(fld);
 }
+
+
+
+
 
 //삭제
 function del(id,seq) {
@@ -114,10 +118,11 @@ function del(id,seq) {
 function send() {
 	try {
 		
+		debugger;
 		
 		var frm = document.frm1;
 		var dataCnt = $("input[name=uname]").length;
-		var file = $("input[name=file]").val();
+		var file = $("input[name=fileFrm]").val();
 		if (file != undefined) {
 			var inputFile=$("#fileFrm");
 			var files=inputFile[0].files;	

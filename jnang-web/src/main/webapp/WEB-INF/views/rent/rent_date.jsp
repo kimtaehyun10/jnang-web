@@ -404,7 +404,8 @@ if (PLACE_GROUP != 4) {
 <div class="calendar" >
 
 등록된 팀이 있어야 예약할 수 있습니다.	<br>
-매달&nbsp;<span style="color:rgb(255, 0, 0);">25일 26일</span>은 관내팀만 예약할 수 있습니다.
+<!-- 매달&nbsp;<span style="color:rgb(255, 0, 0);">25일 26일</span>은 관내팀만 예약할 수 있습니다.<br> -->
+관외팀은 해당 월만 예약하실 수 있습니다.
 
 	<!--날짜 네비게이션  -->
 	<div class="navigation">

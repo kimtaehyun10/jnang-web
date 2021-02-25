@@ -79,7 +79,7 @@ $(function(){
 <form name="frm2" id="frm2" method="get">
 	<input type="hidden" name="seq" value="">
 </form>
-<form name="frm1" id="frm1" method="post" onsubmit="return send();" > 
+<form name="frm1" id="frm1" method="post" onsubmit="return send();"  enctype="multipart/form-data" > 
 <div class="border_top_3_green"></div>
 
 <table class="stbl_w3b border_top_0" summary="이 표는 제목/내용 등의 정보로 구성된 팀등록/수정 폼입니다.">
@@ -220,10 +220,10 @@ $(function(){
 			<c:forEach items="${teamMemList}" var="result" varStatus="status">
 				<div id='m_list${status.count}' style='margin:5px;'>
 				${status.count}. 성명 : <span style='margin:0px 5px 0 5px;display:inline-block; width:100px; border: none;'><input type='text' id='uname' name='uname' value='${result.mem_nm}' style='width:100%;'></span>
-				생년월일 : <span style='margin:0px 5px 0 5px;display:inline-block; width:100px; border: none;' class='ali_c'><input type='text' class='sdate' value='${result.mem_birth}' name='ubrth' style='width:100%;'></span>
+				생년월일 : <span style='margin:0px 5px 0 5px;display:inline-block; width:100px; border: none;' class='ali_c'><input type='text' class='sdate' value='${result.mem_birth}' oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="8" name='ubrth' style='width:100%;'></span>
 				주소 : <span style='margin:0px 5px 0 5px;display:inline-block; width:400px; border: none;' class='ali_c'><input type='text' id='addr${status.count}' value='${result.mem_addr}' name='uaddr' style='width:100%;' onclick='execDaumPostcode(document.getElementById("zip"), document.getElementById("addr${status.count}"));'></span>
 				상세주소 : <span style='margin:0px 5px 0 5px;display:inline-block; width:200px; border: none;' class='ali_c'><input type='text' name='uaddr2' value='${result.mem_addr2}' style='width:100%;'></span>
-				<a onclick='del("${status.count}",${result.seq});'> - ${status.count}. 삭제</a></div>
+ 				<a onclick='del("${status.count}",${result.seq});'> - ${status.count}. 삭제</a></div>
 			</c:forEach>
 	  	
 	  	</div>
