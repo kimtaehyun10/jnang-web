@@ -308,6 +308,7 @@ var data = {
 	var commaTot = AmountCommas(goodsAmt);
 	var commaRent =	AmountCommas(saleRent);
 	var commaLight = AmountCommas(lightSum);
+	var goodsName = String($("#GoodsName").val());
 	
 	var html1='';
 	html1 += "<span id='AmtDP'>"
@@ -320,6 +321,8 @@ var data = {
 	$("#AmtDP").text(goodsAmt );
 	$("#Amt").val(goodsAmt);
 	
+	debugger;
+	
 	$.get("/data/getOdEncryptData/<%=ediDate%>/"+ goodsAmt +"/"+ COMCD, function(data){
 		try {
 			var dataList = "";
@@ -328,7 +331,7 @@ var data = {
 				$("#merchantKey").val(data.KEY);
 				$("#MID").val(data.MID);
 				$("#Amt").val(goodsAmt);
-				$("#GoodsName").val(GoodsName);
+				$("#GoodsName").val(goodsName);
 				
 			goPay();	
 			} 
@@ -376,6 +379,8 @@ function rentSave(){
 }
 
 function send(COMCD){
+	
+	debugger;
 	
 	var goodsAmt = Number($("#goodsAmt").val());
 	var goodsName = String($("#GoodsName").val());
@@ -865,7 +870,7 @@ if (PLACE_GROUP == 2 || PLACE_GROUP == 3) {
 <%} %>	
 </form>
 <%
-//totalSum = (strUrl.contains("localhost") || MEM_ID.equals("powerjyc")) ? 10 : totalSum;
+totalSum = (strUrl.contains("localhost") || MEM_ID.equals("powerjyc")) ? 10 : totalSum;
 
 String EncryptData = encodeMD5HexBase64(ediDate + MID + totalSum + merchantKey);
 

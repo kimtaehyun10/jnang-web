@@ -82,6 +82,8 @@ public interface PayMapper {
 
 	void rentUpdateTid(Map<String, Object> maps);
 
+	void rentOrderSave2(Map<String, Object> maps);
+
 
 
 	

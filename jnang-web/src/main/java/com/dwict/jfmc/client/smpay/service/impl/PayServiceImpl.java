@@ -698,7 +698,11 @@ public class PayServiceImpl implements PayService {
 		String fn_cd			= request.getParameter("fn_cd")==null?"":request.getParameter("fn_cd"); // 결제카드사코드
 		String fn_name			= request.getParameter("fn_name")==null?"":request.getParameter("fn_name"); // 결제카드사명
 		fn_name					= rtnDecode(fn_name);
-		String CardQuota			= request.getParameter("CardQuota")==null?"":request.getParameter("CardQuota"); // 할부개월수
+		try {
+			fn_name = URLDecoder.decode(fn_name, "utf-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}		String CardQuota			= request.getParameter("CardQuota")==null?"":request.getParameter("CardQuota"); // 할부개월수
 		String BuyerTel			= request.getParameter("BuyerTel")==null?"":request.getParameter("BuyerTel"); // 구매자 전화번호
 		String BuyerEmail			= request.getParameter("BuyerEmail")==null?"":request.getParameter("BuyerEmail"); // 구매자이메일주소
 		String BuyerAuthNum			= request.getParameter("BuyerAuthNum")==null?"":request.getParameter("BuyerAuthNum"); // 구매자주민번호
@@ -861,10 +865,11 @@ public class PayServiceImpl implements PayService {
 					maps.put("PLACE_CD", PLACE_CD);
 					maps.put("RESERVE_DATE", RESERVE_DATE);
 					
-					maps.put("PAY_AMT", 0);
+
 					
 					//대관 결제 정보 저장
 					mapper.rentOrderSave(maps);
+					mapper.rentOrderSave2(maps);
 					
 					String APP_GBN	= (P_TYPE.equals("CARD")) ? "1" : "3";
 					
