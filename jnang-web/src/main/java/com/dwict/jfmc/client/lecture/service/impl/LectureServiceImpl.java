@@ -145,8 +145,14 @@ public class LectureServiceImpl implements LectureService {
 		basketMap.put("ADD_YMD", FormatUtil.getDefaultDate(2, "",""));
 		basketMap.put("WRITE_DH", FormatUtil.getDefaultDate(1, "",""));
 
-		//장바구니 저장
-		return mapper.setBasket(basketMap);
+		//장바구니 중복 저장 첵크 ###########
+		int dataCnt = mapper.setBasketChk(basketMap);
+		if (dataCnt == 0) {
+			//장바구니 저장
+			return mapper.setBasket(basketMap);
+		} else {
+			return 1;
+		}
 		
 	}
 

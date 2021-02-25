@@ -304,39 +304,13 @@
 		   AND USE_YN = 'Y'
     </select>
     
+    <!-- //장바구니 중복 저장 첵크 -->
+    <select id="setBasketChk" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+       	select count(*) as dataCnt from MEM_CART 
+       	where MEM_NO =#{MEM_NO} and COMCD =#{COMCD} and CLASS_CD =#{CLASS_CD} and ITEM_CD=#{ITEM_CD}  and ITM_TYPE =#{ITM_TYPE}
+    </select>
+    
     <insert id="setBasket" parameterType="java.util.HashMap" >
-	<!-- 	INSERT INTO  MEM_CART SET 
-			  COMCD 	=	 #{COMCD} 
-			 ,ITM_TYPE 	=	 #{ITM_TYPE} 
-			 ,PART_CD 	=	 #{PART_CD} 
-			 ,SPORTS_CD 	=	 #{SPORTS_CD}
-			 ,CLASS_CD 	=	 #{CLASS_CD}
-			 ,ITEM_CD 	=	 #{ITEM_CD} 
-			 ,MEM_NO 	=	 #{MEM_NO} 
-			 ,ITEM_SDATE 	=	 #{ITEM_SDATE} 
-			 ,ITEM_EDATE 	=	 #{ITEM_EDATE} 
-			 ,DC_CD1 	=	 #{DC_CD1} 
-			 ,DC_CD2 	=	 #{DC_CD2} 
-			 ,SALE_AMT 	=	 #{SALE_AMT} 
-			 ,ADD_YMD 	=	 #{ADD_YMD} 
-			 ,WRITE_DH 	=	 #{WRITE_DH} 
-		ON DUPLICATE 
-		 KEY UPDATE 
-			  COMCD 	=	 #{COMCD} 
-			 ,ITM_TYPE 	=	 #{ITM_TYPE} 
-			 ,PART_CD 	=	 #{PART_CD} 
-			 ,SPORTS_CD 	=	 #{SPORTS_CD}
-			 ,CLASS_CD 	=	 #{CLASS_CD} 
-			 ,ITEM_CD 	=	 #{ITEM_CD} 
-			 ,MEM_NO 	=	 #{MEM_NO} 
-			 ,ITEM_SDATE 	=	 #{ITEM_SDATE} 
-			 ,ITEM_EDATE 	=	 #{ITEM_EDATE} 
-			 ,DC_CD1 	=	 #{DC_CD1} 
-			 ,DC_CD2 	=	 #{DC_CD2} 
-			 ,SALE_AMT 	=	 #{SALE_AMT} 
-			 ,ADD_YMD 	=	 #{ADD_YMD} 
-			 ,WRITE_DH 	=	 #{WRITE_DH}  -->
-			 
 	  	 INSERT INTO MEM_CART
 			( 
              COMCD 

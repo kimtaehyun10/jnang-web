@@ -25,6 +25,8 @@ public interface LectureMapper {
 	Grpcd lectureGrpcd(Grpcd grpcd);
 	ProgramItem getProgramInfo(ProgramItem programItem);
 
+	//장바구니 중복 저장 첵크
+	int setBasketChk(Map<String, Object> basketMap);
 	//장바구니 담기
 	int setBasket(Map<String, Object> maps);
 	

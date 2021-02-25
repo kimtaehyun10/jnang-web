@@ -59,21 +59,71 @@ String MEM_MAIL = member.getEmail();
 			<c:set var = "TODAY" value="<%=today%>"/>
 			<c:forEach items="${rentList}" var="result" varStatus="status">
 			<tr>
+				<c:set var="COMCD" value="${result.COMCD}"/>
+				<c:set var="WRITE_YMD" value="${result.WRITE_YMD}"/>
+				<c:set var="ITEM_SDATE" value="${result.ITEM_SDATE}"/>
+				<c:set var="ITEM_EDATE" value="${result.ITEM_EDATE}"/>
+				<c:set var="COST_AMT" value="${result.COST_AMT}"/>
+				
+				<%
+					String COMCD = (String)pageContext.getAttribute("COMCD") ;
+					String WRITE_YMD = (String)pageContext.getAttribute("WRITE_YMD") ;
+					String ITEM_SDATE = (String)pageContext.getAttribute("ITEM_SDATE") ;
+					String ITEM_EDATE = (String)pageContext.getAttribute("ITEM_EDATE") ;
+					String sCOST_AMT = (String)pageContext.getAttribute("COST_AMT") ;
+					sCOST_AMT = sCOST_AMT.replace(",","");
+					int COST_AMT = Integer.parseInt(sCOST_AMT);
+				%>
+				
 				<td>${status.count}</td>
 				<td>[${result.COMNM}] ${result.CLASS_NM}</td>
 				<td>${result.ITEM_NM}</td>
 				<td>${result.COST_AMT}원</td>
 				<td>
 					<span id="" class="cap_blue">${result.MIDCANCEL_YN_NM}</span>
-					${result.WRITE_YMD} , ${TODAY} 
-					<!-- 당일취소 -->
-					<c:if test="${result.WRITE_YMD eq TODAY}">
-						<% if (MEM_ID.equals("powerjyc")) { %>
+					<%
+					//<!-- 당일취소 -->
+					if (WRITE_YMD.equals(today)){
+						if (MEM_ID.equals("powerjyc") && COST_AMT > 0) { %>
 						<br><a href="#none" onclick="cancelPay('${result.TID}', '${result.SLIP_NO}', '${result.COST_AMT}','${result.COMCD}','${result.SALE_SEQ}');" class="btn_green1">당일취소</a>
-						<% } else { %>
-						
-						<%	}	%>
-					</c:if>
+						<%
+						}
+					}
+					%>
+					
+					<%
+					//<!-- 재등록 버튼 -->
+					String a_dateYM = ITEM_EDATE.substring(0,6); //구매 종료 월
+					String t_dateYM = today.substring(0,6); //date 댱월
+					
+					String a_dateD = ITEM_EDATE.substring(6); //구매 종료일
+					String t_dateD = today.substring(6); //date 당일
+					int toDay = Integer.parseInt(t_dateD);
+					//out.println("COMCD:"+ COMCD);
+					//out.println("toDay:"+ toDay);
+					
+					
+					//재구매 여부
+					boolean rePay = false;
+					
+					//메인 스포츠센터 재등록 11~23일
+					if (a_dateYM.equals(t_dateYM) && toDay >= 11 && toDay <= 23 ) {
+						if (COMCD.equals("JUNGNANG01") || COMCD.equals("JUNGNANG02") || COMCD.equals("JUNGNANG03")) {
+							rePay = true;
+						}
+					//신대 다목적 재등록 18~24일
+					} else if (COMCD.equals("JUNGNANG04") && a_dateYM.equals(t_dateYM) && toDay >= 18 && toDay <= 24 ) {
+						rePay = true;						
+					}
+					
+					//재 수강신청 버튼					
+					if (rePay == true){
+					%>
+						<a class="size_s2 btn_pink_blueWrite" onclick="addBasket1('${result.COMCD}', '${result.CLASS_CD}', '${result.ITEM_CD}');">재 수강신청</a>
+					<%
+					}
+					%>
+
 				</td>
 				<td>
 					<div id="" class="">${result.MONTH_CNT}개월</div>

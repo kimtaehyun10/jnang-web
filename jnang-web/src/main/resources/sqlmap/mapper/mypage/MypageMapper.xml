@@ -8,7 +8,7 @@
     	DELETE FROM MEM_CART
     	WHERE MEM_NO = #{MEM_NO} 
   	  	<if test='SEQ != null and SEQ != ""  and SEQ != " " and SEQ != "0" '>
-            AND SEQ IN (${SEQ})
+            AND SEQ = #{SEQ}
         </if> 
         <if test='SEQ == null or SEQ == "" or SEQ == "0"'>
 			AND TIMESTAMPDIFF(minute, WRITE_DH , now()) >= 600
@@ -17,8 +17,8 @@
 
     
     <!-- 위에 장바구니 오래된 파일 삭제 후 리스트 보여주기  -->
-    <select id="basketList" parameterType="String" resultType="java.util.HashMap">
-SELECT 
+    <select id="basketList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT 
     	  t1.SEQ 
 	 	 ,t1.COMCD 
 	 	 ,t3.COMNM
@@ -44,7 +44,10 @@ SELECT
     	left join cominfo t3 on t1.COMCD = t3.COMCD 
         left join ITEM_CLASS t4 on t1.COMCD = t4.COMCD AND t1.ITEM_CD = t4.ITEM_CD and t1.CLASS_CD = t4.CLASS_CD
         left join train_class t5 on t1.COMCD = t5.COMCD and t1.CLASS_CD = t5.CLASS_CD
-    	WHERE t1.MEM_NO = #{mem_no}
+    	WHERE t1.MEM_NO = #{MEM_NO}
+    	<if test='SEQ != null and SEQ != "" and SEQ != "0"'> 
+    	and t1.SEQ = #{SEQ}
+    	</if>
     	and t5.use_yn = 'Y'
     	Order by t1.SEQ
     </select>	
@@ -185,7 +188,7 @@ SELECT
 		AND A.MEM_NO = (select MEM_NO from v_member where id= #{userId})
 
 		AND B.PROGRAM_KIND = '01'
-		AND A.CANCEL_YN = 'N'
+		AND A.CANCEL_YN = 'N' and MIDCANCEL_YN='N' and A.COST_AMT > 0
 		) R1
 		ORDER BY WRITE_DH DESC
 		LIMIT 20

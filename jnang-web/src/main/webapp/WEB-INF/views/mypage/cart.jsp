@@ -134,17 +134,7 @@
 				$("#GoodsName").val(data.enGoodsName);
 				$("#BuyerName").val(data.enBuyerName);
 				actionUrl = data.URL;
-				
-				//var html1=$("#returnURL").val();
-				//var html2='';
-				//html2+=html1 + "?q=";
-				//html2+= RESERVE_DATE+"/";
-				//html2+= PLACE_CD + "/";
-				//html2+= COMCD + "/";
-				//html2+= RTN_IDX + "/";
-				//html2+= MEM_ID;
-				
-				//$("#returnURL").val(html2);
+				$("#ReturnURL").val("<%=ReturnURL%>?q=${otherData.MEM_ID}/"+ seq +"///");
 			goPay();	
 			} 
 		/*} catch (exception) {
@@ -292,11 +282,11 @@
 	    
 		    <input type="hidden" id="MID" name="MID" maxlength="2" value="<%=MID%>">
 			
-		    <input type="hidden" name="ReturnURL" maxlength="2" value="<%=ReturnURL%>?q=${otherData.MEM_ID}//">
+		    <input type="hidden" id="ReturnURL" name="ReturnURL" maxlength="2" value="">
 			
 		    <input type="hidden" name="ReceiptType" maxlength="2" value="0">
 			
-		    <input type="hidden" name="RetryURL" maxlength="2" value="<%=ReturnURL%>?q=${otherData.MEM_ID}//">
+		    <input type="hidden" name="RetryURL" maxlength="2" value="<%=ReturnURL%>?q=${otherData.MEM_ID}/">
 			<!-- 
 		    <tr>
 		        <th scope="row">mallUserID</th>

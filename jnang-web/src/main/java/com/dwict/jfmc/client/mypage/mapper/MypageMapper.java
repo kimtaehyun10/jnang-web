@@ -12,7 +12,7 @@ public interface MypageMapper {
 	int basketClear(Map<String, Object> requestMap);
 
 	//장바구니 리스트
-	List<Map<String, Object>> basketList(String MEM_NO);
+	List<Map<String, Object>> basketList(Map<String, Object> maps);
 
 	//내정보
 	Map<String, Object> memberInfo(String id);

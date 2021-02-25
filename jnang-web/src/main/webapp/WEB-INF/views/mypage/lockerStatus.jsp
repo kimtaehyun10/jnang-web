@@ -132,7 +132,8 @@
 	function goPay() 
 	{	
 		var form = document.tranMgr;
-		form.action = '<%=actionUrl%>';
+		var actinURL = form.actionUrl.value;
+		form.action = actinURL;
 		
 		if (form.GoodsCnt.value == "0") {
 			alert("사물함 신청 내역이 없습니다.");
@@ -189,7 +190,6 @@
 		$('#ReturnURL').val('<%=ReturnURL%>?q='+COMCD+'/'+MEM_NO+'/'+RENT_NO+'/<%=member.getId()%>');
 		$('#RetryURL').val('<%=ReturnURL%>?q='+COMCD+'/'+MEM_NO+'/'+RENT_NO+'/<%=member.getId()%>');		
 		$.get('/data/mypage/lockerPayDetail', param, function(data){
-					
 			$("#GoodsCnt").val("1");
 			$("#Amt").val(10);		
 			$("#GoodsName").val(data.goodsNameEn);
@@ -200,6 +200,7 @@
 			$("#ediDate").val(data.ediDate);
 			$("#merchantKey").val(data.merchantKey);
 			$("#MID").val(data.storeMID);
+			$("#actionUrl").val(data.URL);
 			
 			goPay();
 		}).done(function(data){
@@ -414,7 +415,7 @@
 		    </tr>	
 		    -->	    
 		    <input type="hidden" id="merchantKey" name="merchantKey" maxlength="2" value="merchantKey">
-	
+			<input type="hidden" id="actionUrl" name="actionUrl" maxlength="2" value="">
 	    </tbody>
 	
 	</table>

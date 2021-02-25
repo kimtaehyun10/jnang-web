@@ -31,3 +31,42 @@ function cancelPay(tid, s_no, pay, comcd, seq) {
 	frm.submit();
 	
 }
+
+
+
+
+var lectDate = { }; //신청할 강좌 시작종료값 임시 저장
+var addBasket1 = function(comcd, classCd, itemCd){
+	
+	var lecture = { comcd:comcd, classCd:classCd, itemCd:itemCd };
+	
+	$.get('/data/encode/text', {text:JSON.stringify(lecture)}, function(data){
+		localStorage.setItem('lecture', data);
+		
+	}).done(function(){
+		$.get('/data/lecture/program', {secureText:localStorage.getItem('lecture')}, function(data){
+			var programStartDate = dateUtil.getProgramStartDate(data.grpcd.startdate);
+			var programEndDate = dateUtil.getProgramEndDate(programStartDate, data.monthCnt);			
+			//신청할 강좌 시작종료값 임시 저장
+			lectDate.sDate =  programStartDate;
+			lectDate.eDate =  programEndDate;
+						
+		}).done(function(){
+			$.get('/data/lecture/basketIn', {secureText:localStorage.getItem('lecture'), "lectDate" : lectDate }, function(data){
+				if (data == "1" || data == "2"){
+					window.location.href='/mypage/cart';
+				} else if (data == "-9"){
+					alert("세션이 종료되었거나 로그인 회원이 아닙니다.\n\n로그인 페이지로 이동합니다.");
+					window.location.href='/mem/login';
+				} else if(data == "-10"){
+					alert("회원카드를 발급받은 회원만 신청이 가능합니다. 센터에 방문하셔서 발급 받으세요.");
+					window.location.reload();
+				} else {
+					alert("접수오류 \n\n다시 시도 후 관리자에게 문의 하세요.");
+					window.location.reload();
+				}
+			});
+		});
+	});
+};
+

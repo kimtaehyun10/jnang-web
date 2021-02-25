@@ -95,9 +95,13 @@ public class MypageServiceImpl implements MypageService {
 		String  merchantKey = (String) maps.get("KEY");
 		String  storeMID = (String) maps.get("MID");
 		*/
-		
+
+		Map <String,Object> maps = new HashMap<>();
+    	maps.put("MEM_NO", MEM_NO);
+    	maps.put("SEQ", "");
+    	
 		//ClassNm 값 구
-		final List<Map<String, Object>> dataList = mapper.basketList(MEM_NO);
+		final List<Map<String, Object>> dataList = mapper.basketList(maps);
 		//list 값 정보 가져오기
 		/*
 		for (int ii=0; ii < dataList.size(); ii++) {
@@ -273,6 +277,7 @@ public class MypageServiceImpl implements MypageService {
 		maps = payService.payKeyInfo(param);
 		String  merchantKey = (String) maps.get("KEY");
 		String  storeMID = (String) maps.get("MID");
+		String  URL = (String) maps.get("URL");
 		
 
 		//리턴 값 저장  
@@ -299,6 +304,7 @@ public class MypageServiceImpl implements MypageService {
 		addMap.put("ediDate", ediDate);
 		addMap.put("merchantKey", merchantKey);
 		addMap.put("storeMID", storeMID);				
+		addMap.put("URL", URL);
 
 		return addMap;
 	}

@@ -242,8 +242,9 @@ public class PayServiceImpl implements PayService {
 		String MemberNo			= request.getParameter("MemberNo")==null?"":request.getParameter("MemberNo"); // 매입사코드
 
 		String userParam		= request.getParameter("q")==null? "//" : request.getParameter("q"); // 사용자 파람
-								String [] arrayTmp 	= userParam.split("\\/"); //20201225/8
-		String MEM_ID			= arrayTmp[0]; //예약일
+								String [] arrayTmp 	= userParam.split("\\/"); //
+		String MEM_ID			= arrayTmp[0]; //
+		String myCartSeq		= arrayTmp[1]; //주문강좌(장바구니 seq)
 
 		final Member member = memberMapper.findById(MEM_ID);
 		String MEM_NO		= member.getMemNo();
@@ -290,8 +291,12 @@ public class PayServiceImpl implements PayService {
 		    	String goodsNames = "";
 		    	int dataCnt = 0;
 		    	
+		    	Map <String,Object> maps = new HashMap<>();
+		    	maps.put("MEM_NO", MEM_NO);
+		    	maps.put("SEQ", myCartSeq);
+		    	
 		    	//장바구니 정보 가져오기
-				List<Map<String, Object>> aPrgList = mypageMapper.basketList(MEM_NO);
+				List<Map<String, Object>> aPrgList = mypageMapper.basketList(maps);
 				String comCd =  aPrgList.get(0).get("COMCD").toString();
 				
 		  		//등록강습반 및 프로그램 저장
@@ -459,13 +464,13 @@ public class PayServiceImpl implements PayService {
 				
 
 				//장바구니 SEQ
-				String arrSEQ = "";
+				String arrSEQ = myCartSeq;
 				
 				//장바구니 list 값 정보 가져오기
-				for (int ii=0; ii < aPrgList.size(); ii++) {
+				for (int ii=0; ii < 1; ii++) {
 					//장바구니 SEQ 삭제시 필요
 					String SEQ = aPrgList.get(ii).get("SEQ").toString();
-					arrSEQ += ","+ SEQ;
+					//arrSEQ += ","+ SEQ;
 					String ITEM_NM = aPrgList.get(ii).get("ITEM_NM").toString();	
 					String SALE_AMT = aPrgList.get(ii).get("SALE_AMT").toString();
 					goodsAmt += Integer.parseInt(SALE_AMT);
@@ -478,8 +483,9 @@ public class PayServiceImpl implements PayService {
 				//리턴 값 저장  
 				goodsNames = (dataCnt > 1) ? goodsNames +" 외"+ (dataCnt-1) + "건" : goodsNames;
 			    		
-				
-				for (int ii=0; ii < aPrgList.size(); ii++) {		
+				//한개반 실행
+				for (int ii=0; ii < 1;  ii++) {
+				//for (int ii=0; ii < aPrgList.size(); ii++) {		
 		  			//프로그램/사물함구분 PRG:프로그램, LOCKER:사물함, DEPOSIT:사물함보증금
 		  			String GUBUN = aPrgList.get(ii).get("ITM_TYPE").toString(); //aPrgList.getJSONObject(jj).getString("ITM_TYPE").toString();
 					String CLASS_CD = aPrgList.get(ii).get("CLASS_CD").toString(); //aPrgList.getJSONObject(jj).getString("CLASS_CD").toString();
@@ -599,9 +605,9 @@ public class PayServiceImpl implements PayService {
 
 
 		//장바구니 삭제
-		Map<String, Object> maps = new HashMap<>();
+		maps = new HashMap<>();
 		maps.put("MEM_NO", MEM_NO);
-		arrSEQ = arrSEQ.substring(1);
+		//arrSEQ = arrSEQ.substring(1);
 		maps.put("SEQ", arrSEQ);
 		mypageMapper.basketClear(maps);
 

@@ -16,6 +16,7 @@
 <%@page contentType="text/html; charset=utf-8"%>
 <%
 	String actionUrl = "/smartPay/CancelPayAct";
+	String cancelUrl = "";
 	String TID			= request.getParameter("p1");
 						TID	= (TID == null) ? "" : TID;
 	String userID		= request.getParameter("q");
@@ -39,6 +40,7 @@
 	switch (subMenu) {
 		case "rent" :
 			actionUrl = "/smartPay/CancelPayAct";
+			cancelUrl = "/mypage/rent";
 			break;
 		
 		case "class" :
@@ -47,6 +49,7 @@
 			COMCD = (COMCD == null) ? "" : COMCD;
 			
 			actionUrl = "/smartPay/classCancelPayAct";
+			cancelUrl = "/mypage/classStatus";
 			break;
 			
 	}
@@ -225,8 +228,8 @@ input {
 					<td></td>
 				</tr>
 				 -->
-				<input name="MEM_ID" type="hiddenx" class="input" id="MEM_ID" value="<%=MEM_ID%>" size="30" maxlength="30" />
-				<input name="TID" type="hiddenx" class="input" id="TID" value="<%=TID%>" size="30" maxlength="30" />
+				<input name="MEM_ID" type="hidden" class="input" id="MEM_ID" value="<%=MEM_ID%>" size="30" maxlength="30" />
+				<input name="TID" type="hidden" class="input" id="TID" value="<%=TID%>" size="30" maxlength="30" />
 				<!-- 
 				<tr>
 					<th scope="row">취소 패스워드</th>
@@ -235,10 +238,10 @@ input {
 				</tr>
 				 -->
 				<input name="Cancelpw" type="hidden" class="input" id="Cancelpw" value=""/>
-				<input name="slipOn" type="hiddenx" class="input" id="slipOn" value="<%=slipOn%>"/>
-				<input name="COMCD" type="hiddenx" class="input" id="COMCD" value="<%=COMCD%>"/>
-				<input name="subMenu" type="hiddenx" class="input" id="subMenu" value="<%=subMenu%>"/>
-				<input name="otherParam" type="hiddenx" class="input" id="otherParam" value="<%=otherParam%>"/>
+				<input name="slipOn" type="hidden" class="input" id="slipOn" value="<%=slipOn%>"/>
+				<input name="COMCD" type="hidden" class="input" id="COMCD" value="<%=COMCD%>"/>
+				<input name="subMenu" type="hidden" class="input" id="subMenu" value="<%=subMenu%>"/>
+				<input name="otherParam" type="hidden" class="input" id="otherParam" value="<%=otherParam%>"/>
 				<tr>
 					<th scope="row">취소금액</th>
 					<td>CancelAmt</td>
@@ -284,7 +287,7 @@ input {
 				<tr>
 					<th>&nbsp;</th>
 					<td class="btnblue" onclick="return goCancelCard();">확인</td>
-					<td class="btnblue" onclick="javascript:document.tranMgr.reset();">입력초기화</td>
+					<td class="btnblue" onclick="top.location.href='<%=cancelUrl %>';">취소</td>
 				</tr>
 			</tbody>
 		</table>
