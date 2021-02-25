@@ -80,6 +80,7 @@ SELECT
 		select TOTAL_CNT , R1.*
 		FROM (SELECT COUNT(*) OVER() AS TOTAL_CNT
 		,A.COMCD 
+		,t3.COMNM
 		,CASE WHEN ifnull(TRIM(A.RETURN_YN), 'N') = 'Y' THEN '종료'
 		WHEN ifnull(TRIM(A.CHANGE_YN), 'N') = 'B' THEN '종료'
 		WHEN
@@ -177,8 +178,8 @@ SELECT
 		,(select TID from card_app_hist_damo where MEM_NO = a.MEM_NO and SLIP_NO =
 		a.SLIP_NO limit 1) as TID
 		FROM PROGRAM_ITEM B, MEM_SALE A
-		left outer join RECESS C ON A.COMCD = C.COMCD AND A.SALE_SEQ = C.SALE_SEQ
-		AND A.MEM_NO = C.MEM_NO
+		left outer join RECESS C ON A.COMCD = C.COMCD AND A.SALE_SEQ = C.SALE_SEQ AND A.MEM_NO = C.MEM_NO
+		left join cominfo t3 on A.COMCD = t3.COMCD 
 		WHERE A.COMCD = B.COMCD
 		AND A.ITEM_CD = B.ITEM_CD
 		AND A.MEM_NO = (select MEM_NO from v_member where id= #{userId})

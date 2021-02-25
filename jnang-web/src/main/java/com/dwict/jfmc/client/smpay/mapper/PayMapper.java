@@ -36,9 +36,18 @@ public interface PayMapper {
 
 	void setTrainHist(Map<String, Object> requestMapTrainHist);
 	
-//	int setPayList(Map requestMap);
-//
-//	int setPayList2(Map requestMap);
+	//인터넷 결제 강죄 당일 취소처리 시작 #############
+	//삭제처리 안함 ==> 결제 했다고 하면서 취소 안했다고 할가봐, 또는 강좌 결제 여부 확인하기 위해서
+	int memLecCancelStep1(Map requestMap);
+	int memLecCancelStep2(Map requestMap);
+	int memLecCancelStep3(Map requestMap);
+	int memLecCancelStep4(Map requestMap);
+	int memLecCancelStep5(Map requestMap);
+	int memLecCancelStep6(Map requestMap);
+	//종료
+	//	int setPayList(Map requestMap);
+	//
+	//	int setPayList2(Map requestMap);
 	
 	//주문_결제정보(CALC_MASTER) 저장
 	int setCalcMaster(Map requestMap);

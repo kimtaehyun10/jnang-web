@@ -25,7 +25,33 @@
 	String slipOn  	 	= request.getParameter("p3");
 						slipOn = (slipOn == null) ? "" : slipOn;
 	String COMCD   	 	= request.getParameter("p4");
-						COMCD = (COMCD == null) ? "" : COMCD;					
+						COMCD = (COMCD == null) ? "" : COMCD;
+
+	//그외 아래 메뉴별 파라미터
+	String otherParam = "";
+
+	//취소처리를 한곳만 하는곳이 아니기때문에 분류(수강신청 현황, 대관신청현황,)
+	String subMenu 	= request.getParameter("p5"); 
+						subMenu = (subMenu == null) ? "" : subMenu;					
+
+
+
+	switch (subMenu) {
+		case "rent" :
+			actionUrl = "/smartPay/CancelPayAct";
+			break;
+		
+		case "class" :
+			
+			otherParam  	 	= request.getParameter("otherParam");
+			COMCD = (COMCD == null) ? "" : COMCD;
+			
+			actionUrl = "/smartPay/classCancelPayAct";
+			break;
+			
+	}
+						
+						
 	String CancelMSG	= "사용자 당일 취소"; //request.getParameter("CancelMSG");
 	Member member 	= (Member) session.getAttribute("member");
 	String MEM_ID	= member.getId();
@@ -211,6 +237,8 @@ input {
 				<input name="Cancelpw" type="hidden" class="input" id="Cancelpw" value=""/>
 				<input name="slipOn" type="hiddenx" class="input" id="slipOn" value="<%=slipOn%>"/>
 				<input name="COMCD" type="hiddenx" class="input" id="COMCD" value="<%=COMCD%>"/>
+				<input name="subMenu" type="hiddenx" class="input" id="subMenu" value="<%=subMenu%>"/>
+				<input name="otherParam" type="hiddenx" class="input" id="otherParam" value="<%=otherParam%>"/>
 				<tr>
 					<th scope="row">취소금액</th>
 					<td>CancelAmt</td>

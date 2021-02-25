@@ -43,12 +43,13 @@ String MEM_MAIL = member.getEmail();
 	 -->	
 	<table class="stbl_l1a">
 		<colgroup>
-			<col width="5%"><col width="35%"><col width="20%"><col width="20%"><col width="20%">
+			<col width="5%"><col width="*"><col width="25%"><col width="10%"><col width="10%"><col width="20%">
 		</colgroup>
 		<thead>
 			<tr>
 				<th>번호</th>
-				<th>강좌명</th>
+				<th>[시설명] 강좌명</th>
+				<th>대상</th>
 				<th>수강료</th>
 				<th>결제상태</th>
 				<th>수강기간</th>
@@ -59,6 +60,7 @@ String MEM_MAIL = member.getEmail();
 			<c:forEach items="${rentList}" var="result" varStatus="status">
 			<tr>
 				<td>${status.count}</td>
+				<td>[${result.COMNM}] ${result.CLASS_NM}</td>
 				<td>${result.ITEM_NM}</td>
 				<td>${result.COST_AMT}원</td>
 				<td>
@@ -67,7 +69,7 @@ String MEM_MAIL = member.getEmail();
 					<!-- 당일취소 -->
 					<c:if test="${result.WRITE_YMD eq TODAY}">
 						<% if (MEM_ID.equals("powerjyc")) { %>
-						<br><a href="#none" onclick="cancelPay('${result.TID}', '${result.SLIP_NO}', '${result.COST_AMT}','${result.COMCD}');" class="btn_green1">당일취소</a>
+						<br><a href="#none" onclick="cancelPay('${result.TID}', '${result.SLIP_NO}', '${result.COST_AMT}','${result.COMCD}','${result.SALE_SEQ}');" class="btn_green1">당일취소</a>
 						<% } else { %>
 						
 						<%	}	%>
@@ -102,4 +104,5 @@ String MEM_MAIL = member.getEmail();
 	<input type='hidden' name='p2' maxlength='2'>
 	<input type='hidden' name='p3' maxlength='2'>
 	<input type='hidden' name='p4' maxlength='2'>
-</form>
+	<input type='hidden' name='p5' maxlength='2' value="class">
+	<input type='hidden' name='otherParam' maxlength='2'></form>

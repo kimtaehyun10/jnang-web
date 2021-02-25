@@ -548,5 +548,41 @@
 		WHERE TID = #{TID}
 		AND APP_TYPE = '5'
 	</update>
+
+
+    <!-- 인터넷 결제 당일  취소처리 시작 ################################## -->
+	<update id="memLecCancelStep1" parameterType="java.util.HashMap">
+	select * from PAY_CHANGE_INFO order by  WRITE_DH desc
+	</update>
+	<update id="memLecCancelStep6" parameterType="java.util.HashMap">
+	<!-- select *, CANCEL_YN, REMARK from mem_sale  where MEM_NO ='00135090' order by  WRITE_DH desc -->
+	update mem_sale set CANCEL_YN ='Y' ,REMARK=#{REMARK}, CHNGR=#{MEM_NM} , CHNG_DH =now() 
+	WHERE SLIP_NO = #{SLIP_NO} and MEM_NO =#{MEM_NO} and COMCD =#{COMCD}
+	</update>
+	<update id="memLecCancelStep2" parameterType="java.util.HashMap">
+	<!-- Select * from CALC_MASTER order by  WRITE_DH desc -->
+	update CALC_MASTER set CANCEL_YN='Y', REMARK =#{REMARK}, CHNGR = #{MEM_NM}, CHNG_DH = now() 
+	WHERE SLIP_NO =#{SLIP_NO}  and COMCD =#{COMCD}  and MEM_NO =#{MEM_NO} 
+	</update>
+	<update id="memLecCancelStep3" parameterType="java.util.HashMap">
+	<!-- Select * from PAY_LIST where SLIP_NO in (Select SLIP_NO from CALC_MASTER where MEM_NO ='00135090') order by  WRITE_DH desc -->
+	update PAY_LIST set CANCEL_YN ='Y' , REMARK =#{REMARK}
+	WHERE SLIP_NO =#{SLIP_NO} and COMCD =#{COMCD}
+	</update>
+	<update id="memLecCancelStep4" parameterType="java.util.HashMap">
+	<!-- Select * from card_app_hist_damo where SLIP_NO in (Select SLIP_NO from CALC_MASTER where MEM_NO ='00135090') order by  WRITE_DH desc -->
+	update card_app_hist_damo set APP_GBN='2', CNL_DATE='20210101', REMARK =#{REMARK}, CHNGR =#{MEM_NM}, CHNG_DH = now()  
+	WHERE SLIP_NO =#{SLIP_NO} and MEM_NO=#{MEM_NO} and COMCD =#{COMCD}
+	</update>
+	<update id="memLecCancelStep5" parameterType="java.util.HashMap">
+	<!-- select * from train_hist where MEM_NO ='00135090' order by  WRITE_DH desc -->
+	update train_hist set OLD_TRAIN_EDATE = TRAIN_EDATE , OLD_CLASS_CD = CLASS_CD 
+			, TRAIN_SDATE = DATE_FORMAT(#{R_ADATE}  , '%Y%m%d') , CHNGR =#{MEM_NM} , CHNG_DH = now() 
+	WHERE MEM_NO =#{MEM_NO} and COMCD = #{COMCD} and SALE_SEQ = #{SALE_SEQ} and CLASS_CD = #{CLASS_CD}
+	</update>
+	
+    <!-- 인터넷 결제 당일  취소처리 종료 ################################## -->
+
+
 	
 </mapper>

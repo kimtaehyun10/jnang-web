@@ -53,6 +53,7 @@
 	String MEM_ID	= member.getId();
 	String MEM_NM 	= member.getMemNm();
 	String MEM_MAIL = member.getEmail();
+	String MEM_HP 	= member.getHp();
 	//out.println("MEM_ID:"+ MEM_ID +"<BR>");
 	//out.println("MEM_NM:"+ MEM_NM +"<BR>");
 	//out.println("MEM_MAIL:"+ MEM_MAIL +"<BR>");
@@ -305,9 +306,9 @@
 			<!-- <div>구매자:</div> -->
 		    <input type="hidden" id="BuyerName" name="BuyerName" maxlength="2" value="BuyerName">
 			<!-- <div>연락처:</div> -->
-		    <input type="hidden" id="BuyerTel" name="BuyerTel" maxlength="2" value="BuyerTel">
+		    <input type="hidden" id="BuyerTel" name="BuyerTel" maxlength="2" value="<%=MEM_HP%>">
 			<!-- <div>이메일:</div> -->
-		    <input type="hidden" id="BuyerEmail" name="BuyerEmail" maxlength="2" value="BuyerEmail">
+		    <input type="hidden" id="BuyerEmail" name="BuyerEmail" maxlength="2" value="<%=MEM_MAIL%>">
 			
 			<!-- 
 		    <tr>

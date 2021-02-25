@@ -471,6 +471,8 @@ try {
 		<input type='hidden' name='p2' maxlength='2'>
 		<input type='hidden' name='p3' maxlength='2'>
 		<input type='hidden' name='p4' maxlength='2'>
+		<input type='hidden' name='p5' maxlength='2' value="rent">
+		<input type='hidden' name='otherParam' maxlength='2'></form>		
 	</form>
 	
 	<%!

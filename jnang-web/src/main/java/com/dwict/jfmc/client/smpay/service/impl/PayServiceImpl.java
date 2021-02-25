@@ -78,6 +78,78 @@ public class PayServiceImpl implements PayService {
 		 
 		return mapper.payKeyInfo(maps);
 	}
+
+	
+	
+
+	@Override
+	@Transactional
+	//강좌 당일 결제 취소
+	public Map <String,Object> classCancelPay(HttpServletRequest request) {
+		final HttpSession session = request.getSession(false);
+		Map<String, Object> maps = new HashMap<>();
+		int dbSaveYN = 0;
+		
+		
+		maps.put("COMCD", request.getParameter("COMCD"));
+		maps.put("SLIP_NO", request.getParameter("slipOn"));
+		maps.put("TID", request.getParameter("TID"));
+		maps.put("PAY_AMT", request.getParameter("CancelAmt"));
+		maps.put("SALE_SEQ", request.getParameter("otherParam"));
+		Member	members = (Member) session.getAttribute("member");
+		String MEM_ID = members.getId();
+    	String MEM_NO = members.getMemNo();
+    	String MEM_NM = members.getMemNm();
+		maps.put("MEM_ID", MEM_ID);
+		maps.put("MEM_NO", MEM_NO);
+		maps.put("MEM_NM", MEM_NM);
+	
+		
+		//취소처리 부분
+		String ymd = FormatUtil.getDefaultDate(1, "-","");
+		maps.put("WRITER", MEM_ID);
+		maps.put("WRITE_DH", ymd);
+		maps.put("REMARK", "사용자  당일취소처리");
+		
+		
+		//강좌 당일 결제 취소처리 부분################################################
+
+		//select *, CANCEL_YN, REMARK from mem_sale  where MEM_NO ='00135090' order by  WRITE_DH desc
+		dbSaveYN = mapper.memLecCancelStep6(maps);
+		//온라인 오프라인 확인 
+		if (dbSaveYN == 1) {
+		
+			//Select * from CALC_MASTER order by  WRITE_DH desc
+			mapper.memLecCancelStep2(maps);
+			
+			//Select * from PAY_LIST where SLIP_NO in (Select SLIP_NO from CALC_MASTER where MEM_NO ='00135090') order by  WRITE_DH desc
+			mapper.memLecCancelStep3(maps);
+			
+			//Select * from card_app_hist_damo where SLIP_NO in (Select SLIP_NO from CALC_MASTER where MEM_NO ='00135090') order by  WRITE_DH desc
+			mapper.memLecCancelStep4(maps);
+			
+			//select * from train_hist where MEM_NO ='00135090' order by  WRITE_DH desc
+			mapper.memLecCancelStep5(maps);
+		
+		} else {
+			dbSaveYN = 0;
+		}
+			
+	
+				
+		
+		//0 테스트 1 실제
+		if (PG_MODE.equals("0")) {
+		  maps.put("COMCD", "TEST");
+		}
+
+		//리턴결과
+		maps.put("dbSaveYN", dbSaveYN);
+		
+		return mapper.payKeyInfo(maps);
+	}
+	
+	
 	
 	@Override
 	//사업장(comcd) 캔슬 
@@ -317,17 +389,11 @@ public class PayServiceImpl implements PayService {
 	       			APP_NO = NEXT_APP_NO;
 	       		}
 	
-	       		String APP_CARD_NO = ""; //aPayList.getJSONObject(ii).getString("APP_CARD_NO").toString(); //카드 번호
+	       		String APP_CARD_NO = ""; ////카드번호가 없음, aPayList.getJSONObject(ii).getString("APP_CARD_NO").toString(); //카드 번호
 	       		String SEC_CARD_NO1 = "";
 	       		String SEC_CARD_NO2 = "";
 	       		String SEC_CARD_NO3 = "";
 	       		String SEC_CARD_NO4 = "";       		
-	       		if (APP_CARD_NO.length() > 10)
-	       		{
-	       			SEC_CARD_NO1 = APP_CARD_NO.substring(4);
-	       			SEC_CARD_NO4 = APP_CARD_NO.substring(APP_CARD_NO.length()-4, APP_CARD_NO.length());
-	       		}
-
 	       		
 	       		String APP_CARD_CD = fn_cd; //aPayList.getJSONObject(ii).getString("APP_CARD_CD").toString(); //카드사 코드
 	       		String APP_CARD_HALBU = CardQuota; //aPayList.getJSONObject(ii).getString("APP_CARD_HALBU").toString(); //카드사 할부       		
@@ -363,6 +429,7 @@ public class PayServiceImpl implements PayService {
 		    	
 		    	requestMapPayList.put("CARD_SEC", APP_CARD_CD);//카드사 코드
 		    	requestMapPayList.put("CARD_SEC2", "");//
+				requestMapPayList.put("CARD_INFO", fn_name);//
 		    	requestMapPayList.put("HALBU_CNT", APP_CARD_HALBU);//카드사 할부
 		    	
 		    	requestMapPayList.put("TID", TID);//승인금액 정보

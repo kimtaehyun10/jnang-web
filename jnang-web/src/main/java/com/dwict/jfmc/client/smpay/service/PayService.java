@@ -33,6 +33,10 @@ public interface PayService {
 	//취소처리 키값 가져오기
 	Map<String, Object> payKeyInfo(Map<String, Object> maps);
 
+	//강좌 결제 취소
+	Map<String, Object> classCancelPay(HttpServletRequest request);
+	
+	//대관결제 취소	
 	Map<String, Object> payKeyInfoCancel(Map<String, Object> maps);
 
 	Map<String, Object> vbankPayOrderInsert(HttpServletRequest request);

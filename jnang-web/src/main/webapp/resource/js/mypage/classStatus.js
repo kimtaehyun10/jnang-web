@@ -11,7 +11,7 @@ $(function(){
 
 
 
-function cancelPay(tid, s_no, pay, comcd) {
+function cancelPay(tid, s_no, pay, comcd, seq) {
 	
 	if (confirm("\n 당일 상품 결제를 취소  하시겠습니까?\n\n취소시 복구 되지 않습니다.")) {
 		
@@ -26,6 +26,7 @@ function cancelPay(tid, s_no, pay, comcd) {
 	frm.p2.value = pay;
 	frm.p3.value = s_no;
 	frm.p4.value = comcd;
+	frm.otherParam.value = seq;
 	frm.action = "/smartPay/mainCancelPay";
 	frm.submit();
 	

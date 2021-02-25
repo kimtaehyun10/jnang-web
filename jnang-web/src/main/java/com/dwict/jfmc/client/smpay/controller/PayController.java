@@ -106,6 +106,16 @@ public class PayController {
 				case "mainCancelPay":
 					rtn = "/smartPay/"+ dirPath;
 					break;
+					
+				//강좌 결제 취소	
+				case "classCancelPayAct":
+					rtnMap = service.classCancelPay(request);
+					rtnMap.put("rtn_url", "/mypage/classStatus"); //취소완료후 처음되돌아가는 부분
+					modelAndView.addAllObjects(rtnMap);
+					rtn = "/smartPay/CancelPayAct";
+					break;
+
+				///대관 결제 취소
 				case "CancelPayAct":
 					String userParam	= request.getParameter("q")==null? "//" : request.getParameter("q"); // 사용자 파람
 					String [] arrayTmp 	= userParam.split("\\/"); //20201225/8
@@ -123,6 +133,7 @@ public class PayController {
 					maps.put("SLIP_NO", request.getParameter("slipOn"));
 					maps.put("TID", request.getParameter("TID"));
 					maps.put("PAY_AMT", request.getParameter("CancelAmt"));
+					maps.put("SUB_MENU", request.getParameter("subMenu"));
 					Member	members = (Member) session.getAttribute("member");
 					String MEM_ID = members.getId();
 			    	String MEM_NO = members.getMemNo();
@@ -134,6 +145,7 @@ public class PayController {
 					System.out.println(maps);
 					
 					rtnMap = service.payKeyInfoCancel(maps);
+					rtnMap.put("rtn_url", "/mypage/rent"); //취소완료후 처음되돌아가는 부분
 					modelAndView.addAllObjects(rtnMap);
 					rtn = "/smartPay/"+ dirPath;
 					break;				

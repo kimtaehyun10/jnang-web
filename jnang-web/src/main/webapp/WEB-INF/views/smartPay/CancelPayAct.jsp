@@ -41,10 +41,15 @@
 String payURL = (String) request.getAttribute("URL");
 String MERCHANT_KEY = (String) request.getAttribute("KEY");
 String Cancelpw = (String) request.getAttribute("PWD");
+String returnUrl = (String) request.getAttribute("rtn_url"); //되돌아갈 페이지
+String dbSaveYN = (String) request.getAttribute("dbSaveYN"); //정상처리 결과 페이지
+returnUrl = (returnUrl == null) ? "/mypage/cart" : returnUrl;
 //String MERCHANT_KEY = "0/4GFsSd7ERVRGX9WHOzJ96GyeMTwvIaKSWUCKmN3fDklNRGw3CualCFoMPZaS99YiFGOuwtzTkrLo4bR4V+Ow==";// MID(SMTPAY001m)의 상점키 설정 - 결제 요청한 상점ID의 상점키를 입력
-out.println("merchantKey:"+ Cancelpw +"<BR>");
-out.println("storeMID:"+ MERCHANT_KEY +"<BR>");
-out.println("payURL:"+ payURL +"<BR>");
+//out.println("Cancelpw:"+ Cancelpw +"<BR>");
+//out.println("MERCHANT_KEY:"+ MERCHANT_KEY +"<BR>");
+//out.println("payURL:"+ payURL +"<BR>");
+
+
 //
 String PRD_CANCEL_ACTION_URL = "";
 //실제 테스트
@@ -53,6 +58,7 @@ if (payURL.contains("https://pay.sm")) {
 } else {
 	PRD_CANCEL_ACTION_URL = "https://tpay.smilepay.co.kr/cancel/payCancelNVProcess.jsp";
 }
+//PRD_CANCEL_ACTION_URL = payURL;
 //out.println("payURL:"+ payURL +"<BR>");
 //out.println("payURL:"+ PRD_CANCEL_ACTION_URL +"<BR>");
 //out.println("Cancelpw:"+ Cancelpw +"<BR>");
@@ -83,6 +89,7 @@ String DivideInfo = "";
 
 String sendMID = "";
 String sendTID = request.getParameter("TID");
+
 
 //취소 요청 데이터 설정
 cancelRequest.put("TID", sendTID==null?"":sendTID);									//1.취소할 거래 TID [필수]
@@ -290,8 +297,7 @@ box-shadow: 0 0 0 1px #6698cb inset,
 </tbody>
 
 </table>
-
-	<a href="/mypage/cart" class="size_m2 btn_green1 fontsize_1dot50" >취소처리 확인</a>
+	<a href="<%=returnUrl%>" class="size_m2 btn_green1 fontsize_1dot50" >취소처리 확인</a>
 
 <%!
 public final String encodeMD5HexBase64(String pw){
