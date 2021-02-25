@@ -22,8 +22,11 @@ var data = {
 		});
 		if (mode =="del") {
 			
-			if (confirm("\n 삭제후 데이타 복구불가능합니다 \n 정말로 삭제 하시겠습니까?\n ")) return true;
-			return false;
+			if (confirm("\n 삭제후 데이타 복구불가능합니다 \n 정말로 삭제 하시겠습니까?\n ")) {
+				
+			} else {
+				return false;
+			}
 			
 			seq = arrayParam.toString();
 			param = {"SEQ" : seq};

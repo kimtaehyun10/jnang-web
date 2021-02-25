@@ -155,7 +155,7 @@ public class PayServiceImpl implements PayService {
 	//사업장(comcd) 캔슬 
 	public Map <String,Object> payKeyInfoCancel(Map<String, Object> maps) {
 		
-		if(PG_MODE.equals("0")) {
+		//if(PG_MODE.equals("0")) {
 			
 			if(maps.get("SLIP_NO") != null && maps.get("COMCD") != null && maps.get("TID") != null) {
 				String comCd = maps.get("COMCD").toString();
@@ -167,6 +167,9 @@ public class PayServiceImpl implements PayService {
 				
 				int cancelPay = Integer.parseInt(payAmt);
 				
+				if(PG_MODE.equals("0")) {
+					maps.put("COMCD", "TEST");
+				}
 				mapper.updateCancelRentApp(maps);
 				
 				/*
@@ -181,7 +184,7 @@ public class PayServiceImpl implements PayService {
 					
 			}
 			
-		}
+		//}
 		
 	
 		return mapper.payKeyInfo(maps);
