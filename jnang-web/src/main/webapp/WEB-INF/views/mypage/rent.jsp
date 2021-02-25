@@ -457,7 +457,7 @@ try {
 		    </tr>	
 		    -->	    
 		    <input type="hidden" id="merchantKey" name="merchantKey" maxlength="2" value="merchantKey">
-			<input type="ffhidden" id="actionUrl" name="actionUrl" maxlength="2" value="">	
+			<input type="hidden" id="actionUrl" name="actionUrl" maxlength="2" value="">	
 	    </tbody>
 	
 	</table>

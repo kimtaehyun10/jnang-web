@@ -26,7 +26,7 @@
 					</sec:authorize>
 					<sec:authorize access="hasAnyRole('ROLE_USER')">
 						<li><a href='/mem/logout'>로그아웃</a></li>
-						<li><a href='/mypage/cart'>마이페이지</a></li>
+						<li><a href='/mypage/classStatus'>마이페이지</a></li>
 					</sec:authorize>
 					<li><a href='/etc/sitemap'>사이트맵</a></li>
 					<li>글자크기</li>

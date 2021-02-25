@@ -493,9 +493,6 @@ public class RentServiceImpl implements RentService {
 			maps.put("playtime", playTime);
 		}
 		
-		
-		
-		
 		return mapper.rentPriceList(maps);
 	}
 	

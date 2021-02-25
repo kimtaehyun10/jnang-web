@@ -91,6 +91,8 @@ MEM_MAIL = (MEM_MAIL == null) ? "" : " | &nbsp; "+ MEM_MAIL;
 int PRICE = 0;
 String commaTot = "";
 String commaRent = "";
+String saleTot = ""; 
+String saleRent = "";
 String commaLight = "";
 %>
 <c:set var="PLACE_GROUP" value="${rentCfg.PLACE_GROUP}" />
@@ -204,6 +206,7 @@ $(function(){
 } */
 
 function sale(){
+	
 	var commaTot = $("#commaTot").val();
 	var commaRent =	$("#commaRent").val();
 	var commaLight = $("#commaLight").val();
@@ -247,9 +250,43 @@ function sale(){
 			console.log(html2);
 		$('.margin_t80').html(html2);
 	}
-	
 }
 
+function selectDC(){
+	
+	var commaTot = $("#commaTot").val();
+	var commaRent =	$("#commaRent").val();
+	var commaLight = $("#commaLight").val();
+	var rentSum = $("#rentSum").val();
+	var lightSum = $("#lightSum").val();
+	var saleRent = rentSum / 2; // 할인된 가격 (인트형)
+	var commaSaleRent = AmountCommas(saleRent); // 할인된 가격에 콤마를 찍어준 값 (문자형)
+	var saleTotalSum = Number(lightSum) + Number(saleRent);
+	var commaTotalSum = AmountCommas(saleTotalSum);
+	
+	
+	var html1='';
+	if($('input[name=person]:checked').val() == '0'){
+		html1 += "<span id='AmtDP'>"
+		html1 += commaTot + "</span>원"
+		html1 += "&nbsp;"
+		html1 += "(대관료 : " + commaRent + "원/"
+		html1 += " 조명료 : " + commaLight + "원) </td>"
+		$('#saleResult').html(html1);
+		
+	} else {
+		html1 += "<span id='AmtDP'>"
+		html1 += commaTotalSum + "</span>원"
+		html1 += "&nbsp;" 
+		html1 += "(대관료 : " + commaSaleRent + "원/"
+		html1 += " 조명료 : " + commaLight + "원)</td>"
+		$('#saleResult').html(html1);
+	}
+}
+
+function AmountCommas(val){
+	return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g,",");
+}
 
 
 
@@ -264,8 +301,22 @@ var data = {
 	}
 	
 	
-	var goodsAmt = Number($("#goodsAmt").val());
-	goodsAmt = goodsAmt - (goodsAmt * (dcPer/100));
+	var rentSum = Number($("#rentSum").val());
+	var saleRent = rentSum - (rentSum * (dcPer/100));
+	var lightSum = Number($("#lightSum").val());
+	var goodsAmt = Number(lightSum) + Number(saleRent);
+	var commaTot = AmountCommas(goodsAmt);
+	var commaRent =	AmountCommas(saleRent);
+	var commaLight = AmountCommas(lightSum);
+	
+	var html1='';
+	html1 += "<span id='AmtDP'>"
+	html1 += commaTot + "</span>원"
+	html1 += "&nbsp;"
+	html1 += "(대관료 : " + commaRent + "원/"
+	html1 += " 조명료 : " + commaLight + "원) </td>"
+	$('#saleResult').html(html1);
+	
 	$("#AmtDP").text(goodsAmt );
 	$("#Amt").val(goodsAmt);
 	
@@ -292,9 +343,17 @@ var data = {
 };
 
 function rentSave(){
-	
+<%
+	if(PLACE_GROUP == 2 || PLACE_GROUP == 3){
+%>	
 	alert("할인예약은 현장에서 확인 후 할인된 금액으로 결제합니다. \n예약 후 현장결제 해주세요.");
-	
+<%
+	} else if(PLACE_GROUP == 4) {
+%>	
+	alert("테니스장은 현장에서 결제를 진행합니다.");
+<%
+	}
+%>
 	var frm1 = document.frm1;
 	if(frm1.agree1.checked == false) {
 		alert('주의 사항 및 환불 안내를 확인하고 선택하여 주세요.');
@@ -581,10 +640,10 @@ function send(COMCD){
 					<%
 					priceMsg = (priceMsg.equals("")) ? "" : " ["+ priceMsg +"]";
 					
-					String commaNum = NumberFormat.getInstance().format(rent_t_timePrice);
+					String commaNum1 = NumberFormat.getInstance().format(rent_t_timePrice);
 					%>
 	
-					&nbsp; ${result.RESERVE_DATE} &nbsp; ${result.item} &nbsp; <%=commaNum %> <%=priceMsg %><BR>
+					&nbsp; ${result.RESERVE_DATE} &nbsp; ${result.item} &nbsp; <%=commaNum1 %> <%=priceMsg %><BR>
 				
 				<%
 				}
@@ -657,10 +716,21 @@ function send(COMCD){
     <c:if test="${rentCfg.PLACE_GROUP eq '4'}">
     	<!-- 우선 4번 그룹만 할인적용 --> 
 	  <tr>
-	    <th>할인</th>
+	    <th>할인여부</th>
 	    <td>
-	    	<input type="radio" name="person" value="0" onClick="sale()" checked> 일반
-            <input type="radio" name="person" value="1" onClick="sale()" > 할인 50% (장애, 국가유공자, 초중고생)
+	    	<select name="" class="inputbox_01a" onchange="data.selectDC(this.value, '${rentCfg.COMCD }');">
+		    	<option value="">==할인 선택==</option>
+		    	<option value="0" selected>일반</option>
+		    	<option value="10">중랑구민(10%)</option>
+		    	<!-- <option value="10">관내팀(10%)</option> -->
+		    	<option value="30">경로우대(30%)</option>
+		    	<!-- <option value="50">초/중/고생(50%)</option> -->
+		    	<option value="50">장애인(50%)</option>
+		    	<option value="50">기초수급자(50%)</option>
+		    	<option value="50">국가유공자(50%)</option>
+	    	</select>
+	    	<!-- <input type="radio" name="person" value="0" onClick="selectDC()" checked> 일반
+            <input type="radio" name="person" value="1" onClick="selectDC()" > 할인 50% (장애, 국가유공자, 초중고생) -->
 		</td>
     	</tr>
     </c:if>
@@ -681,11 +751,9 @@ function send(COMCD){
 		    	<option value="50">국가유공자(50%)</option>
 	    	</select> --%>
 	    	
-	    
-	    
-            <input type="radio" name="person" value="0" onClick="sale()" checked> 일반
-            <input type="radio" name="person" value="1" onClick="sale()" > 할인 50% (장애, 국가유공자, 초중고생)
-				            
+    
+			<input type="radio" name="person" value="0" onClick="sale()" checked> 일반
+           	<input type="radio" name="person" value="1" onClick="sale()" > 할인 50% (장애, 국가유공자, 초중고생)
 		</td>
     	</tr>
     </c:if>
@@ -701,21 +769,25 @@ function send(COMCD){
 	  	
 		if (PLACE_GROUP == 2 || PLACE_GROUP == 3) {
 			
-			if (holiday_yn.equals("Y")) {
-				rentSum = rentPrice[0][rent_timeCnt];
-			} else {
-				rentSum = rentPrice[1][rent_timeCnt];
-			}  
-			
-		}
+				if (holiday_yn.equals("Y")) {
+					rentSum = rentPrice[0][rent_timeCnt];
+				} else {
+					rentSum = rentPrice[1][rent_timeCnt];
+				}  
 	    
-	    totalSum = PRICE + lightSum;
-	    int totalSaleSum = PRICE1 + lightSum;
-	    commaTot = NumberFormat.getInstance().format(totalSum);
-	    commaRent = NumberFormat.getInstance().format(PRICE);
-	    commaLight = NumberFormat.getInstance().format(lightSum);
-	    String saleTot = NumberFormat.getInstance().format(totalSaleSum);
-	    String saleRent = NumberFormat.getInstance().format(PRICE1);
+		    totalSum = PRICE + lightSum;
+		    int totalSaleSum = PRICE1 + lightSum;
+		    commaTot = NumberFormat.getInstance().format(totalSum);
+		    commaRent = NumberFormat.getInstance().format(PRICE);
+		    commaLight = NumberFormat.getInstance().format(lightSum);
+		    saleTot = NumberFormat.getInstance().format(totalSaleSum);
+		    saleRent = NumberFormat.getInstance().format(PRICE1);
+		} else if (PLACE_GROUP == 4) {
+			totalSum = rentSum + lightSum;
+			commaTot = NumberFormat.getInstance().format(totalSum);
+			commaRent = NumberFormat.getInstance().format(rentSum);
+			commaLight = NumberFormat.getInstance().format(lightSum);
+		}
 	    %>
 	    <div id = "saleResult">
 	    	<span id="AmtDP">  <%=commaTot %></span>원 (대관료 : <%=commaRent %>원/ 조명료 : <%=commaLight %>원)</td>
@@ -726,6 +798,8 @@ function send(COMCD){
 	    <input type="hidden" id="commaLight" value="<%=commaLight %>" />
 	    <input type="hidden" id="saleRent" value="<%=saleRent %>" />
 	    <input type="hidden" id="refComCd" value="${rentCfg.COMCD}" />
+	    <input type="hidden" id="rentSum" value="<%=rentSum%>" />
+	    <input type="hidden" id="lightSum" value="<%=lightSum%>" />
 	    <input type="hidden" id="val1" name="val1" value="${dataList.dataList[0].PLACE_TIME_SEQ }">
 		<input type="hidden" id="val2" name="val2" value="${dataList.dataList[1].PLACE_TIME_SEQ }">
 		<input type="hidden" id="val3" name="val3" value="${dataList.dataList[0].RESERVE_DATE }">
@@ -757,8 +831,8 @@ if (PLACE_GROUP == 2 || PLACE_GROUP == 3) {
 } else if (PLACE_GROUP == 4) {
 %>
 
-예약후 결제 시 3시간 이내 결제하지 않으면 자동으로 취소됩니다.<br>
-<span style="color:rgb(255, 0, 0);">결제시간이 3시간 지난 후 입금하셔도 예약이 되지 않습니다.</span><br>
+예약후 결제 시 1시간 이내 결제하지 않으면 자동으로 취소됩니다.<br>
+<span style="color:rgb(255, 0, 0);">결제시간이 1시간 지난 후 입금하셔도 예약이 되지 않습니다.</span><br>
 대관시간 결정은 행사준비 시간, 반출, 청소시간을 포함하여 신청합니다.<br>
 신청이외의 출입시 추가비용을 별도로 내야 합니다.<br>
 계약된 대관시간중 안전사고에 대하여 주의하여야 합니다.<br>
@@ -778,12 +852,17 @@ if (PLACE_GROUP == 2 || PLACE_GROUP == 3) {
     </tbody>
 </table>
 <br>
-
+<%if(PLACE_GROUP == 2 || PLACE_GROUP == 3) {%>
     <div class="btnarea margin_t80">
 		<a href="#none" onclick="send('${rentCfg.COMCD}');" id=" " class="green">결제</a>
         <a href="#none" onClick="history.back(-1);" id=" " class="gray2">취소</a>
     </div>
-	
+<%} else if(PLACE_GROUP == 4){ %>
+	<div class="btnarea margin_t80">
+		<a href="#none" onclick="send('${rentCfg.COMCD}');" id=" " class="green">결제</a>
+		<a href="#none" onClick="history.back(-1);" id=" " class="gray2">취소</a>
+	</div>
+<%} %>	
 </form>
 <%
 //totalSum = (strUrl.contains("localhost") || MEM_ID.equals("powerjyc")) ? 10 : totalSum;
@@ -811,12 +890,13 @@ try {
 if (PLACE_GROUP == 2 || PLACE_GROUP == 3) {
 %>	    
 		    <input type="hidden" name="PayMethod" maxlength="2" value="VBANK">
-<%} else { %>
-			<input type="hidden" name="PayMethod" maxlength="2" value="CARD">
 <%
-}			
-%>		    
-		    
+} else if(PLACE_GROUP == 4) {		
+%>
+		    <input type="hidden" name="PayMethod" maxlength="2" value="CARD">
+<%
+}
+%>
 		    <input type="hidden" name="PayType" maxlength="2" value="">
 			<!-- 수량 -->
 		    <input type="hidden" id="GoodsCnt" name="GoodsCnt" maxlength="2" value="1">
@@ -826,6 +906,7 @@ if (PLACE_GROUP == 2 || PLACE_GROUP == 3) {
 			<!-- <div>상품금액:</div> -->
 			
 		    <input type="hidden" id="goodsAmt" maxlength="2" value="<%=totalSum%>">
+		    
 		    <input type="hidden" id="Amt" name="Amt" maxlength="2" value="<%=totalSum%>">
 			
 			<!-- <div>주문번호:</div> -->

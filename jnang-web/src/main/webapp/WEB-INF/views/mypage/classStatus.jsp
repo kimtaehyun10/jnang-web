@@ -15,8 +15,8 @@ Member member 	= (Member) session.getAttribute("member");
 String MEM_ID	= member.getId();
 String MEM_NM 	= member.getMemNm();
 String MEM_MAIL = member.getEmail();
-out.println("MEM_ID:"+ MEM_ID +"<BR>");
-out.println("MEM_NM:"+ MEM_NM +"<BR>");
+//out.println("MEM_ID:"+ MEM_ID +"<BR>");
+//out.println("MEM_NM:"+ MEM_NM +"<BR>");
 //out.println("MEM_MAIL:"+ MEM_MAIL +"<BR>");
 %>
 

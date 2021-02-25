@@ -196,10 +196,10 @@ SELECT
     
  select
 			t1.RENT_IDX
-			,(select COMNM from cominfo where COMCD = t1.COMCD) as COMNM
-			,(select PLACE_NM from rent_place rp where PLACE_CD = t1.PLACE_CD ) as PLACE_NM
-			,(select PLACE_GROUP from rent_place rp where PLACE_CD = t1.PLACE_CD ) as PLACE_GROUP
-			,(select TID from card_app_hist_damo where SEQ = t1.RENT_IDX) as TID
+			,(select COMNM from cominfo cm where cm.COMCD = t1.COMCD) as COMNM
+			,(select PLACE_NM from rent_place rp where rp.PLACE_CD = t1.PLACE_CD ) as PLACE_NM
+			,(select PLACE_GROUP from rent_place rp where rp.PLACE_CD = t1.PLACE_CD ) as PLACE_GROUP
+			,(select TID from card_app_hist_damo cahd where cahd.SEQ = t1.RENT_IDX) as TID
 			,t1.COMCD,
 			t1.PART_CD,
 			t1.PLACE_TIME_SEQ,
