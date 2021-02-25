@@ -122,7 +122,7 @@ public class PayController {
 					
 					System.out.println(maps);
 					
-					rtnMap = service.payKeyInfo(maps);
+					rtnMap = service.payKeyInfoCancel(maps);
 					modelAndView.addAllObjects(rtnMap);
 					rtn = "/smartPay/"+ dirPath;
 					break;				

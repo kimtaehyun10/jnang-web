@@ -34,4 +34,6 @@ public interface PayService {
 	//취소처리 키값 가져오기
 	Map<String, Object> payKeyInfo(Map<String, Object> maps);
 
+	Map<String, Object> payKeyInfoCancel(Map<String, Object> maps);
+
 }

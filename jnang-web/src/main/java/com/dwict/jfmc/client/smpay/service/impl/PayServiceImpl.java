@@ -68,6 +68,20 @@ public class PayServiceImpl implements PayService {
 	//사업장(comcd)별 결제코드 키 값 불러오기 
 	public Map <String,Object> payKeyInfo(Map<String, Object> maps) {
 		
+		
+		//0 테스트 1 실제
+		  if (PG_MODE.equals("0")) {
+			  maps.put("COMCD", "TEST");
+		  
+		  }
+		 
+		return mapper.payKeyInfo(maps);
+	}
+	
+	@Override
+	//사업장(comcd) 캔슬 
+	public Map <String,Object> payKeyInfoCancel(Map<String, Object> maps) {
+		
 		if(PG_MODE.equals("1")) {
 			
 			if(maps.get("SLIP_NO") != null && maps.get("COMCD") != null && maps.get("TID") != null) {
