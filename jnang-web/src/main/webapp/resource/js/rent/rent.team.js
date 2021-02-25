@@ -100,6 +100,8 @@ function send() {
 		
 		$.post('/rent/teamSave',  $("#frm1").serialize() , function(data){
 			
+			debugger;
+						
 			if (data == "1" || data == "2") {
 				alert('팀이 저장 되었습니다.');
 				//top.location.href ='/rent/team';
@@ -107,7 +109,9 @@ function send() {
 				
 			} else if (data == "-9") {
 				alert("사용자 동의후 접수 가능합니다.");
-			} else {
+			} else if (data == "3"){
+				alert("이미 등록된 팀이 있습니다. 확인해주십시요.")
+			}else {
 				alert('접수 오류 !  다시 신청 하십시요!~');
 			}
 		},"json");

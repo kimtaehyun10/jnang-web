@@ -115,6 +115,11 @@ public class RentServiceImpl implements RentService {
 		System.out.println(requestMap);
 
 		try {
+			
+			int teamCnt = mapper.teamCnt(requestMap);
+			if(teamCnt > 0) {
+				return 3;
+			}
 
 			String teamSEQ = (String) requestMap.get("teamSEQ");
 			if (teamSEQ == "") {
@@ -530,6 +535,12 @@ public class RentServiceImpl implements RentService {
 	@Override
 	public List<Map<String, Object>> rentSportsRentList(HttpServletRequest request) {
 		return mapper.rentSportsRentList();
+	}
+
+	@Override
+	public List<Map<String, Object>> getMyTeamList(String mEM_ID, Map<String, Object> maps) {
+		maps.put("MEM_ID", mEM_ID);
+		return mapper.getMyTeamList(maps);
 	}
 	
 

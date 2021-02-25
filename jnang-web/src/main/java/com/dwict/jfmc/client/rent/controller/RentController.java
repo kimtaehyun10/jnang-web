@@ -110,6 +110,13 @@ public class RentController {
 		List<Map <String,Object>> rentList = pageService.getRentCalendar(requestMap, request);
 		modelAndView.addObject("rentList", rentList);
 		
+		List<Map <String,Object>> myTeamList = rentService.getMyTeamList(MEM_ID, rentCfg);
+		if(myTeamList.size() == 0) {
+			modelAndView.addObject("myTeamList",null);
+		}else {
+			modelAndView.addObject("myTeamList",myTeamList);
+		}
+		
 		//대관대상 리스트 정보
 		//final List<Map <String,Object>> rentList = rentService.getCenterPlaceList();
 

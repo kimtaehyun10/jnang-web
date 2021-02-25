@@ -1,6 +1,7 @@
 package com.dwict.jfmc.client.page.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import com.dwict.jfmc.client.page.model.Cont;
 import com.dwict.jfmc.client.page.model.Menu;

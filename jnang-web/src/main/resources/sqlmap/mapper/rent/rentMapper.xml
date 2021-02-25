@@ -215,6 +215,23 @@
 		WHERE mem_id = #{MEM_ID} 
 		order by sp_type, tm_nm
 	</select>
+	
+	<!-- 나의 팀 정보 -->
+	<select id="getMyTeamList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT SEQ
+			   , MEM_ID
+			   , SP_TYPE
+			   , TM_TYPE
+			   , TM_NM
+			   , CONFIRM_YN
+			   , WDATE
+		FROM
+			RENT_TEAM
+		WHERE
+			MEM_ID = #{MEM_ID}
+		AND SP_TYPE = #{PLACE_GROUP}
+		AND CONFIRM_YN = 'Y';
+	</select>
 
 
 	<!-- 선택팀 정보  -->
@@ -245,8 +262,7 @@
 		JOIN RENT_TEAM_MEM MEM
 		ON TEAM.SEQ = MEM.TEAM_SEQ
 		WHERE TEAM.MEM_ID = #{MEM_ID} 
-		AND TEAM.SP_TYPE = #{PLACE_GROUP} 
-		AND TEAM.CONFIRM_YN = 'Y';
+		AND TEAM.SP_TYPE = #{PLACE_GROUP};
 		<!-- SELECT COUNT(*) 
 		FROM RENT_TEAM_MEM 
 		WHERE TEAM_SEQ = (SELECT SEQ FROM RENT_TEAM WHERE MEM_ID =#{MEM_ID}) -->
@@ -674,6 +690,13 @@
 			and use_yn =1
 	 	order by days,playtime
  
+	</select>
+
+	<select id="teamCnt" parameterType="java.util.HashMap" resultType="int">
+	  		SELECT COUNT(*)
+            FROM RENT_TEAM
+            WHERE SP_TYPE= #{sp_type}
+            AND MEM_ID = #{mem_id};
 	</select>
 	
 </mapper>

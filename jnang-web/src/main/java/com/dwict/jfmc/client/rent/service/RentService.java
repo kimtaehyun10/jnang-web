@@ -61,6 +61,7 @@ public interface RentService {
 	
 	void pubRentApplyWrite(Map<String, Object> param) throws Exception;
 	List<Map<String, Object>> rentSportsRentList(HttpServletRequest request);
+	List<Map<String, Object>> getMyTeamList(String mEM_ID, Map<String, Object> maps);
 	
 	
 	

@@ -1,3 +1,4 @@
+<%@page import="java.text.DateFormat"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.util.*"%>
 <%@page import="java.util.concurrent.TimeUnit"%>
@@ -14,12 +15,23 @@
 	SimpleDateFormat transFormat = new SimpleDateFormat("yyyyMMdd");
 	String today = transFormat.format(from);
 
+	Calendar cal = Calendar.getInstance();
+	cal.setTime(new Date());
+	
+	DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+	cal.add(Calendar.MONTH, 1);
+	cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+	int dayOfMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+	
+	cal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+	String nextMonth1 = dateFormat.format(cal.getTime()); 
+
   // 오늘 날짜로 달력 취득
   Calendar currentCal = Calendar.getInstance();
   Calendar todayCheck_currentCal = Calendar.getInstance();
   String sYY = (String)request.getParameter("yy");
   String sMM = (String)request.getParameter("mm");
-  
   try {
 	  if(sYY != null && sMM != null){
  		if (sMM.equals("12")) {
@@ -82,12 +94,14 @@
 <c:set var="PLACE_GROUP" value="${rentCfg.PLACE_GROUP}" />
 <c:set var="PLACE_CD" value="${rentCfg.PLACE_CD}" />
 <c:set var="otherCfg" value="${rentCfg.other_cfg}" />
+<c:set var="myTeamList" value="${myTeamList }" />
 <%
 int teamMemCnt = (int) pageContext.getAttribute("teamMemCnt");
 int PLACE_GROUP = (int) pageContext.getAttribute("PLACE_GROUP");
 //out.println("PLACE_GROUP:"+ PLACE_GROUP +"<BR>");
 int PLACE_CD = (int) pageContext.getAttribute("PLACE_CD");
 //out.println("PLACE_CD:"+ PLACE_CD +"<BR>");
+List<Map<String,Object>> myTeamList = (List<Map<String,Object>>) pageContext.getAttribute("myTeamList");
 String otherCfg = (String)pageContext.getAttribute("otherCfg") ;
 //out.println("otherCfg:"+ otherCfg +"<BR>");
 String [] arryCfg = otherCfg.split("\\/");
@@ -136,6 +150,7 @@ param = (param == null) ? "": param;
 	});
 	
 var teamMemCnt = "${rentCfg.teamMemCnt}";
+
 var teamCnt = "<%= teamMemCnt %>" ;
 if (teamMemCnt == "" || Number(teamMemCnt) == 0) {
 	//alert("신청은 현재 팀이 있고, 팀원이 10명 이상이어야 합니다.");
@@ -268,11 +283,17 @@ int itemTot = (int)pageContext.getAttribute("itemTot") ;
 //out.print("itemTot:"+ itemTot +"<BR>");
 %>
 <c:set var="days" value="${rentList[0].days}" />
+<c:set var="myTeamList" value="${myTeamList}" />
 <%
 String days = (String)pageContext.getAttribute("days") ;
 //out.print("days:"+ days +"<BR>");
 
 String [] arryDays = days.split("\\/");
+
+if(myTeamList == null) {
+	out.println("<script>alert('팀을 먼저 등록해주세요.\\n팀을 등록하셨다면 승인을 기다려주세요.');</script>");	
+}
+
 //현재 예약 갯수
 for (int ii = 0 ; ii < arryDays.length; ii++) {
 	//out.print("days["+(ii+1)+"]:"+ arryDays[ii] +"<BR>");
@@ -282,39 +303,89 @@ for (int ii = 0 ; ii < arryDays.length; ii++) {
 	//다음달
 	String strNextMonth = (nextMonth > 9) ? Integer.toString(nextMonth) : "0"+ nextMonth;
 	
+	int day1 = Integer.parseInt(today.substring(6,8));
 	int int_today	= Integer.parseInt(today);
 	int todayYYMM = Integer.parseInt(today.substring(0,6));
 	int cntYYMM = Integer.parseInt(year + sMM);
 	int int_toYYMM	= Integer.parseInt(today.substring(0,6) + 23);
 	
+	
 	int int_rentYmd = Integer.parseInt(year + sMM + strii);
 	int int_LimitYmd = Integer.parseInt(year + sMM + 23);
-	int nextYmd 	= Integer.parseInt(nextYear + strNextMonth + strii);
-	//out.print("today :"+ int_toYYMM +"<BR>");
-	//out.print("rentYmd :"+ int_rentYmd +"<BR>");
-	//out.print("nextYmd :"+ int_LimitYmd +"<BR><BR>");
+	int selectMonth = Integer.parseInt(year + sMM );
 	
+	int nextYmd 	= Integer.parseInt(nextYear + strNextMonth + strii);
+	int nextMonth2 = Integer.parseInt(nextMonth1);
+	int monthYYMM = Integer.parseInt(nextMonth1.substring(0,6));
+	
+	//out.print("int_toYYMM :"+ int_toYYMM +"<BR>");
+	//out.print("day1 :"+ day1 +"<BR>");
+	//out.print("selectMonth :"+ selectMonth +"<BR>");
+	//out.print("monthYYMM :"+ monthYYMM +"<BR>");
+	//out.print("todayYYMM :"+ todayYYMM +"<BR>");
+	//out.print("nextMonth2 :"+ nextMonth2 +"<BR>");
+	//out.print("int_rentYmd :"+ int_rentYmd +"<BR>");
+	//out.print("int_LimitYmd :"+ int_LimitYmd +"<BR><BR>");
+	//out.println("myTeamList :" + myTeamList + "<BR>");
 	int sortEndTime = Integer.parseInt(nextYear + strNextMonth + 31);
 	
 	Date date1 = transFormat.parse(today);
     Date date2 = transFormat.parse(year + sMM + strii);
     int diffMonth = getMonthsDiff(date1 , date2);
-	//접수 가능/종료 버튼 
-	if (itemTot > rentCnt && int_today <= int_rentYmd ) {
+	//접수 가능/종료 버튼
+	//out.println(myTeamList);
+	if(myTeamList == null) {
+		rentDays[ii+1] = " <a class='size_m2 btn_gray1'>팀 등록 대기</a> ";
+	} else {
+		
+		if (itemTot > rentCnt && int_today <= int_rentYmd ) {
 
-		//if (1 >= diffMonth && ((int_rentYmd < int_LimitYmd) || ( ii > 23)) ) {
-		if ( (todayYYMM == cntYYMM && ii < (25-1)) || (int_today <= sortEndTime && int_today >= int_LimitYmd) 
-				|| (diffMonth <= 1 && todayYYMM < cntYYMM && ii < (25-1) && int_toYYMM <= int_today) ) {
-			rentDays[ii+1] = " <a class='size_m2 btn_green1' onclick=\"getRent('"+ int_rentYmd +"','"+PLACE_CD+"');\">예약 가능 ("+ (itemTot - rentCnt) +"건) </a>";	
-		} else {
-			rentDays[ii+1] = " <a class='size_m2 btn_gray1'>준비중</a> ";
+			//if (1 >= diffMonth && ((int_rentYmd < int_LimitYmd) || ( ii > 23)) ) {
+			//if ( (todayYYMM == cntYYMM && ii < (32-1)) || (int_today <= sortEndTime && int_today >= int_LimitYmd) 
+			//		|| (diffMonth <= 1 && todayYYMM < cntYYMM && ii < (32-1) && int_toYYMM <= int_today) ) {
+			//오늘의 월과 캘린더의 월이 같으면 무조건 예약 가능 누구나	
+			if(todayYYMM == selectMonth) {
+				rentDays[ii+1] = " <a class='size_m2 btn_green1' onclick=\"getRent('"+ int_rentYmd +"','"+PLACE_CD+"');\">예약 가능 ("+ (itemTot - rentCnt) +"건) </a>";
+				//현재연도 + 월 + 날짜가 25일 26일이라면
+			} else if(day1 == 25 || day1 == 26) {
+				if(int_rentYmd  <= nextMonth2 && myTeamList.get(0).get("TM_TYPE").equals("1") ){
+					rentDays[ii+1] = " <a class='size_m2 btn_green1' onclick=\"getRent('"+ int_rentYmd +"','"+PLACE_CD+"');\">예약 가능 ("+ (itemTot - rentCnt) +"건) </a>";
+					
+				} else if(int_rentYmd  <= nextMonth2 && myTeamList.get(0).get("TM_TYPE").equals("2") ){
+					rentDays[ii+1] = " <a class='size_m2 btn_gray1'>관내팀 전용</a> ";
+				}
+			}
+			
+			/* else if( todayYYMM + ii == 24 ||todayYYMM + ii == 25) {
+				//다음달 예약 25일 26일을 제외하고 뿌려라 관외팀만
+				
+				if(int_rentYmd  <= nextMonth2 && myTeamList.get(0).get("TM_TYPE").equals("1") ){
+					rentDays[ii+1] = " <a class='size_m2 btn_green1' onclick=\"getRent('"+ int_rentYmd +"','"+PLACE_CD+"');\">예약 가능 ("+ (itemTot - rentCnt) +"건) </a>";
+					
+				} else if(int_rentYmd  <= nextMonth2 && myTeamList.get(0).get("TM_TYPE").equals("2") ){
+					
+				} */
+			/* } else if(int_rentYmd  <= nextMonth2 && myTeamList.get(0).get("TM_TYPE").equals("1")) {			
+				rentDays[ii+1] = " <a class='size_m2 btn_green1' onclick=\"getRent('"+ int_rentYmd +"','"+PLACE_CD+"');\">예약 가능 ("+ (itemTot - rentCnt) +"건) </a>";	
+			} else if(int_rentYmd  <= nextMonth2 && myTeamList.get(0).get("TM_TYPE").equals("2") ){
+				if(ii == 24 || ii == 25) {
+					rentDays[ii+1] = " <a class='size_m2 btn_gray1'>관내팀 전용</a> ";	
+				}else {
+					rentDays[ii+1] = " <a class='size_m2 btn_green1' onclick=\"getRent('"+ int_rentYmd +"','"+PLACE_CD+"');\">예약 가능 ("+ (itemTot - rentCnt) +"건) </a>";
+				} 
+			}else {
+				rentDays[ii+1] = " <a class='size_m2 btn_gray1'>준비중</a> ";
+			} */
+				
 		}
 	}
+	
+	
 	//전체보기용 rentDays[ii+1] = " <a class='size_m2 btn_green1' onclick=\"getRent('"+ int_rentYmd +"','"+PLACE_CD+"');\">예약 가능  ("+ (itemTot - rentCnt) +"건) </a>";
 }
 
-
 %>
+
 
 
 
@@ -333,6 +404,8 @@ if (PLACE_GROUP != 4) {
 %>
 <div class="calendar" >
 
+등록된 팀이 있어야 예약할 수 있습니다.	<br>
+매달&nbsp;<span style="color:rgb(255, 0, 0);">25일 26일</span>은 관내팀만 예약할 수 있습니다.
 
 	<!--날짜 네비게이션  -->
 	<div class="navigation">
@@ -350,7 +423,6 @@ if (PLACE_GROUP != 4) {
 		</a>
 		
 	</div>
-	
 <div class="autoscroll_x1 margin_top_0dot5">
 	<table class="calendar_body" >
 	
