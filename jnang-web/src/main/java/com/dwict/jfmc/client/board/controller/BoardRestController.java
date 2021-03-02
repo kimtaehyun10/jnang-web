@@ -81,6 +81,7 @@ public class BoardRestController {
 		return service.ntcAttachView(param);
 	}
 
+	//리스트
 	@GetMapping(value = "/brd/{cmsCd}")
 	public Paging brdPage(HttpServletRequest request, @PathVariable String cmsCd) {
 		final Map<String, Object> param = new HashMap<>();
@@ -93,16 +94,8 @@ public class BoardRestController {
 		param.put("secYn", request.getParameter("secYn"));
 		return service.brdPage(param);
 	}
-
-	@GetMapping(value = "/brd/{cmsCd}/{brdNo}")
-	public Brd brdDetailPage(HttpServletRequest request, @PathVariable String cmsCd, @PathVariable int brdNo) {
-		final Map<String, Object> param = new HashMap<>();
-		param.put("cmsCd", cmsCd);
-		param.put("brdNo", brdNo);
-		param.put("upBrdNo", request.getParameter("upBrdNo"));
-		return service.brdDetailPage(param);
-	}
-
+	
+	//게시 글쓰기
 	@PostMapping(value = "/brd/{cmsCd}")
 	public Map<String, Object> brdWrite(HttpServletRequest request, @PathVariable String cmsCd, MultipartHttpServletRequest files) throws Exception {
 		final Map<String, Object> param = new HashMap<>();
@@ -119,6 +112,15 @@ public class BoardRestController {
 		service.brdWrite(param);
 		resultMap.put("result", "저장되었습니다.");
 		return resultMap;
+	}	
+
+	@GetMapping(value = "/brd/{cmsCd}/{brdNo}")
+	public Brd brdDetailPage(HttpServletRequest request, @PathVariable String cmsCd, @PathVariable int brdNo) {
+		final Map<String, Object> param = new HashMap<>();
+		param.put("cmsCd", cmsCd);
+		param.put("brdNo", brdNo);
+		param.put("upBrdNo", request.getParameter("upBrdNo"));
+		return service.brdDetailPage(param);
 	}
 
 	@PostMapping(value = "/brd/{cmsCd}/{brdNo}")

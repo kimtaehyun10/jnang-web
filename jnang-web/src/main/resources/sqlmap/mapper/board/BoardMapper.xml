@@ -285,10 +285,41 @@
 			FROM CMS_CONT_BRD			
 			WHERE CMS_CD = #{cmsCd}
 		</selectKey>		
+		<!-- 
 		INSERT INTO 
 			CMS_CONT_BRD
 		VALUES		   
 			( #{cmsCd}, #{brdNo}, NULL, NULL, #{title}, #{cont}, 0, 1, 'N',#{secretYn}, 'N', #{attachId}, #{ips}, #{regId}, SYSDATE(), NULL, NULL, NULL, NULL )
+		-->
+		INSERT INTO  CMS_CONT_BRD  ( 
+			  CMS_CD 
+			 ,BRD_NO 
+			 ,TITLE 
+			 ,CONT 
+			 ,HIT 
+			 ,DEP 
+			 ,DEL_YN 
+			 ,SECRET_YN 
+			 ,REP_YN 
+			 ,ATTACH_ID 
+			 ,IPS 
+			 ,REG_ID 
+			 ,REG_DT 
+		 ) VALUES ( 
+			  #{cmsCd} 
+			 ,#{brdNo} 
+			 ,#{title} 
+			 ,#{cont} 
+			 ,0
+			 ,1 
+			 ,'N' 
+			 ,#{secretYn} 
+			 ,'N'
+			 ,#{attachId} 
+			 ,#{ips} 
+			 ,#{regId} 
+			 ,SYSDATE()
+		);
 	</insert>	
 	<insert id="saveAttach" parameterType="java.util.HashMap">
 		INSERT 
