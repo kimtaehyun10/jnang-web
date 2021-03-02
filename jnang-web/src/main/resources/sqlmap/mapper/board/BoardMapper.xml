@@ -346,9 +346,7 @@
 	</delete>	
 	<update id="boardDelete" parameterType="java.util.HashMap">
 		UPDATE
-		<if test="mType == 'BRD'">
-			CMS_CONT_BRD
-		</if>										
+		CMS_CONT_BRD
 		SET
 			DEL_YN = 'Y'		   				
 		WHERE CMS_CD = #{cmsCd}

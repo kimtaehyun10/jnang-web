@@ -632,7 +632,9 @@ const boardDelete = function(cmsCd,brdNo,mType){
 			cmsCd:cmsCd,
 			brdNo:brdNo,
 			mType:$('#h_mType').val()
-		};				
+		};
+		debugger;
+		console.log("ssss:"+ param);
 		$.ajax({
 	        type: "delete", 	        
 	        url:'/data/board/'+cmsCd+'/'+brdNo+'',

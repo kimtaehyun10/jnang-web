@@ -15,8 +15,8 @@
         <context:include-filter expression="org.springframework.stereotype.Component" type="annotation"/>
     </context:component-scan>
 
-  	 <util:properties id="appConfig" location="classpath:config/appConfig.properties"/>
-     <!-- util:properties id="appConfig" location="classpath:config/appConfig_real.properties"/ --> 
+  	 <!-- <util:properties id="appConfig" location="classpath:config/appConfig.properties"/> -->
+     <util:properties id="appConfig" location="classpath:config/appConfig_real.properties"/> 
     
     <!-- restTemplate -->
     <bean:bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
