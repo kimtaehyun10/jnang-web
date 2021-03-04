@@ -429,9 +429,10 @@ const searchBrdDetailPage = function(){
 				cont2 += '<div class="bbs_v_rep1a">';
 				cont2 += '<div class="data">';		
 				cont2 += '<div class="info">';		
-				cont2 += '답변내역<br>담당자 : '+data.regNm+'<br>';				
+				cont2 += '답변내역<br>';
+				/*cont2 += '담당자 :'+data.regNm+'<br>';
 				cont2 += '부서 : '+data.regOffNm+'<br>';				
-				cont2 += '전화번호 : '+data.regOffmTelno+'<br>';				
+				cont2 += '전화번호 : '+data.regOffmTelno+'<br>';*/				
 				cont2 += '답변일 : '+data.regDt.year+'-'+lpad(data.regDt.monthValue,2,"0")+'-'+lpad(data.regDt.dayOfMonth,2,"0")+'';				
 				cont2 += '</div>';
 				cont2 += '<div class="cont1">';
