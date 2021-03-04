@@ -444,7 +444,7 @@
   	<update id="rentUpdateTid" parameterType="java.util.HashMap">
 	  	UPDATE RENT_APP
 	  	SET TID = #{TID}
-	  	, PAY_APT = #{PAY_AMT}
+	  	, PAY_AMT = #{PAY_AMT}
 	  	WHERE 
 	  		MEM_NO = #{MEM_NO}
 		AND PLACE_CD = #{PLACE_CD}
@@ -462,8 +462,9 @@
 	SET
 		ORDER_SEQ = #{ORDER_SEQ}
 		,APP_TYPE = 30 
+		, BECAUSE = #{because}
 		, SLIP_NO = #{SLIP_NO}
-		, PAY_DATE = DATE_FORMAT(SYSDATE(), '%Y%m%d')
+		, PAY_DATE = #{WDATE}
 		, PAY_AMT = #{PAY_AMT}
 		, TID = #{TID}
  	WHERE 
@@ -484,7 +485,7 @@
 		ORDER_SEQ = #{ORDER_SEQ}
 		,APP_TYPE = 30 
 		, SLIP_NO = #{SLIP_NO}
-		, PAY_DATE = DATE_FORMAT(SYSDATE(), '%Y%m%d')
+		, PAY_DATE = #{WDATE}
 		, PAY_AMT = #{PAY_AMT}
 		, TID = #{TID}
  	WHERE 
@@ -492,7 +493,7 @@
  		AND APP_TYPE = 15
  		AND MEM_NO = #{MEM_NO}
  		AND PLACE_CD = #{PLACE_CD}
-		AND ORDER_SEQ IN  
+		AND RENT_IDX IN  
 		<foreach item="item" collection="brdNoList" index="idx" open="(" close=")" separator=",">
 	       #{item}
 		</foreach>
@@ -568,6 +569,7 @@
 	<update id="rentSuceess" parameterType="java.util.HashMap">
 		UPDATE RENT_APP
 		SET APP_TYPE = '30'
+			, PAY_DATE = #{PAY_DATE}	
 		WHERE TID = #{TID}
 		AND APP_TYPE = '5'
 	</update>

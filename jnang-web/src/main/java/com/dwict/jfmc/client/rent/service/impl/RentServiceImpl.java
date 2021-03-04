@@ -630,6 +630,28 @@ public class RentServiceImpl implements RentService {
 		
 		return maps;
 	}
+
+	@Override
+	public Map<String, Object> rentCancelSave(Map<String, Object> requestMap) {	
+		mapper.rentCancelSave(requestMap);
+		
+		return requestMap;
+		
+	}
+
+	@Override
+	public void cancelAppType(Map<String, Object> requestMap) {
+		mapper.cancelAppType(requestMap);
+	}
+
+	@Override
+	public void updateTennisAppType() {
+		
+		mapper.updateTennisAppType();
+		
+		return;
+		
+	}
 	
 
 }

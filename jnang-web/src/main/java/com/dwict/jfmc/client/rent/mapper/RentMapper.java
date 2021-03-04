@@ -3,6 +3,8 @@ package com.dwict.jfmc.client.rent.mapper;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.dwict.jfmc.client.lecture.model.ComInfo;
 import com.dwict.jfmc.client.lecture.model.Grpcd;
 import com.dwict.jfmc.client.lecture.model.ProgramItem;
@@ -92,5 +94,9 @@ public interface RentMapper {
 	int teamCnt(Map<String, Object> requestMap);
 	void updateRtnAppType();
 	void updateRentApp(Map<String, Object> maps);
+	int rentCancelSave(Map<String, Object> requestMap);
+	Object updateRtnAppType(Map<String, Object> requestMap);
+	void cancelAppType(Map<String, Object> requestMap);
+	void updateTennisAppType();
 	
 }

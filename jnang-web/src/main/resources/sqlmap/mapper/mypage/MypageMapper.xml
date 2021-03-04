@@ -203,7 +203,7 @@
 			,(select COMNM from cominfo cm where cm.COMCD = t1.COMCD) as COMNM
 			,(select PLACE_NM from rent_place rp where rp.PLACE_CD = t1.PLACE_CD ) as PLACE_NM
 			,(select PLACE_GROUP from rent_place rp where rp.PLACE_CD = t1.PLACE_CD ) as PLACE_GROUP
-			,(select TID from card_app_hist_damo cahd where cahd.SEQ = t1.RENT_IDX) as TID
+			,TID
 			,t1.COMCD,
 			t1.PART_CD,
 			t1.PLACE_TIME_SEQ,
@@ -238,6 +238,7 @@
 				when '20' then '확인중'
 				when '30' then '확정'
 				when '40' then '취소'
+				when '50' then '환불신청중'
 			end as APP_TYPE_NM,
 			RENT_TYPE,
 			DISPLAY_YN,
@@ -419,4 +420,42 @@
 		   AND COMCD = #{COMCD}
 		   AND RENT_NO = #{RENT_NO}
 	</select>
+	<select id="forOrderCancel" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		  SELECT 
+			APP.RENT_IDX
+			, APP.ORDER_SEQ
+			, APP.COMCD
+            , (SELECT COMNM FROM COMINFO CM WHERE CM.COMCD = APP.COMCD) AS COMNM
+			, (SELECT PLACE_NM FROM RENT_PLACE RP WHERE RP.PLACE_CD = APP.PLACE_CD ) AS PLACE_NM
+			, APP.PART_CD
+			, APP.PLACE_CD
+			, APP.PLACE_TIME_SEQ
+			, APP.APP_DATE
+			, APP.MEM_NO
+			, (SELECT ITEM FROM RENT_TIMES WHERE APP.PLACE_TIME_SEQ = SEQ ) AS RDATE
+			, APP.APP_TYPE
+			, CASE APP.APP_TYPE
+				WHEN '5' THEN '결제대기'
+				<!-- 체육관 결제대기는 15번 나머지는 5번 -->
+				WHEN '15' THEN '결제대기'
+				WHEN '10' THEN '접수대기'
+				WHEN '20' THEN '확인중'
+				WHEN '30' THEN '확정'
+				WHEN '40' THEN '취소'
+				WHEN '50' THEN '환불신청중'
+			END AS APP_TYPE_NM
+			, APP.PAY_AMT
+			, APP.RESERVE_DATE
+			, APP.SLIP_NO
+			, WRITE_DH
+			, APP.WRITER
+			, APP.TID
+			, APP.BECAUSE
+			
+		FROM RENT_APP APP
+        WHERE APP.TID = #{TID}
+	</select>
+	
+	
+	
 </mapper>

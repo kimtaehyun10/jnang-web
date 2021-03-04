@@ -66,28 +66,47 @@ function cancelPay( TID, slipNo, payAmt, payDt, comCd){
 	}
 	var today = year+month+date;
 	
+	var payYear = payDt.substring(0,4);
+	var payMonth = payDt.substring(5,7);
+	var payDay = payDt.substring(8,10);
+	
+	payDt = payYear+payMonth+payDay;
+	
 	if(payDt != today) {
-		alert("결제 취소는 접수 당일에만 가능합니다.");
-		return false;
-	}
-	
-	if (confirm("\n 당일 대여 결제를 취소  하시겠습니까?\n\n취소시 복구 되지 않습니다.")) {
+		if (confirm("\n 결제 취소는 당일에만 가능합니다.\n당일이 아닌 경우 환불신청서를 작성하셔야 합니다.\n환불신청서를 작성하시겠습니까?")) {
+		var param = {"TID" : TID, "SLIP_NO" : slipNo};
+		var frm = document.frmCancel;
 		
-	} else {
-		return false;	
+			frm.p1.value = TID;
+			frm.p2.value = payAmt;
+			frm.p3.value = slipNo;
+			frm.p4.value = comCd;
+			//frm.action="/mypage/orderCancel";
+			window.location.href='/mypage/orderCancel?TID='+TID+'&payAmt='+payAmt+'&comCd=' + comCd;
+			//frm.submit();
+			
+			
+		} else {
+			alert("환불신청서 작성을 취소하셨습니다.");
+			return false;
+		}
+	} else if (payDt == today) {
+		if (confirm("\n 당일 대여 결제를 취소  하시겠습니까?\n\n취소시 복구 되지 않습니다.")) {
+			payAmt = payAmt.replace(/,/g,"");
+			var param = {"TID" : TID, "SLIP_NO" : slipNo};
+			var frm = document.frmCancel;
+			frm.p1.value = TID;
+			frm.p2.value = payAmt;
+			frm.p3.value = slipNo;
+			frm.p4.value = comCd;
+			frm.action="/smartPay/mainCancelPay"
+			
+			frm.submit();
+			
+		} else {
+			return false;	
+		}	
 	}
-	
-	
-	payAmt = payAmt.replace(/,/g,"");
-	var param = {"TID" : TID, "SLIP_NO" : slipNo};
-	var frm = document.frmCancel;
-	frm.p1.value = TID;
-	frm.p2.value = payAmt;
-	frm.p3.value = slipNo;
-	frm.p4.value = comCd;
-	frm.action="/smartPay/mainCancelPay"
-	
-	frm.submit();
 	
 }
 

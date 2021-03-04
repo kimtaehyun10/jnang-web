@@ -40,4 +40,6 @@ public interface MypageMapper {
 	int rentSelectCancel(Map<String, Object> maps);
 
 	Map<String, Object> reLocker(Map<String, Object> param);
+
+	List<Map<String, Object>> forOrderCancel(String tID);
 }

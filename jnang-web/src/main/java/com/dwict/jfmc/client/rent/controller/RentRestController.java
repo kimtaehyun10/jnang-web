@@ -127,5 +127,52 @@ public class RentRestController {
 		return rtn;
 	}
 	
+	@PostMapping(value = "/cancelSave")
+	@ResponseBody
+	public Map<String, Object> cancelSave(@RequestParam  Map<String, Object> requestMap, HttpServletRequest request, MultipartHttpServletRequest files) throws Exception {
+		System.out.println("requestMap = " + requestMap);
+		System.out.println("request = " + request);
+		final Map<String, Object> param = new HashMap<>();
+		final List<MultipartFile> fileList = files.getFiles("files");
+		param.put("fileList", fileList);
+		
+		rtnService.pubRentApplyWrite(param);
+		
+		String ATTACH_ID = (String) param.get("attach_id");
+		//예약 저장
+		
+		System.out.println(requestMap);
+		System.out.println(param);
+		
+		requestMap.put("ATTACH_ID", ATTACH_ID);
+		
+		String PLACE_TIME_SEQ	= request.getParameter("PLACE_TIME_SEQ")==null?"":request.getParameter("PLACE_TIME_SEQ"); 
+		final String[] timeSeqArr =  PLACE_TIME_SEQ.split(",");
+		
+		Enumeration params = request.getParameterNames();
+		while(params.hasMoreElements()) {
+		  String name = (String) params.nextElement();
+		  System.out.print(name + " : " + request.getParameter(name) + "     "); 
+		}
+		System.out.println();
+		
+		Map<String, Object> rtn = new HashMap<String, Object>();
+		
+		//예약 저장
+		for(int i=0; i < timeSeqArr.length; i++) {
+			requestMap.put("PLACE_TIME_SEQ", timeSeqArr[i]);
+			 rtn = rtnService.rentCancelSave(requestMap);
+		}
+		
+		
+		
+		rtnService.cancelAppType(requestMap);
+		
+		
+ 		return rtn;
+		
+		
+	}
+	
 	
 }

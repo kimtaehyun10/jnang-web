@@ -31,6 +31,8 @@ public class MainController {
 		
 		rtnService.updateRtnAppType();
 		
+		rtnService.updateTennisAppType();
+		
 		modelAndView.setViewName("main.nomenu");
 		return modelAndView;
 	}

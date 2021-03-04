@@ -308,4 +308,10 @@ public class MypageServiceImpl implements MypageService {
 
 		return addMap;
 	}
+
+
+	@Override
+	public List<Map<String, Object>> forOrderCancel(String tID) {
+		return mapper.forOrderCancel(tID);
+	}
 }

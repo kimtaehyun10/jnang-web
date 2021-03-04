@@ -40,4 +40,6 @@ public interface MypageService {
 	Map<String, Object> reLocker(Map<String, Object> param);
 
 	Map<String, Object> lockerPayDetail(HttpServletRequest request, Map<String, Object> param);
+
+	List<Map<String, Object>> forOrderCancel(String tID);
 }

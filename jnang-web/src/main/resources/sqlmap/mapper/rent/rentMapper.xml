@@ -372,6 +372,7 @@
 			 ,START_DATE
 			 ,END_DATE
 			 ,ATTACH_ID
+			 ,AUTHDATE
 		 ) VALUES ( 
 			  #{COMCD} 
 			 ,#{RENT} 
@@ -425,6 +426,7 @@
 			 ,#{START_DATE}
 			 ,#{END_DATE}   
 			 ,#{ATTACH_ID}
+			 ,now()
 		)
 	</insert>
 
@@ -583,7 +585,7 @@
 				when '20' then '확인중'
 				when '30' then '확정'
 				when '40' then '취소'
-				else ''
+				when '50' then '환불신청중'
 			end as APP_TYPE_NM,
 			ifnull(t3.BOSSNM,'') as BOSSNM
 		from
@@ -621,6 +623,17 @@
         	WHERE WRITE_DH < (SELECT DATE_ADD(NOW(), INTERVAL -3 HOUR))
         ]]>
 		AND APP_TYPE = '5'
+		AND COMCD IN ('JUNGNANG08','JUNGNANG09','JUNGNANG10', 'JUNGNANG18');
+	</update>
+	
+	<update id="updateTennisAppType" parameterType="java.lang.Object">
+		UPDATE RENT_APP
+        SET APP_TYPE = '40'
+        <![CDATA[
+        	WHERE WRITE_DH < (SELECT DATE_ADD(NOW(), INTERVAL -1 HOUR))
+        ]]>
+		AND APP_TYPE = '5'
+		AND COMCD IN ('JUNGNANG07','JUNGNANG11');
 	</update>
 	
 	<!-- 달력 탭별 예약 항목리스트  -->	
@@ -657,7 +670,7 @@
 						when '20' then '확인중'
 						when '30' then '확정'
 						when '40' then '취소'
-						else ''
+						when '50' then '환불신청중'
 					end as APP_TYPE_NM
 					from rent_app t1 
 				 where t1.PLACE_CD = #{PLACE_CD}
@@ -727,5 +740,46 @@
             WHERE SP_TYPE= #{sp_type}
             AND MEM_ID = #{mem_id};
 	</select>
+	
+	<insert id="rentCancelSave" parameterType="java.util.HashMap" >
+		INSERT INTO  RENT_APP_CANCEL (
+			COMCD
+			, PLACE_CD
+			, PLACE_TIME_SEQ
+			, MEM_NO
+			, MEM_NM
+			, TID
+			, WRITE_DH
+			, CANCEL_DH
+			, ATTACH_ID
+			, PAY_AMT
+			, TEL
+			, RESERVE_DATE
+			, CONCEPT
+			, OBJECT
+			, CONFIRM_YN
+		) VALUES (
+			#{COMCD}
+			, #{PLACE_CD}
+			, #{PLACE_TIME_SEQ}
+			, #{MEM_NO}
+			, #{MEM_NM}
+			, #{TID}
+			, #{WRITE_DH}
+			, now()  
+			, #{ATTACH_ID}
+			, #{PAY_AMT}
+			, #{TEL}
+			, #{RESERVE_DATE}
+			, #{CONCEPT}
+			, #{OBJECT}
+			, 'S'
+		)
+	</insert>
+	<update id="cancelAppType" parameterType="java.util.HashMap" >
+		UPDATE RENT_APP
+		SET APP_TYPE = '50'
+		WHERE TID = #{TID}
+	</update>
 	
 </mapper>

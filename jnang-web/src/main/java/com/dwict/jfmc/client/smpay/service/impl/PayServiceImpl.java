@@ -708,6 +708,8 @@ public class PayServiceImpl implements PayService {
 		String BuyerAuthNum			= request.getParameter("BuyerAuthNum")==null?"":request.getParameter("BuyerAuthNum"); // 구매자주민번호
 		String ReceiptType			= request.getParameter("ReceiptType")==null?"":request.getParameter("ReceiptType"); // 현금영수증유형
 		String SignValue			= request.getParameter("SignValue")==null?"":request.getParameter("SignValue"); // 위변조 사인값
+		String because			= request.getParameter("because")==null?"":request.getParameter("because"); // 할인사유
+		//int because			= request.getParameter("because")==null?0:Integer.parseInt(request.getParameter("because")); // 할인사유
 		
 		String TaxCD			= request.getParameter("TaxCD")==null?"":request.getParameter("TaxCD"); // TAX 코드
 		String SvcAmt			= request.getParameter("SvcAmt")==null?"":request.getParameter("SvcAmt"); // 봉사료
@@ -727,13 +729,18 @@ public class PayServiceImpl implements PayService {
 		String SspMallID			= request.getParameter("SspMallID")==null?"":request.getParameter("SspMallID"); // 매입사코드
 		String MemberNo			= request.getParameter("MemberNo")==null?"":request.getParameter("MemberNo"); // 매입사코드
 		String userParam		= request.getParameter("q")==null? "//" : request.getParameter("q"); // 사용자 파람
-								String [] arrayTmp 	= userParam.split("\\/"); //20201225/8
-		if (!ResultCode.equals("4110")) {// CARD
+		String [] arrayTmp 	= userParam.split("\\/"); //20201225/8
+		if (!ResultCode.equals("4110")) {// 가상계좌가 아닐 시에만
 			RESERVE_DATE1	= arrayTmp[0]; //예약일
 			PLACE_CD		= arrayTmp[1]; //대관장소값
 			COMCD			= arrayTmp[2]; //COMCD
 			rtn_idx			= arrayTmp[3]; //대관 idx
 			MEM_ID			= arrayTmp[4]; //memID
+			
+			if (PLACE_CD.equals("8") || PLACE_CD.equals("11")) {
+				because     = arrayTmp[5];
+			}
+			
 		}
 		
 		
@@ -835,8 +842,17 @@ public class PayServiceImpl implements PayService {
 	       		
 	       		Map <String , Object > maps;
 	       		
+	       		System.out.println(because);
+	       		
 		    	//결제 SEQ
 		    	maps = new HashMap<>();
+		    	
+		    	if(because != null || because != "") {
+		    		maps.put("because",because);
+		    	}else {
+		    		maps.put("because",0);
+		    	}
+		    	
 		    	maps.put("COMCD", COMCD);
 		    	maps.put("PAY_AMT", Amt);
 		    	maps.put("PG_CD", fn_cd);
@@ -983,6 +999,7 @@ public class PayServiceImpl implements PayService {
        		
 	    	//결제 SEQ
 	    	maps = new HashMap<>();
+	    	maps.put("because",0);
 	    	maps.put("COMCD", COMCD);
 	    	maps.put("PAY_AMT", Amt);
 	    	maps.put("PG_CD", fn_cd);
@@ -1014,12 +1031,6 @@ public class PayServiceImpl implements PayService {
 				maps.put("PLACE_CD", PLACE_CD);
 				maps.put("RESERVE_DATE", RESERVE_DATE);
 				
-				maps.put("PAY_AMT", 0);
-				
-				//대관 결제 정보 저장
-				mapper.rentOrderSave(maps);
-				
-				mapper.rentUpdateTid(maps);
 				
 				String nextAppNo1 = "";
 				String APP_GBN	= (P_TYPE.equals("VBANK")) ? "1" : "3";
@@ -1594,8 +1605,13 @@ public class PayServiceImpl implements PayService {
 			String RcptCcNo			= request.getParameter("RcptCcNo");
 			String CardUsePoint		= request.getParameter("CardUsePoint");
 			String SignValue		= request.getParameter("SignValue");
-			 
-			mapper.rentSuceess(TID);
+			String ymdhis = FormatUtil.getDefaultDate(1, "-","");
+					
+			Map<String, Object> maps = new HashMap<>();
+			maps.put("PAY_DATE", ymdhis);
+			maps.put("TID", TID);
+			
+			mapper.rentSuceess(maps);
 			
 			Map<String, Object>  rtnData = new HashMap<String, Object>();
 			

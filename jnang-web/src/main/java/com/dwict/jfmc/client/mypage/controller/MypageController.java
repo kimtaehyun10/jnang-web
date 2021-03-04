@@ -14,6 +14,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,6 +26,7 @@ import com.dwict.jfmc.client.mypage.service.MypageService;
 import com.dwict.jfmc.client.page.model.Menu;
 import com.dwict.jfmc.client.page.service.PageService;
 import com.dwict.jfmc.client.rent.service.RentService;
+import com.dwict.jfmc.client.security.model.Account;
 import com.dwict.jfmc.client.smpay.service.PayService;
 
 
@@ -204,4 +206,23 @@ public class MypageController {
 		modelAndView.setViewName("board/brdDetailPage");
 		return modelAndView;
 	}
+	
+	
+	@RequestMapping(value = "/mypage/orderCancel")
+	public ModelAndView orderCancel(ModelAndView modelAndView, HttpServletRequest request, @RequestParam Map<String, Object> requestMap) {
+		final Account account = (Account) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		final String MEM_ID = account.getUsername();
+		
+		String TID = request.getParameter("TID")==null?"":request.getParameter("TID"); // 거래번호
+		final List<Map <String,Object>> rentList = service.forOrderCancel(TID);
+		modelAndView.addObject("rentList", rentList);
+		
+		//회원정보 가져오기
+		final Map <String,Object> myData = service.myInfo(MEM_ID);
+		modelAndView.addObject("myData", myData);
+
+		modelAndView.setViewName("rent/rentOrderCancel");
+		return modelAndView;
+	}
+	
 }

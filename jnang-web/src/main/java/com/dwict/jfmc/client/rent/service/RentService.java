@@ -64,6 +64,11 @@ public interface RentService {
 	List<Map<String, Object>> getMyTeamList(String mEM_ID, Map<String, Object> maps);
 	void updateRtnAppType();
 	
+	//Map<String, Object> rentCancelSave(Map<String, Object> requestMap, HttpServletRequest request);
+	Map<String, Object> rentCancelSave(Map<String, Object> requestMap);
+	void cancelAppType(Map<String, Object> requestMap);
+	void updateTennisAppType();
+	
 	
 	
 	

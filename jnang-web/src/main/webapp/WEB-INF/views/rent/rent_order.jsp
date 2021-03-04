@@ -293,7 +293,26 @@ function AmountCommas(val){
 var data = {
 	
 	selectDC: function(dcPer, COMCD){
-
+	
+	var dePer = "";	
+	var because = "";
+	
+	var test = document.getElementById("disCount").value.split(",");
+	
+	for(var idx=0; idx < test.length; idx ++){
+		var objElement = test[idx];
+		if(idx == 0) {
+			var dcPer = objElement;
+		}else if(idx == 1) {
+			var because = objElement;
+		}
+	}
+	
+	//히든값에 있는 아이디를 찾아 넣어줌
+	$('#because').val(because);
+	
+	$('#ReturnURL').val($('#ReturnURL').val()+'/'+because);
+	
 	if (confirm("\n 이용자의 50%가 할인대상자입니까? (할인여부 현장확인) ")) {
 		
 	} else {
@@ -723,16 +742,16 @@ function send(COMCD){
 	  <tr>
 	    <th>할인여부</th>
 	    <td>
-	    	<select name="" class="inputbox_01a" onchange="data.selectDC(this.value, '${rentCfg.COMCD }');">
+	    	<select name="" id="disCount" class="inputbox_01a" onchange="data.selectDC(this.value, '${rentCfg.COMCD }');">
 		    	<option value="">==할인 선택==</option>
-		    	<option value="0" selected>일반</option>
-		    	<option value="10">중랑구민(10%)</option>
+		    	<option value="0,0" selected>일반</option>
+		    	<option value="10,1">중랑구민(10%)</option>
 		    	<!-- <option value="10">관내팀(10%)</option> -->
-		    	<option value="30">경로우대(30%)</option>
+		    	<option value="30,2">경로우대(30%)</option>
 		    	<!-- <option value="50">초/중/고생(50%)</option> -->
-		    	<option value="50">장애인(50%)</option>
-		    	<option value="50">기초수급자(50%)</option>
-		    	<option value="50">국가유공자(50%)</option>
+		    	<option value="50,3">장애인(50%)</option>
+		    	<option value="50,4">기초수급자(50%)</option>
+		    	<option value="50,5">국가유공자(50%)</option>
 	    	</select>
 	    	<!-- <input type="radio" name="person" value="0" onClick="selectDC()" checked> 일반
             <input type="radio" name="person" value="1" onClick="selectDC()" > 할인 50% (장애, 국가유공자, 초중고생) -->
@@ -919,7 +938,7 @@ if (PLACE_GROUP == 2 || PLACE_GROUP == 3) {
 	    
 		    <input type="hidden" name="MID" maxlength="2" value="<%=MID%>">
 			
-		    <input type="hidden" name="ReturnURL" maxlength="2" value="<%=ReturnURL%>?q=${dataList.RESERVE_DATE}/${dataList.PLACE_CD}/${rentCfg.COMCD}/${dataList.rtn_idx}/<%=MEM_ID%>">
+		    <input type="hidden" name="ReturnURL" id="ReturnURL" maxlength="2" value="<%=ReturnURL%>?q=${dataList.RESERVE_DATE}/${dataList.PLACE_CD}/${rentCfg.COMCD}/${dataList.rtn_idx}/<%=MEM_ID%>">
 		    <%-- <input type="hidden" id="returnURL" name="ReturnURL" maxlength="2" value="<%=ReturnURL%>"> --%>
 			
 		    <input type="hidden" name="ReceiptType" maxlength="2" value="0">
@@ -970,6 +989,8 @@ if (PLACE_GROUP == 2 || PLACE_GROUP == 3) {
 		    <input type="hidden" name="EncodingType" maxlength="2" value="<%=EncodingType%>">
 			
 		    <input type="hidden" name="OpenType" maxlength="2" value="KR">
+			   
+		    <input type="hidden" name="because" id="because" maxlength="2" value="">
 	    
 		    <!-- <input type="hidden" name="GoodsCl" maxlength="2" value="">-->
 			<!-- 

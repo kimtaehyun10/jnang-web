@@ -78,7 +78,7 @@ public interface PayMapper {
 
 	String getNextAppNo(Map<String, Object> maps);
 
-	void rentSuceess(String tID);
+	void rentSuceess(Map<String, Object> maps);
 
 	void rentUpdateTid(Map<String, Object> maps);
 
