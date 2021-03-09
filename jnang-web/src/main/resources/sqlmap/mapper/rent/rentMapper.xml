@@ -576,8 +576,7 @@
 			t1.place_tab,
 			t2.PLACE_NM ,
 			t1.item,
-			ifnull(t3.RENT_IDX,
-			0) as rentIdx,
+			ifnull(t3.RENT_IDX,0) as rentIdx,
 			ifnull(t3.RESERVE_DATE,0) as RESERVE_DATE,
 			case t3.APP_TYPE
 				when '5' then '결제 대기'

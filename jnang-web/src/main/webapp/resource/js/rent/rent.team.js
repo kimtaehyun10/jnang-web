@@ -122,12 +122,12 @@ function send() {
 		
 		var frm = document.frm1;
 		var dataCnt = $("input[name=uname]").length;
-		var file = $("input[name=fileFrm]").val();
+		/*var file = $("input[name=fileFrm]").val();
 		if (file != undefined) {
 			var inputFile=$("#fileFrm");
 			var files=inputFile[0].files;	
 			var fileCheck = document.getElementById("fileFrm").value;	
-		}
+		}*/
 		
 		var formData = new FormData();
 		
@@ -172,11 +172,11 @@ function send() {
 		formData.append("arryDel",$("#arryDel").val());
 		formData.append("arryData",$("#arryData").val());
 		formData.append("ubrth",$("#ubrth").val());
-		if (file != undefined) {
+		/*if (file != undefined) {
 			for(var i=0;i<files.length;i++){
 				formData.append("files",files[i]);
 			}	
-		}	
+		}*/	
 		formData.append("uaddr",$("#uaddr").val());
 		formData.append("uaddr2",$("#uaddr2").val());
 		formData.append("tm_nm",$("#tm_nm").val());

@@ -436,8 +436,8 @@
 								</li>
 								<li>
 									<a href='/html/01080100'>
-										<img src='${pageContext.request.contextPath}/resource/images/main/icon_main_sisul_a_08.png' alt='목동다목적체육관'>
-										<div>목동다목적체육관</div>
+										<img src='${pageContext.request.contextPath}/resource/images/main/icon_main_sisul_a_08.png' alt='묵동다목적체육관'>
+										<div>묵동다목적체육관</div>
 									</a>
 								</li>
 								<li>
@@ -564,8 +564,8 @@
 									</li>
 									<li>
 										<a href='/html/01080100'>
-											<img src='${pageContext.request.contextPath}/resource/images/main/icon_main_sisul_a_08.png' alt='목동다목적체육관'>
-											<div>목동다목적체육관</div>
+											<img src='${pageContext.request.contextPath}/resource/images/main/icon_main_sisul_a_08.png' alt='묵동다목적체육관'>
+											<div>묵동다목적체육관</div>
 										</a>
 									</li>
 									<li>

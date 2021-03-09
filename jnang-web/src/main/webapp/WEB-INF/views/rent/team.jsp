@@ -169,7 +169,7 @@ $(function(){
 		<th>회원수</th>
 		<td><div id="temMemCnt"> <c:out value="${fn:length(teamMemList)}"/>명 </div></td>
 	</tr>
-	<%
+	<%-- <%
 		if(sSEQ == "0") {
 	%>
 	<tr>
@@ -189,7 +189,7 @@ $(function(){
 	
 	<%
 		}
-	%>
+	%> --%>
 	<tr>
     	<td colspan="4">
     		<div class="bg_icon_circle_green1a fontsize_1dot60 padding_left_1dot5">대표자 정보</div> 
