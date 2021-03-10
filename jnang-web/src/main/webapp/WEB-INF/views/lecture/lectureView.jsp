@@ -3,6 +3,7 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/resource/js/lecture/lecture.view.js"></script>
 
 <div class='sub_lecture_v01'>
+	<input type="hidden" id="paymentYN" value="${paymentYN}">
 	<table id='programTable' class='stbl_w3b' summary='이 표는 강좌명/대상/요일/시간/정원/수강료 등의 정보로 구성되어 있습니다.'></table>
 	<table style="margin-top:50px;" id='programDetailTable' class='stbl_w3b' summary='이 표는 강좌소개/세부내용/기타 등의 정보로 구성되어 있습니다.'></table>
 

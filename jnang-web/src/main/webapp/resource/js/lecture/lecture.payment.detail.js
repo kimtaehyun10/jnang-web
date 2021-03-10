@@ -12,7 +12,7 @@ $(function(){
 
 var lectDate = { }; //신청할 강좌 시작종료값 임시 저장
 var initPage = function(){
-	$.get('/data/lecture/program', {secureText:localStorage.getItem('lecture')}, function(data){
+	$.get('/data/lecture/program', {secureText:localStorage.getItem('lecture')}, function(data){		
 		
 		var programStartDate = dateUtil.getProgramStartDate(data.grpcd.startdate);
 		var programEndDate = dateUtil.getProgramEndDate(programStartDate, data.monthCnt);
@@ -64,23 +64,44 @@ var initPage = function(){
 		tableDesc += '</colgroup>';
 		
 		tableDetail += '<tr>';
-		tableDetail += '<th>강좌소개</th>';
-		tableDetail += '<td>'+data.classDesc+'</td>';
+		tableDetail += '<th>결제방법</th>';
+		tableDetail += '<td>';
+		tableDetail += '<div class="sub_board_l01">'
+		tableDetail += '<div class="sch_box_01">'		
+		tableDetail += '<ul style="margin-bottom:0px;">'
+		tableDetail += '<li>'
+		tableDetail += '<select id="searchKey" name="searchKey" class="selbox_01" onchange="changeBox();">'
+		tableDetail += '<option value="S" selected>신용카드</option>'
+		/*tableDetail += '<option value="G">가상계좌</option>'*/
+		tableDetail += '</select>'
+		tableDetail += '</li>'
+		tableDetail += '</ul>'
+		tableDetail += '</div>'		
+		tableDetail += '</td>';
 		tableDetail += '</tr>';
 		
 		tableDetail += '<tr>';
-		tableDetail += '<th>강좌세부내용</th>';
-		tableDetail += '<td>'+data.classNote+'</td>';
+		tableDetail += '<th>할인내역</th>';
+		tableDetail += '<td>없음</td>';
 		tableDetail += '</tr>';
 		
 		tableDetail += '<tr>';
-		tableDetail += '<th>기타</th>';
-		tableDetail += '<td>'+data.bigo+'</td>';
+		tableDetail += '<th>즉시감면</th>';
+		tableDetail += '<td><a class="size_m2 btn_gray2" onclick="">할인항목 조회하기</a></td>';
 		tableDetail += '</tr>';
 
 		tableDetail += '<br>';
 
 		$('#programDetailTable').empty().append(tableDesc+tableDetail);
+		
+		var SEQ = $('#SEQ').val();	
+		
+		var btnHtml = '';
+		btnHtml += '<a class="size_m2 btn_gray2" href="/lecture/list">목록</a>';
+		btnHtml += "<a class='size_m2 btn_red2' onclick=\"goBtn('"+ SEQ +"','"+ 10 +"','"+ data.classNm +"','"+ data.comcd +"', );\">결제</a>";
+		
+		$('#insertLecture').empty().append(btnHtml);
+		
 		
 		/*if(data.sportsCd === '01' && data.comcd === 'JUNGNANG01' || data.sportsCd === '01' && data.comcd === 'JUNGNANG02' ){
 		tableDetail += '<tr>';

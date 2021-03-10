@@ -309,8 +309,14 @@
        	select count(*) as dataCnt from MEM_CART 
        	where MEM_NO =#{MEM_NO} and COMCD =#{COMCD} and CLASS_CD =#{CLASS_CD} and ITEM_CD=#{ITEM_CD}  and ITM_TYPE =#{ITM_TYPE}
     </select>
+    <!-- 해당강좌 seq 가져오기 -->
+    <select id="getBasketSeq" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+       	select SEQ from MEM_CART 
+       	where MEM_NO =#{MEM_NO} and COMCD =#{COMCD} and CLASS_CD =#{CLASS_CD} and ITEM_CD=#{ITEM_CD}  and ITM_TYPE =#{ITM_TYPE}
+    </select>
     
     <insert id="setBasket" parameterType="java.util.HashMap" >
+    	
 	  	 INSERT INTO MEM_CART
 			( 
              COMCD 
@@ -343,7 +349,11 @@
             , #{SALE_AMT}
             , #{ADD_YMD}
             , #{WRITE_DH}
-            )
+            )            
+            <selectKey resultType="int" keyProperty="SEQ" order="AFTER">
+				SELECT IFNULL(MAX(SEQ),0) AS SEQ											
+				FROM MEM_CART							
+			</selectKey>
 		</insert>
 		
 		<!-- 이사장 전용 /lecture/class -->

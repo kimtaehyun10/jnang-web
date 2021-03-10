@@ -94,7 +94,8 @@ public class LectureServiceImpl implements LectureService {
 	 * 장바구니 담기
  	 */
 	@Override
-	public int setBasket(ProgramItem programItem) {
+	public Map<String, Object> setBasket(ProgramItem programItem) {
+		Map<String, Object> resultMap = new HashMap<>();
 		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		final String userId = auth.getName();
 		String ITEM_CD 		= programItem.getItemCd();
@@ -106,21 +107,26 @@ public class LectureServiceImpl implements LectureService {
 
 
 		//없는 회원정보 ,로그인 첵크
+		
 		if (userId.equals("anonymousUser") || member == null)
 		{
-			return -9;
+			resultMap.put("code", -9);
+			return resultMap;
 		}
 		
 		//회원카드 없는 회원 체크
+		
 		if (member.getCardNo() == null || member.getCardNo().equals(""))
 		{
-			return -10;
+			resultMap.put("code", -10);
+			return resultMap;
 		}		
 		
 		//상품정보 오류
 		if (ITEM_CD.length() < 5 || ITEM_SDATE.length() != 8 || ITEM_EDATE.length() != 8)
 		{
-			return 0;
+			resultMap.put("code", 0);
+			return resultMap;
 		}
 		
 		//프로그램 정보 불러오기
@@ -149,9 +155,13 @@ public class LectureServiceImpl implements LectureService {
 		int dataCnt = mapper.setBasketChk(basketMap);
 		if (dataCnt == 0) {
 			//장바구니 저장
-			return mapper.setBasket(basketMap);
+			mapper.setBasket(basketMap);
+			return basketMap;
 		} else {
-			return 1;
+			//중복일 경우 해당 강좌 seq값 가져오기
+			int SEQ = mapper.getBasketSeq(basketMap);
+			basketMap.put("SEQ", SEQ);
+			return basketMap;
 		}
 		
 	}

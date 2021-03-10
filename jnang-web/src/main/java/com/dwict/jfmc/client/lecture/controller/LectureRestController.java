@@ -78,7 +78,7 @@ public class LectureRestController {
 	
 	//과목 => 장바구니 담기
 	@GetMapping(value = "/lecture/basketIn")
-	public int setBasket(@RequestParam Map<String, Object> requestMap,ProgramItem programItem) {
+	public Map<String, Object> setBasket(@RequestParam Map<String, Object> requestMap,ProgramItem programItem) {
 		final String sDate = (String) requestMap.get("lectDate[sDate]");
 		final String eDate = (String) requestMap.get("lectDate[eDate]");
 		final String secureText = (String) requestMap.get("secureText");

@@ -33,6 +33,7 @@ public interface LectureMapper {
 	
 	List<Map<String, Object>> classGroupList(Map<String, Object> param);
 	List<Map<String, Object>> lecClassList(Map<String, Object> param);
+	int getBasketSeq(Map<String, Object> basketMap);
 	
 	
 }

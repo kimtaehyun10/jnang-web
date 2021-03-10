@@ -17,7 +17,7 @@ public interface LectureService {
 	List<Grpcd> conditionSb3(Grpcd grpcd);
 	Paging lectureList(Map<String, Object> param);
 	ProgramItem getProgramInfo(ProgramItem programItem);
-	int setBasket(ProgramItem programItem);
+	Map<String, Object> setBasket(ProgramItem programItem);
 	
 	
 

@@ -35,8 +35,7 @@ var data = {
 			try {
 				var dataList = "";
 				if(data.length != 0){
-					for(var i=0; i<data.length; i++){
-						//debugger;
+					for(var i=0; i<data.length; i++){						
 						if (data[i].ITEM_CD != undefined) {
 							var saleAmt = data[i].SALE_AMT;
 							var GoodsName = data[i].ITEM_NM
