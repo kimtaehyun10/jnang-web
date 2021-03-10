@@ -8,6 +8,7 @@
 						<div class='menu1'>
 							<ul>
 								<li><a href='/etc/guide1'>개인정보처리방침</a></li>
+								<li><a href='/etc/guide5'>영상정보처리기기운영·관리방침</a></li>
 								<li><a href='/etc/guide2'>이메일무단수집거부</a></li>
 								<li><a href='/etc/guide3'>이용안내</a></li>
 								<li class='viewer'><a href='/etc/guide4'>뷰어다운로드</a></li>
