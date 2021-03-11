@@ -152,12 +152,16 @@
                            AND B.ITEM_CD = C.ITEM_CD
                            AND C.USE_YN = 'Y' ) AS PRG_COUNT
                        , ( SELECT  COUNT(*)
-                             FROM TRAIN_HIST D,  MEM_SALE F
+                             FROM TRAIN_HIST D,  MEM_SALE F, ITEM_CLASS I
                              WHERE D.CLASS_CD = A.CLASS_CD                      
                              and A.COMCD = D.COMCD
                              and D.MEM_NO  = F.MEM_NO 
                      		 AND F.WEB_TYPE = "ONLINE"
-                     		 AND DATE_ADD(DATE_FORMAT(NOW(),'%Y-%m-%d'),INTERVAL 1 MONTH) BETWEEN DATE_FORMAT(D.TRAIN_SDATE,'%Y-%m-%d') AND DATE_FORMAT(D.TRAIN_EDATE,'%Y-%m-%d')) AS WEB_USER						     						     						     						     						     						     						     						     						                         	   
+                     		 AND DATE_ADD(DATE_FORMAT(NOW(),'%Y-%m-%d'),INTERVAL 1 MONTH) BETWEEN DATE_FORMAT(D.TRAIN_SDATE,'%Y-%m-%d') AND DATE_FORMAT(D.TRAIN_EDATE,'%Y-%m-%d')
+                     		 AND D.COMCD = I.COMCD
+                     		 AND D.CLASS_CD = I.CLASS_CD
+                     		 AND I.ITEM_CD = F.ITEM_CD
+                     		 ) AS WEB_USER						     						     						     						     						     						     						     						     						                         	   
                  FROM TRAIN_CLASS A
                   WHERE A.USE_YN = 'Y'
                    AND A.WEB_DISPLAY = 'Y'    

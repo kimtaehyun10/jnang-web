@@ -54,7 +54,8 @@ var initPage = function(){
 		tableHead += '</tr>';
 		tableHead += '<tr>';
 		tableHead += '<th>수강료</th>';	
-		tableHead += '<td>'+data.itemNm+'<br>'+comma_str_y(data.costAmt)+'원'+'</td>';
+		tableHead += '<td id="costHtml">'+comma_str_y(data.costAmt)+'원'+'</td>';
+		tableHead += '<input type="hidden" id="lectureCost" value="'+data.costAmt+'">';
 		tableHead += '</tr>';
 		
 		tableDesc += '<caption>강좌 상세보기</caption>';
@@ -82,23 +83,25 @@ var initPage = function(){
 		
 		tableDetail += '<tr>';
 		tableDetail += '<th>할인내역</th>';
-		tableDetail += '<td>없음</td>';
+		tableDetail += '<td id="DCREASON_CD"></td>';
 		tableDetail += '</tr>';
 		
 		tableDetail += '<tr>';
 		tableDetail += '<th>즉시감면</th>';
-		tableDetail += '<td><a class="size_m2 btn_gray2" onclick="">할인항목 조회하기</a></td>';
+		tableDetail += '<td><a class="size_m2 btn_gray2" onclick="popImre();">할인항목 조회하기</a></td>';
 		tableDetail += '</tr>';
 
 		tableDetail += '<br>';
 
 		$('#programDetailTable').empty().append(tableDesc+tableDetail);
 		
-		var SEQ = $('#SEQ').val();	
+		var SEQ = $('#SEQ').val();			
+		$('#classNm').val(data.classNm);
+		$('#comcd').val(data.comcd);
 		
 		var btnHtml = '';
 		btnHtml += '<a class="size_m2 btn_gray2" href="/lecture/list">목록</a>';
-		btnHtml += "<a class='size_m2 btn_red2' onclick=\"goBtn('"+ SEQ +"','"+ 10 +"','"+ data.classNm +"','"+ data.comcd +"', );\">결제</a>";
+		btnHtml += "<a class='size_m2 btn_red2' onclick=\"goBtn('"+ SEQ +"','"+ 10 +"','"+ data.classNm +"','"+ data.comcd +"', );\">결제</a>"; // 실 결제 가격 data.costAmt
 		
 		$('#insertLecture').empty().append(btnHtml);
 		

@@ -204,15 +204,61 @@
 	}
 	
 	//즉시감면 데이터 세팅
-	function saleGo(){
+    function popImre(){            	            	            	            	            	
+	//데이터 세팅
+	   var param = "imreName=" //넘기지 않는 경우 이름 input 확성화
+	   + "&imreBirth="  //넘기지 않는 경우 이름 주민등록번호 앞자리 확성화
+	   + "&imreDisCode=";   //넘기지 않는경우 할인항목 전체 노출
+	   
+	   window.open( "/imre/imReView.p","", "width=700, height=700, resizable=no, scrollbars=no, status=no" );	      
+     }
+            
+    //즉시감면 콜백 함수(함수명 변경불가)
+    function returnPopImre(imreDisCode){
+    //axf.alert("즉시감면 대상 코드 반환 : " + imreDisCode);
+    	var seq = $('#SEQ').val();
+    	var classNm = $('#classNm').val();
+    	var comcd = $('#comcd').val();    	
+    	
+    	var html1 = '';
+    	var html2 = '';
+    	var html3 = '';
+    	var beforeCost = '';
+    	var afterCost = '';
+    	var resultCost = '';
+    	if(imreDisCode == '29'){
+    		html1 = '2자녀이상(20%)';
+    	}
+    	if(imreDisCode == '21'){
+    		html1 = '3자녀이상(50%)';
+    	}
+    	if(imreDisCode == '02'){
+    		html1 = '장애인 본인(50%)';
+    		
+    		beforeCost = $('#lectureCost').val();
+    		afterCost = beforeCost - (beforeCost*0.5);
+    		resultCost = Math.floor((beforeCost - afterCost)/100) * 100;
+    		html2 += '수강료 : '+comma_str_y(resultCost)+'원(할인가격 : '+comma_str_y(afterCost)+'원)';
+    		    		
+    	}
+    	if(imreDisCode == '01'){
+    		html1 = '국가유공자(50%)';
+    	}
+    	if(imreDisCode == '05'){
+    		html1 = '기초생활수급자(50%)';
+    	}
+    	if(imreDisCode == '31'){
+    		html1 = '병역명문가증 소지자(30%)';
+    	}
+    	
+    	html3 += '<a class="size_m2 btn_gray2" href="/lecture/list">목록</a>';
+    	html3 += "<a class='size_m2 btn_red2' onclick=\"goBtn('"+ seq +"','"+ resultCost +"','"+ classNm +"','"+ comcd +"', );\">결제</a>";
 		
-		//데이터 세팅
-    	var param = "imreName=이수현&" //넘기지 않는 경우 이름 input 확성화
-	          + "imreBirth=870802&" //넘기지 않는 경우 이름 주민등록번호 앞자리 확성화
-	          + "imreDisCode=";   //넘기지 않는경우 할인항목 전체 노출
-    	window.open( "/imre/imReView",param, 600, 400 );
-    //	openPopLayer( "/imre/imReView", encodeURI(param), "", 800, 500, null ,null );
-	}
+    	$("#DCREASON_CD").html(html1);		
+		$("#costHtml").html(html2);
+		$('#insertLecture').empty().append(html3);
+		
+    }
 	
 	//결제방법 selectBox
 	function changeBox(){
@@ -229,7 +275,9 @@
 	
 </script>
 <div class='sub_lecture_v01'>
-	<input type="hidden" id="SEQ" value="${SEQ}">
+	<input type="hidden" id="SEQ" value="${SEQ}">	
+	<input type="hidden" id="classNm" value="">
+	<input type="hidden" id="comcd" value="">
 	<table id='programTable' class='stbl_w3b' summary='이 표는 강좌명/대상/요일/시간/정원/수강료 등의 정보로 구성되어 있습니다.'></table>
 	<table style="margin-top:50px;" id='programDetailTable' class='stbl_w3b' summary='이 표는 강좌소개/세부내용/기타 등의 정보로 구성되어 있습니다.'></table>
 

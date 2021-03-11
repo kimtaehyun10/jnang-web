@@ -50,21 +50,21 @@ public class MypageController {
 	private PayService payService;
 	
 	
-	@GetMapping(value = "/imre/imReView")
+/*	@GetMapping(value = "/imre/imReView")
 	public ModelAndView saleGo(ModelAndView modelAndView, HttpServletRequest request) {
 		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		final String userId = auth.getName();
 		
 		
 		memberService.memSession(request, userId);
-//		final HttpSession session = request.getSession(false);
-//		modelAndView.addObject("member",session.getAttribute("member"));
+		final HttpSession session = request.getSession(false);
+		modelAndView.addObject("member",session.getAttribute("member"));
 		modelAndView.setViewName("mypage/imreView_P");
 
 	
 
 		return modelAndView;
-	}
+	}*/
     
 //    //즉시감면 확인
 //    @RequestMapping(value = "/imre/imReCk.json")

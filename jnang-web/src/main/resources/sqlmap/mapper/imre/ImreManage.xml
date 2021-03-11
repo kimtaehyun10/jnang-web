@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dwict.jfmc.client.imre.com.mapper.ImreMapper">
+		
+	<select id="selectDisItemList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT COMCD
+				,GRP_CD
+				,CD AS IMREDISCODE
+				,CD_NM AS IMREDISNAME
+				,SORT_ORDER AS IMREDISORDER
+				,REMARK
+				,ITEM1
+				,ITEM2
+				,ITEM3 AS IMREDISGUBN
+				,ITEM4 AS IMREDISRATE
+				,ITEM5
+				,UPD_YN
+				,DEL_YN
+				,USE_YN
+		  FROM cot_grpcd
+		WHERE USE_YN = 'Y'
+		AND GRP_CD = 'CM_REASON_DC'
+		AND COMCD = #{comCd}
+		AND ITEM3 in ('DCITMKEY_00000000003','DCITMKEY_00000000002','DCITMKEY_00000000021','DCITMKEY_00000000005','DCITMKEY_00000000006','DCITMKEY_00000000009')
+        <if test="imreDisCode != null and imreDisCode != ''">
+            AND CD = #{imreDisCode}
+        </if>
+		ORDER BY SORT_ORDER
+	</select>
+		
+</mapper>
