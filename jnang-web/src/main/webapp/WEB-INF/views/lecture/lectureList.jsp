@@ -1,4 +1,13 @@
+<%@ page import="com.dwict.jfmc.client.mem.model.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+	//테스트용 아이디
+	Member member 	= (Member) session.getAttribute("member");
+	String MEM_ID = "";	
+	if(member != null){
+		MEM_ID	= member.getId();
+	}
+%>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resource/js/lecture/lecture.list.js"></script>
 <div id="subCon">
 	<input type="hidden" id="h_sb1" name="h_sb1" value="${comcd}" />
@@ -7,6 +16,7 @@
 	<input type="hidden" id="h_pageIndex" name="h_pageIndex" value="1"/>
 	<input type="hidden" id="h_pageSize" name="h_pageSize" value="10"/>
 	<input type="hidden" id="h_startRow" name="h_startRow" value="0"/>
+	<input type="hidden" id="testId" value="<%=MEM_ID%>">
 	<div style="font-size:18px; margin-bottom:20px;">수강신청을 진행할 센터와 분류를 선택하세요.</div>
 </div>
 <div class='sub_lecture_l01'>

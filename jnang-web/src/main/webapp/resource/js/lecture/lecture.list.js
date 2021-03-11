@@ -329,13 +329,47 @@ var lecturePaymentDetail = function(comcd, classCd, itemCd){
 		window.location.href='/lecture/lecturePaymentDetail';
 	});*/
 	
+	/*
+	 	홈페이지  강좌 신청 접수기간
+		메인 체육센터3군데 , 재등록 11~23일 , 신규 : 24~다음달10일
+		신대 다목적,  재등록 18~24일 , 신규 : 25~다음달07일
+	 */
+	
+	var date = new Date(); 
+	var year = date.getFullYear(); 
+	var month = new String(date.getMonth()+1); 
+	var day = new String(date.getDate()); 
+
+	// 한자리수일 경우 0을 채워준다. 
+	if(month.length == 1){ 
+	  month = "0" + month; 
+	} 
+	if(day.length == 1){ 
+	  day = "0" + day; 
+	} 
+	console.log(year, month, day);		
+		
+	if(!(day >='24' || day <='10') && comcd == 'JUNGNANG01' || comcd == 'JUNGNANG02' || comcd == 'JUNGNANG03'){
+		if($('#testId').val() == 'tom881205'){
+			alert('테스트아이디 입니다.');
+		}else{
+			alert('신규수강신청 기한은 24일 ~ 다음달 10일 까지 입니다.');
+			return;
+		}
+	}
+	
+	if(!(day >='25' || day <='07') && comcd == 'JUNGNANG04' || comcd == 'JUNGNANG05'){
+		alert('신규수강신청 기한은 25일 ~ 다음달 07일 까지 입니다.');
+		return;
+	}
+	
 	var lecture = { comcd:comcd, classCd:classCd, itemCd:itemCd };
 	
 	$.get('/data/encode/text', {text:JSON.stringify(lecture)}, function(data){
 		localStorage.setItem('lecture', data);
 		
 	}).done(function(){
-		$.get('/data/lecture/program', {secureText:localStorage.getItem('lecture')}, function(data){
+		$.get('/data/lecture/program', {secureText:localStorage.getItem('lecture')}, function(data){			
 			var programStartDate = dateUtil.getProgramStartDate(data.grpcd.startdate);
 			var programEndDate = dateUtil.getProgramEndDate(programStartDate, data.monthCnt);			
 			//신청할 강좌 시작종료값 임시 저장

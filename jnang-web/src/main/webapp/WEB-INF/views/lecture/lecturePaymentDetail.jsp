@@ -28,11 +28,13 @@
 	String ediDate = getyyyyMMddHHmmss(); // 전문생성일시
 	
 	String Moid = "Moid"; 
-	final String DEV_PAY_ACTION_URL = "https://tpay.smilepay.co.kr/interfaceURL.jsp";	//개발테스트
-	final String PRD_PAY_ACTION_URL = "https://pay.smilepay.co.kr/interfaceURL.jsp";	//운영
-	String actionUrl = DEV_PAY_ACTION_URL;
+	//final String DEV_PAY_ACTION_URL = "https://tpay.smilepay.co.kr/interfaceURL.jsp";	//개발테스트
+	//final String PRD_PAY_ACTION_URL = "https://pay.smilepay.co.kr/interfaceURL.jsp";	//운영
+	
+	String actionUrl = (String) request.getAttribute("URL");
 	String URL = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort();
-	String MID = ""; //"SMTPAY001m";
+	String MID = (String) request.getAttribute("MID"); //"SMTPAY001m";
+	String merchantKey  = (String) request.getAttribute("KEY");
 	//String MID = "jungnan01m"; //위에 URl 변경 DEV_PAY_ACTION_URL ==> PRD_PAY_ACTION_URL
 	String DivideInfo = ""; //서브몰 결제 정보 //request.getParameter("DivideInfo");
 	
@@ -53,6 +55,7 @@
 	String MEM_NM 	= member.getMemNm();
 	String MEM_MAIL = member.getEmail();
 	String MEM_HP 	= member.getHp();
+	String MEM_BIRTH = member.getSecBirthDate();
 	//out.println("MEM_ID:"+ MEM_ID +"<BR>");
 	//out.println("MEM_NM:"+ MEM_NM +"<BR>");
 	//out.println("MEM_MAIL:"+ MEM_MAIL +"<BR>");
@@ -204,13 +207,16 @@
 	}
 	
 	//즉시감면 데이터 세팅
-    function popImre(){            	            	            	            	            	
+    function popImre(){
+	var memName = $('#memName').val();
+	var memBirth = $('#memBirth').val().substring(2,8); // 19881205
+	
 	//데이터 세팅
-	   var param = "imreName=" //넘기지 않는 경우 이름 input 확성화
-	   + "&imreBirth="  //넘기지 않는 경우 이름 주민등록번호 앞자리 확성화
+	   var param = "imreName="+memName //넘기지 않는 경우 이름 input 확성화
+	   + "&imreBirth="+memBirth  //넘기지 않는 경우 이름 주민등록번호 앞자리 확성화
 	   + "&imreDisCode=";   //넘기지 않는경우 할인항목 전체 노출
 	   
-	   window.open( "/imre/imReView.p","", "width=700, height=700, resizable=no, scrollbars=no, status=no" );	      
+	   window.open( "/imre/imReView.p?"+param,"", "width=608, height=645, resizable=no, scrollbars=no, status=no" );	      
      }
             
     //즉시감면 콜백 함수(함수명 변경불가)
@@ -228,9 +234,21 @@
     	var resultCost = '';
     	if(imreDisCode == '29'){
     		html1 = '2자녀이상(20%)';
+    		
+    		beforeCost = $('#lectureCost').val();
+    		afterCost = beforeCost - (beforeCost*0.2);
+    		resultCost = Math.floor((beforeCost - afterCost)/100) * 100;
+    		html2 += '수강료 : '+comma_str_y(resultCost)+'원(할인가격 : '+comma_str_y(afterCost)+'원)';
+    		
     	}
     	if(imreDisCode == '21'){
     		html1 = '3자녀이상(50%)';
+    		
+    		beforeCost = $('#lectureCost').val();
+    		afterCost = beforeCost - (beforeCost*0.5);
+    		resultCost = Math.floor((beforeCost - afterCost)/100) * 100;
+    		html2 += '수강료 : '+comma_str_y(resultCost)+'원(할인가격 : '+comma_str_y(afterCost)+'원)';
+    		
     	}
     	if(imreDisCode == '02'){
     		html1 = '장애인 본인(50%)';
@@ -243,12 +261,30 @@
     	}
     	if(imreDisCode == '01'){
     		html1 = '국가유공자(50%)';
+    		
+    		beforeCost = $('#lectureCost').val();
+    		afterCost = beforeCost - (beforeCost*0.5);
+    		resultCost = Math.floor((beforeCost - afterCost)/100) * 100;
+    		html2 += '수강료 : '+comma_str_y(resultCost)+'원(할인가격 : '+comma_str_y(afterCost)+'원)';
+    		
     	}
     	if(imreDisCode == '05'){
     		html1 = '기초생활수급자(50%)';
+    		
+    		beforeCost = $('#lectureCost').val();
+    		afterCost = beforeCost - (beforeCost*0.5);
+    		resultCost = Math.floor((beforeCost - afterCost)/100) * 100;
+    		html2 += '수강료 : '+comma_str_y(resultCost)+'원(할인가격 : '+comma_str_y(afterCost)+'원)';
+    		
     	}
     	if(imreDisCode == '31'){
     		html1 = '병역명문가증 소지자(30%)';
+    		
+    		beforeCost = $('#lectureCost').val();
+    		afterCost = beforeCost - (beforeCost*0.3);
+    		resultCost = Math.floor((beforeCost - afterCost)/100) * 100;
+    		html2 += '수강료 : '+comma_str_y(resultCost)+'원(할인가격 : '+comma_str_y(afterCost)+'원)';
+    		
     	}
     	
     	html3 += '<a class="size_m2 btn_gray2" href="/lecture/list">목록</a>';
@@ -278,6 +314,8 @@
 	<input type="hidden" id="SEQ" value="${SEQ}">	
 	<input type="hidden" id="classNm" value="">
 	<input type="hidden" id="comcd" value="">
+	<input type="hidden" id="memBirth" value="<%=MEM_BIRTH%>">
+	<input type="hidden" id="memName" value="<%=MEM_NM%>">
 	<table id='programTable' class='stbl_w3b' summary='이 표는 강좌명/대상/요일/시간/정원/수강료 등의 정보로 구성되어 있습니다.'></table>
 	<table style="margin-top:50px;" id='programDetailTable' class='stbl_w3b' summary='이 표는 강좌소개/세부내용/기타 등의 정보로 구성되어 있습니다.'></table>
 

@@ -109,7 +109,7 @@ input[type="radio"][disabled]:checked + label span { background-position: -133px
     position: absolute;
     padding: 12px 20px;
     bottom: 0;
-    width: 100%;
+    width: 93%;
     height: 50px;
     text-align: right;
     background-color: #efefef;
@@ -926,7 +926,7 @@ table.tbl_l1 td.r {text-align:right;}
             
 	                
 	                <div class="pop_middle" style="border:0px">
-	                    <div style="font-size:14px;"><!-- 블럭 안에 캡션은 스타일 달라짐 -->
+	                    <div><!-- 블럭 안에 캡션은 스타일 달라짐 -->
 	                        <p>
 	                            	[행정정보공동이용센터를 통한 감면자격 즉시 확인 서비스]를 활용하여 할인 서비스를 제공하고 있습니다.<br/>
 	                            	(해당 서비스를 통한 감면대상자로 확인 되는 경우 별도의 증빙서류 제출을 하지 않아도 할인 적용을 받을 수 있습니다.) <br/>
@@ -944,7 +944,7 @@ table.tbl_l1 td.r {text-align:right;}
 	                        <br/>
 	                        <p>
 	                    	<input name="gpkiagree" id="gpkiagree" type="checkbox" value="Y"/>
-		                	<label for="gpkiagree" style="color:black;"><span></span>위 즉시감면서비스 이용 사전 안내에 동의합니다.</label>
+		                	<label for="gpkiagree" style="color:black;">위 즉시감면서비스 이용 사전 안내에 동의합니다.</label>
 	                        </p>
 		                	
 	                        <br/>
@@ -952,13 +952,13 @@ table.tbl_l1 td.r {text-align:right;}
 	                    <div class="div_table">
 	                        <div class="line">
 	                            <div class="col_l">
-		                        	<label for="mberNm" style="width:100px;font-size:14px;">이름</label>
+		                        	<label for="mberNm" style="width:100px;">이름</label>
 	                        		<input type="text" name="mberNm" id="mberNm" maxlength="16" class="AXInput av-required" value="<c:if test="${not empty imreName && imreName ne ''}">${imreName}</c:if>" <c:if test="${not empty imreName && imreName ne ''}">readonly</c:if> />
 		                        </div>
 		                    </div>
 	                        <div class="line">
 	                            <div class="col_l">
-		                            <label for="mberBirth" style="width:100px;font-size:14px;">주민등록번호*</label>
+		                            <label for="mberBirth" style="width:100px;">주민등록번호</label>
 		                            <input type="text" name="jumin1" id="jumin1" title="주민등록번호" value="<c:if test="${not empty imreBirth && imreBirth ne ''}">${imreBirth}</c:if>" maxlength="6"
 		                                   class="AXInput" <c:if test="${not empty imreBirth && imreBirth ne ''}">readonly</c:if> />
 		                                   -
@@ -973,14 +973,14 @@ table.tbl_l1 td.r {text-align:right;}
 	                    <div class="div_table">
 	                    	
 	                    	<div style="padding: 10px 0px;">                    	
-	                        	<p style="font-size:14px;">
+	                        	<p >
 	                            	&nbsp;즉시감면서비스를 받고자 하는 할인 대상을 선택해 주십시요
 	                        	</p>
 	                        	<div class="row_line"></div>
 								<div id="discountItemUl" class="col_l"  style="line-height:25px;">
 									<c:forEach items="${imreDisList}" var="map"> 
 					                    <input type="checkbox" name="discountItemList" id="${map.IMREDISCODE}" value="${map.IMREDISGUBN}"/>
-					                    <label for="${map.IMREDISCODE}" style="text-align:left; width:150px; margin-right: 0px; padding-right: 0px;"><span></span>${map.IMREDISNAME}</label>
+					                    <label for="${map.IMREDISCODE}" style="text-align:left; width:153px; margin-right: 0px; padding-right: 0px;">${map.IMREDISNAME}</label>
 				                    </c:forEach>
 								</div>			
 								<div id="resultItemUl" class="col_l"  style="line-height:25px;display:none">
