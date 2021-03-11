@@ -38,6 +38,8 @@ function cancelPay(tid, s_no, pay, comcd, seq) {
 var lectDate = { }; //신청할 강좌 시작종료값 임시 저장
 var addBasket1 = function(comcd, classCd, itemCd){
 	
+	// 재등록 작업 해야한다 (수강신청기간 구분 해야한다 - 신규등록 참고)
+	
 	var lecture = { comcd:comcd, classCd:classCd, itemCd:itemCd };
 	
 	$.get('/data/encode/text', {text:JSON.stringify(lecture)}, function(data){

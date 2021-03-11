@@ -119,11 +119,26 @@ const dateUtil = {
 		if(typeof str != 'string') return false;
 		return str.substring(0,4) + '.' + str.substring(4,6) + '.' + str.substring(6,8);
 	},
-	getProgramStartDate: function(startdate){
-		if(typeof startdate != 'string') return false;
+	getProgramStartDate: function(startdate, comcd, day){
+		
+		/*if(typeof startdate != 'string') return false;
 		const now = new Date();
 		const temp = now.getMonth() + 2;
 		const month = temp.toString().length < 2 ? '0'+temp : temp;
+		return now.getFullYear().toString() + month.toString() + startdate.toString();*/
+		
+		if(typeof startdate != 'string') return false;
+		var now = new Date();
+		
+		if(day <='10' && comcd == 'JUNGNANG01' || comcd == 'JUNGNANG02' || comcd == 'JUNGNANG03'){
+			var temp = now.getMonth() + 1;
+		}else if(day <='07' && comcd == 'JUNGNANG04' || comcd == 'JUNGNANG05'){
+			var temp = now.getMonth() + 1;
+		}else{
+			var temp = now.getMonth() + 2;
+		}		
+		
+		var month = temp.toString().length < 2 ? '0'+temp : temp;
 		return now.getFullYear().toString() + month.toString() + startdate.toString();
 	},
 	getProgramEndDate: function(str, monthCnt){

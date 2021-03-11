@@ -348,7 +348,8 @@ var lecturePaymentDetail = function(comcd, classCd, itemCd){
 	  day = "0" + day; 
 	} 
 	console.log(year, month, day);		
-		
+	
+
 	if(!(day >='24' || day <='10') && comcd == 'JUNGNANG01' || comcd == 'JUNGNANG02' || comcd == 'JUNGNANG03'){
 		if($('#testId').val() == 'tom881205'){
 			alert('테스트아이디 입니다.');
@@ -358,9 +359,13 @@ var lecturePaymentDetail = function(comcd, classCd, itemCd){
 		}
 	}
 	
-	if(!(day >='25' || day <='07') && comcd == 'JUNGNANG04' || comcd == 'JUNGNANG05'){
-		alert('신규수강신청 기한은 25일 ~ 다음달 07일 까지 입니다.');
-		return;
+	if(!(day >='25' || day <='07') && comcd == 'JUNGNANG04' || comcd == 'JUNGNANG05'){		
+		if($('#testId').val() == 'tom881205'){
+			alert('테스트아이디 입니다.');
+		}else{
+			alert('신규수강신청 기한은 25일 ~ 다음달 07일 까지 입니다.');
+			return;
+		}
 	}
 	
 	var lecture = { comcd:comcd, classCd:classCd, itemCd:itemCd };
@@ -370,12 +375,11 @@ var lecturePaymentDetail = function(comcd, classCd, itemCd){
 		
 	}).done(function(){
 		$.get('/data/lecture/program', {secureText:localStorage.getItem('lecture')}, function(data){			
-			var programStartDate = dateUtil.getProgramStartDate(data.grpcd.startdate);
+			var programStartDate = dateUtil.getProgramStartDate(data.grpcd.startdate, comcd, day);
 			var programEndDate = dateUtil.getProgramEndDate(programStartDate, data.monthCnt);			
 			//신청할 강좌 시작종료값 임시 저장
 			lectDate.sDate =  programStartDate;
-			lectDate.eDate =  programEndDate;
-						
+			lectDate.eDate =  programEndDate;						
 		}).done(function(){
 			$.get('/data/lecture/basketIn', {secureText:localStorage.getItem('lecture'), "lectDate" : lectDate }, function(data){
 				
