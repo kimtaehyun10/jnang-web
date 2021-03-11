@@ -110,7 +110,7 @@
 	//결제 버튼
 	function goBtn(seq, goodsAmt, GoodsName, COMCD) {
 		
-		<%
+		<%-- <%
 		if (strUrl.contains("localhost") || strUrl.contains("14.36.179.143") || MEM_ID.equals("powerjyc")) {
 		} else  {
 		%>
@@ -118,7 +118,7 @@
 		return false;
 		<%
 		}
-		%>
+		%> --%>
 		
 		//alert(seq +", "+ goodsAmt +", "+ GoodsName +", "+ COMCD);
 		var BuyerName = encodeURI("<%=MEM_NM%>");

@@ -106,7 +106,7 @@ input[type="radio"][disabled]:checked + label span { background-position: -133px
 .main_disc span { color: #2c82c9; }
 
 .pop_foot {
-    position: absolute;
+    /* position: absolute; */
     padding: 12px 20px;
     bottom: 0;
     width: 93%;
