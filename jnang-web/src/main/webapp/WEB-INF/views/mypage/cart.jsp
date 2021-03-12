@@ -118,7 +118,7 @@
 		}
 		%>
 		
-		alert(seq +", "+ goodsAmt +", "+ GoodsName +", "+ COMCD);
+		//alert(seq +", "+ goodsAmt +", "+ GoodsName +", "+ COMCD);
 		var BuyerName = encodeURI("<%=MEM_NM%>");
 		
 		//debugger;

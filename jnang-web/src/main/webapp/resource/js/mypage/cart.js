@@ -49,7 +49,7 @@ var data = {
 								+ "<td>"+ data[i].CLASS_NM +"</td> "
 								+ "<td>"+ data[i].ITEM_NM +"</td> "
 								+ "<td>"+ comma_str_y(saleAmt) +"</td>"
-								+ "<td><input type='button' class='size_m2 btn_green1' value='결제' onClick=\"goBtn('"+ data[i].SEQ +"','"+ 10 +"','"+ GoodsName +"','"+ data[i].COMCD +"', );\"></td>"
+								+ "<td><input type='button' class='size_m2 btn_green1' value='결제' onClick=\"goBtn('"+ data[i].SEQ +"','"+ 10 +"','"+ GoodsName +"','"+ data[i].COMCD +"' );\"></td>"
 								+ "</tr>";
 						}
 					}

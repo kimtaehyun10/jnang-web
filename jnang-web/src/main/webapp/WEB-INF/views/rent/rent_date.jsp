@@ -615,7 +615,7 @@ if (PLACE_GROUP == 4) {
 
     <div class="btnarea margin_t80">
         <a href="#none" onClick="send('<%=int_tabCnt %>');" id=" " class="green">예 약</a>
-        <a href="/rent/team" id=" " class="gray2">팀 신청</a>
+        <a onclick="javascript:alert('현재는 팀을 신청하실 수 없습니다. 관리자에게 문의해주세요.');" id=" " class="gray2">팀 신청</a> <!-- /rent/team -->
         <a href="/rentlist" id=" " class="gray2">취 소</a>
     </div>
     <form name="frm3" id="frm3" action="/rent/rentOrder" method="post">

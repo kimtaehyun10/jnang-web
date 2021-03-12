@@ -153,13 +153,13 @@
 	var actionUrl = "";
 	function goPay() 
 	{		
+		
 		console.log("actionUrl:"+ actionUrl);
 		var form = document.tranMgr;
 		form.action = actionUrl;
-		
 		if (form.GoodsCnt.value == "0") {
 			alert("수강 신청 내역이 없습니다.");
-			return false;
+			return ;
 		}
 		
 		console.log("actionUrl:"+ form.GoodsName.value);
@@ -170,7 +170,7 @@
 		if (form.GoodsName.value == "" || form.Amt.value == "" || form.GoodsCnt.value == "" ||form.ReturnURL.value == "")
 		{
 			alert("필수 입력값 오류!!");
-			return false;
+			return ;
 		}
 		
 		//form.GoodsName.value = encodeURI("<%//=GoodsName%>");
@@ -193,7 +193,7 @@
 			    	//return false;
 			    }
 			}catch(e){}
-		    
+		    			
 			form.target = "payWindow";//payWindow  고정
 			form.submit();
 		}
@@ -202,8 +202,8 @@
 			form.target = "payFrame";//payFrame  고정
 			form.submit();
 		}
-		
-		return false;
+				
+		return ;
 	}
 	
 	//즉시감면 데이터 세팅
@@ -216,7 +216,7 @@
 	   + "&imreBirth="+memBirth  //넘기지 않는 경우 이름 주민등록번호 앞자리 확성화
 	   + "&imreDisCode=";   //넘기지 않는경우 할인항목 전체 노출
 	   
-	   window.open( "/imre/imReView.p?"+param,"", "width=608, height=645, resizable=no, scrollbars=no, status=no" );	      
+	   window.open( "/imre/imReView.p?"+encodeURI(param)+"","", "width=608, height=645, resizable=no, scrollbars=yes, status=no" );	      
      }
             
     //즉시감면 콜백 함수(함수명 변경불가)
@@ -231,22 +231,22 @@
     	var html3 = '';
     	var beforeCost = '';
     	var afterCost = '';
-    	var resultCost = '';
+    	var resultCost = '';    	
+    	
     	if(imreDisCode == '29'){
     		html1 = '2자녀이상(20%)';
     		
     		beforeCost = $('#lectureCost').val();
-    		afterCost = beforeCost - (beforeCost*0.2);
-    		resultCost = Math.floor((beforeCost - afterCost)/100) * 100;
-    		html2 += '수강료 : '+comma_str_y(resultCost)+'원(할인가격 : '+comma_str_y(afterCost)+'원)';
-    		
+    		afterCost = (beforeCost*0.2);
+    		resultCost = Math.ceil((beforeCost - afterCost)/100) * 100;
+    		html2 += '수강료 : '+comma_str_y(resultCost)+'원(할인가격 : '+comma_str_y(afterCost)+'원)';    		
     	}
     	if(imreDisCode == '21'){
     		html1 = '3자녀이상(50%)';
     		
     		beforeCost = $('#lectureCost').val();
-    		afterCost = beforeCost - (beforeCost*0.5);
-    		resultCost = Math.floor((beforeCost - afterCost)/100) * 100;
+    		afterCost = (beforeCost*0.5);
+    		resultCost = Math.ceil((beforeCost - afterCost)/100) * 100;
     		html2 += '수강료 : '+comma_str_y(resultCost)+'원(할인가격 : '+comma_str_y(afterCost)+'원)';
     		
     	}
@@ -254,8 +254,8 @@
     		html1 = '장애인 본인(50%)';
     		
     		beforeCost = $('#lectureCost').val();
-    		afterCost = beforeCost - (beforeCost*0.5);
-    		resultCost = Math.floor((beforeCost - afterCost)/100) * 100;
+    		afterCost = (beforeCost*0.5);
+    		resultCost = Math.ceil((beforeCost - afterCost)/100) * 100;
     		html2 += '수강료 : '+comma_str_y(resultCost)+'원(할인가격 : '+comma_str_y(afterCost)+'원)';
     		    		
     	}
@@ -263,8 +263,8 @@
     		html1 = '국가유공자(50%)';
     		
     		beforeCost = $('#lectureCost').val();
-    		afterCost = beforeCost - (beforeCost*0.5);
-    		resultCost = Math.floor((beforeCost - afterCost)/100) * 100;
+    		afterCost = (beforeCost*0.5);
+    		resultCost = Math.ceil((beforeCost - afterCost)/100) * 100;
     		html2 += '수강료 : '+comma_str_y(resultCost)+'원(할인가격 : '+comma_str_y(afterCost)+'원)';
     		
     	}
@@ -272,8 +272,8 @@
     		html1 = '기초생활수급자(50%)';
     		
     		beforeCost = $('#lectureCost').val();
-    		afterCost = beforeCost - (beforeCost*0.5);
-    		resultCost = Math.floor((beforeCost - afterCost)/100) * 100;
+    		afterCost = (beforeCost*0.5);
+    		resultCost = Math.ceil((beforeCost - afterCost)/100) * 100;
     		html2 += '수강료 : '+comma_str_y(resultCost)+'원(할인가격 : '+comma_str_y(afterCost)+'원)';
     		
     	}
@@ -281,14 +281,14 @@
     		html1 = '병역명문가증 소지자(30%)';
     		
     		beforeCost = $('#lectureCost').val();
-    		afterCost = beforeCost - (beforeCost*0.3);
-    		resultCost = Math.floor((beforeCost - afterCost)/100) * 100;
+    		afterCost = (beforeCost*0.3);
+    		resultCost = Math.ceil((beforeCost - afterCost)/100) * 100;
     		html2 += '수강료 : '+comma_str_y(resultCost)+'원(할인가격 : '+comma_str_y(afterCost)+'원)';
     		
     	}
     	
     	html3 += '<a class="size_m2 btn_gray2" href="/lecture/list">목록</a>';
-    	html3 += "<a class='size_m2 btn_red2' onclick=\"goBtn('"+ seq +"','"+ resultCost +"','"+ classNm +"','"+ comcd +"', );\">결제</a>";
+    	html3 += "<a class='size_m2 btn_red2' onclick=\"goBtn('"+ seq +"','"+ resultCost +"','"+ classNm +"','"+ comcd +"');\">결제</a>";
 		
     	$("#DCREASON_CD").html(html1);		
 		$("#costHtml").html(html2);
@@ -341,7 +341,7 @@
 </div>
 
 
-<form name="tranMgr" method="post" action="">
+<form name="tranMgr">
 	<table class="type">
 	    <tbody>
 		    <input type="hidden" id="PayMethod" name="PayMethod" maxlength="2" value="CARD">
