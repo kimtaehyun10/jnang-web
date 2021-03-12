@@ -341,7 +341,7 @@
 </div>
 
 
-<form name="tranMgr">
+<form name="tranMgr" method="post" action=""> <!-- method="post" action="" -->
 	<table class="type">
 	    <tbody>
 		    <input type="hidden" id="PayMethod" name="PayMethod" maxlength="2" value="CARD">
