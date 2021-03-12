@@ -307,17 +307,20 @@ var data = {
 			var because = objElement;
 		}
 	}
-	
+
+
 	//히든값에 있는 아이디를 찾아 넣어줌
 	$('#because').val(because);
 	
 	$('#ReturnURL').val($('#ReturnURL').val()+'/'+because);
-	
-	if (confirm("\n 이용자의 50%가 할인대상자입니까? (할인여부 현장확인) ")) {
-		
-	} else {
-		return false;	
+	if(because > 0 ) {
+		if (confirm("\n 이용자의 50%가 할인대상자입니까? (할인여부 현장확인) ")) {
+			
+		} else {
+			return false;	
+		}
 	}
+	
 	
 	
 	var rentSum = Number($("#rentSum").val());
@@ -400,6 +403,12 @@ function rentSave(){
 function send(COMCD){
 	
 	debugger;
+	var because = String($("#because").val());
+	
+	if(because == null || because == ""){
+		alert("할인여부를 선택해주세요.");
+		return false;
+	}
 	
 	var goodsAmt = Number($("#goodsAmt").val());
 	var goodsName = String($("#GoodsName").val());
@@ -743,8 +752,8 @@ function send(COMCD){
 	    <th>할인여부</th>
 	    <td>
 	    	<select name="" id="disCount" class="inputbox_01a" onchange="data.selectDC(this.value, '${rentCfg.COMCD }');">
-		    	<option value="">==할인 선택==</option>
-		    	<option value="0,0" selected>일반</option>
+		    	<option value="" selected>==할인 선택==</option>
+		    	<option value="0,0">일반</option>
 		    	<option value="10,1">중랑구민(10%)</option>
 		    	<!-- <option value="10">관내팀(10%)</option> -->
 		    	<option value="30,2">경로우대(30%)</option>
@@ -878,12 +887,15 @@ if (PLACE_GROUP == 2 || PLACE_GROUP == 3) {
 <br>
 <%if(PLACE_GROUP == 2 || PLACE_GROUP == 3) {%>
     <div class="btnarea margin_t80">
-		<a href="#none" onclick="send('${rentCfg.COMCD}');" id=" " class="green">결제</a>
+		<%-- <a href="#none" onclick="send('${rentCfg.COMCD}');" id=" " class="green">결제</a> --%>
+		<a href="#none" onclick="javascript:alert('현재 결제하실 수 없습니다. 관리자에게 문의해주세요');" id=" " class="green">결제</a>
+		
         <a href="#none" onClick="history.back(-1);" id=" " class="gray2">취소</a>
     </div>
 <%} else if(PLACE_GROUP == 4){ %>
 	<div class="btnarea margin_t80">
-		<a href="#none" onclick="send('${rentCfg.COMCD}');" id=" " class="green">결제</a>
+		<%-- <a href="#none" onclick="send('${rentCfg.COMCD}');" id=" " class="green">결제</a> --%>
+		<a href="#none" onclick="javascript:alert('현재 결제하실 수 없습니다. 관리자에게 문의해주세요');" id=" " class="green">결제</a>
 		<a href="#none" onClick="history.back(-1);" id=" " class="gray2">취소</a>
 	</div>
 <%} %>	

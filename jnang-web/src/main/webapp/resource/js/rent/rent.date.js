@@ -139,7 +139,7 @@ function selectSport(selCT) {
 			}*/
 
 		}).done(function(data){
-	
+			
 		});
 	//return false;
 	
@@ -162,14 +162,17 @@ function getRent(ymd,seq) {
 				var arrTmp = []; //임시저장
 				var arrTabCnt = []; 
 				var arrTmpIdx = []; //버튼 생성  임시 비교용
+				
 				if(data.length != 0){
 
 					var firstStr = "" ;
 					var tmpList = "";
+					
 					for(var i=0; i<data.length; i++){
 						
 						var place_tab = data[i].place_tab;
 						var checked = (data[i].rentIdx == 0) ? "" : " checked ";
+						
 						arrTabCnt[place_tab] = (isNaN(arrTabCnt[place_tab])) ? 0 : arrTabCnt[place_tab]+1;
 						//console.log("arrTabCnt2 :"+ arrTabCnt[place_tab]);
 						
@@ -179,7 +182,10 @@ function getRent(ymd,seq) {
 						
 						var tmpNoItem = ' value="" class="chkbxSize" checked disabled> <span class="rented margin_l5">'+ data[i].item +'</span></label></div>';
 						
+						
+						
 						// 접수가능
+						console.log(data);
 						if (data[i].rentIdx == "0") {
 
 							tmpList += ' name="tseq" value="'+ data[i].seq +'" class="chkbxSize" onClick="selectCheck('+ place_tab +','+ data[i].seq +');" >'
@@ -188,7 +194,7 @@ function getRent(ymd,seq) {
 						
 						//접수 불가능
 						} else {
-							
+							debugger;
 							//2번째가 예약이 되어있으면 첫번째도 예약 못하도록
 							if (arrTabCnt[place_tab] == 1 && arrTmpIdx[arrTabCnt[0]] != 0 ) {
 								//arr[0] = "xxxxx";
