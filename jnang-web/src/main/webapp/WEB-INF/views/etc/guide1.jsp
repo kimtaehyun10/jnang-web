@@ -96,7 +96,7 @@
                         
                         <dt>4. 개인정보 열람, 정정·삭제, 처리정지 절차</dt>
                         <dd>가. 개인정보 열람, 정정, 삭제, 처리정지 청구는 아래와 같은 절차로 처리됩니다.
-                            <img src="http://www.jungnangimc.or.kr/resource/images/sub/sfeiofnsln.gif" /></dd>
+                            <img src="/resource/images/sub/sfeiofnsln.gif" /></dd>
                         <dd>
                             <dl class='dpt03'>
                                 <dt>나. 개인정보 열람 등 요구방법</dt>

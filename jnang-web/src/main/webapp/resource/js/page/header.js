@@ -50,10 +50,10 @@ function changeWeatherImage(pty, sky){
 	var sImageUrl = '';
 	if(pty > 0){
 		//sImageUrl = contextPath+'/resource/images/common/ico_weather_pty_'+pty+'.png';
-		sImageUrl = 'http://'+location.host+'/resource/images/common/ico_weather_pty_'+pty+'.png';
+		sImageUrl = '//'+location.host+'/resource/images/common/ico_weather_pty_'+pty+'.png';
 	}else{
 		//sImageUrl = contextPath+'/resource/images/common/ico_weather_sky_'+sky+'.png';
-		sImageUrl = 'http://'+location.host+'/resource/images/common/ico_weather_sky_'+sky+'.png';
+		sImageUrl = '//'+location.host+'/resource/images/common/ico_weather_sky_'+sky+'.png';
 		location.host
 	}
 	$('#weatherImg').attr('src',sImageUrl);

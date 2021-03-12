@@ -81,30 +81,18 @@ var writeCondition = function(type, data){
 	case 'sb1':
 		var sb1Html = commonHtml;
 		for(var i=0; i<data.length; i++){			
-			console.log(data[i].comcd, data[i].comnm); 
-			if(data[i].comcd == "JUNGNANG06"){
-				sb1Html += '';
-			}else if(data[i].comcd == "JUNGNANG08"){
-				sb1Html += '';
-			}else if(data[i].comcd == "JUNGNANG18"){
-				sb1Html += '';
-			}else if(data[i].comcd == "JUNGNANG10"){
-				sb1Html += '';
-			}else if(data[i].comcd == "JUNGNANG14"){
-				sb1Html += '';
-			}else if(data[i].comcd == "JUNGNANG15"){
-				sb1Html += '';
-			}else if(data[i].comcd == "JUNGNANG16"){
-				sb1Html += '';
-			}else if(data[i].comcd == "JUNGNANG17"){
-				sb1Html += '';
-			}else if(data[i].comcd == "JUNGNANG13"){
-				sb1Html += '';
-			}else if(data[i].comcd == "JUNGNANG09"){
-				sb1Html += '';
-			}else{
-			sb1Html += '<option value='+ data[i].comcd +'>'+data[i].comnm+'</option>';	
-			}						
+
+			//console.log(data[i].comcd, data[i].comnm);
+			//해당 센터만 수강신청
+			switch(data[i].comcd) {
+				case "JUNGNANG01" :
+				case "JUNGNANG02" :
+				case "JUNGNANG03" :
+				case "JUNGNANG04" :
+				case "JUNGNANG05" :
+					sb1Html += '<option value='+ data[i].comcd +'>'+data[i].comnm+'</option>';
+					break;
+			}								
 	
 		}
 		$('#sb1').empty().append(sb1Html);
