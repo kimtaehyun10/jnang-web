@@ -193,10 +193,9 @@ var searchLectureList = function(){
                     		if(data.resultList[i].webCapa-data.resultList[i].webUser === 0 || data.resultList[i].webCapa-data.resultList[i].webUser < 0){
 									tableBody += '<td><a class="size_s2 btn_pink_redWrite">접수마감</a></td>';                    				
 							}else{
-									tableBody += '<td ><a class="size_s3 btn_pink_blueWrite" onclick="lecturePaymentDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[0].itemCd+'\');">수강신청</a></td>';
+									tableBody += '<td ><a class="size_s3 btn_pink_blueWrite" onclick="lecturePaymentDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[0].itemCd+'\'\,'+data.resultList[i].programItem[0].sold+','+data.resultList[i].programItem[0].eold+');">수강신청</a></td>';
 							}
-							
-							
+														
 						tableBody += '<td ><a class="size_s2 btn_blue2" onclick="searchLectureDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[0].itemCd+'\');">상세보기</a></td>';
 						tableBody += '</tr>';
 				
@@ -229,7 +228,7 @@ var searchLectureList = function(){
 							if(data.resultList[i].webCapa-data.resultList[i].webUser === 0 || data.resultList[i].webCapa-data.resultList[i].webUser < 0){
 									tableBody += '<td><a class="size_s2 btn_pink_redWrite">접수마감</a></td>';
 							}else{
-								tableBody += '<td><a class="size_s2 btn_pink_blueWrite" onclick="lecturePaymentDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[j].itemCd+'\');">수강신청</a></td>';
+								tableBody += '<td><a class="size_s2 btn_pink_blueWrite" onclick="lecturePaymentDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[j].itemCd+'\'\,'+data.resultList[i].programItem[j].sold+','+data.resultList[i].programItem[j].eold+');">수강신청</a></td>';
 							}
 					
 								tableBody += '<td><a class="size_s2 btn_blue2" onclick="searchLectureDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[0].itemCd+'\');">상세보기</a></td>';
@@ -243,7 +242,7 @@ var searchLectureList = function(){
 						if(data.resultList[i].webCapa-data.resultList[i].webUser === 0 || data.resultList[i].webCapa-data.resultList[i].webUser < 0){
 									tableBody += '<td><a class="size_s2 btn_pink_redWrite">접수마감</a></td>';
 							}else{
-								tableBody += '<td><a class="size_s2 btn_pink_blueWrite" onclick="lecturePaymentDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[j].itemCd+'\');">수강신청</a></td>';
+								tableBody += '<td><a class="size_s2 btn_pink_blueWrite" onclick="lecturePaymentDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[j].itemCd+'\'\,'+data.resultList[i].programItem[j].sold+','+data.resultList[i].programItem[j].eold+');">수강신청</a></td>';
 							}		
 								tableBody += '<td><a class="size_s2 btn_blue2" onclick="searchLectureDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[j].itemCd+'\');">상세보기</a></td>';
 						
@@ -308,14 +307,14 @@ var needAuthorize = {
 
 
 var lectDate = { }; //신청할 강좌 시작종료값 임시 저장
-var lecturePaymentDetail = function(comcd, classCd, itemCd){
+var lecturePaymentDetail = function(comcd, classCd, itemCd, sold, eold){	
 	
 	/*var lecture = { comcd:comcd, classCd:classCd, itemCd:itemCd };	
 	$.get('/data/encode/text', {text:JSON.stringify(lecture)}, function(data){
 		localStorage.setItem('lecture', data);
 	}).done(function(){
 		window.location.href='/lecture/lecturePaymentDetail';
-	});*/
+	});*/		
 	
 	/*
 	 	홈페이지  강좌 신청 접수기간
@@ -335,11 +334,20 @@ var lecturePaymentDetail = function(comcd, classCd, itemCd){
 	if(day.length == 1){ 
 	  day = "0" + day; 
 	} 
-	console.log(year, month, day);		
-	
+			
+	//회원 성인 청소년 구분해서 수강신청 여부 처리하자
+	if($('#memId').val() != null && $('#memId').val() != ''){
+		var beforeBirth = $('#memBirth').val();
+		var memBirth = new Date(beforeBirth.substr(0,4)+'/'+beforeBirth.substr(4,2)+'/'+beforeBirth.substr(6,2));
+		var age = date.getFullYear() - memBirth.getFullYear();				
+		if(age <= sold || age >= eold){
+			alert('해당강좌는 '+sold+'세 ~ '+eold +'세 까지 신청할 수 있습니다.');
+			return;
+		}		
+	}
 
 	if(!(day >='24' || day <='10') && comcd == 'JUNGNANG01' || comcd == 'JUNGNANG02' || comcd == 'JUNGNANG03'){
-		if($('#testId').val() == 'tom881205'){
+		if($('#memId').val() == 'tom881205'){
 			alert('테스트아이디 입니다.');
 		}else{
 			alert('신규수강신청 기한은 24일 ~ 다음달 10일 까지 입니다.');
@@ -348,7 +356,7 @@ var lecturePaymentDetail = function(comcd, classCd, itemCd){
 	}
 	
 	if(!(day >='25' || day <='07') && comcd == 'JUNGNANG04' || comcd == 'JUNGNANG05'){		
-		if($('#testId').val() == 'tom881205'){
+		if($('#memId').val() == 'tom881205'){
 			alert('테스트아이디 입니다.');
 		}else{
 			alert('신규수강신청 기한은 25일 ~ 다음달 07일 까지 입니다.');
@@ -377,8 +385,8 @@ var lecturePaymentDetail = function(comcd, classCd, itemCd){
 					alert("세션이 종료되었거나 로그인 회원이 아닙니다.\n\n로그인 페이지로 이동합니다.");
 					window.location.href='/mem/login';
 				} else if(data.code == "-10"){
-					alert("회원카드를 발급받은 회원만 신청이 가능합니다. 센터에 방문하셔서 발급 받으세요.");
-					window.location.reload();
+					/*alert("회원카드를 발급받은 회원만 신청이 가능합니다. 센터에 방문하셔서 발급 받으세요.");
+					window.location.reload();*/
 				} else {
 					alert("접수오류 \n\n다시 시도 후 관리자에게 문의 하세요.");
 					window.location.reload();

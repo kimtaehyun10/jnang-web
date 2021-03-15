@@ -3,9 +3,11 @@
 <%
 	//테스트용 아이디
 	Member member 	= (Member) session.getAttribute("member");
-	String MEM_ID = "";	
+	String MEM_ID = "";
+	String MEM_BIRTH = "";
 	if(member != null){
 		MEM_ID	= member.getId();
+		MEM_BIRTH = member.getSecBirthDate();
 	}
 %>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resource/js/lecture/lecture.list.js"></script>
@@ -16,7 +18,8 @@
 	<input type="hidden" id="h_pageIndex" name="h_pageIndex" value="1"/>
 	<input type="hidden" id="h_pageSize" name="h_pageSize" value="10"/>
 	<input type="hidden" id="h_startRow" name="h_startRow" value="0"/>
-	<input type="hidden" id="testId" value="<%=MEM_ID%>">
+	<input type="hidden" id="memId" value="<%=MEM_ID%>">
+	<input type="hidden" id="memBirth" value="<%=MEM_BIRTH%>">
 	<div style="font-size:18px; margin-bottom:20px;">수강신청을 진행할 센터와 분류를 선택하세요.</div>
 </div>
 <div class='sub_lecture_l01'>

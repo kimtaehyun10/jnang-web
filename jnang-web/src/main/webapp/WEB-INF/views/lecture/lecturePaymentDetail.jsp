@@ -231,22 +231,22 @@
     	var html3 = '';
     	var beforeCost = '';
     	var afterCost = '';
-    	var resultCost = '';    	
+    	var resultCost = '';    	    	    					
     	
     	if(imreDisCode == '29'){
     		html1 = '2자녀이상(20%)';
     		
     		beforeCost = $('#lectureCost').val();
-    		afterCost = (beforeCost*0.2);
-    		resultCost = Math.ceil((beforeCost - afterCost)/100) * 100;
-    		html2 += '수강료 : '+comma_str_y(resultCost)+'원(할인가격 : '+comma_str_y(afterCost)+'원)';    		
+    		afterCost = Math.round((beforeCost*0.2)/100)*100;
+    		resultCost = beforeCost - afterCost;
+    		html2 += '수강료 : '+comma_str_y(resultCost)+'원(할인가격 : '+comma_str_y(afterCost)+'원)';   		
     	}
     	if(imreDisCode == '21'){
     		html1 = '3자녀이상(50%)';
     		
     		beforeCost = $('#lectureCost').val();
-    		afterCost = (beforeCost*0.5);
-    		resultCost = Math.ceil((beforeCost - afterCost)/100) * 100;
+    		afterCost = Math.round((beforeCost*0.5)/100)*100;
+    		resultCost = beforeCost - afterCost;
     		html2 += '수강료 : '+comma_str_y(resultCost)+'원(할인가격 : '+comma_str_y(afterCost)+'원)';
     		
     	}
@@ -254,8 +254,8 @@
     		html1 = '장애인 본인(50%)';
     		
     		beforeCost = $('#lectureCost').val();
-    		afterCost = (beforeCost*0.5);
-    		resultCost = Math.ceil((beforeCost - afterCost)/100) * 100;
+    		afterCost = Math.round((beforeCost*0.5)/100)*100;
+    		resultCost = beforeCost - afterCost;
     		html2 += '수강료 : '+comma_str_y(resultCost)+'원(할인가격 : '+comma_str_y(afterCost)+'원)';
     		    		
     	}
@@ -263,8 +263,8 @@
     		html1 = '국가유공자(50%)';
     		
     		beforeCost = $('#lectureCost').val();
-    		afterCost = (beforeCost*0.5);
-    		resultCost = Math.ceil((beforeCost - afterCost)/100) * 100;
+    		afterCost = Math.round((beforeCost*0.5)/100)*100;
+    		resultCost = beforeCost - afterCost;
     		html2 += '수강료 : '+comma_str_y(resultCost)+'원(할인가격 : '+comma_str_y(afterCost)+'원)';
     		
     	}
@@ -272,8 +272,8 @@
     		html1 = '기초생활수급자(50%)';
     		
     		beforeCost = $('#lectureCost').val();
-    		afterCost = (beforeCost*0.5);
-    		resultCost = Math.ceil((beforeCost - afterCost)/100) * 100;
+    		afterCost = Math.round((beforeCost*0.5)/100)*100;
+    		resultCost = beforeCost - afterCost;
     		html2 += '수강료 : '+comma_str_y(resultCost)+'원(할인가격 : '+comma_str_y(afterCost)+'원)';
     		
     	}
@@ -281,8 +281,8 @@
     		html1 = '병역명문가증 소지자(30%)';
     		
     		beforeCost = $('#lectureCost').val();
-    		afterCost = (beforeCost*0.3);
-    		resultCost = Math.ceil((beforeCost - afterCost)/100) * 100;
+    		afterCost = Math.round((beforeCost*0.3)/100)*100;
+    		resultCost = beforeCost - afterCost;
     		html2 += '수강료 : '+comma_str_y(resultCost)+'원(할인가격 : '+comma_str_y(afterCost)+'원)';
     		
     	}

@@ -116,11 +116,11 @@ public class LectureServiceImpl implements LectureService {
 		
 		//회원카드 없는 회원 체크
 		
-		if (member.getCardNo() == null || member.getCardNo().equals(""))
+		/*if (member.getCardNo() == null || member.getCardNo().equals(""))
 		{
 			resultMap.put("code", -10);
 			return resultMap;
-		}		
+		}*/		
 		
 		//상품정보 오류
 		if (ITEM_CD.length() < 5 || ITEM_SDATE.length() != 8 || ITEM_EDATE.length() != 8)

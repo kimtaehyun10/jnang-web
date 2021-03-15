@@ -374,7 +374,7 @@ public class PayServiceImpl implements PayService {
 	
 				
 				
-	  			String P_COMCD =  fn_cd; // aPayList.getJSONObject(ii).getString("P_COMCD").toString(); //결제업체코드
+	  			String P_COMCD =  "KIS"; // aPayList.getJSONObject(ii).getString("P_COMCD").toString(); //결제업체코드
 	  			String P_TYPE =  "CARD"; //aPayList.getJSONObject(ii).getString("P_TYPE").toString(); //결제수단구분(CARD,CASH)
 	  			
 	  			//if (P_TYPE.equals("CARD")) {
@@ -437,7 +437,7 @@ public class PayServiceImpl implements PayService {
 		    	
 		    	requestMapPayList.put("CARD_SEC", APP_CARD_CD);//카드사 코드
 		    	requestMapPayList.put("CARD_SEC2", "");//
-				requestMapPayList.put("CARD_INFO", fn_name);//
+				requestMapPayList.put("CARD_INFO", "0000"+fn_name);//
 		    	requestMapPayList.put("HALBU_CNT", APP_CARD_HALBU);//카드사 할부
 		    	
 		    	requestMapPayList.put("TID", TID);//승인금액 정보
