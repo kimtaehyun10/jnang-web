@@ -293,6 +293,13 @@ function AmountCommas(val){
 var data = {
 	
 	selectDC: function(dcPer, COMCD){
+		
+	var MEM_ID = '<%=MEM_ID%>';
+	if(MEM_ID != "vos1") {
+		alert("현재 관리자만 접근 가능합니다.");
+		return false;
+	}
+	
 	
 	var dePer = "";	
 	var because = "";
@@ -371,7 +378,9 @@ function rentSave(){
 <%
 	if(PLACE_GROUP == 2 || PLACE_GROUP == 3){
 %>	
-	alert("할인예약은 현장에서 확인 후 할인된 금액으로 결제합니다. \n예약 후 현장결제 해주세요.");
+	/* alert("할인예약은 현장에서 확인 후 할인된 금액으로 결제합니다. \n예약 후 현장결제 해주세요."); */
+	alert("현재 이용하실 수 없습니다.");
+	return false;
 <%
 	} else if(PLACE_GROUP == 4) {
 %>	
@@ -401,6 +410,12 @@ function rentSave(){
 }
 
 function send(COMCD){
+	
+	var MEM_ID = '<%=MEM_ID%>';
+	if(MEM_ID != "vos1") {
+		alert("현재 관리자만 접근 가능합니다.");
+		return false;
+	}
 	
 	debugger;
 	var because = String($("#because").val());
@@ -887,15 +902,15 @@ if (PLACE_GROUP == 2 || PLACE_GROUP == 3) {
 <br>
 <%if(PLACE_GROUP == 2 || PLACE_GROUP == 3) {%>
     <div class="btnarea margin_t80">
-		<%-- <a href="#none" onclick="send('${rentCfg.COMCD}');" id=" " class="green">결제</a> --%>
-		<a href="#none" onclick="javascript:alert('현재 결제하실 수 없습니다. 관리자에게 문의해주세요');" id=" " class="green">결제</a>
+		<a href="#none" onclick="send('${rentCfg.COMCD}');" id=" " class="green">결제</a>
+		<!-- <a href="#none" onclick="javascript:alert('현재 결제하실 수 없습니다. 관리자에게 문의해주세요');" id=" " class="green">결제</a> -->
 		
         <a href="#none" onClick="history.back(-1);" id=" " class="gray2">취소</a>
     </div>
 <%} else if(PLACE_GROUP == 4){ %>
 	<div class="btnarea margin_t80">
-		<%-- <a href="#none" onclick="send('${rentCfg.COMCD}');" id=" " class="green">결제</a> --%>
-		<a href="#none" onclick="javascript:alert('현재 결제하실 수 없습니다. 관리자에게 문의해주세요');" id=" " class="green">결제</a>
+		<a href="#none" onclick="send('${rentCfg.COMCD}');" id=" " class="green">결제</a>
+		<!-- <a href="#none" onclick="javascript:alert('현재 결제하실 수 없습니다. 관리자에게 문의해주세요');" id=" " class="green">결제</a> -->
 		<a href="#none" onClick="history.back(-1);" id=" " class="gray2">취소</a>
 	</div>
 <%} %>	
