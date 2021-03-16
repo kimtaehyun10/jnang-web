@@ -343,7 +343,8 @@ var lecturePaymentDetail = function(comcd, classCd, itemCd, sold, eold){
 		if(age <= sold || age >= eold){
 			alert('해당강좌는 '+sold+'세 ~ '+eold +'세 까지 신청할 수 있습니다.');
 			return;
-		}		
+		}
+				
 	}
 
 	if(!(day >='24' || day <='10') && comcd == 'JUNGNANG01' || comcd == 'JUNGNANG02' || comcd == 'JUNGNANG03'){

@@ -6,6 +6,7 @@ package com.dwict.jfmc.client.smpay.service.impl;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -212,7 +213,7 @@ public class PayServiceImpl implements PayService {
 		//String mallUserID       = request.getParameter("mallUserID")==null?"":request.getParameter("mallUserID"); // 고객사회원ID
 		String TID              = request.getParameter("TID")==null?"":request.getParameter("TID"); // 거래번호
 		String OID				= request.getParameter("OID")==null?"":request.getParameter("OID"); // 주문번호
-		String AuthDate			= request.getParameter("AuthDate")==null?"":request.getParameter("AuthDate"); // 승인일자
+		String AuthDate			= request.getParameter("AuthDate")==null?"":request.getParameter("AuthDate"); // 승인일자				 
 		String AuthCode			= request.getParameter("AuthCode")==null?"":request.getParameter("AuthCode"); // 승인번호
 		String ResultMsg		= request.getParameter("ResultMsg")==null?"":request.getParameter("ResultMsg"); // 결과메시지
 		ResultMsg				= rtnDecode(ResultMsg);
@@ -374,7 +375,7 @@ public class PayServiceImpl implements PayService {
 	
 				
 				
-	  			String P_COMCD =  "KIS"; // aPayList.getJSONObject(ii).getString("P_COMCD").toString(); //결제업체코드
+	  			String P_COMCD =  "INICIS"; // aPayList.getJSONObject(ii).getString("P_COMCD").toString(); //결제업체코드
 	  			String P_TYPE =  "CARD"; //aPayList.getJSONObject(ii).getString("P_TYPE").toString(); //결제수단구분(CARD,CASH)
 	  			
 	  			//if (P_TYPE.equals("CARD")) {
@@ -383,8 +384,12 @@ public class PayServiceImpl implements PayService {
 	  	  		int PAY_AMT = Integer.parseInt(Amt); //aPayList.getJSONObject(ii).getInt("PAY_AMT"); //결제금액
 	  			
 	  			//METHOD_CD:결제수단코드(00:현금, 99:현금영수증, 01:비씨카드.....)
-	  			String METHOD_CD = "01";// aPayList.getJSONObject(ii).getString("METHOD_CD").toString(); //결제수단코드
-	       		String APP_DATE = AuthDate; //aPayList.getJSONObject(ii).getString("APP_DATE").toString(); //카드_승인일시__van또는pg또는현금영수증
+	  	  		
+	  			String METHOD_CD = mapper.getMethodCd(fn_cd);// aPayList.getJSONObject(ii).getString("METHOD_CD").toString(); //결제수단코드
+	  			//승인일시 substring 
+	  			Calendar cal = Calendar.getInstance();		
+	  			String toDayYear = cal.get(Calendar.YEAR)+"";	       		
+	  			String APP_DATE = toDayYear.substring(0, 2)+AuthDate; //aPayList.getJSONObject(ii).getString("APP_DATE").toString(); //카드_승인일시__van또는pg또는현금영수증
 	       		String APP_NO = AuthCode; //aPayList.getJSONObject(ii).getString("APP_NO").toString(); //카드_승인번호__van또는pg또는현금영수증
 	       		String APP_TIME = ""; //aPayList.getJSONObject(ii).getString("APP_TIME").toString(); //카드_승인시분Hi__van또는pg또는현금영수증
 	       		
@@ -403,7 +408,7 @@ public class PayServiceImpl implements PayService {
 	       		String SEC_CARD_NO3 = "";
 	       		String SEC_CARD_NO4 = "";       		
 	       		
-	       		String APP_CARD_CD = fn_cd; //aPayList.getJSONObject(ii).getString("APP_CARD_CD").toString(); //카드사 코드
+	       		String APP_CARD_CD = mapper.getMethodCd(fn_cd); //aPayList.getJSONObject(ii).getString("APP_CARD_CD").toString(); //카드사 코드
 	       		String APP_CARD_HALBU = CardQuota; //aPayList.getJSONObject(ii).getString("APP_CARD_HALBU").toString(); //카드사 할부       		
 	       		String APP_CASH_INFO = "";//aPayList.getJSONObject(ii).getString("APP_CASH_INFO").toString(); //현금영수 입력정보
 	       		
@@ -437,7 +442,7 @@ public class PayServiceImpl implements PayService {
 		    	
 		    	requestMapPayList.put("CARD_SEC", APP_CARD_CD);//카드사 코드
 		    	requestMapPayList.put("CARD_SEC2", "");//
-				requestMapPayList.put("CARD_INFO", "0000"+fn_name);//
+				//requestMapPayList.put("CARD_INFO", "0000"+fn_name);//
 		    	requestMapPayList.put("HALBU_CNT", APP_CARD_HALBU);//카드사 할부
 		    	
 		    	requestMapPayList.put("TID", TID);//승인금액 정보

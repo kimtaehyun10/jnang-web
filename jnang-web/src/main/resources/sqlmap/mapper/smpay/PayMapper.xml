@@ -169,7 +169,7 @@
 			#{STORE_NO},
 			#{PAY_LIST_YN},
 			'N',
-			'VAN',
+			'PG',
 			'',
 			'',
 			#{TID},
@@ -610,6 +610,13 @@
 	
     <!-- 인터넷 결제 당일  취소처리 종료 ################################## -->
 
-
+	<select id="getMethodCd" resultType="string" parameterType="string">
+		SELECT IFNULL(MAX(METHOD_CD),'98') AS METHOD_CD FROM PAY_METHOD 
+		WHERE P_COMCD = 'SMARTRO_PG'
+		  AND P_TYPE = 'CARD'
+		  AND PG_VAN = 'PG'
+		  AND USE_YN = 'Y' 
+		  AND CARD_SEC = #{fn_cd}
+	</select>
 	
 </mapper>
