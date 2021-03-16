@@ -3,6 +3,7 @@ package com.dwict.jfmc.client.mypage.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Enumeration;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -156,7 +157,7 @@ public class MypageController {
 		final Member members = (Member) session.getAttribute("member");
 		
 		
-		final List<Map <String,Object>> rentList = service.getMyRentList(userId);
+		final List<Map <String,Object>> rentList = service.getMyRentList1(userId);
 		modelAndView.addObject("rentList", rentList);
  
 		//final List<Map <String,Object>> cancelPay = service.getMyClssList(userId);
@@ -224,5 +225,38 @@ public class MypageController {
 		modelAndView.setViewName("rent/rentOrderCancel");
 		return modelAndView;
 	}
+	
+	@GetMapping(value = "/mypage/rentDetail")
+	public ModelAndView rentDetail(ModelAndView modelAndView, HttpServletRequest request) {
+		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		final String userId = auth.getName();
+		
+		final HttpSession session = request.getSession(false);
+		final Member members = (Member) session.getAttribute("member");
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("userId",userId);
+		map.put("writeDh",request.getParameter("writeDh"));
+		
+		
+		final List<Map <String,Object>> rentList = service.getMyRentList2(map);
+		modelAndView.addObject("rentList", rentList);
+ 
+		//final List<Map <String,Object>> cancelPay = service.getMyClssList(userId);
+		//modelAndView.addObject("cancelPay", cancelPay);
+		
+		Map<String, Object> maps = new HashMap<>();
+		maps.put("MEM_ID", userId); 
+		maps.put("MEM_NO", members.getMemNo());
+		//memberService.memSession(request, userId);		
+		modelAndView.addObject("otherData", maps);
+		modelAndView.setViewName("mypage/rentDetail");
+		
+		System.out.println(modelAndView);
+		
+		return modelAndView;
+	}
+	
+	
 	
 }

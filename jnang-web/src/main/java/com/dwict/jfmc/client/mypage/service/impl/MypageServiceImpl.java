@@ -314,4 +314,17 @@ public class MypageServiceImpl implements MypageService {
 	public List<Map<String, Object>> forOrderCancel(String tID) {
 		return mapper.forOrderCancel(tID);
 	}
+	
+	@Override
+	public List<Map<String,Object>> getMyRentList1(String userId) {
+
+		return mapper.myRentDataList1(userId);
+	}
+
+
+	@Override
+	public List<Map<String, Object>> getMyRentList2(Map<String, Object> map) {
+		
+		return mapper.myRentDataList2(map);
+	}
 }

@@ -270,7 +270,160 @@
 		limit 20
 	
 	</select>
-
+	
+	<select id="myRentDataList1" parameterType="String" resultType="java.util.HashMap">
+    
+ select
+			t1.RENT_IDX
+			,(select COMNM from cominfo cm where cm.COMCD = t1.COMCD) as COMNM
+			,(select PLACE_NM from rent_place rp where rp.PLACE_CD = t1.PLACE_CD ) as PLACE_NM
+			,(select PLACE_GROUP from rent_place rp where rp.PLACE_CD = t1.PLACE_CD ) as PLACE_GROUP
+			,TID
+			,t1.COMCD,
+			t1.PART_CD,
+			t1.PLACE_TIME_SEQ,
+			ifnull(t2.item,'') as item ,
+			ifnull(t2.place_tab,0) as place_tab ,
+			ifnull(t2.add_light,0) as add_light ,
+			t1.PLACE_CD,
+			t1.APP_DATE,
+			t1.MEM_NO,
+			BOSSNM,
+			BIZNO,
+			COM_NM,
+			PERSON_YN,
+			TEL,
+			CP,
+			FAX,
+			ZIPCD,
+			ADDR,
+			OBJECT,
+			INWON,
+			SDATE,
+			EDATE,
+			RENT_READY,
+			RENT,
+			ETC,
+			APP_TYPE,
+			case APP_TYPE
+				when '5' then '결제대기'
+				<!-- 체육관 결제대기는 15번 나머지는 5번 -->
+				when '15' then '결제대기'
+				when '10' then '접수대기'
+				when '20' then '확인중'
+				when '30' then '확정'
+				when '40' then '취소'
+				when '50' then '환불신청중'
+			end as APP_TYPE_NM,
+			RENT_TYPE,
+			DISPLAY_YN,
+			FORMAT(SALE_AMT , 0) as SALE_AMT,
+			PAY_AMT,
+			PAY_DATE,
+			date_format(RESERVE_DATE, '%Y-%m-%d') as RESERVE_DATE ,
+			SLIP_NO,
+			OFFLINE_YN,
+			OFFLINE_DATE,
+			RENT_GUBUN,
+			SORT_ORDER,
+			CONCEPT,
+			DISCOUNT_MSG,
+			WRITE_DH,
+			WRITER,
+			date_format(CHNG_DH, '%Y-%m-%d') as CHNG_DH ,
+			CHNGR,
+			PRODUCT_CNT,
+			PRODUCT_SIZE,
+			START_DATE,
+			END_DATE
+		from
+			rent_app t1
+			left join rent_times t2 on t1.PLACE_CD  = t2.place_cd and t1.PLACE_TIME_SEQ = t2.seq 
+		where MEM_NO = (select MEM_NO from v_member where id= #{userId})
+		and T1.APP_TYPE != 5
+		group by write_dh, TID, COMCD, PLACE_GROUP
+		order by RENT_IDX desc
+		limit 20
+	
+	</select>
+	
+	<select id="myRentDataList2" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    
+ select
+			t1.RENT_IDX
+			,(select COMNM from cominfo cm where cm.COMCD = t1.COMCD) as COMNM
+			,(select PLACE_NM from rent_place rp where rp.PLACE_CD = t1.PLACE_CD ) as PLACE_NM
+			,(select PLACE_GROUP from rent_place rp where rp.PLACE_CD = t1.PLACE_CD ) as PLACE_GROUP
+			,(select HP from v_member where id = #{userId}) AS TEL
+			,TID
+			,t1.COMCD,
+			t1.PART_CD,
+			t1.PLACE_TIME_SEQ,
+			ifnull(t2.item,'') as item ,
+			ifnull(t2.place_tab,0) as place_tab ,
+			ifnull(t2.add_light,0) as add_light ,
+			t1.PLACE_CD,
+			t1.APP_DATE,
+			t1.MEM_NO,
+			BOSSNM,
+			BIZNO,
+			COM_NM,
+			PERSON_YN,
+			TEL,
+			CP,
+			FAX,
+			ZIPCD,
+			ADDR,
+			OBJECT,
+			INWON,
+			SDATE,
+			EDATE,
+			RENT_READY,
+			RENT,
+			ETC,
+			APP_TYPE,
+			case APP_TYPE
+				when '5' then '결제대기'
+				<!-- 체육관 결제대기는 15번 나머지는 5번 -->
+				when '15' then '결제대기'
+				when '10' then '접수대기'
+				when '20' then '확인중'
+				when '30' then '확정'
+				when '40' then '취소'
+				when '50' then '환불신청중'
+			end as APP_TYPE_NM,
+			RENT_TYPE,
+			DISPLAY_YN,
+			FORMAT(SALE_AMT , 0) as SALE_AMT,
+			PAY_AMT,
+			PAY_DATE,
+			date_format(RESERVE_DATE, '%Y-%m-%d') as RESERVE_DATE ,
+			SLIP_NO,
+			OFFLINE_YN,
+			OFFLINE_DATE,
+			RENT_GUBUN,
+			SORT_ORDER,
+			CONCEPT,
+			DISCOUNT_MSG,
+			WRITE_DH,
+			DATE_FORMAT(WRITE_DH, '%Y-%m-%d %T') AS FORMAT_WRITE_DH,
+			WRITER,
+			date_format(CHNG_DH, '%Y-%m-%d') as CHNG_DH ,
+			CHNGR,
+			PRODUCT_CNT,
+			PRODUCT_SIZE,
+			START_DATE,
+			END_DATE
+		from
+			rent_app t1
+			left join rent_times t2 on t1.PLACE_CD  = t2.place_cd and t1.PLACE_TIME_SEQ = t2.seq 
+		where MEM_NO = (select MEM_NO from v_member where id= #{userId})
+		and T1.APP_TYPE != 5
+		and WRITE_DH = #{writeDh}
+		order by RENT_IDX desc
+		limit 20
+	
+	</select>
 
 	<!-- My 대관 접수 선택 취소 -->
 	<update id="rentSelectCancel" parameterType="java.util.HashMap">

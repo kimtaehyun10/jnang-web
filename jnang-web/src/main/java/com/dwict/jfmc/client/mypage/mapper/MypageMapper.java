@@ -3,6 +3,8 @@ package com.dwict.jfmc.client.mypage.mapper;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import egovframework.rte.psl.dataaccess.mapper.Mapper;
 
 @Mapper
@@ -42,4 +44,9 @@ public interface MypageMapper {
 	Map<String, Object> reLocker(Map<String, Object> param);
 
 	List<Map<String, Object>> forOrderCancel(String tID);
+
+	List<Map<String, Object>> myRentDataList1(String userId);
+
+	List<Map<String, Object>> myRentDataList2(Map<String, Object> map);
+	
 }

@@ -83,6 +83,11 @@ function gtnUrl(val1) {
 	self.close();
 }
 
+opener.location.href='${rtnMap.goURL}';
+
+
+
+
 </script>
 	<table class="type">
 		<thead>

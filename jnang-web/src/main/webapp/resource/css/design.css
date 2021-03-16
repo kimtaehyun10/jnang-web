@@ -7,7 +7,9 @@
 /**********************************/
 /* 본문box */
 .con_bx {width:1200px;height:100%;margin:0 auto;}
+.con_bx1 {width:600px;height:100%;margin:0 auto;}
 .con_bx:after {clear:both;display:block;height:0;content:'';}
+.con_bx1:after {clear:both;display:block;height:0;content:'';}
 
 /* 반응형체어용 */
 .responsive_p {}
@@ -912,6 +914,7 @@ div.inputbox_02a{ padding:20px; border:1px solid #ddd; }
 @media screen and (max-width:1280px){
 /* 본문box */
 .con_bx {width:100%;padding:0 15px;}
+.con_bx1 {width:100%;padding:0 15px;}
 /*.con_bx {background:yellow;}*/
 
 .con_bx2 {padding:0 !important;}

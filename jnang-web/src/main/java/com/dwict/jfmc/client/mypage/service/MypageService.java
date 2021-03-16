@@ -42,4 +42,8 @@ public interface MypageService {
 	Map<String, Object> lockerPayDetail(HttpServletRequest request, Map<String, Object> param);
 
 	List<Map<String, Object>> forOrderCancel(String tID);
+
+	List<Map<String, Object>> getMyRentList1(String userId);
+
+	List<Map<String, Object>> getMyRentList2(Map<String, Object> map);
 }

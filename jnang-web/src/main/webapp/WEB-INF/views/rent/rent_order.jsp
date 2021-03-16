@@ -294,13 +294,6 @@ var data = {
 	
 	selectDC: function(dcPer, COMCD){
 		
-	var MEM_ID = '<%=MEM_ID%>';
-	if(MEM_ID != "vos1") {
-		alert("현재 관리자만 접근 가능합니다.");
-		return false;
-	}
-	
-	
 	var dePer = "";	
 	var because = "";
 	
@@ -314,7 +307,6 @@ var data = {
 			var because = objElement;
 		}
 	}
-
 
 	//히든값에 있는 아이디를 찾아 넣어줌
 	$('#because').val(because);
@@ -362,7 +354,7 @@ var data = {
 				$("#Amt").val(goodsAmt);
 				$("#GoodsName").val(goodsName);
 				
-			goPay();	
+				
 			} 
 		} catch (exception) {
 			alert("할인적용 오류 : 잠시후 다시 시도하여 주세요..");
@@ -411,19 +403,19 @@ function rentSave(){
 
 function send(COMCD){
 	
-	var MEM_ID = '<%=MEM_ID%>';
-	if(MEM_ID != "vos1") {
-		alert("현재 관리자만 접근 가능합니다.");
-		return false;
-	}
 	
-	debugger;
-	var because = String($("#because").val());
-	
-	if(because == null || because == ""){
-		alert("할인여부를 선택해주세요.");
-		return false;
+	<%
+	if(PLACE_GROUP == 4 ) {
+	%>
+		var because = String($("#because").val());
+		
+		if(because == null || because == ""){
+			alert("할인여부를 선택해주세요.");
+			return false;
+		}
+	<%
 	}
+	%>
 	
 	var goodsAmt = Number($("#goodsAmt").val());
 	var goodsName = String($("#GoodsName").val());
@@ -506,6 +498,12 @@ function send(COMCD){
 
 	function goPay() 
 	{	
+		
+		<%-- var MEM_ID = '<%=MEM_ID%>';
+		if(MEM_ID != "vos1") {
+			alert("현재 이용하실 수 없습니다. 관리자에게 문의해주세요.");
+			return false;
+		} --%>
 		
 		var frm1 = document.frm1;
 		if(frm1.agree1.checked == false) {
