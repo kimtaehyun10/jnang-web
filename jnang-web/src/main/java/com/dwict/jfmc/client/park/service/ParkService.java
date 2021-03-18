@@ -6,4 +6,6 @@ public interface ParkService {
 
 	void pubParkApplyWrite(Map<String, Object> param) throws Exception;
 
+	int pubParkCheck(Map<String, Object> requestMap);
+
 }

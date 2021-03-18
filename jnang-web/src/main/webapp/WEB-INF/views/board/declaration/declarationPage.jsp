@@ -42,7 +42,7 @@ font-size:18px;
 				<select id='dType' name='dType' class='inputbox_01a inputbox_01_s1' required>
 					<option value=''>-- 선택하세요 --</option>
 					<option value='1'>1.갑질 피해 신고센터</option>
-					<option value='2'>2.직원의 부닥이득 수수행위</option>
+					<option value='2'>2.직원의 부당이득 수수행위</option>
 					<option value='3'>3.직무수행 저해행위</option>
 					<option value='4'>4.성범죄 발생 신고</option>
 					<option value='5'>5.인권침해 발생 신고</option>

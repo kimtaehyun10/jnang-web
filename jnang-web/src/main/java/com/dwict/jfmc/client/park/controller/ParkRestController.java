@@ -7,9 +7,13 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -41,4 +45,18 @@ public class ParkRestController {
 		
 		return resultMap;
 	}
+	//공영주차 신청 중복 체크
+	@GetMapping(value = "/pubParkApply/pubParkCheck.json")
+	public Map<String, Object> pubParkCheck(@RequestParam Map<String, Object> requestMap, HttpServletRequest request) {
+		Map<String, Object> resultMap = new HashMap<>();
+		int checkNum = parkService.pubParkCheck(requestMap);
+		if(checkNum == 0) {
+			resultMap.put("msg", "OK");
+		}else {
+			resultMap.put("msg", "NO");
+		}
+		
+		return resultMap;
+	}
+	
 }

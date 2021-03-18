@@ -54,4 +54,10 @@ public class ParkServiceImpl implements ParkService {
 			}
 		}		
 	}
+
+	@Override
+	public int pubParkCheck(Map<String, Object> requestMap) {
+
+		return parkMapper.pubParkCheck(requestMap);
+	}
 }

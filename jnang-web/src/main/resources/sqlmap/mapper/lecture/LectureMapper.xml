@@ -176,6 +176,7 @@
                      		 AND D.CLASS_CD = I.CLASS_CD
                      		 AND I.ITEM_CD = F.ITEM_CD
                      		 AND F.CANCEL_YN = 'N'
+                     		 AND F.SALE_SEQ = D.SALE_SEQ
                      		 ) AS WEB_USER						     						     						     						     						     						     						     						     						                         	   
                  FROM TRAIN_CLASS A
                   WHERE A.USE_YN = 'Y'

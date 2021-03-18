@@ -90,6 +90,7 @@ var writeCondition = function(type, data){
 				case "JUNGNANG03" :
 				case "JUNGNANG04" :
 				case "JUNGNANG05" :
+				case "JUNGNANG07" :
 					sb1Html += '<option value='+ data[i].comcd +'>'+data[i].comnm+'</option>';
 					break;
 			}								

@@ -14,4 +14,7 @@
 			( #{pub_park_no}, #{name}, #{phone}, #{car_number}, #{car_model}, #{pub_park_name}, #{use_time}, #{discount}, now(), 'N', #{attach_id} )
 	</insert>   
 	
+	<select id="pubParkCheck" parameterType="java.util.HashMap" resultType="int">
+		SELECT COUNT(*) FROM PUBLIC_PARK WHERE CAR_NUMBER = #{car_number}
+	</select>
 </mapper>

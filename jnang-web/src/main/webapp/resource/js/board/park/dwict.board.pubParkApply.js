@@ -12,23 +12,25 @@ var pubParkfind = {
 			this.checkOk();
 		}
 	},
-	validate: function(){		
-		if($("#name").val() === ''){
+	validate: function(){
+		
+		
+		if(!$("#name").val().trim()){
 			alert('성명을 입력해주세요.');			
 			$("#name").focus();
 			return false;
 		};				
-		if($("#phone").val() === ''){
+		if(!$("#phone").val().trim()){
 			alert('연락처를 입력해주세요.');
 			$("#phone").focus();
 			return false;
 		};
-		if($("#car_number").val() === ''){
+		if(!$("#car_number").val().trim()){
 			alert('차량번호를 입력해주세요.');
 			$("#car_number").focus();
 			return false;
 		};
-		if($("#car_model").val() === ''){
+		if(!$("#car_model").val().trim()){
 			alert('차종(모델명)을 입력해주세요.');
 			$("#car_model").focus();
 			return false;
@@ -58,7 +60,33 @@ var pubParkfind = {
 			$('input[name="agree2"]').focus();
 			return false;
 		};
-		return true;
+				
+		// 동일차량 신청 체크 (개발해야함)
+		
+		var param = {
+			car_number : $("#car_number").val().replace(/(\s*)/g, "")	
+		}
+		var dataMsg = '';
+		$.ajax({
+	        type: "get",	        
+	        url:'/data/pubParkApply/pubParkCheck.json',
+	        data: param,
+	        dataType: 'json',
+	        async: false,
+	        success: function (data) {	        	
+	        	dataMsg = data.msg;
+	        },        
+	        error: function (jqXHR,textStatus,errorThrown) { 
+	        	console.log(jqXHR,textStatus,errorThrown);
+	        }
+	    });
+		if(dataMsg == 'NO'){
+			alert('이미 신청된 차량입니다.');
+			return false;
+		}else{
+			return true;
+		}
+		
 	},
 	checkOk: function(){
 		
@@ -68,7 +96,7 @@ var pubParkfind = {
 							
 		formData.append("name",$("#name").val());		
 		formData.append("phone",$("#phone").val());		
-		formData.append("car_number",$("#car_number").val());
+		formData.append("car_number",$("#car_number").val().replace(/(\s*)/g, ""));
 		formData.append("car_model",$("#car_model").val());
 		formData.append("pub_park_name",$("#pub_park_name").val());
 		formData.append("use_time",$("#use_time").val());

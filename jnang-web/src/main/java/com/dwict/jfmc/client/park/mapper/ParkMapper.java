@@ -9,4 +9,6 @@ public interface ParkMapper {
 
 	void pubParkApplyWrite(Map<String, Object> param);
 
+	int pubParkCheck(Map<String, Object> requestMap);
+
 }
