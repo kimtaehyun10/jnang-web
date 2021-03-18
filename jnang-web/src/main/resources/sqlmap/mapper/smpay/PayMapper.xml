@@ -169,7 +169,7 @@
 			#{STORE_NO},
 			#{PAY_LIST_YN},
 			'N',
-			'PG',
+			'VAN',
 			'',
 			'',
 			#{TID},
@@ -439,7 +439,10 @@
   	<update id="updateCancelRentApp" parameterType="java.util.HashMap">
   	 	UPDATE RENT_APP
   	 	SET APP_TYPE = '40'
-  	 	WHERE SLIP_NO = #{SLIP_NO}
+  	 		, TENNISPAYAMT = '0'
+	 		, DIVIDEDSALERENT = '0'
+	 		, LIGHTSUM = '0'
+  	 	WHERE TID = #{TID}
   	 	AND MEM_NO = #{MEM_NO}
   	</update>
   	
@@ -469,15 +472,19 @@
 		, PAY_DATE = #{WDATE}
 		, PAY_AMT = #{PAY_AMT}
 		, TID = #{TID}
+		, LIGHTSUM = #{LIGHTSUM}
+		<if test="dividedSaleRent != null and dividedSaleRent != ''">
+			, DIVIDEDSALERENT = #{dividedSaleRent}
+		</if>
+		<if test="tennisPayAmt != null and tennisPayAmt != ''">
+			, TENNISPAYAMT = #{tennisPayAmt}
+		</if>
  	WHERE 
  		RESERVE_DATE = #{RESERVE_DATE} 
  		AND APP_TYPE = 5
  		AND MEM_NO = #{MEM_NO}
  		AND PLACE_CD = #{PLACE_CD}
-		AND PLACE_TIME_SEQ IN  
-		<foreach item="item" collection="brdNoList" index="idx" open="(" close=")" separator=",">
-	       #{item}
-		</foreach>
+		AND PLACE_TIME_SEQ = #{brdNoArr}
 	</update>
 	
 	<!-- 체육관 대관 결제완료 처리 -->
@@ -598,7 +605,7 @@
 	</update>
 	<update id="memLecCancelStep4" parameterType="java.util.HashMap">
 	<!-- Select * from card_app_hist_damo where SLIP_NO in (Select SLIP_NO from CALC_MASTER where MEM_NO ='00135090') order by  WRITE_DH desc -->
-	update card_app_hist_damo set APP_GBN='2', CNL_DATE=DATE_FORMAT(now(),'%Y%m%d'), REMARK =#{REMARK}, CHNGR =#{MEM_NM}, CHNG_DH = now()  
+	update card_app_hist_damo set APP_GBN='2', CNL_DATE='20210101', REMARK =#{REMARK}, CHNGR =#{MEM_NM}, CHNG_DH = now()  
 	WHERE SLIP_NO =#{SLIP_NO} and MEM_NO=#{MEM_NO} and COMCD =#{COMCD}
 	</update>
 	<update id="memLecCancelStep5" parameterType="java.util.HashMap">
@@ -609,8 +616,8 @@
 	</update>
 	
     <!-- 인터넷 결제 당일  취소처리 종료 ################################## -->
-
-	<select id="getMethodCd" resultType="string" parameterType="string">
+    
+    <select id="getMethodCd" resultType="string" parameterType="string">
 		SELECT IFNULL(MAX(METHOD_CD),'98') AS METHOD_CD FROM PAY_METHOD 
 		WHERE P_COMCD = 'SMARTRO_PG'
 		  AND P_TYPE = 'CARD'
@@ -618,5 +625,15 @@
 		  AND USE_YN = 'Y' 
 		  AND CARD_SEC = #{fn_cd}
 	</select>
+	
+	<select id="rentAddLight" resultType="int" parameterType="string">
+		SELECT 
+			COUNT(*) 
+		FROM 
+			RENT_TIMES 
+		WHERE SEQ = #{brdNoArr}
+		AND ADD_LIGHT = '1'
+	</select>
+
 	
 </mapper>

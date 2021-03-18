@@ -730,6 +730,7 @@ public class PayServiceImpl implements PayService {
 		String COMCD= request.getParameter("COMCD")==null?"":request.getParameter("COMCD"); // 서브몰 정보
 		String rtn_idx	= request.getParameter("rtn_idx")==null?"":request.getParameter("rtn_idx"); // 서브몰 정보
 		String MEM_ID= request.getParameter("MEM_ID")==null?"":request.getParameter("MEM_ID"); // 서브몰 정보
+		String realSaleRentPrice			= request.getParameter("realSaleRentPrice")==null?"":request.getParameter("realSaleRentPrice"); //개별할인가격
 		//String rtnUrl = "http://14.36.179.143:9470/smartPay/rentpay";
 		String SspMallID			= request.getParameter("SspMallID")==null?"":request.getParameter("SspMallID"); // 매입사코드
 		String MemberNo			= request.getParameter("MemberNo")==null?"":request.getParameter("MemberNo"); // 매입사코드
@@ -744,6 +745,7 @@ public class PayServiceImpl implements PayService {
 			
 			if (PLACE_CD.equals("8") || PLACE_CD.equals("11")) {
 				because     = arrayTmp[5];
+				realSaleRentPrice = arrayTmp[6];
 			}
 			
 		}
@@ -870,33 +872,76 @@ public class PayServiceImpl implements PayService {
 		    	maps.put("WDATE", ymdhis);
 		    	maps.put("SEQ", "");
 		    	
+		    	String lightSum = "0";
+		    	
 		    	//실서버에서 3번 중복저장됨 그래서 중복첵크용 나는 초보자니 이렇게 해도됨 
 		    	dataCnt = mapper.rentDblChk(maps);
 		    	if (dataCnt ==0) {
 			    	mapper.rentOrderSEQ(maps);
 			    	//int od_seq = (int) maps.get("SEQ");
-	
+			    	
+			    
+			    	
+			    	
 					// 대간 결제 정보 저장
 			    	//선택된 대관 idx 값들 배열화 //146,147,11,333,444
 			    	final String[] brdNoArr =  rtn_idx.split(",");
+			    	
+			    	//선택된 대관가격 값들 배열화
+			    	final String[] saleRentPrice =  realSaleRentPrice.split(",");
+			    	
+			    	
+					/*
+					 * maps.put("ORDER_SEQ", maps.get("SEQ")); maps.put("brdNoList", brdNoArr);
+					 * maps.put("SLIP_NO", NEXT_SLIP_NO); maps.put("MEM_NO", MEM_NO);
+					 * maps.put("PLACE_CD", PLACE_CD); maps.put("RESERVE_DATE", RESERVE_DATE);
+					 */// 1, 2, 3, 4
 			    	maps.put("ORDER_SEQ", maps.get("SEQ"));
 					maps.put("brdNoList", brdNoArr);
 					maps.put("SLIP_NO", NEXT_SLIP_NO);
 					maps.put("MEM_NO", MEM_NO);
 					maps.put("PLACE_CD", PLACE_CD);
 					maps.put("RESERVE_DATE", RESERVE_DATE);
+					maps.put("LIGHTSUM", lightSum);
 					
-
+					if(!brdNoArr.equals("") || brdNoArr != null) {
+						
+						for (int i = 0; i < brdNoArr.length; i ++) { // 151, 152, 153
+							
+								int lights = mapper.rentAddLight(brdNoArr[i]);
+								if (PLACE_CD.equals("8") || PLACE_CD.equals("11")) {
+									if(lights > 0) {
+										lightSum = "3000";
+									}else {
+										lightSum = "0";
+									}
+								} else { 
+									lightSum = "0";
+								}
+								int rentPay = Integer.parseInt(saleRentPrice[i]);
+								int lightPay = Integer.parseInt(lightSum);
+								int tennisPayAmt = rentPay + lightPay;
+								
+								maps.put("dividedSaleRent",saleRentPrice[i]);
+								maps.put("tennisPayAmt",tennisPayAmt);
+								maps.put("LIGHTSUM", lightSum);
+								maps.put("brdNoArr",brdNoArr[i]);
+								mapper.rentOrderSave2(maps);
+							
+						}
+					}
+					
+				
 					
 					//대관 결제 정보 저장
 					mapper.rentOrderSave(maps);
-					mapper.rentOrderSave2(maps);
+					
 					
 					String APP_GBN	= (P_TYPE.equals("CARD")) ? "1" : "3";
 					
 					maps.put("APP_DATE", APP_DATE);
 					maps.put("APP_GBN", APP_GBN);
-					maps.put("SEQ", rtn_idx);
+					maps.put("SEQ", null);
 					
 					mapper.setPayList2(maps);
 					

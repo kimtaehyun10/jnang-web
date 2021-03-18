@@ -628,6 +628,7 @@
 	<update id="updateTennisAppType" parameterType="java.lang.Object">
 		UPDATE RENT_APP
         SET APP_TYPE = '40'
+        
         <![CDATA[
         	WHERE WRITE_DH < (SELECT DATE_ADD(NOW(), INTERVAL -1 HOUR))
         ]]>

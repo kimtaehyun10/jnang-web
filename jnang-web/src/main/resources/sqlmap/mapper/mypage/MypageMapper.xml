@@ -314,12 +314,14 @@
 				when '30' then '확정'
 				when '40' then '취소'
 				when '50' then '환불신청중'
+				when '60' then '환불완료'
 			end as APP_TYPE_NM,
 			RENT_TYPE,
 			DISPLAY_YN,
 			FORMAT(SALE_AMT , 0) as SALE_AMT,
 			PAY_AMT,
 			PAY_DATE,
+			date_format(PAY_DATE, '%Y-%m-%d') as PAY_DATE_RE,
 			date_format(RESERVE_DATE, '%Y-%m-%d') as RESERVE_DATE ,
 			SLIP_NO,
 			OFFLINE_YN,
@@ -391,6 +393,7 @@
 				when '30' then '확정'
 				when '40' then '취소'
 				when '50' then '환불신청중'
+				when '60' then '환불완료'
 			end as APP_TYPE_NM,
 			RENT_TYPE,
 			DISPLAY_YN,

@@ -85,6 +85,8 @@ public interface PayMapper {
 	void rentOrderSave2(Map<String, Object> maps);
 
 	String getMethodCd(String fn_cd);
+	
+	int rentAddLight(String brdNoArr);
 
 
 

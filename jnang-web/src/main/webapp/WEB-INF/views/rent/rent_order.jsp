@@ -10,6 +10,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resource/js/common.js"></script>
 <%
 /******************************************************************************
@@ -94,6 +95,7 @@ String commaRent = "";
 String saleTot = ""; 
 String saleRent = "";
 String commaLight = "";
+String commaNum1 = "";
 %>
 <c:set var="PLACE_GROUP" value="${rentCfg.PLACE_GROUP}" />
 <c:set var="RENT_AMT" value="${rentCfg.RENT_AMT}" />
@@ -294,6 +296,9 @@ var data = {
 	
 	selectDC: function(dcPer, COMCD){
 		
+	
+
+
 	var dePer = "";	
 	var because = "";
 	
@@ -319,10 +324,30 @@ var data = {
 			return false;	
 		}
 	}
+	 
+	var saleRentPrice = "";
+	var realSaleRentPrice = "";
+	var fileValue = $("input[name='saleRentPrice']").length;
+    var fileData = new Array(fileValue);
+    for(var i=0; i<fileValue; i++){                          
+         fileData[i] = $("input[name='saleRentPrice']")[i].value;
+         saleRentPrice = fileData[i].replaceAll(",", "");
+         saleRentPrice = saleRentPrice - (saleRentPrice * (dcPer/100));
+         
+         if(i == 0) {
+        	 realSaleRentPrice += saleRentPrice + "," ; 
+         } else if (i == (fileValue -1)) {
+        	 realSaleRentPrice += saleRentPrice;
+         } else {
+        	 realSaleRentPrice += saleRentPrice + "," ; 
+         }
+         
+    }
 	
-	
+    alert(realSaleRentPrice);
 	
 	var rentSum = Number($("#rentSum").val());
+	var dataListLength = Number($("#dataListLength").val());
 	var saleRent = rentSum - (rentSum * (dcPer/100));
 	var lightSum = Number($("#lightSum").val());
 	var goodsAmt = Number(lightSum) + Number(saleRent);
@@ -330,6 +355,9 @@ var data = {
 	var commaRent =	AmountCommas(saleRent);
 	var commaLight = AmountCommas(lightSum);
 	var goodsName = String($("#GoodsName").val());
+	
+	
+	$('#ReturnURL').val($('#ReturnURL').val()+'/'+realSaleRentPrice);
 	
 	var html1='';
 	html1 += "<span id='AmtDP'>"
@@ -686,11 +714,11 @@ function send(COMCD){
 					<%
 					priceMsg = (priceMsg.equals("")) ? "" : " ["+ priceMsg +"]";
 					
-					String commaNum1 = NumberFormat.getInstance().format(rent_t_timePrice);
+					commaNum1 = NumberFormat.getInstance().format(rent_t_timePrice);
 					%>
 	
 					&nbsp; ${result.RESERVE_DATE} &nbsp; ${result.item} &nbsp; <%=commaNum1 %> <%=priceMsg %><BR>
-				
+					<input type="hidden" name="saleRentPrice" value="<%=commaNum1 %>" />
 				<%
 				}
 				%>
@@ -843,6 +871,7 @@ function send(COMCD){
 	    <input type="hidden" id="commaRent" value="<%=commaRent %>" />
 	    <input type="hidden" id="commaLight" value="<%=commaLight %>" />
 	    <input type="hidden" id="saleRent" value="<%=saleRent %>" />
+	    <input type="hidden" id="dataListLength" value="${fn:length(dataList.dataList) }" />
 	    <input type="hidden" id="refComCd" value="${rentCfg.COMCD}" />
 	    <input type="hidden" id="rentSum" value="<%=rentSum%>" />
 	    <input type="hidden" id="lightSum" value="<%=lightSum%>" />
@@ -946,7 +975,10 @@ if (PLACE_GROUP == 2 || PLACE_GROUP == 3) {
 <%
 }
 %>
+	    	
 		    <input type="hidden" name="PayType" maxlength="2" value="">
+		    
+		    <input type="hidden" id="dividedSaleRent" name="dividedSaleRent" value="">
 			<!-- 수량 -->
 		    <input type="hidden" id="GoodsCnt" name="GoodsCnt" maxlength="2" value="1">
 			<!--<div>상품명:</div>-->
