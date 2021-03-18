@@ -407,7 +407,7 @@ public class PayServiceImpl implements PayService {
 	       		String SEC_CARD_NO2 = "";
 	       		String SEC_CARD_NO3 = "";
 	       		String SEC_CARD_NO4 = "";       		
-	       		
+	       			       		
 	       		String APP_CARD_CD = mapper.getMethodCd(fn_cd); //aPayList.getJSONObject(ii).getString("APP_CARD_CD").toString(); //카드사 코드
 	       		String APP_CARD_HALBU = CardQuota; //aPayList.getJSONObject(ii).getString("APP_CARD_HALBU").toString(); //카드사 할부       		
 	       		String APP_CASH_INFO = "";//aPayList.getJSONObject(ii).getString("APP_CASH_INFO").toString(); //현금영수 입력정보

@@ -169,7 +169,7 @@
 			#{STORE_NO},
 			#{PAY_LIST_YN},
 			'N',
-			'VAN',
+			'PG',
 			'',
 			'',
 			#{TID},
