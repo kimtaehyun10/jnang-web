@@ -114,7 +114,7 @@ var initPage = function(){
 		
 		var btnHtml = '';
 		btnHtml += '<a class="size_m2 btn_gray2" href="/lecture/list">목록</a>';
-		btnHtml += "<a class='size_m2 btn_red2' onclick=\"goBtn('"+ SEQ +"','"+ 10 +"','"+ data.classNm +"','"+ data.comcd +"' );\">결제</a>"; // 실 결제 가격 data.costAmt
+		btnHtml += "<a class='size_m2 btn_red2' onclick=\"goBtn('"+ SEQ +"','"+ data.costAmt +"','"+ data.classNm +"','"+ data.comcd +"' );\">결제</a>"; // 실 결제 가격 data.costAmt
 		
 		$('#insertLecture').empty().append(btnHtml);
 		
