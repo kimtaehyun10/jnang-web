@@ -94,7 +94,7 @@ String MEM_MAIL = member.getEmail();
 					<%
 					//<!-- 재등록 버튼 -->
 					String a_dateYM = ITEM_EDATE.substring(0,6); //구매 종료 월
-					String t_dateYM = today.substring(0,6); //date 댱월
+					String t_dateYM = "202104";        //today.substring(0,6); //date 댱월
 					
 					String a_dateD = ITEM_EDATE.substring(6); //구매 종료일
 					String t_dateD = today.substring(6); //date 당일
@@ -112,8 +112,11 @@ String MEM_MAIL = member.getEmail();
 							rePay = true;
 						}
 					//신대 다목적 재등록 18~24일
-					} else if (COMCD.equals("JUNGNANG04") && a_dateYM.equals(t_dateYM) && toDay >= 18 && toDay <= 24 ) {
-						rePay = true;						
+					} else if (a_dateYM.equals(t_dateYM) && toDay >= 18 && toDay <= 24 ) {
+						if(COMCD.equals("JUNGNANG04") || COMCD.equals("JUNGNANG05")){
+							rePay = true;	
+						}
+												
 					}
 					
 					//재 수강신청 버튼					

@@ -134,7 +134,7 @@ const dateUtil = {
 			var temp = now.getMonth() + 1;
 		}else if(day <='07' && comcd == 'JUNGNANG04' || comcd == 'JUNGNANG05'){
 			var temp = now.getMonth() + 1;
-		}else{
+		}else{			
 			var temp = now.getMonth() + 2;
 		}		
 		
