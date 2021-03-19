@@ -344,8 +344,6 @@ var data = {
          
     }
 	
-    alert(realSaleRentPrice);
-	
 	var rentSum = Number($("#rentSum").val());
 	var dataListLength = Number($("#dataListLength").val());
 	var saleRent = rentSum - (rentSum * (dcPer/100));

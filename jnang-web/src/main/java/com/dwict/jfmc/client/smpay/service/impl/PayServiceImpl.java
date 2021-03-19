@@ -887,7 +887,9 @@ public class PayServiceImpl implements PayService {
 			    	//선택된 대관 idx 값들 배열화 //146,147,11,333,444
 			    	final String[] brdNoArr =  rtn_idx.split(",");
 			    	
+			    
 			    	//선택된 대관가격 값들 배열화
+			    	//축구장 야구장의 경우 가상계좌루트를 이용하므로 따로 조건처리 하지않음
 			    	final String[] saleRentPrice =  realSaleRentPrice.split(",");
 			    	
 			    	
@@ -903,21 +905,16 @@ public class PayServiceImpl implements PayService {
 					maps.put("PLACE_CD", PLACE_CD);
 					maps.put("RESERVE_DATE", RESERVE_DATE);
 					maps.put("LIGHTSUM", lightSum);
-					
-					if(!brdNoArr.equals("") || brdNoArr != null) {
-						
-						for (int i = 0; i < brdNoArr.length; i ++) { // 151, 152, 153
-							
+						if (PLACE_CD.equals("8") || PLACE_CD.equals("11")) {
+						for (int i = 0; i < saleRentPrice.length; i ++) { // 151, 152, 153
 								int lights = mapper.rentAddLight(brdNoArr[i]);
-								if (PLACE_CD.equals("8") || PLACE_CD.equals("11")) {
 									if(lights > 0) {
 										lightSum = "3000";
 									}else {
 										lightSum = "0";
 									}
-								} else { 
-									lightSum = "0";
-								}
+								
+								
 								int rentPay = Integer.parseInt(saleRentPrice[i]);
 								int lightPay = Integer.parseInt(lightSum);
 								int tennisPayAmt = rentPay + lightPay;
@@ -927,9 +924,8 @@ public class PayServiceImpl implements PayService {
 								maps.put("LIGHTSUM", lightSum);
 								maps.put("brdNoArr",brdNoArr[i]);
 								mapper.rentOrderSave2(maps);
-							
+							}
 						}
-					}
 					
 				
 					
