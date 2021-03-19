@@ -201,6 +201,7 @@
 			 ,mem_birth 	=  replace(#{mem_birth},'-','')
 			 ,mem_addr 	=	 #{mem_addr} 
 			 ,mem_addr2 	=	 #{mem_addr2} 
+			 ,hp 	=	 #{hp} 
 		 
 		ON DUPLICATE 
 		 KEY UPDATE 
@@ -209,6 +210,7 @@
 			 ,mem_birth 	= replace(#{mem_birth},'-','')
 			 ,mem_addr 	=	 #{mem_addr} 
 			 ,mem_addr2 	=	 #{mem_addr2} 	
+		 	 ,hp 	=	 #{hp} 
 	</insert>
 
 
@@ -261,7 +263,7 @@
 	<!-- 팀 회원 리스트 -->
 	<select id="getTeamMemberList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
 		select 
-			seq, team_seq, mem_nm, mem_birth, mem_addr, mem_addr2
+			seq, team_seq, mem_nm, mem_birth, mem_addr, mem_addr2, hp
 		from rent_team_mem 
 		where team_seq = (select seq from rent_team where mem_id = #{MEM_ID}  AND seq = #{SEQ} )
  		order by mem_nm, mem_birth

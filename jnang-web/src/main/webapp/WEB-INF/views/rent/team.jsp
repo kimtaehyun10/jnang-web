@@ -146,10 +146,12 @@ $(function(){
 			<select id="sp_type" name="sp_type" class="inputbox_01a" required>
 			  <option value='' /> == 종목 == </option>
 			  <!-- <option value='1'/> 체육관 </option> -->
-			  <option value='2' <% if (sp_type == 2 ) { out.print(" selected "); } %> />축구장</option>
-			  <option value='3' <% if (sp_type == 3 ) { out.print(" selected "); } %> />야구장 </option>
+			  <%-- <option value='2' <% if (sp_type == 2 ) { out.print(" selected "); } %> />축구장</option> --%>
+			  <%-- <option value='3' <% if (sp_type == 3 ) { out.print(" selected "); } %> />야구장 </option> --%>
+			  <!-- 현재는 테니스장만 신청 가능하도록  -->
 			  <option value='4' <% if (sp_type == 4) { out.print(" selected "); } %>/> 테니스장 </option>
 		    </select>
+		    <span style="color:red;">현재는 테니스장만 팀 신청이 가능합니다.</span>
 		 </td>
 		<th>신청구분</th>
 		<td><label>
@@ -220,9 +222,10 @@ $(function(){
 			<c:forEach items="${teamMemList}" var="result" varStatus="status">
 				<div id='m_list${status.count}' style='margin:5px;'>
 				${status.count}. 성명 : <span style='margin:0px 5px 0 5px;display:inline-block; width:100px; border: none;'><input type='text' id='uname' name='uname' value='${result.mem_nm}' style='width:100%;'></span>
+				연락처 : <span style='margin:0px 5px 0 5px;display:inline-block; width:110px; border: none;' class='ali_c'><input type='text' class='uhp' value='${result.hp}' oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="8" data-min="8" name='hp' style='width:100%;'></span>
 				생년월일 : <span style='margin:0px 5px 0 5px;display:inline-block; width:100px; border: none;' class='ali_c'><input type='text' class='sdate' value='${result.mem_birth}' oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="8" data-min="8" name='ubrth' style='width:100%;'></span>
-				주소 : <span style='margin:0px 5px 0 5px;display:inline-block; width:400px; border: none;' class='ali_c'><input type='text' id='addr${status.count}' value='${result.mem_addr}' name='uaddr' style='width:100%;' onclick='execDaumPostcode(document.getElementById("zip"), document.getElementById("addr${status.count}"));'></span>
-				상세주소 : <span style='margin:0px 5px 0 5px;display:inline-block; width:200px; border: none;' class='ali_c'><input type='text' name='uaddr2' value='${result.mem_addr2}' style='width:100%;'></span>
+				주소 : <span style='margin:0px 5px 0 5px;display:inline-block; width:300px; border: none;' class='ali_c'><input type='text' id='addr${status.count}' value='${result.mem_addr}' name='uaddr' style='width:100%;' onclick='execDaumPostcode(document.getElementById("zip"), document.getElementById("addr${status.count}"));'></span>
+				상세주소 : <span style='margin:0px 5px 0 5px;display:inline-block; width:100px; border: none;' class='ali_c'><input type='text' name='uaddr2' value='${result.mem_addr2}' style='width:100%;'></span>
  				<a onclick='del("${status.count}",${result.seq});'> - ${status.count}. 삭제</a></div>
 			</c:forEach>
 	  	

@@ -94,9 +94,10 @@ function mem_add() {
 	var dataCnt = $('input:text[name="uname"]').length;	
 	dataCnt ++;
 	var fld = "<div id='m_list"+ dataCnt +"' style='margin:5px;'>"+ dataCnt +". 성명 : <span style='margin:0px 5px 0 5px;display:inline-block; width:100px; border: none;'><input type='text' id='uname' name='uname' value='' style='width:100%;'></span> "
+		+ "연락처 : <span style='margin:0px 5px 0 5px;display:inline-block; width:110px; border: none;' class='ali_c'><input type='text' name='hp' style='width:100%;' value='' placeholder='ex)01011112222' oninput=\"this.value = this.value.replace(/[^0-9.]/g, '');\"></span> "
 		+ "생년월일 : <span style='margin:0px 5px 0 5px;display:inline-block; width:100px; border: none;' class='ali_c'><input type='text' class='sdate' id='ubrth' value='' name='ubrth' placeholder='ex)19830101' data-min='8' maxlength='8' style='width:100%;' oninput=\"this.value = this.value.replace(/[^0-9.]/g, '');\"></span> "
-		+ "주소 : <span style='margin:0px 5px 0 5px;display:inline-block; width:400px; border: none;' class='ali_c'><input type='text' id='addr"+dataCnt+"' value='' name='uaddr' style='width:100%;' onclick='execDaumPostcode(document.getElementById(\"zip\"), document.getElementById(\"addr"+dataCnt+"\"));'></span> "
-		+ "상세주소 : <span style='margin:0px 5px 0 5px;display:inline-block; width:200px; border: none;' class='ali_c'><input type='text' name='uaddr2' style='width:100%;'></span> "
+		+ "주소 : <span style='margin:0px 5px 0 5px;display:inline-block; width:300px; border: none;' class='ali_c'><input type='text' id='addr"+dataCnt+"' value='' name='uaddr' style='width:100%;' readonly='readonly' onclick='execDaumPostcode(document.getElementById(\"zip\"), document.getElementById(\"addr"+dataCnt+"\"));'></span> "
+		+ "상세주소 : <span style='margin:0px 5px 0 5px;display:inline-block; width:100px; border: none;' class='ali_c'><input type='text' name='uaddr2' style='width:100%;'></span> "
 		+ "<a onclick='del(\""+ dataCnt +"\",0);'> - "+ dataCnt +". 삭제</a></div>";
 	//sessionStorage.setItem("k"+dataCnt, fld);
 	$('#mem_list').append(fld);
@@ -149,6 +150,7 @@ function send() {
 		for (ii = 0 ; ii < dataCnt; ii++) {
 			var uname = $("input[name=uname]").eq(ii).val();
 			var ubrth = $("input[name=ubrth]").eq(ii).val();
+			var hp = $("input[name=hp]").eq(ii).val();
 			if (uname == "") {
 				alert((ii+1) +"번째줄 이름 입력은 필수값입니다.");
 				return false;
@@ -157,8 +159,13 @@ function send() {
 				alert((ii+1) +"번째줄 생년월일 입력은 필수값입니다.");
 				return false;
 			}
+			if (hp == "") {
+				alert((ii+1) +"번째줄 연락처 입력은 필수값입니다.");
+				return false;
+			}
 			var data = uname
 					+ "|"+ ubrth
+					+ "|"+ hp
 					+ "|"+ $("input[name=uaddr]").eq(ii).val()
 					+ "|"+ $("input[name=uaddr2]").eq(ii).val()
 					+ "//";
@@ -172,6 +179,7 @@ function send() {
 		formData.append("arryDel",$("#arryDel").val());
 		formData.append("arryData",$("#arryData").val());
 		formData.append("ubrth",$("#ubrth").val());
+		formData.append("hp",$("#hp").val());
 		/*if (file != undefined) {
 			for(var i=0;i<files.length;i++){
 				formData.append("files",files[i]);
@@ -222,7 +230,7 @@ function send() {
             success: function (data) {
 
 				if (data == "1" || data == "2") {
-					alert('팀이 저장 되었습니다.');
+					alert('팀 신청이 완료되었습니다.\n팀은 48시간내에 관리자에 의해 등록여부가 완료됩니다.');
 					//top.location.href ='/rent/team';
 					top.location.reload();
 					

@@ -157,8 +157,9 @@ public class RentServiceImpl implements RentService {
 	  			strMap.put("mem_id", requestMap.get("mem_id"));
 	  			strMap.put("mem_nm", tmpStr[0]);
 	  			strMap.put("mem_birth", tmpStr[1]);
-	  			strMap.put("mem_addr", tmpStr[2]);
-	  			strMap.put("mem_addr2", tmpStr[3]);
+	  			strMap.put("hp", tmpStr[2]);
+	  			strMap.put("mem_addr", tmpStr[3]);
+	  			strMap.put("mem_addr2", tmpStr[4]);
 	  			strMap.put("teamSEQ", teamSEQ);
 				System.out.println("sssssssssss:"+ strMap);
 				mapper.teamMemSave(strMap);

@@ -121,7 +121,7 @@ public class RentRestController {
 		
 		requestMap.put("ATTACH_ID", ATTACH_ID);
 		
-		//예약 저장
+		//팀 정보 저장
 		final int rtn = rtnService.teamSave(requestMap, request);
 
 		return rtn;
