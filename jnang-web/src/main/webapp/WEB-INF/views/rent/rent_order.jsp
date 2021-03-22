@@ -316,6 +316,10 @@ var data = {
 	//히든값에 있는 아이디를 찾아 넣어줌
 	$('#because').val(because);
 	
+	//뒤에 할인값이 계속 연달아 붙어서 function호출할 때 마다 초기화 된 ReturnURL값을 계속 넣어준다.
+	var ReturnUrl1 = $('#ReturnURL1').val();
+	$('#ReturnURL').val(ReturnUrl1); 
+	
 	$('#ReturnURL').val($('#ReturnURL').val()+'/'+because);
 	if(because > 0 ) {
 		if (confirm("\n 이용자의 50%가 할인대상자입니까? (할인여부 현장확인) ")) {
@@ -331,7 +335,10 @@ var data = {
     var fileData = new Array(fileValue);
     for(var i=0; i<fileValue; i++){                          
          fileData[i] = $("input[name='saleRentPrice']")[i].value;
-         saleRentPrice = fileData[i].replaceAll(",", "");
+         //saleRentPrice = fileData[i].replaceAll(",", "");
+         //saleRentPrice.replace(/\,/g,"");
+         saleRentPrice = fileData[i].replace(/\n/g,'').length;
+         
          saleRentPrice = saleRentPrice - (saleRentPrice * (dcPer/100));
          
          if(i == 0) {
@@ -354,7 +361,14 @@ var data = {
 	var commaLight = AmountCommas(lightSum);
 	var goodsName = String($("#GoodsName").val());
 	
-	
+	/* if(returnUrlSplit <= 9) {
+		returnUrlValue = $('#ReturnURL').val();	
+	} else {
+		
+	}
+	console.log($('#ReturnURL').val().substring($('#ReturnURL').val().lastIndexOf('/'),$('#ReturnURL').val().length));
+	//$('#ReturnURL').val().substring($('#ReturnURL').val().lastIndexOf('/'),$('#ReturnURL').val().length);
+	 */
 	$('#ReturnURL').val($('#ReturnURL').val()+'/'+realSaleRentPrice);
 	
 	var html1='';
@@ -367,6 +381,7 @@ var data = {
 	
 	$("#AmtDP").text(goodsAmt );
 	$("#Amt").val(goodsAmt);
+	$("#goodsAmt").val(goodsAmt);
 	
 	debugger;
 	
@@ -525,11 +540,11 @@ function send(COMCD){
 	function goPay() 
 	{	
 		
-		<%-- var MEM_ID = '<%=MEM_ID%>';
-		if(MEM_ID != "vos1") {
+		var MEM_ID = '<%=MEM_ID%>';
+		if(MEM_ID != "kjseo") {
 			alert("현재 이용하실 수 없습니다. 관리자에게 문의해주세요.");
 			return false;
-		} --%>
+		}
 		
 		var frm1 = document.frm1;
 		if(frm1.agree1.checked == false) {
@@ -994,6 +1009,7 @@ if (PLACE_GROUP == 2 || PLACE_GROUP == 3) {
 		    <input type="hidden" name="MID" maxlength="2" value="<%=MID%>">
 			
 		    <input type="hidden" name="ReturnURL" id="ReturnURL" maxlength="2" value="<%=ReturnURL%>?q=${dataList.RESERVE_DATE}/${dataList.PLACE_CD}/${rentCfg.COMCD}/${dataList.rtn_idx}/<%=MEM_ID%>">
+		    <input type="hidden" name="ReturnURL1" id="ReturnURL1" maxlength="2" value="<%=ReturnURL%>?q=${dataList.RESERVE_DATE}/${dataList.PLACE_CD}/${rentCfg.COMCD}/${dataList.rtn_idx}/<%=MEM_ID%>">
 		    <%-- <input type="hidden" id="returnURL" name="ReturnURL" maxlength="2" value="<%=ReturnURL%>"> --%>
 			
 		    <input type="hidden" name="ReceiptType" maxlength="2" value="0">
