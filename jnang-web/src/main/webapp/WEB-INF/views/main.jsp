@@ -2,7 +2,7 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/resource/js/page/main.min.js"></script>
 <a href='javascript:;' id='anchor_content' title='본문영역'></a>
 <div class='fr_body'>
-
+ 
 	<!-- 메인영역 { -->
 	<div class='main_sec1'>
 		<div class='con_bx con_bx2'>
