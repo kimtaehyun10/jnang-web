@@ -15,6 +15,6 @@
 	</insert>   
 	
 	<select id="pubParkCheck" parameterType="java.util.HashMap" resultType="int">
-		SELECT COUNT(*) FROM PUBLIC_PARK WHERE CAR_NUMBER = #{car_number}
+		SELECT COUNT(*) FROM PUBLIC_PARK WHERE #{car_number} LIKE CONCAT('%', CAR_NUMBER , '%')       
 	</select>
 </mapper>
