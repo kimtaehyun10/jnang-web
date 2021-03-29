@@ -20,9 +20,19 @@ var pubParkfind = {
 			$("#name").focus();
 			return false;
 		};				
-		if(!$("#phone").val().trim()){
+		if(!$("#phone1").val().trim()){
 			alert('연락처를 입력해주세요.');
-			$("#phone").focus();
+			$("#phone1").focus();
+			return false;
+		};
+		if(!$("#phone2").val().trim()){
+			alert('연락처를 입력해주세요.');
+			$("#phone2").focus();
+			return false;
+		};
+		if(!$("#phone3").val().trim()){
+			alert('연락처를 입력해주세요.');
+			$("#phone3").focus();
 			return false;
 		};
 		if(!$("#car_number").val().trim()){
@@ -93,9 +103,11 @@ var pubParkfind = {
 		var formData=new FormData();
 		var inputFile=$("#file");
 		var files=inputFile[0].files;	
-							
+		
+		var phone = $("#phone1").val() + "-" + $("#phone2").val() + "-" + $("#phone3").val();
+		
 		formData.append("name",$("#name").val());		
-		formData.append("phone",$("#phone").val());		
+		formData.append("phone", phone);		
 		formData.append("car_number",$("#car_number").val().replace(/(\s*)/g, ""));
 		formData.append("car_model",$("#car_model").val());
 		formData.append("pub_park_name",$("#pub_park_name").val());
