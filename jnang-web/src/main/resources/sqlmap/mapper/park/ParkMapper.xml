@@ -17,4 +17,10 @@
 	<select id="pubParkCheck" parameterType="java.util.HashMap" resultType="int">
 		SELECT COUNT(*) FROM PUBLIC_PARK WHERE #{car_number} LIKE CONCAT('%', CAR_NUMBER , '%')       
 	</select>
+	
+	<select id="pubParkComCd" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT * FROM ${table_name}
+		WHERE 1=1
+		AND USE_YN = 'Y'
+	</select>
 </mapper>

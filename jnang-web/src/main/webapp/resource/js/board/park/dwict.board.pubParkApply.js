@@ -6,6 +6,81 @@
 */
 'use strict'
 
+$(function(){
+	//html 소스가 셋팅된후 값 넣어준다
+	setTimeout(function(){
+		//주차장명 셋팅	
+		$.ajax({
+	        type: "get",	        
+	        url:'/data/pubParkApply/pubParkComCd.json',
+	        data: {
+	        	table_name : 'public_park_name'
+	        },
+	        dataType: 'json',
+	        async: false,
+	        success: function (data) {
+	        	
+	        	var html1 = '';
+	        	html1 += '<option value="">-- 선택하세요 --</option>';
+	        	for(var i=0;i<data.length;i++){
+	        		html1 += '<option value="'+data[i].public_park_name_idx+'">'+data[i].public_park_name+'</option>';
+	        	}
+	        	$('#pub_park_name').empty().append(html1);        	
+	        },        
+	        error: function (jqXHR,textStatus,errorThrown) { 
+	        	console.log(jqXHR,textStatus,errorThrown);
+	        }
+	    });
+		
+		//이용시간 셋팅
+		$.ajax({
+	        type: "get",	        
+	        url:'/data/pubParkApply/pubParkComCd.json',
+	        data: {
+	        	table_name : 'public_park_use_time'
+	        },
+	        dataType: 'json',
+	        async: false,
+	        success: function (data) {        	
+	        	
+	        	var html2 = '';
+	        	html2 += '<option value="">-- 선택하세요 --</option>';
+	        	for(var i=0;i<data.length;i++){
+	        		html2 += '<option value="'+data[i].use_time_idx+'">'+data[i].use_time_name+'</option>';
+	        	}
+	        	$('#use_time').empty().append(html2);
+	        },        
+	        error: function (jqXHR,textStatus,errorThrown) { 
+	        	console.log(jqXHR,textStatus,errorThrown);
+	        }
+	    });
+		
+		//요금감면 셋팅
+		$.ajax({
+	        type: "get",	        
+	        url:'/data/pubParkApply/pubParkComCd.json',
+	        data: {
+	        	table_name : 'public_park_discount'
+	        },
+	        dataType: 'json',
+	        async: false,
+	        success: function (data) {        	
+	        	
+	        	var html3 = '';        	
+	        	for(var i=0;i<data.length;i++){
+	        		html3 += '<option value="'+data[i].discount_idx+'">'+data[i].discount+'</option>';
+	        	}
+	        	$('#discount').empty().append(html3);
+	        	
+	        },        
+	        error: function (jqXHR,textStatus,errorThrown) { 
+	        	console.log(jqXHR,textStatus,errorThrown);
+	        }
+	    });	
+	}, 500);
+	
+});
+
 var pubParkfind = {	
 	proc: function(){
 		if(this.validate()){

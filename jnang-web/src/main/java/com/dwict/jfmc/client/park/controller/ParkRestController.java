@@ -58,5 +58,10 @@ public class ParkRestController {
 		
 		return resultMap;
 	}
-	
+	//공영주차 공통코드
+	@GetMapping(value = "/pubParkApply/pubParkComCd.json")
+	public List<Map<String, Object>> pubParkComCd(@RequestParam Map<String, Object> requestMap, HttpServletRequest request) {						
+		
+		return parkService.pubParkComCd(requestMap);
+	}
 }

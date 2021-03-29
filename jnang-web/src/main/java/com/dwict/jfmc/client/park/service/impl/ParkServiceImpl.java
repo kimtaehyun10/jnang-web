@@ -60,4 +60,10 @@ public class ParkServiceImpl implements ParkService {
 
 		return parkMapper.pubParkCheck(requestMap);
 	}
+
+	@Override
+	public List<Map<String, Object>> pubParkComCd(Map<String, Object> requestMap) {
+
+		return parkMapper.pubParkComCd(requestMap);
+	}
 }
