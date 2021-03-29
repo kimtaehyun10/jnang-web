@@ -784,4 +784,10 @@
 		WHERE TID = #{TID}
 	</update>
 	
+	<select id="nextAttachId" resultType="hashmap"  parameterType="java.util.HashMap">
+		SELECT IFNULL(MAX(RENT_IDX),0)+1 AS RENT_IDX, 
+		CONCAT('PPK','_','02020102','_',LPAD(IFNULL(MAX(RENT_IDX),0)+1,10,0)) AS attach_id								
+		FROM RENT_APP;
+	</select>
+	
 </mapper>

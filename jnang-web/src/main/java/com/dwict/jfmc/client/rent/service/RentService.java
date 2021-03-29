@@ -68,6 +68,7 @@ public interface RentService {
 	Map<String, Object> rentCancelSave(Map<String, Object> requestMap);
 	void cancelAppType(Map<String, Object> requestMap);
 	void updateTennisAppType();
+	String nextAttachId(Map<String, Object> param) throws Exception;
 	
 	
 	

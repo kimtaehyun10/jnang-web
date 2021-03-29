@@ -653,6 +653,38 @@ public class RentServiceImpl implements RentService {
 		return;
 		
 	}
+
+	@Override
+	public String nextAttachId(Map<String, Object> param) throws Exception {
+		final List<MultipartFile> fileList = (List<MultipartFile>) param.get("fileList");
+		
+		Map<String, Object> list = mapper.nextAttachId(param);
+		String attach_id = list.get("attach_id").toString();
+		
+		int index = 1;		
+		if (!fileList.isEmpty()) {
+			final File saveFolder = new File(storePath);
+			if (!saveFolder.exists() || saveFolder.isFile()) {
+				saveFolder.mkdirs();
+			}								
+			for(final MultipartFile mf : fileList) {
+				final String originFileName = mf.getOriginalFilename();
+				final String extName = originFileName.substring(originFileName.lastIndexOf("."), originFileName.length());				
+				final String reFileName = "PPK" + "_" + UUID.randomUUID().toString().replaceAll("-", "") + extName;
+				final String saveFile = storePath + reFileName;
+				mf.transferTo(new File(saveFile));
+				param.put("attachNo", index);
+				param.put("attachId", attach_id);
+				param.put("fileNm", originFileName);
+				param.put("virFileNm", reFileName);
+				param.put("fileExtsn", extName.replace(".", ""));
+				
+				boardMapper.saveAttach(param);
+				index++;
+			}
+		}
+		return attach_id;
+	}
 	
 
 }

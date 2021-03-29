@@ -87,15 +87,14 @@ public class RentRestController {
 		
 		param.put("fileList", fileList);
 		
-		rtnService.pubRentApplyWrite(param);
+		String attach_id = rtnService.nextAttachId(param);
 		
-		String ATTACH_ID = (String) param.get("attach_id");
 		//예약 저장
 		
 		System.out.println(requestMap);
 		System.out.println(param);
 		
-		requestMap.put("ATTACH_ID", ATTACH_ID);
+		requestMap.put("ATTACH_ID", attach_id);
 		
 		int rtn = rtnService.writeSave(requestMap);
 		return rtn;
@@ -111,15 +110,13 @@ public class RentRestController {
 		
 		param.put("fileList", fileList);
 		
-		rtnService.pubRentApplyWrite(param);
-		
-		String ATTACH_ID = (String) param.get("attach_id");
+		String attach_id = rtnService.nextAttachId(param);
 		//예약 저장
 		
 		System.out.println(requestMap);
 		System.out.println(param);
 		
-		requestMap.put("ATTACH_ID", ATTACH_ID);
+		requestMap.put("ATTACH_ID", attach_id);
 		
 		//팀 정보 저장
 		final int rtn = rtnService.teamSave(requestMap, request);
@@ -136,15 +133,13 @@ public class RentRestController {
 		final List<MultipartFile> fileList = files.getFiles("files");
 		param.put("fileList", fileList);
 		
-		rtnService.pubRentApplyWrite(param);
-		
-		String ATTACH_ID = (String) param.get("attach_id");
+		String attach_id = rtnService.nextAttachId(param);
 		//예약 저장
 		
 		System.out.println(requestMap);
 		System.out.println(param);
 		
-		requestMap.put("ATTACH_ID", ATTACH_ID);
+		requestMap.put("ATTACH_ID", attach_id);
 		
 		String PLACE_TIME_SEQ	= request.getParameter("PLACE_TIME_SEQ")==null?"":request.getParameter("PLACE_TIME_SEQ"); 
 		final String[] timeSeqArr =  PLACE_TIME_SEQ.split(",");

@@ -98,5 +98,6 @@ public interface RentMapper {
 	Object updateRtnAppType(Map<String, Object> requestMap);
 	void cancelAppType(Map<String, Object> requestMap);
 	void updateTennisAppType();
+	Map<String, Object> nextAttachId(Map<String, Object> param);
 	
 }

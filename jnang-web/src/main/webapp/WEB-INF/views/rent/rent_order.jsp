@@ -337,8 +337,9 @@ var data = {
          fileData[i] = $("input[name='saleRentPrice']")[i].value;
          //saleRentPrice = fileData[i].replaceAll(",", "");
          //saleRentPrice.replace(/\,/g,"");
-         saleRentPrice = fileData[i].replace(/\n/g,'').length;
+         saleRentPrice = fileData[i].replace(",","");
          
+        
          saleRentPrice = saleRentPrice - (saleRentPrice * (dcPer/100));
          
          if(i == 0) {
@@ -348,9 +349,8 @@ var data = {
          } else {
         	 realSaleRentPrice += saleRentPrice + "," ; 
          }
-         
     }
-	
+    
 	var rentSum = Number($("#rentSum").val());
 	var dataListLength = Number($("#dataListLength").val());
 	var saleRent = rentSum - (rentSum * (dcPer/100));

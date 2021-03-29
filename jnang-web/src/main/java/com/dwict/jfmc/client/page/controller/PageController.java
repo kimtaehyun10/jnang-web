@@ -1,15 +1,23 @@
 package com.dwict.jfmc.client.page.controller;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.InetAddress;
+import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.net.InetAddress;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.util.matcher.IpAddressMatcher;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -229,7 +237,46 @@ public class PageController {
 	
 	//대관신청 리스트 (/rent/ 로그인 페이지 안타도록 여기에 적용)
 	@RequestMapping(value = "/rentlist")
-	public ModelAndView step1(ModelAndView modelAndView, HttpServletRequest request) {
+	public ModelAndView step1(ModelAndView modelAndView, HttpServletRequest request) throws IOException {
+		
+		/*
+		 * URL whatismyip = new URL("http://checkip.amazonaws.com"); BufferedReader in =
+		 * new BufferedReader(new InputStreamReader(whatismyip.openStream()));
+		 * 
+		 * String ip = in.readLine(); //you get the IP as a String
+		 */
+		
+		
+        String ip = null;
+
+        ip = request.getHeader("X-Forwarded-For");
+        
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) { 
+            ip = request.getHeader("Proxy-Client-IP"); 
+        } 
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) { 
+            ip = request.getHeader("WL-Proxy-Client-IP"); 
+        } 
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) { 
+            ip = request.getHeader("HTTP_CLIENT_IP"); 
+        } 
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) { 
+            ip = request.getHeader("HTTP_X_FORWARDED_FOR"); 
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) { 
+            ip = request.getHeader("X-Real-IP"); 
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) { 
+            ip = request.getHeader("X-RealIP"); 
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) { 
+            ip = request.getHeader("REMOTE_ADDR");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) { 
+            ip = request.getRemoteAddr(); 
+        }
+		
+		modelAndView.addObject("ip", ip);
 		
 		final Map <String,Object> rentCfg = rentService.rentConfig(request);
 		if (rentCfg != null) {

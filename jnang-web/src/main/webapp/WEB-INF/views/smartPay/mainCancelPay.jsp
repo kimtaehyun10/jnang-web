@@ -84,7 +84,7 @@
 <title>스마트로::인터넷결제</title>
 
 <script language="javascript">
-<!--
+
 function goCancelCard() {
 	var formNm = document.tranMgr;
 	
@@ -124,20 +124,20 @@ function goCancelCard() {
 	return true;
 }
 
--->
+
 <%
 //테스트 PC에서는 확인하던지 수동으로 되도록
 final String strUrl = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort();
-if (strUrl.contains("localhost") || strUrl.contains("14.36.179.143") || userID.equals("kjseo")) {
+/* if (strUrl.contains("localhost") || strUrl.contains("14.36.179.143") || userID.equals("kjseo")) {
 	CancelAmt = "10";
 	
 
-} else {
+} else { */
 
 	//사용자 자동 폼 submit
 	if (TID != "" && CancelAmt != "" && COMCD != "") {
 	%>
-		setTimeout("goCancelCard();",500);
+		/* setTimeout("goCancelCard();",500); */
 	<%
 	} else {
 	
@@ -148,7 +148,7 @@ if (strUrl.contains("localhost") || strUrl.contains("14.36.179.143") || userID.e
 			<%
 			return;
 	}
-}
+/* } */
 %>
 </script>
 <style type="text/css">
