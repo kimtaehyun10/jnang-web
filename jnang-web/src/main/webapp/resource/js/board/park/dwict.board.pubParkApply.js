@@ -46,7 +46,14 @@ $(function(){
 	        	var html2 = '';
 	        	html2 += '<option value="">-- 선택하세요 --</option>';
 	        	for(var i=0;i<data.length;i++){
-	        		html2 += '<option value="'+data[i].use_time_idx+'">'+data[i].use_time_name+'</option>';
+	        		//이용시간 전일 주간 야간 홈페이지 selectbox 상세 표시
+	        		if(i==0){
+	        			html2 += '<option value="'+data[i].use_time_idx+'">'+data[i].use_time_name+'(24시간)</option>';
+	        		}else if(i==1){
+	        			html2 += '<option value="'+data[i].use_time_idx+'">'+data[i].use_time_name+'(09시~19시)</option>';
+	        		}else{
+	        			html2 += '<option value="'+data[i].use_time_idx+'">'+data[i].use_time_name+'(19시~익일09시)</option>';
+	        		}
 	        	}
 	        	$('#use_time').empty().append(html2);
 	        },        
