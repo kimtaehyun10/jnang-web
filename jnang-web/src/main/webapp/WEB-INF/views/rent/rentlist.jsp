@@ -83,9 +83,9 @@ var saveRtn = "${saveRtn}";
 		</div> -->
 	<!-- </div> -->
 <br>
-<div id="sub_cart" class=' ' style="height:1000px;">
+<div id="sub_cart" class='autoscroll_x1'>
 	<form name="frm" method="post">
-		<table class="stbl_l1a">
+		<table class="stbl_l1a con_wid">
 			<colgroup>
 				<col width="*">
 				<col width="20%">

@@ -76,6 +76,13 @@ public class RentController {
 		List<Map <String,Object>> rentList = pageService.getRentCalendar(requestMap, request);
 		modelAndView.addObject("rentList", rentList);
 		
+		String comNm = (String) rentCfg.get("COMNM");
+		
+		if(comNm.equals("중랑구민회관")) {
+			modelAndView.setViewName("/rent/rent_write2");
+			return modelAndView;
+		}
+		
 		modelAndView.setViewName("/rent/rent_write");
 		return modelAndView;
 	}

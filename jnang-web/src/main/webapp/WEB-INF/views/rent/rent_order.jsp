@@ -540,11 +540,11 @@ function send(COMCD){
 	function goPay() 
 	{	
 		
-		var MEM_ID = '<%=MEM_ID%>';
+		<%-- var MEM_ID = '<%=MEM_ID%>';
 		if(MEM_ID != "kjseo") {
 			alert("현재 이용하실 수 없습니다. 관리자에게 문의해주세요.");
 			return false;
-		}
+		} --%>
 		
 		var frm1 = document.frm1;
 		if(frm1.agree1.checked == false) {

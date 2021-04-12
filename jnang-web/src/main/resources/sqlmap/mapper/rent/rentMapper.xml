@@ -375,6 +375,12 @@
 			 ,END_DATE
 			 ,ATTACH_ID
 			 ,AUTHDATE
+			 ,PURPOSE
+			 ,DESK
+			 ,MIC
+			 ,HOME_ADDR
+			 ,TAPE_YN
+			 ,GROUP_NM
 		 ) VALUES ( 
 			  #{COMCD} 
 			 ,#{RENT} 
@@ -429,6 +435,12 @@
 			 ,#{END_DATE}   
 			 ,#{ATTACH_ID}
 			 ,now()
+			 ,#{PURPOSE}
+			 ,#{DESK}
+			 ,#{MIC}
+			 ,#{HOME_ADDR}
+			 ,#{TAPEYN}
+			 ,#{GROUP_NM}
 		)
 	</insert>
 

@@ -344,20 +344,20 @@ for (int ii = 0 ; ii < arryDays.length; ii++) {
 			//		|| (diffMonth <= 1 && todayYYMM < cntYYMM && ii < (32-1) && int_toYYMM <= int_today) ) {
 			//오늘의 월과 캘린더의 월이 같으면 무조건 예약 가능 누구나	
 			if(todayYYMM == selectMonth) {
-				/* rentDays[ii+1] = " <a class='size_m2 btn_green1' onclick=\"getRent('"+ int_rentYmd +"','"+PLACE_CD+"');\">예약 가능 ("+ (itemTot - rentCnt) +"건) </a>"; *///3월달만 막아달라 해서 일단 수동으로 막음
-				rentDays[ii] = "<a class='size_m2 btn_gray1'>예약 종료</a>";
+				rentDays[ii+1] = " <a class='size_m2 btn_green1' onclick=\"getRent('"+ int_rentYmd +"','"+PLACE_CD+"');\">예약 가능 ("+ (itemTot - rentCnt) +"건) </a>";//3월달만 막아달라 해서 일단 수동으로 막음
+				/* rentDays[ii] = "<a class='size_m2 btn_gray1'>예약 종료</a>"; */
 				//현재연도 + 월 + 날짜가 25일 26일이라면
 			} else if(day1 >= 25) {
 				if(int_rentYmd  <= nextMonth2 && myTeamList.get(0).get("TM_TYPE").equals("1") ){
-					/* rentDays[ii+1] = " <a class='size_m2 btn_green1' onclick=\"getRent('"+ int_rentYmd +"','"+PLACE_CD+"');\">예약 가능 ("+ (itemTot - rentCnt) +"건) </a>"; */
-					rentDays[ii] = "<a class='size_m2 btn_gray1'>준비중</a>";
+					rentDays[ii+1] = " <a class='size_m2 btn_green1' onclick=\"getRent('"+ int_rentYmd +"','"+PLACE_CD+"');\">예약 가능 ("+ (itemTot - rentCnt) +"건) </a>";
+					/* rentDays[ii] = "<a class='size_m2 btn_gray1'>준비중</a>"; */
 				} else if(day1 >= 27) {
 					if(int_rentYmd  <= nextMonth2 && myTeamList.get(0).get("TM_TYPE").equals("1") ){
-						/* rentDays[ii+1] = " <a class='size_m2 btn_green1' onclick=\"getRent('"+ int_rentYmd +"','"+PLACE_CD+"');\">예약 가능 ("+ (itemTot - rentCnt) +"건) </a>"; */
-						rentDays[ii] = "<a class='size_m2 btn_gray1'>준비중</a>";
+						rentDays[ii+1] = " <a class='size_m2 btn_green1' onclick=\"getRent('"+ int_rentYmd +"','"+PLACE_CD+"');\">예약 가능 ("+ (itemTot - rentCnt) +"건) </a>";
+						/* rentDays[ii] = "<a class='size_m2 btn_gray1'>준비중</a>"; */
 					} else if(int_rentYmd  <= nextMonth2 && myTeamList.get(0).get("TM_TYPE").equals("2") ){
-						/* rentDays[ii+1] = " <a class='size_m2 btn_green1' onclick=\"getRent('"+ int_rentYmd +"','"+PLACE_CD+"');\">예약 가능 ("+ (itemTot - rentCnt) +"건) </a>"; */
-						rentDays[ii] = "<a class='size_m2 btn_gray1'>준비중</a>";
+						rentDays[ii+1] = " <a class='size_m2 btn_green1' onclick=\"getRent('"+ int_rentYmd +"','"+PLACE_CD+"');\">예약 가능 ("+ (itemTot - rentCnt) +"건) </a>";
+						/* rentDays[ii] = "<a class='size_m2 btn_gray1'>준비중</a>"; */
 					}
 				}
 			}

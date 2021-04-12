@@ -81,11 +81,6 @@ function send() {
 
 		//이미 신청 중콕첵크
 		getRent('',<%=PLACE_CD%>,9);
-		var agree = $("input[name=agreeYn]:checked").val();
-		if(agree != 'Y'){
-			alert("개인정보 수집 동의서에 동의를 눌러주셔야 대관가능합니다.");
-			return false;	
-		}
 		
 		if (confirm("\n 대관 상담신청  하시겠습니까?\n ")) {
 		} else {
@@ -95,38 +90,11 @@ function send() {
 		var aItemList = new Array();
 			
 			var formData=new FormData();
-			
-			var checkedDesk = $('input:checkbox[id="deskBox"]').is(":checked");
-			
-			if(checkedDesk == true) {
-				formData.append("DESK","0");
-			}else {
-				formData.append("DESK",$("#DESK").val());
-			}
-			
-			var checkedMic = $('input:checkbox[id="micBox"]').is(":checked");
-			if(checkedMic == true) {
-				formData.append("MIC","0");
-			}else {
-				formData.append("MIC",$("#MIC").val());
-			}
-			
 			var inputFile=$("#file");
-			if(inputFile.length > 0) {
-				var files=inputFile[0].files;	
-				var fileCheck = document.getElementById("file").value;
-				for(var i=0;i<files.length;i++){
-					formData.append("files",files[i]);
-				}		
-			}
-			var tape = $("input[name=tapeYn]:checked").val();
+			var files=inputFile[0].files;	
+			var fileCheck = document.getElementById("file").value;
 			
-			//formData.append("TAPE_YN",);
 			formData.append("MEM_NO",$("#MEM_NO").val());
-			formData.append("TAPEYN",tape);
-			formData.append("GROUP_NM",$("#GROUP_NM").val());
-			formData.append("HOME_ADDR",$("#HOME_ADDR").val());
-			formData.append("PURPOSE",$("#PURPOSE").val());
 			formData.append("PLACE_CD",$("#PLACE_CD").val());
 			formData.append("MEM_NM",$("#MEM_NM").val());
 			formData.append("TEL",$("#TEL").val());
@@ -151,8 +119,10 @@ function send() {
 		    } */
 		    
 		    
-		
-		    
+			for(var i=0;i<files.length;i++){
+				formData.append("files",files[i]);
+			}		
+			
 			$.ajax({
 		        type: "post",
 		        enctype: 'multipart/form-data',
@@ -188,25 +158,6 @@ function send() {
 		return false;
 	
 };
-$(document).ready(function(){
-    $("#deskBox").change(function(){
-        if($("#deskBox").is(":checked")){
-            $("#DESK").val("");
-            $('#DESK').attr('readonly', true);
-        }else{
-        	$('#DESK').attr('readonly', false);
-        }
-    });
-    $("#micBox").change(function(){
-    	if($("#micBox").is(":checked")){
-        	$("#MIC").val("");
-            $('#MIC').attr('readonly', true);
-        }else {
-        	$('#MIC').attr('readonly', false);
-        }
-    })
-});
-
 
 
 </script>
@@ -232,31 +183,13 @@ $(document).ready(function(){
 	<tr>
 		<th>이름</th>
 		<td>
-			<input type="text" id="MEM_NM" name="MEM_NM" value="<c:out value='${myData.MEM_NM}'/>" maxlength="20" class="inputbox_01a" required="" placeholder="이름" readonly="readonly;">
-		</td>
-	</tr>
-	<tr>
-		<th>단체명</th>
-		<td>
-			<input type="text" id="GROUP_NM" name="GROUP_NM" value="" maxlength="20" class="inputbox_01a" required="" placeholder="단체명을 입력해주세요.">
-		</td>
-	</tr>
-	<tr>
-		<th>주소</th>
-		<td>
-			<input type="text" id="HOME_ADDR" name="HOME_ADDR" value="<c:out value='${myData.HOME_ADDR}'/>" maxlength="20" class="inputbox_01a inputbox_01_s3" required="" placeholder="" readonly="readonly;">
+			<input type="text" id="MEM_NM" name="MEM_NM" value="<c:out value='${myData.MEM_NM}'/>" maxlength="20" class="inputbox_01a" required="" placeholder="이름">
 		</td>
 	</tr>
 	<tr>
 		<th>연락처</th>
 		<td>
-			<input type="text" id="TEL" name="TEL" value="<c:out value='${myData.HP}'/>" maxlength="20" class="inputbox_01a" required="" placeholder="숫자만 입력해주세요." readonly="readonly;">
-		</td>
-	</tr>
-	<tr>
-		<th>행사명</th>
-		<td>
-			<input type="text" id="OBJECT" name="OBJECT" value="" maxlength="100" class="inputbox_01a inputbox_01_s3" required="" placeholder="행사명을 입력해주세요.">
+			<input type="text" id="TEL" name="TEL" value="<c:out value='${myData.HP}'/>" maxlength="20" class="inputbox_01a" required="" placeholder="숫자만 입력해주세요.">
 		</td>
 	</tr>
 	<tr>
@@ -264,12 +197,6 @@ $(document).ready(function(){
 		<td>
 			<input type="text" name="INWON" id="INWON" placeholder="숫자만 기입해주세요." maxlength="10" class="inputbox_01a" required=""
     			   oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
-		</td>
-	</tr>
-	<tr>
-		<th>사용 목적</th>
-		<td>
-			<input type="text" id="PURPOSE" name="PURPOSE" value="" maxlength="20" class="inputbox_01a" required="" placeholder="사용목적을 입력해주세요.">
 		</td>
 	</tr>
 	<tr>
@@ -298,26 +225,25 @@ $(document).ready(function(){
 		</td>
 	</tr>
 	<tr>
-		<th>철 책상</th>
+		<th>행사명</th>
 		<td>
-			<input type="text" id="DESK" name="DESK" value="" maxlength="20" class="inputbox_01a" required="" placeholder="" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />개
-			&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="deskBox" name="deskBox" value="0" style='width:30px; height:30px;'> 불필요
+			<input type="text" id="OBJECT" name="OBJECT" value="" maxlength="100" class="inputbox_01a inputbox_01_s3" required="" placeholder="제목">
 		</td>
 	</tr>
-	<tr>
-		<th>마이크 및 단성</th>
-		<td>
-			<input type="text" id="MIC" name="MIC" value="" maxlength="20" class="inputbox_01a" required="" placeholder="" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />개
-			&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="micBox" name="micBox" value="0" style='width:30px; height:30px;'> 불필요
-		</td>
-	</tr>
-	<tr>
-		<th>국민의례 TAPE</th>
-		<td>
-			<input type="radio" name="tapeYn" value="Y" checked> 필요&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-           	<input type="radio" name="tapeYn" value="N">불필요
-		</td>
-	</tr>
+	<c:if test="${rentCfg.COMNM ne '중랑구민회관'}">
+		<tr>
+			<th>대관신청서 양식</th>
+			<td>
+				<a href="/data/file/제3호서식_대관 사용 허가 신청서.hwp" class="fc_blue1 line_under">대관 사용 허가 신청서 다운로드</a>
+			</td>
+		</tr>
+		<tr>
+			<th>대관계약서 양식</th>
+			<td>
+				<a href="/data/file/제4호서식_대관 계약서.hwp" class="fc_blue1 line_under">대관 계약서 다운로드</a>
+			</td>
+		</tr>
+	</c:if>
 	<c:if test="${rentCfg.COMNM eq '중랑구민회관'}">
 		<tr>
 			<th>대관계약서 양식</th>
@@ -325,39 +251,29 @@ $(document).ready(function(){
 				<a class="btn_download_01_blue1a" href="/data/file/arsp.zip" download="">대관신청 다운로드</a>
 			</td>
 		</tr>
-	</c:if>
-	<c:if test="${rentCfg.COMNM eq '중랑구민회관'}">	
-		<tr>
-			<th>파일 업로드</th>
-			<td>
-				<span style="color:red">작성하신 대관계약서를 첨부해주세요.</span>
-				<br>
-				<input type="file" id="file" name="file" required="" multiple >
-				
-			</td>
-		</tr>
-	</c:if>
+	</c:if>	
 	<tr>
-		<th>개인정보수집동의서</th>
+		<th>파일 업로드</th>
 		<td>
-			<textarea name="CONCEPT" id="CONCEPT" maxlength="1000" style="height:200px;width:80%;" class="inputbox_01a" required="" readonly="readonly;">
-▪  수집목적 : 개인정보보호법제15조 전자정부법제36조(행정정보의공동이용에따라감면서류확인)/서울특별시중랑구립
-	      체육시설설치및운영에관한조례에의거구민체육센터 관련 업무에 이용됨에 동의합니다. 
-▪  수집항목(필수) : 본인의 생년월일, 주소, 유선연락처, 휴대폰연락처, 성별, 은행계좌번호(환불신청시)
-▪  기타수집 : 지방공기업경영평가, 감사, 고객만족도조사업무등에 이용됨에 동의합니다
-▪  수집한 개인정보는 제3자에게 제공되지 않습니다.
-▪  개인정보의(가입신청서) 보유 및 이용기간 : 보존기간 2년
+			<span style="color:red">작성하신 대관 사용 허가 신청서와 대관계약서를 첨부해주세요.</span>
+			<br>
+			<input type="file" id="file" name="file" required="" multiple >
+			
+		</td>
+	</tr>
+	<tr>
+		<th>문의내용</th>
+		<td>
+			<textarea name="CONCEPT" id="CONCEPT" maxlength="1000" style="height:200px;width:80%;" class="inputbox_01a" required="" placeholder="1,000자 이내로 작성하세요.">
+사용인원 : (예:최대 00명 )
+장비대여 : (예:마이크/조명시설/축구공)
+문의 내용 :  
 
 </textarea>
-			<br>	
-			<input type="radio" name="agreeYn" style="margin-left:65%;" value="Y"> 동의&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-           	<input type="radio" name="agreeYn" value="N">미동의
 		</td>
 	</tr>
     </tbody>
 </table>
-※ 대관시간 결정은 행사준비 시간, 반출, 청소시간을 포함하여 신청하시기 바랍니다.<br>
-※ 신청이외의 출입시 추가비용을 별도로 내셔야합니다.<br>
 ※ 담당자가 (매일)일정확인 후 개별 연락 드립니다.
 <br>
 <br>
