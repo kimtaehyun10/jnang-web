@@ -88,7 +88,7 @@
 			'N',
 			#{REMARK},
 			SYSDATE(),
-			#{USER_ID},
+			'중랑구시설관리공단', <!-- #{USER_ID}, 영수증 출력시 판매자 중랑구시설관리공단 고정 -->
 			SYSDATE(),
 			#{USER_ID}
 		)
