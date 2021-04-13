@@ -634,6 +634,14 @@
 		WHERE SEQ = #{brdNoArr}
 		AND ADD_LIGHT = '1'
 	</select>
-
+	
+	<select id="getBankMethodCd" resultType="string" parameterType="string">
+		SELECT IFNULL(MAX(METHOD_CD),'98') AS METHOD_CD FROM PAY_METHOD 
+		WHERE P_COMCD = 'INICIS'
+		  AND P_TYPE = 'BANK'
+		  AND PG_VAN = 'PG'
+		  AND USE_YN = 'Y' 
+		  AND CARD_SEC = #{bankCode}
+	</select>
 	
 </mapper>
