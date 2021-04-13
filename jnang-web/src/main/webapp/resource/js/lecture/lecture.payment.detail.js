@@ -12,7 +12,7 @@ $(function(){
 
 var lectDate = { }; //신청할 강좌 시작종료값 임시 저장
 var initPage = function(){
-	$.get('/data/lecture/program', {secureText:localStorage.getItem('lecture')}, function(data){		
+	$.get('/data/lecture/program', {secureText:localStorage.getItem('lecture')}, function(data){													
 		
 		var date = new Date(); 
 		var year = date.getFullYear(); 
@@ -119,6 +119,59 @@ var initPage = function(){
 		btnHtml += "<a class='size_m2 btn_red2' onclick=\"goBtn('"+ SEQ +"','"+ data.costAmt +"','"+ data.classNm +"','"+ data.comcd +"' );\">결제</a>";
 		
 		$('#insertLecture').empty().append(btnHtml);
+		$('#programTable').empty().append(tableDesc+tableHead+tableBody);
+		
+		//회원 성별 나이를 비교해서 가임여성 13~55세(10%), 경로우대(30%) 자동선택								
+		var beforeBirth = $('#memBirth').val();
+		var memBirth = new Date(beforeBirth.substr(0,4)+'/'+beforeBirth.substr(4,2)+'/'+beforeBirth.substr(6,2));
+		var age = date.getFullYear() - memBirth.getFullYear(); // 회원 나이
+		var gender = $('#memGender').val(); // 회원성별		
+		
+		if(age >= '13' && age <= '55' && gender == 'F'){
+			//가임여성
+			var html1 = '';
+	    	var html2 = '';
+	    	var html3 = '';
+	    	var beforeCost = '';
+	    	var afterCost = '';
+	    	var resultCost = '';    	    	    					
+
+    		html1 = '가임여성 13~55세(10%)';    		
+    		beforeCost = $('#lectureCost').val();
+    		afterCost = Math.round((beforeCost*0.1)/100)*100;
+    		resultCost = beforeCost - afterCost;
+    		html2 += '수강료 : '+comma_str_y(resultCost)+'원(할인가격 : '+comma_str_y(afterCost)+'원)';   			    	
+	    	
+	    	html3 += '<a class="size_m2 btn_gray2" href="/lecture/list">목록</a>';
+	    	html3 += "<a class='size_m2 btn_red2' onclick=\"goBtn('"+ SEQ +"','"+ resultCost +"','"+ data.classNm +"','"+ data.comcd +"');\">결제</a>";
+			
+	    	$("#DCREASON_CD").html(html1);		
+			$("#costHtml").html(html2);
+			$('#insertLecture').empty().append(html3);
+			
+		}else if(age >= '65'){
+			//경로우대
+			var html1 = '';
+	    	var html2 = '';
+	    	var html3 = '';
+	    	var beforeCost = '';
+	    	var afterCost = '';
+	    	var resultCost = '';    	    	    					
+
+    		html1 = '경로우대(30%)';    		
+    		beforeCost = $('#lectureCost').val();
+    		afterCost = Math.round((beforeCost*0.3)/100)*100;
+    		resultCost = beforeCost - afterCost;
+    		html2 += '수강료 : '+comma_str_y(resultCost)+'원(할인가격 : '+comma_str_y(afterCost)+'원)';   			    	
+	    	
+	    	html3 += '<a class="size_m2 btn_gray2" href="/lecture/list">목록</a>';
+	    	html3 += "<a class='size_m2 btn_red2' onclick=\"goBtn('"+ SEQ +"','"+ resultCost +"','"+ data.classNm +"','"+ data.comcd +"');\">결제</a>";
+			
+	    	$("#DCREASON_CD").html(html1);		
+			$("#costHtml").html(html2);
+			$('#insertLecture').empty().append(html3);			
+		}
+		
 		
 		
 		/*if(data.sportsCd === '01' && data.comcd === 'JUNGNANG01' || data.sportsCd === '01' && data.comcd === 'JUNGNANG02' ){
@@ -173,9 +226,8 @@ var initPage = function(){
 		$('#programDetailTable').empty().append(tableDesc+tableDetail);
 		}*/
 		
-
-		$('#programTable').empty().append(tableDesc+tableHead+tableBody);
-		capaTableHead += '<caption>정원</caption>';
+		
+		/*capaTableHead += '<caption>정원</caption>';
 		capaTableHead += '<colgroup>';
 		capaTableHead += '<col width="33.33333%"/>';
 		capaTableHead += '<col width="33.33333%"/>';
@@ -191,7 +243,7 @@ var initPage = function(){
 		capaTableBody += '<td class="ali_c">'+data.webCapa+' 명</td>';
 		capaTableBody += '<td class="ali_c">'+(data.webCapa-data.saleCount)+' 명</td>';
 		capaTableBody += '</tr>';
-		$('#capaTable').empty().append(capaTableHead+capaTableBody);
+		$('#capaTable').empty().append(capaTableHead+capaTableBody);*/
 	});
 };
 

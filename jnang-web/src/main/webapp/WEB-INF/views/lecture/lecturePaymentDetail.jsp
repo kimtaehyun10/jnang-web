@@ -56,6 +56,7 @@
 	String MEM_MAIL = member.getEmail();
 	String MEM_HP 	= member.getHp();
 	String MEM_BIRTH = member.getSecBirthDate();
+	String GENDER = member.getGender();
 	//out.println("MEM_ID:"+ MEM_ID +"<BR>");
 	//out.println("MEM_NM:"+ MEM_NM +"<BR>");
 	//out.println("MEM_MAIL:"+ MEM_MAIL +"<BR>");
@@ -316,6 +317,7 @@
 	<input type="hidden" id="comcd" value="">
 	<input type="hidden" id="memBirth" value="<%=MEM_BIRTH%>">
 	<input type="hidden" id="memName" value="<%=MEM_NM%>">
+	<input type="hidden" id="memGender" value="<%=GENDER%>">
 	<table id='programTable' class='stbl_w3b' summary='이 표는 강좌명/대상/요일/시간/정원/수강료 등의 정보로 구성되어 있습니다.'></table>
 	<table style="margin-top:50px;" id='programDetailTable' class='stbl_w3b' summary='이 표는 강좌소개/세부내용/기타 등의 정보로 구성되어 있습니다.'></table>
 
