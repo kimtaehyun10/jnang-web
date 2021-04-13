@@ -303,7 +303,7 @@
 		if(searchKey == 'S'){
 			$('#PayMethod').val('CARD');
 		}else if(searchKey == 'G'){
-			$('#PayMethod').val('VBANK');
+			$('#PayMethod').val('BANK');
 		}
 	}
 

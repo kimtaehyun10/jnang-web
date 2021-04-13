@@ -88,6 +88,8 @@ public interface PayMapper {
 	
 	int rentAddLight(String brdNoArr);
 
+	String getBankMethodCd(String bankCode);
+
 
 
 	

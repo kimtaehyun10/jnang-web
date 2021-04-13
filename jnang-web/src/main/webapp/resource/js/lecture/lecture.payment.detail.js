@@ -86,7 +86,7 @@ var initPage = function(){
 		tableDetail += '<li>'
 		tableDetail += '<select id="searchKey" name="searchKey" class="selbox_01" onchange="changeBox();">'
 		tableDetail += '<option value="S" selected>신용카드</option>'
-		/*tableDetail += '<option value="G">가상계좌</option>'*/
+		tableDetail += '<option value="G">계좌이체</option>'
 		tableDetail += '</select>'
 		tableDetail += '</li>'
 		tableDetail += '</ul>'

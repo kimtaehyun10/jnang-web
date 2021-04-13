@@ -198,9 +198,6 @@ public class PayServiceImpl implements PayService {
 	@Transactional
 	public Map<String, Object> lecOrderInsert(HttpServletRequest request) {
 		// TODO Auto-generated method stub
-
-		
-
 		
 		String ResultCode		= request.getParameter("ResultCode")==null?"":request.getParameter("ResultCode"); // 결과코드
 		String PayMethod		= request.getParameter("PayMethod")==null?"":request.getParameter("PayMethod"); // 지불수단
@@ -251,7 +248,15 @@ public class PayServiceImpl implements PayService {
 		String MEM_NO		= member.getMemNo();
 		String MEM_NM		= member.getMemNm();
 		
+		String BankCode			= request.getParameter("BankCode")==null?"":request.getParameter("BankCode"); // 은행코드
+		if (!"".equals(BankCode) && !BankCode.equals(null)) {
+			BankCode                = BankCode.substring(1);
+		}
 		
+		String BankName			= request.getParameter("BankName")==null?"":request.getParameter("BankName"); // 은행명
+		BankName				= rtnDecode(BankName);
+		
+		String pinNo			= request.getParameter("pinNo")==null?"":request.getParameter("pinNo"); // 카드번호
 		/*
 		final HttpSession session = request.getSession(false);
 		//Member members = null;
@@ -281,7 +286,7 @@ public class PayServiceImpl implements PayService {
     	*/
     	
 		// 웹 링크 버전일 경우에 실제 스마트로 서버의 승인 값을 검증 하기 위해서 아래의 값을 비교 합니다..
-	    if (ResultCode.equals("3001")) {// CARD
+	    if (ResultCode.equals("3001") || ResultCode.equals("4000")) {// CARD, BANK
 	    	// 승인 성공 시 DB 처리 하세요.
 			// TID 결제 성공한 데이터 존재시 UPDATE, 존재하지 않을 경우 INSERT
 	    	
@@ -376,7 +381,13 @@ public class PayServiceImpl implements PayService {
 				
 				
 	  			String P_COMCD =  "INICIS"; // aPayList.getJSONObject(ii).getString("P_COMCD").toString(); //결제업체코드
-	  			String P_TYPE =  "CARD"; //aPayList.getJSONObject(ii).getString("P_TYPE").toString(); //결제수단구분(CARD,CASH)
+	  			String P_TYPE = "";
+	  			if(ResultCode.equals("3001")) {
+	  				P_TYPE =  "CARD"; //aPayList.getJSONObject(ii).getString("P_TYPE").toString(); //결제수단구분(CARD,CASH)
+	  			}else if(ResultCode.equals("4000")) {
+	  				P_TYPE =  "BANK"; //aPayList.getJSONObject(ii).getString("P_TYPE").toString(); //결제수단구분(CARD,CASH)
+	  			}
+	  			
 	  			
 	  			//if (P_TYPE.equals("CARD")) {
 	  				
@@ -385,7 +396,14 @@ public class PayServiceImpl implements PayService {
 	  			
 	  			//METHOD_CD:결제수단코드(00:현금, 99:현금영수증, 01:비씨카드.....)
 	  	  		
-	  			String METHOD_CD = mapper.getMethodCd(fn_cd);// aPayList.getJSONObject(ii).getString("METHOD_CD").toString(); //결제수단코드
+	  	  		String METHOD_CD = "";
+	  			if(ResultCode.equals("3001")) {
+	  				METHOD_CD = mapper.getMethodCd(fn_cd);// aPayList.getJSONObject(ii).getString("METHOD_CD").toString(); //결제수단코드
+	  			}else if(ResultCode.equals("4000")) {
+	  				METHOD_CD = mapper.getBankMethodCd(BankCode);
+	  			}
+	  			
+	  			
 	  			//승인일시 substring 
 	  			Calendar cal = Calendar.getInstance();		
 	  			String toDayYear = cal.get(Calendar.YEAR)+"";	       		
@@ -406,9 +424,13 @@ public class PayServiceImpl implements PayService {
 	       		String SEC_CARD_NO1 = "";
 	       		String SEC_CARD_NO2 = "";
 	       		String SEC_CARD_NO3 = "";
-	       		String SEC_CARD_NO4 = "";       		
+	       		String SEC_CARD_NO4 = "";	       		
+	       		if (!"".equals(pinNo) && !pinNo.equals(null)) {
+	       			SEC_CARD_NO1 = pinNo;
+	    		}
+	       		       		
 	       			       		
-	       		String APP_CARD_CD = mapper.getMethodCd(fn_cd); //aPayList.getJSONObject(ii).getString("APP_CARD_CD").toString(); //카드사 코드
+	       		String APP_CARD_CD = METHOD_CD; //aPayList.getJSONObject(ii).getString("APP_CARD_CD").toString(); //카드사 코드
 	       		String APP_CARD_HALBU = CardQuota; //aPayList.getJSONObject(ii).getString("APP_CARD_HALBU").toString(); //카드사 할부       		
 	       		String APP_CASH_INFO = "";//aPayList.getJSONObject(ii).getString("APP_CASH_INFO").toString(); //현금영수 입력정보
 	       		
@@ -443,7 +465,14 @@ public class PayServiceImpl implements PayService {
 		    	requestMapPayList.put("CARD_SEC", APP_CARD_CD);//카드사 코드
 		    	requestMapPayList.put("CARD_SEC2", "");//
 				//requestMapPayList.put("CARD_INFO", "0000"+fn_name);//
-		    	requestMapPayList.put("HALBU_CNT", APP_CARD_HALBU);//카드사 할부
+		    	
+		    	//계좌이체시 할부 없음
+		    	if ("".equals(APP_CARD_HALBU) || APP_CARD_HALBU.equals(null)) {
+		    		requestMapPayList.put("HALBU_CNT", 0);//카드사 할부 
+	  			}else {
+	  				requestMapPayList.put("HALBU_CNT", APP_CARD_HALBU);//카드사 할부
+	  			}
+		    	
 		    	
 		    	requestMapPayList.put("TID", TID);//승인금액 정보
 		    	
