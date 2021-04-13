@@ -275,12 +275,20 @@ function rentDetail(comNm, rentIdx, writeDh) {
 				    String test = (String)pageContext.getAttribute("test") ;
 				 	test = URLEncoder.encode(test, "EUC-KR");
 				 %>
-				
-					<c:if test="${result.APP_TYPE == '15' }">
-						<input type="button" class="size_m2 btn_green1" value="결제" onClick="test('<%=ediDate%>', '${result.PAY_AMT}','<%=test%>', '${result.RESERVE_DATE}', ${result.PLACE_CD}, '${result.COMCD }',${result.RENT_IDX },'${otherData.MEM_ID }','<%=actionUrl%>' );">
-					</c:if>
+					
 					<c:set var="now" value="<%=new java.util.Date()%>" />
 					<c:set var="sysDate"><fmt:formatDate value="${now}" pattern="yyyy-MM-dd" /></c:set>
+					<c:if test="${result.APP_TYPE == '15' }">
+						<c:if test="${sysDate < result.RESERVE_DATE }">
+							<input type="button" class="size_m2 btn_green1" value="결제" onClick="test('<%=ediDate%>', '${result.PAY_AMT}','<%=test%>', '${result.RESERVE_DATE}', ${result.PLACE_CD}, '${result.COMCD }',${result.RENT_IDX },'${otherData.MEM_ID }','<%=actionUrl%>' );">
+						</c:if>
+						<c:if test="${sysDate eq result.RESERVE_DATE }">
+							<input type="button" class="size_m2 btn_green1" value="결제" onClick="test('<%=ediDate%>', '${result.PAY_AMT}','<%=test%>', '${result.RESERVE_DATE}', ${result.PLACE_CD}, '${result.COMCD }',${result.RENT_IDX },'${otherData.MEM_ID }','<%=actionUrl%>' );">
+						</c:if>
+						<c:if test="${sysDate > result.RESERVE_DATE }">
+							<!-- 아무것도 안나옴 -->
+						</c:if>	
+					</c:if>
 					<c:choose>
 						<c:when test="${sysDate eq result.PAY_DATE_RE}">
 							<c:if test="${result.APP_TYPE == '30' }">
@@ -290,6 +298,11 @@ function rentDetail(comNm, rentIdx, writeDh) {
 						<c:when test="${sysDate ne result.PAY_DATE_RE}">
 							<c:if test="${sysDate > result.RESERVE_DATE }">
 								<c:if test="${result.APP_TYPE == '30' }">
+									
+								</c:if>
+							</c:if>
+							<c:if test="${sysDate > result.RESERVE_DATE }">
+								<c:if test="${result.APP_TYPE == '15' }">
 									
 								</c:if>
 							</c:if>

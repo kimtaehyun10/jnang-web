@@ -93,12 +93,14 @@ $(function(){
 			</td>
 		</tr>
 	</c:if>
-	<tr>
-		<th>결제예정 또는 결제 완료 금액</th>
-		<td>
-			<input type="text" name="PAY_AMT" id="PAY_AMT" value="<c:out value='${rentList[0].PAY_AMT}'/>" readonly="readonly" class="inputbox_01a"/>
-		</td>
-	</tr>
+	<c:if test="${rentList[0].PAY_AMT ne '0'}">
+		<tr>
+			<th>결제예정 또는 결제 완료 금액</th>
+			<td>
+				<input type="text" name="PAY_AMT" id="PAY_AMT" value="<c:out value='${rentList[0].PAY_AMT}'/>" readonly="readonly" class="inputbox_01a"/>
+			</td>
+		</tr>
+	</c:if>
 	<c:if test="${not empty rentList[0].PAY_DATE}">
 		<tr>
 			<th>결제 완료 날짜</th>
@@ -121,7 +123,7 @@ $(function(){
 			</td>
 		</tr>
 	</c:if>
-	<c:if test="${rentList[0].PLACE_GROUP eq '1' }">	
+	<c:if test="${rentList[0].PLACE_CD eq '13' }">	
 	<tr>
 	
 		<th>문의내용</th>
