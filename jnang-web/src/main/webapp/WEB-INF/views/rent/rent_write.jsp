@@ -119,6 +119,11 @@ function send() {
 					formData.append("files",files[i]);
 				}		
 			}
+			
+			if(!fileCheck){
+		        alert("대관사용허가 신청서 , 대관 계약서를 첨부해주세요.");
+		        return false;
+		    }
 			var tape = $("input[name=tapeYn]:checked").val();
 			
 			//formData.append("TAPE_YN",);
@@ -139,10 +144,7 @@ function send() {
 			formData.append("RENT_DATE",$("#RENT_DATE").val());
 			formData.append("q",$("#q").val());
 			
-		   /*  if(!fileCheck){
-		        alert("대관사용허가 신청서 , 대관 계약서를 첨부해주세요.");
-		        return false;
-		    } */
+		    
 		    
 		    
 		 /*    if(files.length < 2){
@@ -318,15 +320,12 @@ $(document).ready(function(){
            	<input type="radio" name="tapeYn" value="N">불필요
 		</td>
 	</tr>
-	<c:if test="${rentCfg.COMNM eq '중랑구민회관'}">
-		<tr>
-			<th>대관계약서 양식</th>
-			<td>
-				<a class="btn_download_01_blue1a" href="/data/file/arsp.zip" download="">대관신청 다운로드</a>
-			</td>
-		</tr>
-	</c:if>
-	<c:if test="${rentCfg.COMNM eq '중랑구민회관'}">	
+	<tr>
+		<th>대관계약서 양식</th>
+		<td>
+			<a href="/data/file/제4호서식_대관 계약서.hwp" required="" class="btn_download_01_blue1a">대관 계약서 다운로드</a>
+		</td>
+	</tr>
 		<tr>
 			<th>파일 업로드</th>
 			<td>
@@ -336,7 +335,6 @@ $(document).ready(function(){
 				
 			</td>
 		</tr>
-	</c:if>
 	<tr>
 		<th>개인정보수집동의서</th>
 		<td>

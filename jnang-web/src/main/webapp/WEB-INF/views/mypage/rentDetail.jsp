@@ -129,7 +129,7 @@ $(function(){
 		<th>문의내용</th>
 		<td>
 			<textarea name="CONCEPT" id="CONCEPT" maxlength="1000" style="height:200px;width:80%;" class="inputbox_01a" readonly>
-<c:out value='${rentList[0].CONCEPT}'/>
+				<c:out value='${rentList[0].CONCEPT}'/>
 			</textarea>
 		</td>
 	</tr>
