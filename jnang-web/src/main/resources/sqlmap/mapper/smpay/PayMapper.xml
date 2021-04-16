@@ -605,7 +605,7 @@
 	</update>
 	<update id="memLecCancelStep4" parameterType="java.util.HashMap">
 	<!-- Select * from card_app_hist_damo where SLIP_NO in (Select SLIP_NO from CALC_MASTER where MEM_NO ='00135090') order by  WRITE_DH desc -->
-	update card_app_hist_damo set APP_GBN='2', CNL_DATE='20210101', REMARK =#{REMARK}, CHNGR =#{MEM_NM}, CHNG_DH = now()  
+	update card_app_hist_damo set APP_GBN='2', CNL_DATE=DATE_FORMAT(now(),'%Y%m%d'), REMARK =#{REMARK}, CHNGR =#{MEM_NM}, CHNG_DH = now()  
 	WHERE SLIP_NO =#{SLIP_NO} and MEM_NO=#{MEM_NO} and COMCD =#{COMCD}
 	</update>
 	<update id="memLecCancelStep5" parameterType="java.util.HashMap">
