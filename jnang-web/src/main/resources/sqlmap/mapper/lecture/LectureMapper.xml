@@ -194,6 +194,7 @@
 		   AND R1.MSPORTS_CD = #{msportsCd}
 		</if>
    	  </where>
+   	  	 ORDER BY SORT_ORDER ASC
    		 LIMIT #{startRow}, #{pageSize}
    		
     </select>
@@ -295,8 +296,8 @@
     	 WHERE A.COMCD = #{comcd}
     	   AND A.ITEM_CD = #{itemCd}
     	   AND B.CLASS_CD = #{classCd}
-
     </select>
+    
     <select id="lectureGrpcd" parameterType="grpcd" resultType="grpcd">
     	SELECT COMCD
     	     , GRP_CD

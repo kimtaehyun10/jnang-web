@@ -90,7 +90,13 @@ var writeCondition = function(type, data){
 				case "JUNGNANG03" :
 				case "JUNGNANG04" :
 				case "JUNGNANG05" :
+				/*case "JUNGNANG06" :*/ //중랑구립정보도서관
 				case "JUNGNANG07" :
+				/*case "JUNGNANG08" :*/ //용마폭포공원축구장
+				/*case "JUNGNANG09" :*/ //신내차량기지축구장
+				/*case "JUNGNANG10" :*/ //중랑구립잔디운동장
+				/*case "JUNGNANG11" :*/ //용마폭포공원테니스장
+				/*case "JUNGNANG12" :*/ // 중랑워터파크
 					sb1Html += '<option value='+ data[i].comcd +'>'+data[i].comnm+'</option>';
 					break;
 			}								
@@ -163,7 +169,7 @@ var searchLectureList = function(){
 		tableHead += '<th>상세보기</th>';
 		tableHead += '</tr>';
 		//tableBody
-
+		//console.log(JSON.stringify(data.resultList));
 		if(data.resultList.length > 0){
 			var prgTot = 0;
 
@@ -171,6 +177,7 @@ var searchLectureList = function(){
 				if(data.resultList[i].prgCount != 0) prgTot++;
 				
 			};
+			
 			if(prgTot != 0){
 				for(var i=0; i<data.resultList.length; i++){
 					if(data.resultList[i].prgCount === 1){						
@@ -197,7 +204,7 @@ var searchLectureList = function(){
 									tableBody += '<td ><a class="size_s3 btn_pink_blueWrite" onclick="lecturePaymentDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[0].itemCd+'\'\,'+data.resultList[i].programItem[0].sold+','+data.resultList[i].programItem[0].eold+');">수강신청</a></td>';
 							}
 														
-						tableBody += '<td ><a class="size_s2 btn_blue2" onclick="searchLectureDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[0].itemCd+'\');">상세보기</a></td>';
+						tableBody += '<td ><a class="size_s2 btn_blue2" onclick="searchLectureDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].sportsCd+'\'\, \''+data.resultList[i].msportsCd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[0].itemCd+'\');">상세보기</a></td>';
 						tableBody += '</tr>';
 				
 						
@@ -232,7 +239,7 @@ var searchLectureList = function(){
 								tableBody += '<td><a class="size_s2 btn_pink_blueWrite" onclick="lecturePaymentDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[j].itemCd+'\'\,'+data.resultList[i].programItem[j].sold+','+data.resultList[i].programItem[j].eold+');">수강신청</a></td>';
 							}
 					
-								tableBody += '<td><a class="size_s2 btn_blue2" onclick="searchLectureDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[0].itemCd+'\');">상세보기</a></td>';
+								tableBody += '<td ><a class="size_s2 btn_blue2" onclick="searchLectureDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].sportsCd+'\'\, \''+data.resultList[i].msportsCd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[0].itemCd+'\');">상세보기</a></td>';
 								tableBody += '</tr>';
 							}else{
 								tableBody += '<tr>';   
@@ -245,7 +252,7 @@ var searchLectureList = function(){
 							}else{
 								tableBody += '<td><a class="size_s2 btn_pink_blueWrite" onclick="lecturePaymentDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[j].itemCd+'\'\,'+data.resultList[i].programItem[j].sold+','+data.resultList[i].programItem[j].eold+');">수강신청</a></td>';
 							}		
-								tableBody += '<td><a class="size_s2 btn_blue2" onclick="searchLectureDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[j].itemCd+'\');">상세보기</a></td>';
+								tableBody += '<td ><a class="size_s2 btn_blue2" onclick="searchLectureDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].sportsCd+'\'\, \''+data.resultList[i].msportsCd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[0].itemCd+'\');">상세보기</a></td>';
 						
 							}
 									tableBody += '</tr>';
@@ -285,8 +292,9 @@ var searchLectureList = function(){
 	});
 };
 
-var searchLectureDetail = function(comcd, classCd, itemCd){
-	var lecture = { comcd:comcd, classCd:classCd, itemCd:itemCd };	
+var searchLectureDetail = function(comcd, sportsCd, msportsCd, classCd, itemCd){
+	
+	var lecture = { comcd:comcd, sportsCd:sportsCd, msportsCd:msportsCd, classCd:classCd, itemCd:itemCd };	
 	$.get('/data/encode/text', {text:JSON.stringify(lecture)}, function(data){
 		localStorage.setItem('lecture', data);
 	}).done(function(){
@@ -349,7 +357,7 @@ var lecturePaymentDetail = function(comcd, classCd, itemCd, sold, eold){
 	}
 
 	if(!(day >='24' || day <='10') && comcd == 'JUNGNANG01' || comcd == 'JUNGNANG02' || comcd == 'JUNGNANG03'){
-		if($('#memId').val() == 'tom881205'){
+		if($('#memId').val() == 'tom881205' || $('#memId').val() == 'kjseo'){
 			alert('테스트아이디 입니다.');
 		}else{
 			alert('신규수강신청 기한은 24일 ~ 다음달 10일 까지 입니다.');
@@ -358,7 +366,7 @@ var lecturePaymentDetail = function(comcd, classCd, itemCd, sold, eold){
 	}
 	
 	if(!(day >='25' || day <='07') && comcd == 'JUNGNANG04' || comcd == 'JUNGNANG05'){		
-		if($('#memId').val() == 'tom881205'){
+		if($('#memId').val() == 'tom881205' || $('#memId').val() == 'kjseo'){
 			alert('테스트아이디 입니다.');
 		}else{
 			alert('신규수강신청 기한은 25일 ~ 다음달 07일 까지 입니다.');

@@ -1,5 +1,6 @@
 package com.dwict.jfmc.client.lecture.controller;
 
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -55,6 +56,16 @@ public class LectureController {
 
 	@GetMapping(value = "/lecture/view")
 	public ModelAndView lectureView(ModelAndView modelAndView, HttpServletRequest request) {
+		
+		Enumeration params = request.getParameterNames();
+		System.out.println("----------------------------");
+		while (params.hasMoreElements()){
+		    String name = (String)params.nextElement();
+		    System.out.println(name + " : " +request.getParameter(name));
+		}
+		System.out.println("----------------------------");
+		
+		
 		modelAndView.setViewName("/lecture/lectureView");
 		modelAndView.addObject("paymentYN",request.getParameter("paymentYN"));
 		return modelAndView;

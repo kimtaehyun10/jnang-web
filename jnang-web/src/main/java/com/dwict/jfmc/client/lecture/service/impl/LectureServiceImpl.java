@@ -54,7 +54,11 @@ public class LectureServiceImpl implements LectureService {
 		obj.handlePaging((Integer) param.get("pageIndex"), (Integer) param.get("pageSize"));
 		param.put("startRow", obj.getStartRow());
 		param.put("pageSize", obj.getPageSize());
-		final List<TrainClass> resultList = mapper.lectureList(param);
+		List<TrainClass> resultList = mapper.lectureList(param);
+		//final List<TrainClass> resultList = mapper.lectureList(param);
+		
+		System.out.println(resultList);
+		
 		for(int i=0; i<resultList.size(); i++) {
 			resultList.get(i).setProgramItem(mapper.lectureProgramList(resultList.get(i)));
 			resultList.get(i).setGrpcd(mapper.lectureGrpcd(new Grpcd(resultList.get(i).getComcd(), resultList.get(i).getSportsCd())));
