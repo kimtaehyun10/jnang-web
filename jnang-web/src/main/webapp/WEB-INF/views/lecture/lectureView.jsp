@@ -1,14 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resource/js/lecture/lecture.view.js"></script>
-
+<style>
+	.fr_head , .fr_foot{
+		display: none;
+	}
+</style>
 <div class='sub_lecture_v01'>
 	<input type="hidden" id="paymentYN" value="${paymentYN}">
 	<table id='programTable' class='stbl_w3b' summary='이 표는 강좌명/대상/요일/시간/정원/수강료 등의 정보로 구성되어 있습니다.'></table>
 	<table style="margin-top:50px;" id='programDetailTable' class='stbl_w3b' summary='이 표는 강좌소개/세부내용/기타 등의 정보로 구성되어 있습니다.'></table>
 
 	<div style="margin-top:50px;" class='bx_btns_01a' id="insertLecture">
-		<a class='size_m2 btn_gray2' href='/lecture/list'>목록</a>
+		<a class='size_m2 btn_gray2' href='javascript:window.close();'>닫기</a>  <!-- /lecture/list -->
 		
 		
  <!-- 	<sec:authorize access="isAnonymous()" >

@@ -298,7 +298,8 @@ var searchLectureDetail = function(comcd, sportsCd, msportsCd, classCd, itemCd){
 	$.get('/data/encode/text', {text:JSON.stringify(lecture)}, function(data){
 		localStorage.setItem('lecture', data);
 	}).done(function(){
-		window.location.href='/lecture/view';
+		//window.location.href='/lecture/view';
+		  window.open("/lecture/view", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,width=900,height=600");		
 	});
 };
 

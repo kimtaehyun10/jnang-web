@@ -6,7 +6,7 @@
 */
 'use strict'
 $(function(){
-	setMenuTitle('bg_01', '시설 통합예약', '수강신청', true);
+	setMenuTitle('bg_01', '시설 통합예약', '상세보기', true);
 	initPage();
 });
 
