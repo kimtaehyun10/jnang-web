@@ -178,12 +178,27 @@
                      		 AND F.CANCEL_YN = 'N'
                      		 AND F.SALE_SEQ = D.SALE_SEQ
                      		 ) AS WEB_USER						     						     						     						     						     						     						     						     						                         	   
-                 FROM TRAIN_CLASS A
-                  WHERE A.USE_YN = 'Y'
-                   AND A.WEB_DISPLAY = 'Y'    
+                 FROM TRAIN_CLASS A, cot_grpcd X
+                 WHERE A.USE_YN = 'Y'
+                 AND A.WEB_DISPLAY = 'Y' 
+                 AND A.SPORTS_CD = X.CD
+                 AND A.COMCD = X.COMCD
+                 AND X.GRP_CD = 'CM_SPORTS_CD'
+                 AND X.ITEM1 = 'Y'
+                 AND X.ITEM2= 'Y'   
+                 ]]>	 
+        		<if test="comcd != null and comcd != 'all'">
+				   AND A.COMCD = #{comcd}
+				</if>
+				<if test="sportsCd != null and sportsCd != 'all'">
+				   AND A.SPORTS_CD = #{sportsCd}
+				</if>
+				<if test="msportsCd != null and msportsCd != 'all'">
+				   AND A.MSPORTS_CD = #{msportsCd}
+				</if>
 		) R1                  
-		]]>	               
-	  <where>
+		              
+	  <!-- <where>
    		<if test="comcd != null and comcd != 'all'">
 		   AND R1.COMCD = #{comcd}
 		</if>
@@ -193,7 +208,7 @@
 		<if test="msportsCd != null and msportsCd != 'all'">
 		   AND R1.MSPORTS_CD = #{msportsCd}
 		</if>
-   	  </where>
+   	  </where> -->
    	  	 ORDER BY SORT_ORDER ASC
    		 LIMIT #{startRow}, #{pageSize}
    		
