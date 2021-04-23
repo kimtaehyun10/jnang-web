@@ -127,18 +127,53 @@ function selectSport(selCT) {
 							}
 						}else {
 							if (data[i].COMNM != undefined) {
-							var saleAmt = data[i].RENT_AMT;
-							var info_url = (data[i].info_url != "") ? "<a href='"+ data[i].info_url +"' class='size_m2 btn_green1'>안내</a>" : ""; ;
-							var rent_url = (data[i].PLACE_GROUP == "1") ? "write" : "date";
-							dataList += "<tr>"
-								+ "<td>"+ data[i].COMNM +"</td> "
-								+ "<td>"+ data[i].PLACE_NM +"</td> "
-								//+ "<td>"+ comma_str_y(saleAmt) +"</td>"
-								+ "<td>"+ info_url +"</td>"
-								+ "<td><a href='/calendar/?q="+ data[i].PLACE_CD +"' class='size_m2 btn_green1'>대관 현황</a></td>"
-								+ "<td><a href='#' class='size_m2 btn_gray1' onclick=\"alert('현재 준비중입니다. 관리자에게 문의해주세요.');\")>준비중</a></td>"
-								//+ "<td><a href='/rent/"+ rent_url +"/?q="+ data[i].PLACE_CD +"/0' class='size_m2 btn_green1' onclick=\"\")>대asfd관 신청</a></td>"
-								+ "</tr>";
+								if(data[i].COMCD == 'JUNGNANG08' || data[i].COMCD == 'JUNGNANG09' || data[i].COMCD == 'JUNGNANG10' || data[i].COMCD == 'JUNGNANG18'){
+									var saleAmt = data[i].RENT_AMT;
+									var info_url = (data[i].info_url != "") ? "<a href='"+ data[i].info_url +"' class='size_m2 btn_green1'>안내</a>" : ""; ;
+									var rent_url = (data[i].PLACE_GROUP == "1") ? "write" : "date";
+									dataList += "<tr>"
+									+ "<td>"+ data[i].COMNM +"</td> "
+									+ "<td>"+ data[i].PLACE_NM +"</td> "
+									//+ "<td>"+ comma_str_y(saleAmt) +"</td>"
+									+ "<td>"+ info_url +"</td>"
+									//console.log(data[i].COMNM,data[i].COMCD);
+									+ "<td><a href='/calendar/?q="+ data[i].PLACE_CD +"' class='size_m2 btn_green1'>대관 현황</a></td>"
+									+ "<td><a href='#' class='size_m2 btn_gray1' onclick=\"alert('현재 시스템점검으로 아래 연락처로 연락바랍니다\\n 연락처: 070-8824-3548');\")>준비중</a></td>"	
+									//+ "<td><a href='#' class='size_m2 btn_gray1' onclick=\"alert('현재 준비중입니다. 관리자에게 문의해주세요.');\")>준비중</a></td>"
+									//+ "<td><a href='/rent/"+ rent_url +"/?q="+ data[i].PLACE_CD +"/0' class='size_m2 btn_green1' onclick=\"\")>대asfd관 신청</a></td>"
+									+ "</tr>";
+								}else if(data[i].COMCD == 'JUNGNANG07'){
+									var saleAmt = data[i].RENT_AMT;
+									var info_url = (data[i].info_url != "") ? "<a href='"+ data[i].info_url +"' class='size_m2 btn_green1'>안내</a>" : ""; ;
+									var rent_url = (data[i].PLACE_GROUP == "1") ? "write" : "date";
+									dataList += "<tr>"
+									+ "<td>"+ data[i].COMNM +"</td> "
+									+ "<td>"+ data[i].PLACE_NM +"</td> "
+									//+ "<td>"+ comma_str_y(saleAmt) +"</td>"
+									+ "<td>"+ info_url +"</td>"
+									//console.log(data[i].COMNM,data[i].COMCD);
+									+ "<td><a href='/calendar/?q="+ data[i].PLACE_CD +"' class='size_m2 btn_green1'>대관 현황</a></td>"
+									+ "<td><a href='#' class='size_m2 btn_gray1' onclick=\"alert('현재 시스템점검으로 아래 연락처로 연락바랍니다\\n 연락처: 02-6952-2949');\")>준비중</a></td>"	
+									//+ "<td><a href='#' class='size_m2 btn_gray1' onclick=\"alert('현재 준비중입니다. 관리자에게 문의해주세요.');\")>준비중</a></td>"
+									//+ "<td><a href='/rent/"+ rent_url +"/?q="+ data[i].PLACE_CD +"/0' class='size_m2 btn_green1' onclick=\"\")>대asfd관 신청</a></td>"
+									+ "</tr>";
+								}else {
+									var saleAmt = data[i].RENT_AMT;
+									var info_url = (data[i].info_url != "") ? "<a href='"+ data[i].info_url +"' class='size_m2 btn_green1'>안내</a>" : ""; ;
+									var rent_url = (data[i].PLACE_GROUP == "1") ? "write" : "date";
+									dataList += "<tr>"
+									+ "<td>"+ data[i].COMNM +"</td> "
+									+ "<td>"+ data[i].PLACE_NM +"</td> "
+									//+ "<td>"+ comma_str_y(saleAmt) +"</td>"
+									+ "<td>"+ info_url +"</td>"
+									//console.log(data[i].COMNM,data[i].COMCD);
+									+ "<td><a href='/calendar/?q="+ data[i].PLACE_CD +"' class='size_m2 btn_green1'>대관 현황</a></td>"
+									+ "<td><a href='#' class='size_m2 btn_gray1' onclick=\"alert('현재 시스템점검으로 아래 연락처로 연락바랍니다\\n 연락처: 02-437-2949');\")>준비중</a></td>"	
+									//+ "<td><a href='#' class='size_m2 btn_gray1' onclick=\"alert('현재 준비중입니다. 관리자에게 문의해주세요.');\")>준비중</a></td>"
+									//+ "<td><a href='/rent/"+ rent_url +"/?q="+ data[i].PLACE_CD +"/0' class='size_m2 btn_green1' onclick=\"\")>대asfd관 신청</a></td>"
+									+ "</tr>";
+								}
+							
 							}
 						}
 						
