@@ -316,7 +316,7 @@
 										</a>
 									</li>
 									<li>
-										<a href='//www.youtube.com/' target="_blank" title="새창으로 열림">
+										<a href='https://www.youtube.com/channel/UC50In9Nw90xJ4C-mTDFIgfw' target="_blank" title="새창으로 열림">
 											<img src='${pageContext.request.contextPath}/resource/images/main/icon_main_ime1_05.png' alt=''><br>
 											<div>유튜브</div>
 										</a>
