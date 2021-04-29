@@ -1,6 +1,7 @@
 package com.dwict.jfmc.client.main.controller;
 
 import java.util.List;
+
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -27,11 +28,13 @@ public class MainController {
 	RentService rtnService;
 	
 	@RequestMapping(value = "/")
-	public ModelAndView mainRootPage(ModelAndView modelAndView) {
+	public ModelAndView mainRootPage(ModelAndView modelAndView, HttpServletRequest request, @RequestParam Map<String, Object> requestMap) {
 		
 		rtnService.updateRtnAppType();
 		
 		rtnService.updateTennisAppType();
+		
+		mainService.updateMainCnt(request, requestMap);
 		
 		modelAndView.setViewName("main.nomenu");
 		return modelAndView;

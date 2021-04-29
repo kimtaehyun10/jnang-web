@@ -21,11 +21,13 @@ import org.springframework.security.web.util.matcher.IpAddressMatcher;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.dwict.jfmc.client.board.model.Price;
 import com.dwict.jfmc.client.board.service.BoardService;
+import com.dwict.jfmc.client.main.service.MainService;
 import com.dwict.jfmc.client.mem.service.MemberService;
 import com.dwict.jfmc.client.page.model.Menu;
 import com.dwict.jfmc.client.page.service.PageService;
@@ -47,25 +49,38 @@ public class PageController {
 	@Resource(name = "rentService")
 	RentService rentService;
 	
+	@Resource(name = "mainService")
+	private MainService mainService;
+	
 	@GetMapping(value = "/html/{cmsCd}")
-	public ModelAndView htmlPage(ModelAndView modelAndView, @PathVariable String cmsCd) {
+	public ModelAndView htmlPage(ModelAndView modelAndView, @PathVariable String cmsCd, HttpServletRequest request, @RequestParam Map<String, Object> requestMap) {
 		modelAndView.addObject("cmsCd", cmsCd);
+		requestMap.put("cmsCd",cmsCd);
+		mainService.updateMainCnt(request, requestMap);
+		
 		modelAndView.setViewName("page/html");
 		return modelAndView;
 	}
 
 	@GetMapping(value = "/emp/{cmsCd}")
-	public ModelAndView empPage(ModelAndView modelAndView, @PathVariable String cmsCd) {
+	public ModelAndView empPage(ModelAndView modelAndView, @PathVariable String cmsCd, HttpServletRequest request, @RequestParam Map<String, Object> requestMap) {
 		final Menu menu = service.boardPage(cmsCd);
 		modelAndView.addObject("cmsCd", cmsCd);
+		requestMap.put("cmsCd",cmsCd);
+		mainService.updateMainCnt(request, requestMap);
+		
 		modelAndView.addObject("mType", menu.getMType());
 		modelAndView.setViewName("page/emp");
 		return modelAndView;
 	}
 
 	@GetMapping(value = "/board/{cmsCd}")
-	public ModelAndView boardPage(ModelAndView modelAndView, @PathVariable String cmsCd) {
+	public ModelAndView boardPage(ModelAndView modelAndView, @PathVariable String cmsCd, HttpServletRequest request, @RequestParam Map<String, Object> requestMap) {
 		final Menu menu = service.boardPage(cmsCd);
+		
+		requestMap.put("cmsCd",cmsCd);
+		mainService.updateMainCnt(request, requestMap);
+		
 		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		final Object principal = auth.getPrincipal();
 		String userId="";
@@ -96,7 +111,9 @@ public class PageController {
 	}
 
 	@GetMapping(value = "/board/{cmsCd}/{brdNo}")
-	public ModelAndView ntcDetailPage(ModelAndView modelAndView, @PathVariable String cmsCd, @PathVariable int brdNo) {		
+	public ModelAndView ntcDetailPage(ModelAndView modelAndView, @PathVariable String cmsCd, @PathVariable int brdNo, HttpServletRequest request, @RequestParam Map<String, Object> requestMap) {
+		requestMap.put("cmsCd",cmsCd);
+		mainService.updateMainCnt(request, requestMap);
 		final Menu menu = service.boardPage(cmsCd);
 		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		final Object principal = auth.getPrincipal();
@@ -126,7 +143,9 @@ public class PageController {
 	}
 
 	@GetMapping(value = "/board/write/{cmsCd}")
-	public ModelAndView boardWritePage(ModelAndView modelAndView, HttpServletRequest request, @PathVariable String cmsCd) {		
+	public ModelAndView boardWritePage(ModelAndView modelAndView, HttpServletRequest request, @PathVariable String cmsCd, @RequestParam Map<String, Object> requestMap) {		
+		requestMap.put("cmsCd",cmsCd);
+		mainService.updateMainCnt(request, requestMap);
 		final Menu menu = service.boardPage(cmsCd);
 		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		final Object principal = auth.getPrincipal();			
@@ -152,8 +171,10 @@ public class PageController {
 	}
 
 	@GetMapping(value = "/board/update/{cmsCd}/{brdNo}")
-	public ModelAndView boardUpdatePage(ModelAndView modelAndView, @PathVariable String cmsCd, @PathVariable String brdNo) {		
+	public ModelAndView boardUpdatePage(ModelAndView modelAndView, @PathVariable String cmsCd, @PathVariable String brdNo, HttpServletRequest request, @RequestParam Map<String, Object> requestMap) {		
 		final Menu menu = service.boardPage(cmsCd);
+		requestMap.put("cmsCd",cmsCd);
+		mainService.updateMainCnt(request, requestMap);
 		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		final Object principal = auth.getPrincipal();			
 		if(principal.equals("anonymousUser")) {
@@ -183,14 +204,18 @@ public class PageController {
 	}
 	
 	@GetMapping(value = "/price/{cmsCd}")
-	public ModelAndView pricePage(ModelAndView modelAndView, @PathVariable String cmsCd) {
+	public ModelAndView pricePage(ModelAndView modelAndView, @PathVariable String cmsCd, HttpServletRequest request, @RequestParam Map<String, Object> requestMap) {
+		requestMap.put("cmsCd",cmsCd);
+		mainService.updateMainCnt(request, requestMap);
 		modelAndView.addObject("cmsCd", cmsCd);
 		modelAndView.setViewName("board/contract/pricePage");
 		return modelAndView;
 	}
 	
 	@GetMapping(value = "/price/{cmsCd}/{brdNo}")
-	public ModelAndView priceDetailPage(ModelAndView modelAndView, @PathVariable String cmsCd, @PathVariable int brdNo) {
+	public ModelAndView priceDetailPage(ModelAndView modelAndView, @PathVariable String cmsCd, @PathVariable int brdNo, HttpServletRequest request, @RequestParam Map<String, Object> requestMap) {
+		requestMap.put("cmsCd",cmsCd);
+		mainService.updateMainCnt(request, requestMap);
 		final Map<String, Object> param = new HashMap<>();
 		param.put("cmsCd", cmsCd);
 		param.put("brdNo", brdNo);

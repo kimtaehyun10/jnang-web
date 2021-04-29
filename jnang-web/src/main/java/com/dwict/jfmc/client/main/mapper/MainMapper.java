@@ -27,4 +27,6 @@ public interface MainMapper {
 
 	List<Map<String, Object>> popupInfo(Map<String, Object> requestMap);
 
+	void insertMenuCnt(Map<String, Object> resultMap);
+
 }

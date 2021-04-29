@@ -155,4 +155,36 @@
 				   AND NUM = #{NUM}				         
 			  </if>
     </select>
+    
+    <insert id="insertMenuCnt" parameterType="java.util.HashMap">
+    	INSERT INTO MENU_CNT_TABLE
+    	(
+    		MAIN
+    		, BROWSER
+    		, IP
+    		, SYSDATE
+    		, OS
+    		<if test="cmsCd != null and cmsCd != ''">
+    			, CMSCD
+    			, UPCMSCD
+    		</if>
+    	) VALUES (
+    		<choose>
+    			<when test="cmsCd != null and cmsCd != ''">
+    				'0'
+    			</when>
+    			<otherwise>
+					'1'	    			
+    			</otherwise>
+    		</choose>
+    		, #{browser}
+    		, #{ip}
+    		, sysDate()
+    		, #{os}
+    		<if test="cmsCd != null and cmsCd != ''">
+    			, #{cmsCd}
+    			, (SELECT UP_CMS_CD FROM CMS_MENU WHERE CMS_CD = #{cmsCd})
+    		</if>
+    	)
+    </insert>
 </mapper>

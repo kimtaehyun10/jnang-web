@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.dwict.jfmc.client.main.model.Banner;
 import com.dwict.jfmc.client.main.model.PopupWindow;
 import com.dwict.jfmc.client.main.model.PopupZone;
@@ -24,4 +26,8 @@ public interface MainService {
 
 	List<Map<String, Object>> popupInfo(Map<String, Object> requestMap);
 
+	void updateMainCnt(HttpServletRequest request, Map<String, Object> requestMap);
+
 }
+
+
