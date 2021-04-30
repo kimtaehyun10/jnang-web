@@ -4,6 +4,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resource/js/jquery-ui.min.js"></script>
 <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/jquery-ui.css?v=1" />
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script> 
+
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/resource/js/rent/rent.write.js"></script>
 <%
@@ -16,6 +19,146 @@ String PLACE_CD = arrParam[0];
 String YMD 		= request.getParameter("ymd");
 YMD = (YMD == null || YMD == "") ? today : YMD;
 %>
+<STYLE type="text/css">
+<!--
+p.HStyle0
+	{style-name:"바탕글"; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:바탕; letter-spacing:0; font-weight:normal; font-style:normal; color:#000000;}
+li.HStyle0
+	{style-name:"바탕글"; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:바탕; letter-spacing:0; font-weight:normal; font-style:normal; color:#000000;}
+div.HStyle0
+	{style-name:"바탕글"; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:바탕; letter-spacing:0; font-weight:normal; font-style:normal; color:#000000;}
+p.HStyle1
+	{style-name:"본문"; margin-left:15.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:바탕; letter-spacing:0; font-weight:normal; font-style:normal; color:#000000;}
+li.HStyle1
+	{style-name:"본문"; margin-left:15.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:바탕; letter-spacing:0; font-weight:normal; font-style:normal; color:#000000;}
+div.HStyle1
+	{style-name:"본문"; margin-left:15.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:바탕; letter-spacing:0; font-weight:normal; font-style:normal; color:#000000;}
+p.HStyle2
+	{style-name:"개요 1"; margin-left:10.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:바탕; letter-spacing:0; font-weight:normal; font-style:normal; color:#000000;}
+li.HStyle2
+	{style-name:"개요 1"; margin-left:10.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:바탕; letter-spacing:0; font-weight:normal; font-style:normal; color:#000000;}
+div.HStyle2
+	{style-name:"개요 1"; margin-left:10.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:바탕; letter-spacing:0; font-weight:normal; font-style:normal; color:#000000;}
+p.HStyle3
+	{style-name:"개요 2"; margin-left:20.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:바탕; letter-spacing:0; font-weight:normal; font-style:normal; color:#000000;}
+li.HStyle3
+	{style-name:"개요 2"; margin-left:20.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:바탕; letter-spacing:0; font-weight:normal; font-style:normal; color:#000000;}
+div.HStyle3
+	{style-name:"개요 2"; margin-left:20.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:바탕; letter-spacing:0; font-weight:normal; font-style:normal; color:#000000;}
+p.HStyle4
+	{style-name:"개요 3"; margin-left:30.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:바탕; letter-spacing:0; font-weight:normal; font-style:normal; color:#000000;}
+li.HStyle4
+	{style-name:"개요 3"; margin-left:30.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:바탕; letter-spacing:0; font-weight:normal; font-style:normal; color:#000000;}
+div.HStyle4
+	{style-name:"개요 3"; margin-left:30.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:바탕; letter-spacing:0; font-weight:normal; font-style:normal; color:#000000;}
+p.HStyle5
+	{style-name:"개요 4"; margin-left:40.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:바탕; letter-spacing:0; font-weight:normal; font-style:normal; color:#000000;}
+li.HStyle5
+	{style-name:"개요 4"; margin-left:40.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:바탕; letter-spacing:0; font-weight:normal; font-style:normal; color:#000000;}
+div.HStyle5
+	{style-name:"개요 4"; margin-left:40.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:바탕; letter-spacing:0; font-weight:normal; font-style:normal; color:#000000;}
+p.HStyle6
+	{style-name:"개요 5"; margin-left:50.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:바탕; letter-spacing:0; font-weight:normal; font-style:normal; color:#000000;}
+li.HStyle6
+	{style-name:"개요 5"; margin-left:50.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:바탕; letter-spacing:0; font-weight:normal; font-style:normal; color:#000000;}
+div.HStyle6
+	{style-name:"개요 5"; margin-left:50.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:바탕; letter-spacing:0; font-weight:normal; font-style:normal; color:#000000;}
+p.HStyle7
+	{style-name:"개요 6"; margin-left:60.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:바탕; letter-spacing:0; font-weight:normal; font-style:normal; color:#000000;}
+li.HStyle7
+	{style-name:"개요 6"; margin-left:60.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:바탕; letter-spacing:0; font-weight:normal; font-style:normal; color:#000000;}
+div.HStyle7
+	{style-name:"개요 6"; margin-left:60.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:바탕; letter-spacing:0; font-weight:normal; font-style:normal; color:#000000;}
+p.HStyle8
+	{style-name:"개요 7"; margin-left:70.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:바탕; letter-spacing:0; font-weight:normal; font-style:normal; color:#000000;}
+li.HStyle8
+	{style-name:"개요 7"; margin-left:70.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:바탕; letter-spacing:0; font-weight:normal; font-style:normal; color:#000000;}
+div.HStyle8
+	{style-name:"개요 7"; margin-left:70.0pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:바탕; letter-spacing:0; font-weight:normal; font-style:normal; color:#000000;}
+p.HStyle9
+	{style-name:"쪽 번호"; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:굴림; letter-spacing:0; font-weight:normal; font-style:normal; color:#000000;}
+li.HStyle9
+	{style-name:"쪽 번호"; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:굴림; letter-spacing:0; font-weight:normal; font-style:normal; color:#000000;}
+div.HStyle9
+	{style-name:"쪽 번호"; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:10.0pt; font-family:굴림; letter-spacing:0; font-weight:normal; font-style:normal; color:#000000;}
+p.HStyle10
+	{style-name:"머리말"; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:150%; font-size:9.0pt; font-family:굴림; letter-spacing:0; font-weight:normal; font-style:normal; color:#000000;}
+li.HStyle10
+	{style-name:"머리말"; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:150%; font-size:9.0pt; font-family:굴림; letter-spacing:0; font-weight:normal; font-style:normal; color:#000000;}
+div.HStyle10
+	{style-name:"머리말"; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:150%; font-size:9.0pt; font-family:굴림; letter-spacing:0; font-weight:normal; font-style:normal; color:#000000;}
+p.HStyle11
+	{style-name:"각주"; margin-left:13.1pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:-13.1pt; line-height:130%; font-size:9.0pt; font-family:바탕; letter-spacing:-5%; font-weight:normal; font-style:normal; color:#000000;}
+li.HStyle11
+	{style-name:"각주"; margin-left:13.1pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:-13.1pt; line-height:130%; font-size:9.0pt; font-family:바탕; letter-spacing:-5%; font-weight:normal; font-style:normal; color:#000000;}
+div.HStyle11
+	{style-name:"각주"; margin-left:13.1pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:-13.1pt; line-height:130%; font-size:9.0pt; font-family:바탕; letter-spacing:-5%; font-weight:normal; font-style:normal; color:#000000;}
+p.HStyle12
+	{style-name:"미주"; margin-left:13.1pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:-13.1pt; line-height:130%; font-size:9.0pt; font-family:바탕; letter-spacing:-5%; font-weight:normal; font-style:normal; color:#000000;}
+li.HStyle12
+	{style-name:"미주"; margin-left:13.1pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:-13.1pt; line-height:130%; font-size:9.0pt; font-family:바탕; letter-spacing:-5%; font-weight:normal; font-style:normal; color:#000000;}
+div.HStyle12
+	{style-name:"미주"; margin-left:13.1pt; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:-13.1pt; line-height:130%; font-size:9.0pt; font-family:바탕; letter-spacing:-5%; font-weight:normal; font-style:normal; color:#000000;}
+p.HStyle13
+	{style-name:"메모"; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:9.0pt; font-family:굴림; letter-spacing:-5%; font-weight:normal; font-style:normal; color:#000000;}
+li.HStyle13
+	{style-name:"메모"; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:9.0pt; font-family:굴림; letter-spacing:-5%; font-weight:normal; font-style:normal; color:#000000;}
+div.HStyle13
+	{style-name:"메모"; margin-top:0.0pt; margin-bottom:0.0pt; text-align:justify; text-indent:0.0pt; line-height:160%; font-size:9.0pt; font-family:굴림; letter-spacing:-5%; font-weight:normal; font-style:normal; color:#000000;}
+-->
+</STYLE>
+<style>
+
+body {
+    font-family: "맑은 고딕"
+}
+
+/*-- POPUP common style S ======================================================================================================================== --*/
+#mask {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 999;
+    background-color: #000000;
+    display: none; }
+
+.layerpop {
+    display: none;
+    z-index: 1000;
+    border: 2px solid #ccc;
+    background: #fff;
+    cursor: move; }
+
+.layerpop_area .title {
+    padding: 10px 10px 10px 10px;
+    border: 0px solid #aaaaaa;
+    background: #f1f1f1;
+    color: #3eb0ce;
+    font-size: 1.3em;
+    font-weight: bold;
+    line-height: 24px; }
+
+.layerpop_area .layerpop_close {
+    width: 25px;
+    height: 25px;
+    display: block;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent url('btn_exit_off.png') no-repeat; }
+
+.layerpop_area .layerpop_close:hover {
+    background: transparent url('btn_exit_on.png') no-repeat;
+    cursor: pointer; }
+
+.layerpop_area .content {
+    width: 96%;    
+    margin: 2%;
+    color: #828282; }
+/*-- POPUP common style E --*/
+
+</style>
+
 <script type="text/javascript">
 /**
 * @projectDescription rent.list.js
@@ -74,11 +217,21 @@ $(function(){
 	setTimeout("getRent('',<%=PLACE_CD%>,0);",500);
 	
 });
+var checked = "N";
 function send() {
 	
 	//try {
 		var frm = document.frm1;
-
+		var contract = $("input[name=contractYn]:checked").val();
+		if(checked != 'Y'){
+			alert("대관계약서를 읽어주세요.");
+			return false;	
+		}else {
+			if(contract != 'Y'){
+				alert("대관계약서에 동의를 눌러주셔야 대관가능합니다.");
+				return false;
+			}
+		}
 		//이미 신청 중콕첵크
 		getRent('',<%=PLACE_CD%>,9);
 		var agree = $("input[name=agreeYn]:checked").val();
@@ -209,6 +362,57 @@ $(document).ready(function(){
     })
 });
 
+function openWindowPop(url, name){
+	alert(url);
+	alert(name);
+	return false;
+    var options = 'top=10, left=10, width=500, height=600, status=no, menubar=no, toolbar=no, resizable=no';
+    window.open(url, name, options);
+}
+
+function wrapWindowByMask() {
+    //화면의 높이와 너비를 구한다.
+    var maskHeight = $(document).height(); 
+    var maskWidth = $(window).width();
+
+    //문서영역의 크기 
+    console.log( "document 사이즈:"+ $(document).width() + "*" + $(document).height()); 
+    //브라우저에서 문서가 보여지는 영역의 크기
+    console.log( "window 사이즈:"+ $(window).width() + "*" + $(window).height());        
+
+    //마스크의 높이와 너비를 화면 것으로 만들어 전체 화면을 채운다.
+    $('#mask').css({
+        'width' : maskWidth,
+        'height' : maskHeight
+    });
+
+    //애니메이션 효과
+    //$('#mask').fadeIn(1000);      
+    $('#mask').fadeTo("slow", 0.5);
+}
+
+function popupOpen() {
+    $('.layerpop').css("position", "absolute");
+    //영역 가운에데 레이어를 뛰우기 위해 위치 계산 
+    $('.layerpop').css("top",(($(window).height() - $('.layerpop').outerHeight()) / 2) + $(window).scrollTop());
+    $('.layerpop').css("left",(($(window).width() - $('.layerpop').outerWidth()) / 2) + $(window).scrollLeft());
+    $('.layerpop').draggable();
+    $('#layerbox').show();
+}
+
+function popupClose() {
+    $('#layerbox').hide();
+    $('#mask').hide();
+    checked = "Y";
+}
+
+function goDetail() {
+
+    /*팝업 오픈전 별도의 작업이 있을경우 구현*/ 
+
+    popupOpen(); //레이어 팝업창 오픈 
+    wrapWindowByMask(); //화면 마스크 효과 
+}
 
 
 </script>
@@ -321,12 +525,86 @@ $(document).ready(function(){
 		</td>
 	</tr>
 	<tr>
-		<th>대관계약서 양식</th>
+		<th>대관계약서 확인</th>
 		<td>
-			<a href="/data/file/제4호서식_대관 계약서.hwp" required="" class="btn_download_01_blue1a">대관 계약서 다운로드</a>
+			 <a href="javascript:goDetail('테스트');" required="" class="size_m2 btn_blue1">대관 계약서</a>
+			 <input type="radio" name="contractYn" value="Y"> 동의&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+             <input type="radio" name="contractYn" value="N"> 미동의
+			 <div id="mask"></div>
+			 <div id="layerbox" class="layerpop"
+			        style="width: 800px; height: 910px;">
+			        <article class="layerpop_area">
+			        <div class="title">대관계약서</div>
+			        <a href="javascript:popupClose();" class="layerpop_close"id="layerbox_close">
+			        	<img src='${pageContext.request.contextPath}/resource/images/common/btn_exit_off.png' alt=''>
+			        </a> <br>
+			        
+			        <div class="content">
+					      <P CLASS=HStyle0 STYLE='line-height:200%;'><SPAN STYLE='font-size:12.0pt;font-family:"휴먼명조";line-height:200%'>【별지 제4호 서식】</SPAN><SPAN STYLE='font-size:12.0pt;font-family:"휴먼명조";letter-spacing:-3%;line-height:200%'>〈개정 2013.03.21, </SPAN><SPAN STYLE='font-size:12.0pt;font-family:"휴먼명조";letter-spacing:-10%;line-height:200%'>2016.08.</SPAN><SPAN STYLE='font-size:12.0pt;font-family:"휴먼명조";letter-spacing:-3%;line-height:200%'>30.</SPAN><SPAN STYLE='font-size:12.0pt;font-family:"휴먼명조";letter-spacing:-10%;line-height:200%'>〉</SPAN></P>
+
+						<P CLASS=HStyle0 STYLE='text-align:center;line-height:120%;'><SPAN STYLE='font-size:20.0pt;font-family:"휴먼명조";font-weight:bold;line-height:120%'>대관 계약서</SPAN></P>
+						
+						<P CLASS=HStyle0 STYLE='margin-top:1.0pt;margin-bottom:1.0pt;line-height:150%;'><SPAN STYLE='font-size:14.0pt;font-family:"휴먼명조";font-weight:bold;line-height:150%'><BR></SPAN></P>
+						
+						<P CLASS=HStyle0 STYLE='margin-top:1.0pt;margin-bottom:1.0pt;line-height:150%;'><SPAN STYLE='font-size:13.0pt;font-family:"휴먼명조";letter-spacing:-6%;line-height:150%'>중랑구시설관리공단</SPAN><SPAN STYLE='font-size:13.0pt;font-family:"휴먼명조";line-height:150%'> 체육시설을 이용함에 있어서 아래와 같은 </SPAN><SPAN STYLE='font-size:13.0pt;font-family:"휴먼명조";line-height:150%'>귀책사유별로 구분하되, </SPAN><SPAN STYLE='font-size:12.0pt;font-family:"휴먼명조";letter-spacing:-4%;line-height:150%'>회원의 귀책사유로 인한 계약해지는 개시일 이후 부터 취소일까지 이용일수에 해당하는 금액을 공제한 후 반환한다.</SPAN></P>
+						
+						<P CLASS=HStyle0 STYLE='margin-top:1.0pt;margin-bottom:1.0pt;text-align:center;line-height:150%;'><SPAN STYLE='font-size:14.0pt;font-family:"휴먼명조";line-height:150%'>- 준 수 사 항 -</SPAN></P>
+						
+						<P CLASS=HStyle0 STYLE='margin-top:1.0pt;margin-bottom:1.0pt;line-height:150%;'>
+						<TABLE border="1" cellspacing="0" cellpadding="0" style='border-collapse:collapse;border:none;'>
+						<TR>
+							<TD valign="middle" bgcolor="#ffffff"  style='width:654;height:155;border-left:solid #000000 0.4pt;border-right:solid #000000 1.1pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 1.1pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
+							<P CLASS=HStyle0 STYLE='margin-left:5.0pt;margin-right:5.0pt;line-height:150%;'><SPAN STYLE='font-size:12.0pt;font-family:"휴먼명조";line-height:150%'>1. 대관 사용신청 승인후 7일이내 대관료를 납부하여야 합니다.</SPAN></P>
+							<P CLASS=HStyle0 STYLE='margin-left:5.0pt;margin-right:5.0pt;line-height:150%;'><SPAN STYLE='font-size:12.0pt;font-family:"휴먼명조";line-height:150%'>2. 대관 사용신청 승인후 7일이내 대관료를 납부하지 않을 시는 사용 허가를 취소할 수 있으며, 이에 대하여 신청인에게 통보합니다.</SPAN></P>
+							<P CLASS=HStyle0 STYLE='margin-left:5.0pt;margin-right:5.0pt;line-height:150%;'><SPAN STYLE='font-size:12.0pt;font-family:"휴먼명조";line-height:150%'>3. 만일, 대관을 취소하고자 할 경우 행사일 당일 포함 7일전에 취소 통보를 하여야하며, 통보가 없을시, 대관료는 반환되지 아니함을 원칙으로 합니다. </SPAN></P>
+							<P CLASS=HStyle0 STYLE='margin-left:5.0pt;margin-right:5.0pt;line-height:150%;'><SPAN STYLE='font-size:12.0pt;font-family:"휴먼명조";line-height:150%'>4. 정해진 시간이 초과 되었을 시에는 50%할증합니다.</SPAN></P>
+							</TD>
+						</TR>
+						</TABLE></P>
+						<P CLASS=HStyle0 STYLE='margin-top:1.0pt;margin-bottom:1.0pt;line-height:150%;'></P>
+						
+						<P CLASS=HStyle0 STYLE='margin-top:1.0pt;margin-bottom:1.0pt;text-align:center;line-height:150%;'><SPAN STYLE='font-size:14.0pt;font-family:"휴먼명조";line-height:150%'>- 유 의 사 항 - </SPAN></P>
+						
+						<P CLASS=HStyle0 STYLE='margin-top:1.0pt;margin-bottom:1.0pt;line-height:150%;'><SPAN STYLE='font-size:14.0pt;font-family:"휴먼명조";line-height:150%'>&nbsp; </SPAN><SPAN STYLE='font-size:12.0pt;font-family:"휴먼명조";line-height:150%'>1. 체육시설과 관련된 사항은 담당자의 지시에 따라야 한다. </SPAN></P>
+						
+						<P CLASS=HStyle0 STYLE='margin-top:1.0pt;margin-bottom:1.0pt;line-height:150%;'><SPAN STYLE='font-size:12.0pt;font-family:"휴먼명조";line-height:150%'>&nbsp;&nbsp;2. 체육관 이용수칙을 준수하여야 한다. </SPAN></P>
+						
+						<P CLASS=HStyle0 STYLE='margin-top:1.0pt;margin-bottom:1.0pt;line-height:150%;'><SPAN STYLE='font-size:12.0pt;font-family:"휴먼명조";line-height:150%'>&nbsp;&nbsp;3. 체육관 이용시 지정된 실내화(실내용 실내화)를 착용해야 한다. </SPAN></P>
+						
+						<P CLASS=HStyle0 STYLE='margin-top:1.0pt;margin-bottom:1.0pt;line-height:150%;'><SPAN STYLE='font-size:12.0pt;font-family:"휴먼명조";line-height:150%'>&nbsp;&nbsp;4. 계약된 대관 시간은 엄수해야 한다. </SPAN></P>
+						
+						<P CLASS=HStyle0 STYLE='margin-left:27.2pt;margin-top:1.0pt;margin-bottom:1.0pt;text-indent:-27.2pt;line-height:150%;'><SPAN STYLE='font-size:12.0pt;font-family:"휴먼명조";line-height:150%'>&nbsp;&nbsp;5. </SPAN><SPAN STYLE='font-size:12.0pt;font-family:"휴먼명조";letter-spacing:-2%;line-height:150%'>계약된 대관 시간 중 안전사고에 대한 책임은 </SPAN><SPAN STYLE='font-size:12.0pt;font-family:"휴먼명조";letter-spacing:-2%;line-height:150%'>계약당사자간의 귀책사유에 따라</SPAN><SPAN STYLE='font-size:12.0pt;font-family:"휴먼명조";line-height:150%'> 책임을 부담한다.</SPAN></P>
+						
+						<P CLASS=HStyle0 STYLE='margin-top:1.0pt;margin-bottom:1.0pt;line-height:150%;'><SPAN STYLE='font-size:12.0pt;font-family:"휴먼명조";line-height:150%'>&nbsp;&nbsp;6. </SPAN><SPAN STYLE='font-size:12.0pt;font-family:"휴먼명조";letter-spacing:-4%;line-height:150%'>지정된 장소이외의 운동시설에서는 음식물 반입을 금지한다. (자판기 커피포함) </SPAN></P>
+						
+						<P CLASS=HStyle0 STYLE='margin-top:1.0pt;margin-bottom:1.0pt;line-height:150%;'><SPAN STYLE='font-size:12.0pt;font-family:"휴먼명조";line-height:150%'>&nbsp;&nbsp;7. </SPAN><SPAN STYLE='font-size:12.0pt;font-family:"휴먼명조";letter-spacing:-5%;line-height:150%'>대관은 허가된 시설에만 적용되므로 일체의 집기나 운동용품은 사전 허락 후 사용한다. </SPAN></P>
+						
+						<P CLASS=HStyle0 STYLE='margin-top:1.0pt;margin-bottom:1.0pt;line-height:150%;'><SPAN STYLE='font-size:12.0pt;font-family:"휴먼명조";line-height:150%'>&nbsp;&nbsp;8. 지정된 대관 시설 외에는 사전허가 없이 출입 또는 사용을 금지한다. </SPAN></P>
+						
+						<P CLASS=HStyle0 STYLE='margin-top:1.0pt;margin-bottom:1.0pt;line-height:150%;'><SPAN STYLE='font-size:12.0pt;font-family:"휴먼명조";line-height:150%'>&nbsp;&nbsp;9. 시</SPAN><SPAN STYLE='font-size:12.0pt;font-family:"휴먼명조";letter-spacing:-5%;line-height:150%'>설 등을 파손하였을 때에는 사용자의 과실로 배상해야함을 원칙으로 한다. </SPAN></P>
+						
+						<P CLASS=HStyle0 STYLE='margin-top:1.0pt;margin-bottom:1.0pt;line-height:150%;'><SPAN STYLE='font-size:12.0pt;font-family:"휴먼명조";line-height:150%'>&nbsp;10. 기타 사항은 체육시설이용내규에 따른다. </SPAN></P>
+						
+						<P CLASS=HStyle0 STYLE='margin-top:1.0pt;margin-bottom:1.0pt;line-height:100%;'><SPAN STYLE='font-size:12.0pt;font-family:"휴먼명조";line-height:100%'><BR></SPAN></P>
+						
+						<P CLASS=HStyle0 STYLE='margin-left:6.0pt;margin-top:1.0pt;margin-bottom:1.0pt;text-indent:-6.0pt;line-height:150%;'><SPAN STYLE='font-size:12.0pt;font-family:"휴먼명조";letter-spacing:-3%;line-height:150%'> </SPAN><SPAN STYLE='font-size:13.0pt;font-family:"휴먼명조";letter-spacing:-3%;line-height:150%'>본인은 단체를 대표하여 위 내용을 준수할 것을 약속하며 시설대관을 신청합니다.</SPAN></P>
+						
+						<P CLASS=HStyle0 STYLE='margin-top:1.0pt;margin-bottom:1.0pt;line-height:100%;'><SPAN STYLE='font-size:14.0pt;font-family:"휴먼명조";line-height:100%'><BR></SPAN></P>
+						
+						<P CLASS=HStyle0 STYLE='margin-top:1.0pt;margin-bottom:1.0pt;text-align:center;line-height:180%;'><SPAN STYLE='font-size:12.0pt;font-family:"휴먼명조";line-height:180%'><BR></SPAN></P>
+						
+						<P CLASS=HStyle0 STYLE='margin-top:1.0pt;margin-bottom:1.0pt;text-align:center;line-height:200%;'><SPAN STYLE='font-size:12.0pt;font-family:"휴먼명조";line-height:200%'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;신 청 인 :&nbsp;&nbsp;${myData.MEM_NM} </SPAN></P>
+						
+						<P CLASS=HStyle0 STYLE='line-height:130%;'><SPAN STYLE='font-size:16.0pt;font-family:"휴먼명조";font-weight:bold;line-height:130%'>중랑구시설관리공단이사장</SPAN><SPAN STYLE='font-family:"휴먼명조"'> </SPAN><SPAN STYLE='font-size:13.0pt;font-family:"휴먼명조";line-height:130%'>귀중</SPAN></P>
+						<DIV STYLE=''>
+							<P CLASS=HStyle0 STYLE='text-align:right;line-height:180%;'><SPAN STYLE='font-family:"양재 튼튼B,한컴돋움";letter-spacing:12%'><BR></SPAN></P>
+						</DIV>
+			        </div>
+			        </article>
+			    </div>
 		</td>
 	</tr>
-		<tr>
+		<!-- <tr>
 			<th>파일 업로드</th>
 			<td>
 				<span style="color:red">작성하신 대관계약서를 첨부해주세요.</span>
@@ -334,7 +612,7 @@ $(document).ready(function(){
 				<input type="file" id="file" name="file" required="" multiple >
 				
 			</td>
-		</tr>
+		</tr> -->
 	<tr>
 		<th>개인정보수집동의서</th>
 		<td>

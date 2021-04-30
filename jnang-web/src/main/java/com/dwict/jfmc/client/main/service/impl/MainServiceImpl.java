@@ -130,6 +130,10 @@ public class MainServiceImpl implements MainService {
 		else if(agent.indexOf("Mac") != -1) os = "Mac";
 		else os = ""; 
 		
+		if(brower.equals("Android") || brower.equals("iphone")) {
+			os = "Mobile";
+		}
+		
 		
 		requestMap.put("ip",ip);
 		requestMap.put("os",os);

@@ -60,13 +60,13 @@
 		  HOME_TEL, HOME_ZIP, HOME_ADDR,
 		  MEM_NO, GENDER, ID, PW, JOIN_DATE, BIRTH_SEC,
 		  EMAIL_YN, SMS_YN, AGREE_YN, STATUS,
-		  NICKNAME , DUPCHK_KEY , WRITER, WRITE_DH)
+		  NICKNAME , DUPCHK_KEY , WRITER, WRITE_DH, WEBLOGIN_DH)
 		VALUES
 		( #{memNm}, #{hp}, #{email}, ENC_STR('KEY1', #{secBirthDate}),
 		  #{homeTel}, #{homeZip}, #{homeAddr},
 		  #{memNo}, #{gender}, #{id}, #{pw}, DATE_FORMAT(SYSDATE(), '%Y%m%d'), #{birthSec},
 		  #{emailYn}, #{smsYn}, 'Y', '00',
-		  #{memNm} , #{dupchkKey}, #{writer}, now() )
+		  #{memNm} , #{dupchkKey}, #{writer}, now(), now())
 	</insert>
 	
 	<!--  14세미만 회원가입 + 부모동의  -->
@@ -80,13 +80,13 @@
 		  HOME_TEL, HOME_ZIP, HOME_ADDR,
 		  MEM_NO, GENDER, ID, PW, JOIN_DATE, BIRTH_SEC,
 		  EMAIL_YN, SMS_YN, AGREE_YN, STATUS, ETC_NO,
-		  NICKNAME, DUPCHK_KEY, WRITER, WRITE_DH )
+		  NICKNAME, DUPCHK_KEY, WRITER, WRITE_DH, WEBLOGIN_DH )
 		VALUES
 		( #{memNm}, #{hp}, #{email}, ENC_STR('KEY1', #{secBirthDate}),
 		  #{homeTel}, #{homeZip}, #{homeAddr},
 		  #{memNo}, #{gender}, #{id}, #{pw}, DATE_FORMAT(SYSDATE(), '%Y%m%d'), #{birthSec},
 		  #{emailYn}, #{smsYn}, 'Y', '00', #{etcNo},
-		  #{memNm} , #{dupchkKey}, #{writer}, now())
+		  #{memNm} , #{dupchkKey}, #{writer}, now(), now())
 	</insert>
 	
 	
@@ -101,6 +101,7 @@
 		     , HOME_TEL = #{homeTel}
 		     , EMAIL_YN = #{emailYn}
 		     , SMS_YN = #{smsYn}
+		     , WEBLOGIN_DH = now()
 		 WHERE MEM_NM = #{memNm}
 		   AND SEC_BIRTH_DATE = ENC_STR('KEY1', #{secBirthDate})
 		   AND GENDER = #{gender}
@@ -151,5 +152,12 @@
 		and (DEC_STR('KEY1', SEC_BIRTH_DATE) COLLATE utf8_unicode_ci  = #{birthday} COLLATE utf8_unicode_ci  or DEC_STR('KEY1', SEC_BIRTH_DATE) COLLATE utf8_unicode_ci  = fn_int_to_date(#{birthday},'-')  COLLATE utf8_unicode_ci  )
 		limit 1
 	</select>
+	
+	<!-- 마지막로그인 날짜 업데이트 -->
+	<update id="updateLastLogin" parameterType="member">
+	     UPDATE MEMBER_DAMO
+		 SET WEBLOGIN_DH = now()
+		 WHERE ID = #{id}
+	</update>
 	
 </mapper>

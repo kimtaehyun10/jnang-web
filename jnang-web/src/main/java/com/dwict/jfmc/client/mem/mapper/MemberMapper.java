@@ -28,6 +28,7 @@ public interface MemberMapper {
 	 *#########################################################
 	 */
 	Map<String, String> isMember(Map<String, String> maps);
+	int updateLastLogin(String userId);
 	
 	
 

@@ -332,5 +332,12 @@ public class MemberServiceImpl implements MemberService {
 	        
 		}
 
+
+	@Override
+	public int updateLastLogin(String userId) {
+		return memberMapper.updateLastLogin(userId);
+		
+	}
+
 	
 }

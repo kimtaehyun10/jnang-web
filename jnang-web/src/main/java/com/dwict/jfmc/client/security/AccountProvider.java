@@ -56,6 +56,7 @@ public class AccountProvider implements AuthenticationProvider {
 		}
 		final HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
 		final HttpSession session = request.getSession(true);
+		memberService.updateLastLogin(userId);
 		memberService.memSession(request, userId);
 		session.setAttribute("member", session.getAttribute("member"));
 		return new UsernamePasswordAuthenticationToken(account, account.getPassword(), account.getAuthorities());
