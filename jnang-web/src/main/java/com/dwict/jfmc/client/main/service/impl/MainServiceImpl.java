@@ -88,8 +88,12 @@ public class MainServiceImpl implements MainService {
 		      brower = "MS_IEXPLORER";
 		   } else if (agent.indexOf("Edg") > -1) {
 		      brower = "MS_EDGE";
+		   } else if (agent.indexOf("Whale") > -1) {
+		      brower = "Naver_Whale";
 		   } else if (agent.indexOf("Chrome") > -1) {
-		      brower = "Chrome";
+		      brower = "Google_Chrome";
+		   } else if (agent.indexOf("Safari") > -1) {
+			  brower = "Apple_Safari";
 		   } else if (agent.indexOf("Opera") > -1) {
 		      brower = "Opera";
 		   } else if (agent.indexOf("iPhone") > -1 && agent.indexOf("Mobile") > -1) {
@@ -130,9 +134,12 @@ public class MainServiceImpl implements MainService {
 		else if(agent.indexOf("Mac") != -1) os = "Mac";
 		else os = ""; 
 		
-		if(brower.equals("Android") || brower.equals("iphone")) {
+		if(brower.equals("Android") || brower.equals("iPhone")) {
 			os = "Mobile";
+		}else if(brower.equals("Apple_Safari")){
+			os = "Mac";
 		}
+		
 		
 		
 		requestMap.put("ip",ip);
