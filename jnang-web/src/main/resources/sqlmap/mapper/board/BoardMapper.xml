@@ -74,6 +74,7 @@
 		               , NTC_YN
 		               , fn_getEmpCodeNm(REG_ID) AS REG_NM
 		               , DATE_FORMAT(REG_DT,'%Y-%m-%d') AS REG_DT
+		               , DATE_FORMAT(REG_DT,'%Y-%m-%d') AS REG_DT_YMD
 		            FROM CMS_CONT_NTC		            
 		            <choose>
 					    <when test="cmsCd == '05061201'">
@@ -198,6 +199,7 @@
 		               , REG_ID		               
 		               , fn_getMemberNm(REG_ID) AS REG_NM
 		               , DATE_FORMAT(REG_DT,'%Y-%m-%d') AS REG_DT
+		               , DATE_FORMAT(REG_DT,'%Y-%m-%d') AS REG_DT_YMD
 		            FROM CMS_CONT_BRD
 		           WHERE CMS_CD = #{cmsCd}
 		             AND DEL_YN = 'N'

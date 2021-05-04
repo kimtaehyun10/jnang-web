@@ -238,7 +238,8 @@ const searchNtc = function(){
 				}
 				cont += '<td class="tit01 ali_l"><a onclick="ntcDetailPage(\''+ data.resultList[i].cmsCd +'\','+data.resultList[i].brdNo+');">'+data.resultList[i].title+'</a></td>';
 				cont += '<td>'+data.resultList[i].regNm+'</td>';
-				cont += '<td>'+data.resultList[i].regDt.year+'-'+lpad(data.resultList[i].regDt.monthValue,2,"0")+'-'+lpad(data.resultList[0].regDt.dayOfMonth,2,"0")+'</td>';				
+				//cont += '<td>'+data.resultList[i].regDt.year+'-'+lpad(data.resultList[i].regDt.monthValue,2,"0")+'-'+lpad(data.resultList[0].regDt.dayOfMonth,2,"0")+'</td>';				
+				cont += '<td>'+data.resultList[i].regDtYmd+'</td>';
 				cont += '<td>'+data.resultList[i].hit+'</td>';
 				cont += '</tr>';								
 			}
@@ -332,6 +333,7 @@ const searchBrd = function(){
 		let cont1 = '';
 		let cont2 = '';
 		let size = data.resultList.length;	
+		console.log(data);
 		if(size!=0){
 			for(var i=0; i<size; i++){
 				if(i==0){
@@ -352,9 +354,11 @@ const searchBrd = function(){
 				}else{
 					cont1 += '<td>비공개</td>';
 				}				
-				cont1 += '<td>'+data.resultList[i].regDt.year+'-'+lpad(data.resultList[i].regDt.monthValue,2,"0")+'-'+lpad(data.resultList[0].regDt.dayOfMonth,2,"0")+'</td>';				
+				//cont1 += '<td>'+data.resultList[i].regDt.year+'-'+lpad(data.resultList[i].regDt.monthValue,2,"0")+'-'+lpad(data.resultList[0].regDt.dayOfMonth,2,"0")+'</td>';
+				cont1 += '<td>'+data.resultList[i].regDtYmd+'</td>'; 
 				cont1 += '<td>'+data.resultList[i].hit+'</td>';
-				cont1 += '</tr>';								
+				cont1 += '</tr>';
+				console.log(JSON.stringify(data.resultList[i].regDt));
 			}
 		}else{
 			cont1 += '<tr class="noti">';
