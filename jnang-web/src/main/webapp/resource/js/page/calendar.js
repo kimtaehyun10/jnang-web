@@ -125,7 +125,8 @@ function getDataList(p_cd,p_tab) {
 							if (dataIn) {
 								tmpList += "[<span class='red1'>예약완료</span>]<br>";
 							} else {
-								tmpList += "<a href='/rent/date/?yy="+ nyymmdd.substring(0,4) +"&mm="+  nyymmdd.substring(4,6) +"&q="+ p_cd +"/0'>[<span class='btn_green1'>예약가능</span>]</a><br>";
+								//tmpList += "<a href='/rent/date/?yy="+ nyymmdd.substring(0,4) +"&mm="+  nyymmdd.substring(4,6) +"&q="+ p_cd +"/0'>[<span class='btn_green1'>예약가능</span>]</a><br>";
+								tmpList += "[<span class='gray1'>예약불가</span>]<br>";
 							}
 									
 	
@@ -222,7 +223,8 @@ function getDataList(p_cd,p_tab) {
 										tmpList += STIME +"~"+ ETIME + "["+ APP_TYPE_NM +"]<br>";
 									} 
 								}//jj for
-								tmpList += "<a href='/rent/write/?ymd="+ nyymmdd +"&q="+ p_cd +"/0'>[<span class='btn_green1'>대관문의</span>]</a><br>";
+								//tmpList += "<a href='/rent/write/?ymd="+ nyymmdd +"&q="+ p_cd +"/0'>[<span class='btn_green1'>대관문의</span>]</a><br>";
+								tmpList += "[<span class='gray1'>예약불가</span>]<br>";
 										
 		
 						} //end if
