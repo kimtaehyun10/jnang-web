@@ -95,6 +95,7 @@
 	String MEM_ID	= member.getId();
 	String MEM_NM 	= member.getMemNm();
 	String MEM_MAIL = member.getEmail();
+	String MEM_NO   = member.getMemNo();
 	
 	
 %> 
@@ -207,11 +208,9 @@ function goPay()
 	return false;
 }
 
-function rentDetail(comNm, rentIdx, writeDh) {
-	
+function rentDetail(comNm, rentIdx, writeDh, placeCd, reserveDate, appType) {
 	var userId = '<%=MEM_ID%>';
-	
-		window.location.href='/mypage/rentDetail?rentIdx='+rentIdx+'&writeDh=' + writeDh + '&userId=' + userId;
+		window.location.href='/mypage/rentDetail?rentIdx='+rentIdx+'&writeDh=' + writeDh + '&userId=' + userId + '&appType=' + appType + '&placeCd=' + placeCd;
 	}
 
 
@@ -246,7 +245,8 @@ function rentDetail(comNm, rentIdx, writeDh) {
 					<c:if test="${result.APP_TYPE == '10' or result.APP_TYPE == '5'}">	
 					<input type="checkbox" id="cbox" name="cbox[]" value="${result.RENT_IDX}" style='width:30px; height:30px;'></td>
 					</c:if>
-				<td onclick="rentDetail('${result.COMNM}', '${result.RENT_IDX }', '${result.WRITE_DH }');" style="cursor: pointer;">${result.COMNM}  &nbsp; > &nbsp;  ${result.PLACE_NM} 
+				<td onclick="rentDetail('${result.COMNM}', '${result.RENT_IDX }', '${result.WRITE_DH }', '${result.PLACE_CD }', '${result.RESERVE_DATE }', '${result.APP_TYPE }');" style="cursor: pointer;">${result.COMNM}  &nbsp; > &nbsp;  ${result.PLACE_NM}
+				 
 					<c:if test="${result.OBJECT ne null}">
 						&nbsp; ( ${result.OBJECT} )
 						${result.SDATE }~${result.EDATE}
@@ -257,6 +257,7 @@ function rentDetail(comNm, rentIdx, writeDh) {
 					<c:if test="${result.add_light ne 0}">
 						&nbsp; / 조명 사용
 					</c:if>
+					
 				</td>
 				<td>
 					<%-- <c:if test="${result.PLACE_NM == '축구장' }">

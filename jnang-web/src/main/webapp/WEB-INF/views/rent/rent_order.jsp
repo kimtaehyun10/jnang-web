@@ -1,4 +1,5 @@
 <%@page import="java.util.Date"%>
+
 <%@page import="java.net.URLEncoder"%>
 <%@page import="java.sql.Timestamp"%>
 <%@page import="org.apache.commons.codec.binary.Base64"%>
@@ -382,7 +383,6 @@ var data = {
 	$("#AmtDP").text(goodsAmt );
 	$("#Amt").val(goodsAmt);
 	$("#goodsAmt").val(goodsAmt);
-	
 	debugger;
 	
 	$.get("/data/getOdEncryptData/<%=ediDate%>/"+ goodsAmt +"/"+ COMCD, function(data){
@@ -541,7 +541,7 @@ function send(COMCD){
 	{	
 		
 		<%-- var MEM_ID = '<%=MEM_ID%>';
-		if(MEM_ID != "kjseo") {
+		if(MEM_ID != "vos1") {
 			alert("현재 이용하실 수 없습니다. 관리자에게 문의해주세요.");
 			return false;
 		} --%>
@@ -561,7 +561,6 @@ function send(COMCD){
 			alert("수강 신청 내역이 없습니다.");
 			return false;
 		} */
-			
 		
 		if (form.GoodsName.value == "" || form.Amt.value == "" || form.GoodsCnt.value == "" ||form.ReturnURL.value == "")
 		{
@@ -760,14 +759,17 @@ function send(COMCD){
 	    	
 	    	%>
 			<c:forEach items="${dataList.dataList}" var="result" varStatus="status">
-			
-			
 				<c:set var="item" value="${result.item}" />
+				<c:set var="SORT" value="${result.SORT }" />
+				<c:set var="RESERVE_DATE" value="${fn:substring(result.RESERVE_DATE,5,7)}" />
+				<%-- ${fn:substring(result.RESERVE_DATE,5,7)} --%>
 				<%
 				//주간 야간(18시이후) 구분용
 				String item = (String)pageContext.getAttribute("item");
 				int int_item_time = Integer.parseInt(item.substring(0,2));
-				//out.println("item:"+ int_item_time +"<BR>");
+				String RESERVE_DATE = (String)pageContext.getAttribute("RESERVE_DATE");
+				int SORT = (int)pageContext.getAttribute("SORT") ;
+				//out.println("SORT:"+ SORT +"<BR>");
 				%>
 				
 				
@@ -775,8 +777,236 @@ function send(COMCD){
 				<c:if test="${result.orderYN eq 'Y'}"> 
 					
 					<!-- 조명사용 -->
-					<c:if test="${result.add_light eq true}">
-						[예약 성공]
+						<c:if test="${fn:substring(result.RESERVE_DATE,5,7) eq '01'}">
+							<c:if test="${result.sort eq '1' or result.sort eq '2' or result.sort eq '12' or result.sort eq '13' or result.sort eq '14' or result.sort eq '15' or result.sort eq '16'}">
+								[예약 성공]
+								<!-- 조명사용 , ${result.add_light} -->
+								<%
+								lightSum = lightSum + lightPrice;
+								%>
+								<%
+								if (PLACE_GROUP == 4) {
+								%> 
+									&nbsp; ${result.place_tab} 코트
+								<%
+								}
+								String commaNum = NumberFormat.getInstance().format(lightPrice);
+								%>
+				
+								&nbsp; ${result.RESERVE_DATE} &nbsp; ${result.item} &nbsp; <%=commaNum %><BR>
+							</c:if>
+						</c:if>
+						<c:if test="${fn:substring(result.RESERVE_DATE,5,7) eq '02'}">
+							<c:if test="${result.sort eq '1' or result.sort eq '2' or result.sort eq '12' or result.sort eq '13' or result.sort eq '14' or result.sort eq '15' or result.sort eq '16'}">
+								[예약 성공]
+								<!-- 조명사용 , ${result.add_light} -->
+								<%
+								lightSum = lightSum + lightPrice;
+								%>
+								<%
+								if (PLACE_GROUP == 4) {
+								%> 
+									&nbsp; ${result.place_tab} 코트
+								<%
+								}
+								String commaNum = NumberFormat.getInstance().format(lightPrice);
+								%>
+				
+								&nbsp; ${result.RESERVE_DATE} &nbsp; ${result.item} &nbsp; <%=commaNum %><BR>
+							</c:if>
+						</c:if>
+						<c:if test="${fn:substring(result.RESERVE_DATE,5,7) eq '03'}">
+							<c:if test="${result.sort eq '1' or result.sort eq '13' or result.sort eq '14' or result.sort eq '15' or result.sort eq '16'}">
+								[예약 성공]
+								<!-- 조명사용 , ${result.add_light} -->
+								<%
+								lightSum = lightSum + lightPrice;
+								%>
+								<%
+								if (PLACE_GROUP == 4) {
+								%> 
+									&nbsp; ${result.place_tab} 코트
+								<%
+								}
+								String commaNum = NumberFormat.getInstance().format(lightPrice);
+								%>
+				
+								&nbsp; ${result.RESERVE_DATE} &nbsp; ${result.item} &nbsp; <%=commaNum %><BR>
+							</c:if>
+						</c:if>
+						<c:if test="${fn:substring(result.RESERVE_DATE,5,7) eq '04'}">
+							<c:if test="${result.SORT eq '13' or result.SORT eq '14' or result.SORT eq '15' or result.SORT eq '16'}">
+								[예약 성공]
+								<!-- 조명사용 , ${result.add_light} -->
+								<%
+								lightSum = lightSum + lightPrice;
+								%>
+								<%
+								if (PLACE_GROUP == 4) {
+								%> 
+									&nbsp; ${result.place_tab} 코트
+								<%
+								}
+								String commaNum = NumberFormat.getInstance().format(lightPrice);
+								%>
+				
+								&nbsp; ${result.RESERVE_DATE} &nbsp; ${result.item} &nbsp; <%=commaNum %><BR>
+							</c:if>
+						</c:if>
+						<c:if test="${fn:substring(result.RESERVE_DATE,5,7) eq '05'}">
+							<c:if test="${result.SORT eq '14' or result.SORT eq '15' or result.SORT eq '16'}">
+								[예약 성공]
+								<!-- 조명사용 , ${result.add_light} -->
+								<%
+								lightSum = lightSum + lightPrice;
+								%>
+								<%
+								if (PLACE_GROUP == 4) {
+								%> 
+									&nbsp; ${result.place_tab} 코트
+								<%
+								}
+								String commaNum = NumberFormat.getInstance().format(lightPrice);
+								%>
+				
+								&nbsp; ${result.RESERVE_DATE} &nbsp; ${result.item} &nbsp; <%=commaNum %><BR>
+							</c:if>
+						</c:if>
+						<c:if test="${fn:substring(result.RESERVE_DATE,5,7) eq '06'}">
+							<c:if test="${result.SORT eq '14' or result.SORT eq '15' or result.SORT eq '16'}">
+								[예약 성공]
+								<!-- 조명사용 , ${result.add_light} -->
+								<%
+								lightSum = lightSum + lightPrice;
+								%>
+								<%
+								if (PLACE_GROUP == 4) {
+								%> 
+									&nbsp; ${result.place_tab} 코트
+								<%
+								}
+								String commaNum = NumberFormat.getInstance().format(lightPrice);
+								%>
+				
+								&nbsp; ${result.RESERVE_DATE} &nbsp; ${result.item} &nbsp; <%=commaNum %><BR>
+							</c:if>
+						</c:if>
+						<c:if test="${fn:substring(result.RESERVE_DATE,5,7) eq '07'}">
+							<c:if test="${result.SORT eq '15' or result.SORT eq '16'}">
+								[예약 성공]
+								<!-- 조명사용 , ${result.add_light} -->
+								<%
+								lightSum = lightSum + lightPrice;
+								%>
+								<%
+								if (PLACE_GROUP == 4) {
+								%> 
+									&nbsp; ${result.place_tab} 코트
+								<%
+								}
+								String commaNum = NumberFormat.getInstance().format(lightPrice);
+								%>
+				
+								&nbsp; ${result.RESERVE_DATE} &nbsp; ${result.item} &nbsp; <%=commaNum %><BR>
+							</c:if>
+						</c:if>
+						<c:if test="${fn:substring(result.RESERVE_DATE,5,7) eq '08'}">
+							<c:if test="${result.SORT eq '14' or result.SORT eq '15' or result.SORT eq '16'}">
+								[예약 성공]
+								<!-- 조명사용 , ${result.add_light} -->
+								<%
+								lightSum = lightSum + lightPrice;
+								%>
+								<%
+								if (PLACE_GROUP == 4) {
+								%> 
+									&nbsp; ${result.place_tab} 코트
+								<%
+								}
+								String commaNum = NumberFormat.getInstance().format(lightPrice);
+								%>
+				
+								&nbsp; ${result.RESERVE_DATE} &nbsp; ${result.item} &nbsp; <%=commaNum %><BR>
+							</c:if>
+						</c:if>
+						<c:if test="${fn:substring(result.RESERVE_DATE,5,7) eq '09'}">
+							<c:if test="${result.SORT eq '14' or result.SORT eq '15' or result.SORT eq '16'}">
+								[예약 성공]
+								<!-- 조명사용 , ${result.add_light} -->
+								<%
+								lightSum = lightSum + lightPrice;
+								%>
+								<%
+								if (PLACE_GROUP == 4) {
+								%> 
+									&nbsp; ${result.place_tab} 코트
+								<%
+								}
+								String commaNum = NumberFormat.getInstance().format(lightPrice);
+								%>
+				
+								&nbsp; ${result.RESERVE_DATE} &nbsp; ${result.item} &nbsp; <%=commaNum %><BR>
+							</c:if>
+						</c:if>
+						<c:if test="${fn:substring(result.RESERVE_DATE,5,7) eq '10'}">
+							<c:if test="${result.SORT eq '1' or result.SORT eq '13' or result.SORT eq '14' or result.SORT eq '15' or result.SORT eq '16'}">
+								[예약 성공]
+								<!-- 조명사용 , ${result.add_light} -->
+								<%
+								lightSum = lightSum + lightPrice;
+								%>
+								<%
+								if (PLACE_GROUP == 4) {
+								%> 
+									&nbsp; ${result.place_tab} 코트
+								<%
+								}
+								String commaNum = NumberFormat.getInstance().format(lightPrice);
+								%>
+				
+								&nbsp; ${result.RESERVE_DATE} &nbsp; ${result.item} &nbsp; <%=commaNum %><BR>
+							</c:if>
+						</c:if>
+						<c:if test="${fn:substring(result.RESERVE_DATE,5,7) eq '11'}">
+							<c:if test="${result.SORT eq '1' or result.SORT eq '13' or result.SORT eq '14' or result.SORT eq '15' or result.SORT eq '16'}">
+								[예약 성공]
+								<!-- 조명사용 , ${result.add_light} -->
+								<%
+								lightSum = lightSum + lightPrice;
+								%>
+								<%
+								if (PLACE_GROUP == 4) {
+								%> 
+									&nbsp; ${result.place_tab} 코트
+								<%
+								}
+								String commaNum = NumberFormat.getInstance().format(lightPrice);
+								%>
+				
+								&nbsp; ${result.RESERVE_DATE} &nbsp; ${result.item} &nbsp; <%=commaNum %><BR>
+							</c:if>
+						</c:if>
+						<c:if test="${fn:substring(result.RESERVE_DATE,5,7) eq '12'}">
+							<c:if test="${result.sort eq '1' or result.sort eq '2' or result.sort eq '12' or result.sort eq '13' or result.sort eq '14' or result.sort eq '15' or result.sort eq '16'}">
+								[예약 성공]
+								<!-- 조명사용 , ${result.add_light} -->
+								<%
+								lightSum = lightSum + lightPrice;
+								%>
+								<%
+								if (PLACE_GROUP == 4) {
+								%> 
+									&nbsp; ${result.place_tab} 코트
+								<%
+								}
+								String commaNum = NumberFormat.getInstance().format(lightPrice);
+								%>
+				
+								&nbsp; ${result.RESERVE_DATE} &nbsp; ${result.item} &nbsp; <%=commaNum %><BR>
+							</c:if>
+						</c:if>
+						
+						<%-- [예약 성공]
 						<!-- 조명사용 , ${result.add_light} -->
 						<%
 						lightSum = lightSum + lightPrice;
@@ -790,9 +1020,8 @@ function send(COMCD){
 						String commaNum = NumberFormat.getInstance().format(lightPrice);
 						%>
 		
-						&nbsp; ${result.RESERVE_DATE} &nbsp; ${result.item} &nbsp; <%=commaNum %><BR> 
+						&nbsp; ${result.RESERVE_DATE} &nbsp; ${result.item} &nbsp; <%=commaNum %><BR>  --%>
 										
-					</c:if>
 				</c:if>
 
 				

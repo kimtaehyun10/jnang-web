@@ -327,4 +327,10 @@ public class MypageServiceImpl implements MypageService {
 		
 		return mapper.myRentDataList2(map);
 	}
+
+
+	@Override
+	public List<Map<String, Object>> getMyRentIdxList(Map<String, Object> map) {
+		return mapper.getMyRentIdxList(map);
+	}
 }

@@ -11,6 +11,7 @@ import javax.annotation.Resource;
 import javax.print.attribute.HashPrintJobAttributeSet;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -234,15 +235,25 @@ public class RentServiceImpl implements RentService {
 	@Override
 	public Map<String, Object> rentConfig(HttpServletRequest request) {
 		
-		String param = request.getParameter("q");
-		param = (param == null) ? "0/0/0/" : param;
-		param = ((param.contains("/"))) ? param : param +"/0" ;
-		
-		String [] arrParam = param.split("\\/"); 
-		
+		String val6 = (String) request.getAttribute("val6");
+		String param = "";
+		String PLACE_CD = (String)request.getAttribute("val4");
+		String[] arrParam = new String[3];
 		Map <String,Object> maps= new HashMap<>();
-		maps.put("PLACE_CD", arrParam[0]);
-		maps.put("PLACE_TAB", arrParam[1]);
+		if(StringUtils.isNotBlank(val6)) {
+			maps.put("PLACE_CD",PLACE_CD);
+		}else {
+			param = request.getParameter("q");
+			param = (param == null) ? "0/0/0/" : param;
+			param = ((param.contains("/"))) ? param : param +"/0" ;
+			
+			arrParam = param.split("\\/"); 
+			
+			
+			maps.put("PLACE_CD", arrParam[0]);
+			maps.put("PLACE_TAB", arrParam[1]);
+		}
+		
 
 		Map<String, Object> obj = mapper.rentConfig(maps);
 		if (obj == null) 
@@ -374,14 +385,33 @@ public class RentServiceImpl implements RentService {
 		
 		
 		Map <String , Object > maps = new HashMap<>();
+		String val6 = (String) request.getAttribute("val6");
+		String val1 = "";
+		String val2 = "";
+		String RESERVE_DATE = "";
+		String PLACE_CD = "";
+		String COMCD = "";
+		int reserveDate = 0;
+		if(StringUtils.isNotBlank(val6)) {
+			val1 = (String)request.getAttribute("val1");
+			val1 = val1.substring(1,val1.length());
+			val2 = (String)request.getAttribute("val2");
+			val2 = val2.substring(1,val2.length());
+			reserveDate = (int) request.getAttribute("val3");
+			RESERVE_DATE = Integer.toString(reserveDate);
+			PLACE_CD = (String)request.getAttribute("val4");
+			COMCD = (String)request.getAttribute("val5");
+			
+		}else { 
+			val1 = request.getParameter("val1");
+			val1 = val1.substring(1,val1.length());
+			val2 = request.getParameter("val2");
+			val2 = val2.substring(1,val2.length());
+			RESERVE_DATE = request.getParameter("val3");
+			PLACE_CD = request.getParameter("val4");
+			COMCD = request.getParameter("val5");
+		}
 		
-		String val1 = request.getParameter("val1");
-		val1 = val1.substring(1,val1.length());
-		String val2 = request.getParameter("val2");
-		val2 = val2.substring(1,val2.length());
-		String RESERVE_DATE = request.getParameter("val3");
-		String PLACE_CD = request.getParameter("val4");
-		String COMCD = request.getParameter("val5");
 		
 		String yoil ="";
 		try {
@@ -398,9 +428,15 @@ public class RentServiceImpl implements RentService {
 		String  merchantKey = (String) maps2.get("KEY");
 		String  storeMID = (String) maps2.get("MID");
 		
+		if(StringUtils.isNotBlank(val6)) {
+			final String[] brdNoArr = val1.split(",");
+			maps.put("brdNoList", brdNoArr);
+		}else {
+			final String[] brdNoArr =  request.getParameter("val1").split(",");
+			maps.put("brdNoList", brdNoArr);
+		}
 		
-		final String[] brdNoArr =  request.getParameter("val1").split(",");
-		maps.put("brdNoList", brdNoArr);
+		
 		
 		maps.put("rtn_idx", val1); //예약 idx
 		maps.put("rtn_YN", val2); 	//예약결과 
@@ -434,13 +470,32 @@ public class RentServiceImpl implements RentService {
 	@Override
 	public List <Map <String, Object>> rentPriceList(String MEM_NO, HttpServletRequest request) {
 
-		String val1 = request.getParameter("val1");
-		val1 = val1.substring(1,val1.length());
-		String val2 = request.getParameter("val2");
-		String RESERVE_DATE = request.getParameter("val3");
-		val2 = val2.substring(1,val2.length());
-		String PLACE_CD = request.getParameter("val4");
-		String COMCD = request.getParameter("val5");
+		String val6 = (String) request.getAttribute("val6");
+		String val1 = "";
+		String val2 = "";
+		String RESERVE_DATE = "";
+		String PLACE_CD = "";
+		String COMCD = "";
+		int reserveDate = 0;
+		if(StringUtils.isNotBlank(val6)) {
+			val1 = (String)request.getAttribute("val1");
+			val1 = val1.substring(1,val1.length());
+			val2 = (String)request.getAttribute("val2");
+			val2 = val2.substring(1,val2.length());
+			reserveDate = (int) request.getAttribute("val3");
+			RESERVE_DATE = Integer.toString(reserveDate);
+			PLACE_CD = (String)request.getAttribute("val4");
+			COMCD = (String)request.getAttribute("val5");
+			
+		}else { 
+			val1 = request.getParameter("val1");
+			val1 = val1.substring(1,val1.length());
+			val2 = request.getParameter("val2");
+			val2 = val2.substring(1,val2.length());
+			RESERVE_DATE = request.getParameter("val3");
+			PLACE_CD = request.getParameter("val4");
+			COMCD = request.getParameter("val5");
+		}
 		
 		final Account account = (Account) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		final String MEM_ID = account.getUsername();
@@ -475,8 +530,14 @@ public class RentServiceImpl implements RentService {
 			maps.put("days" , "1");
 		}
 		
-		final String[] brdNoArr =  request.getParameter("val1").split(",");
-		maps.put("brdNoList", brdNoArr);
+		if(StringUtils.isNotBlank(val6)) {
+			final String[] brdNoArr = val1.split(",");
+			maps.put("brdNoList", brdNoArr);
+		}else {
+			final String[] brdNoArr =  request.getParameter("val1").split(",");
+			maps.put("brdNoList", brdNoArr);
+		}
+		
 		maps.put("in_area", inArea); //1:관내거주, 0:관외/타지역
 		//maps.put("person", "1"); //1:일반인 , 0:장애인
 		maps.put("PLACE_CD", PLACE_CD);

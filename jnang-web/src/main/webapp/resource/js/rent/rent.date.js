@@ -223,8 +223,8 @@ function getRent(ymd,seq) {
 				}
 				$("#val3").val(ymd);
 				$("#val4").val(seq);
-				
 				ymd = fn_convertDate(2,ymd);
+				console.log("ymd="+ymd);
 				$('#selectDate').html("&bull;"+ ymd +" 시간선택");
 				$('#info1').hide();
 			

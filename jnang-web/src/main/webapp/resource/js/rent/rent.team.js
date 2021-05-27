@@ -151,6 +151,10 @@ function send() {
 			var uname = $("input[name=uname]").eq(ii).val();
 			var ubrth = $("input[name=ubrth]").eq(ii).val();
 			var hp = $("input[name=hp]").eq(ii).val();
+			var uaddr = $("input[name=uaddr]").eq(ii).val();
+			var uaddr2 = $("input[name=uaddr2]").eq(ii).val();
+			
+			
 			if (uname == "") {
 				alert((ii+1) +"번째줄 이름 입력은 필수값입니다.");
 				return false;
@@ -161,6 +165,22 @@ function send() {
 			}
 			if (hp == "") {
 				alert((ii+1) +"번째줄 연락처 입력은 필수값입니다.");
+				return false;
+			}
+			if(hp.length < 10) {
+				alert((ii+1) +"번째줄 연락처은 형식에 맞춰 입력해주세여.");
+				return false;
+			}
+			if(ubrth.length < 8) {
+				alert((ii+1) +"번째줄 생년월일은 형식에 맞춰 입력해주세요. ex)19830101");
+				return false;
+			}
+			if(uaddr == ""){
+				alert((ii+1) +"번째줄 주소 입력은 필수값입니다.");
+				return false;
+			}
+			if(uaddr2 == ""){
+				alert((ii+1) +"번째줄 상세주소 입력은 필수값입니다.");
 				return false;
 			}
 			var data = uname

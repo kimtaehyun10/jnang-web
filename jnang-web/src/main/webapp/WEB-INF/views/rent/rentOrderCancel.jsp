@@ -54,9 +54,9 @@ function send() {
 		var aItemList = new Array();
 			
 			var formData=new FormData();
-			var inputFile=$("#file");
-			var files=inputFile[0].files;	
-			var fileCheck = document.getElementById("file").value;
+// 			var inputFile=$("#file");
+// 			var files=inputFile[0].files;	
+// 			var fileCheck = document.getElementById("file").value;
 			var PTS_ARRAY = new Array();
 			
 			for(var i=0;i<$('#ptsSize').val();i++ ){
@@ -77,9 +77,9 @@ function send() {
 			formData.append("PLACE_TIME_SEQ", PTS_ARRAY);
 			
 		    
-			for(var i=0;i<files.length;i++){
-				formData.append("files",files[i]);
-			}		
+// 			for(var i=0;i<files.length;i++){
+// 				formData.append("files",files[i]);
+// 			}		
 			
 			$.ajax({
 		        type: "post",
@@ -152,21 +152,6 @@ function send() {
 		<th>취소명</th>
 		<td>
 			<input type="text" id="OBJECT" name="OBJECT" value="" maxlength="100" class="inputbox_01a inputbox_01_s3" required="" placeholder="취소신청합니다. ">
-		</td>
-	</tr>
-	<tr>
-		<th>대관취소신청서 양식</th>
-		<td>
-			<a href="/data/file/제3호서식_대관 사용 허가 신청서.hwp" class="fc_blue1 line_under">대관 취소 신청서 다운로드</a>
-		</td>
-	</tr>
-	<tr>
-		<th>파일 업로드</th>
-		<td>
-			<span style="color:red">작성하신 대관 취소 신청서를 첨부해주세요.</span>
-			<br>
-			<input type="file" id="file" name="file" required="" >
-			
 		</td>
 	</tr>
 	<tr>

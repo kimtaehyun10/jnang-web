@@ -342,7 +342,7 @@
 			rent_app t1
 			left join rent_times t2 on t1.PLACE_CD  = t2.place_cd and t1.PLACE_TIME_SEQ = t2.seq 
 		where MEM_NO = (select MEM_NO from v_member where id= #{userId})
-		and T1.APP_TYPE != 5
+		<!-- and T1.APP_TYPE != 5 -->
 		group by write_dh, TID, COMCD, PLACE_GROUP
 		order by RENT_IDX desc
 		limit 20
@@ -612,6 +612,20 @@
         WHERE APP.TID = #{TID}
 	</select>
 	
-	
+	<select id="getMyRentIdxList" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		SELECT
+			RENT_IDX
+			, PLACE_TIME_SEQ
+			, MEM_NO
+			, COMCD
+			, RESERVE_DATE
+			, WRITE_DH
+		FROM 	
+			RENT_APP
+		WHERE
+			WRITE_DH = #{writeDh}
+		AND
+			PLACE_CD = #{placeCd}		
+	</select>
 	
 </mapper>

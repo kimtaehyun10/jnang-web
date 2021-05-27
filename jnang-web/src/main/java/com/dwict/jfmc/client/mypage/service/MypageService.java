@@ -46,4 +46,6 @@ public interface MypageService {
 	List<Map<String, Object>> getMyRentList1(String userId);
 
 	List<Map<String, Object>> getMyRentList2(Map<String, Object> map);
+
+	List<Map<String, Object>> getMyRentIdxList(Map<String, Object> map);
 }

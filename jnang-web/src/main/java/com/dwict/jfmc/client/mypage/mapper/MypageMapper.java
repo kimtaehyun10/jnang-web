@@ -48,5 +48,7 @@ public interface MypageMapper {
 	List<Map<String, Object>> myRentDataList1(String userId);
 
 	List<Map<String, Object>> myRentDataList2(Map<String, Object> map);
+
+	List<Map<String, Object>> getMyRentIdxList(Map<String, Object> map);
 	
 }

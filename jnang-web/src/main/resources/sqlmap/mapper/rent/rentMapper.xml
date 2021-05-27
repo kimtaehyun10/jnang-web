@@ -451,6 +451,7 @@
 				, t1.PLACE_TIME_SEQ
 				, t2.PLACE_GROUP 
 				, t3.place_tab 
+				, t3.SORT
 				, fn_int_to_date(t1.RESERVE_DATE ,'') as RESERVE_DATE 
 				, t3.item
 				, t1.MEM_NO

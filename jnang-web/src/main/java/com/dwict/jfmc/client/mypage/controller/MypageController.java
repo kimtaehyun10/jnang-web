@@ -237,24 +237,69 @@ public class MypageController {
 		Map<String, Object> map = new HashMap<>();
 		map.put("userId",userId);
 		map.put("writeDh",request.getParameter("writeDh"));
-		
-		
-		final List<Map <String,Object>> rentList = service.getMyRentList2(map);
-		modelAndView.addObject("rentList", rentList);
- 
+		map.put("placeCd",request.getParameter("placeCd"));
+		String appType = request.getParameter("appType");
+		final List<Map <String,Object>> rentList;
+		String val1 = "";
+		String val2 = "";
+		if(appType.equals("5")) {
+			rentList = service.getMyRentIdxList(map);
+			for(int i=0; i<rentList.size(); i++) {
+				val1 = val1 + "," + rentList.get(i).get("PLACE_TIME_SEQ");
+				val2 = val2 + ",Y";
+				request.setAttribute("val3", rentList.get(0).get("RESERVE_DATE"));
+				request.setAttribute("val4", request.getParameter("placeCd"));
+				request.setAttribute("val5", rentList.get(0).get("COMCD"));
+			}
+			request.setAttribute("val1", val1);
+			request.setAttribute("val2", val2);
+			request.setAttribute("val6", "standBy");
+			
+			request.setAttribute("PLACE_CD", request.getParameter("placeCd"));
+			
+			String MEM_NO = members.getMemNo();
+			
+			
+			final Map <String,Object> rentCfg = rentService.rentConfig(request);
+			if (rentCfg == null) {
+				modelAndView.setViewName("/rent/rentlist");
+				return modelAndView;
+			}
+			modelAndView.addObject("rentCfg", rentCfg);
+			
+			Map <String, Object> rentOrderList= rentService.rentOrder(MEM_NO, request);
+			modelAndView.addObject("dataList", rentOrderList);
+			
+			List <Map <String, Object>> rentPriceList= rentService.rentPriceList(MEM_NO, request);
+			modelAndView.addObject("rentPriceList", rentPriceList);
+			
+			//결제키
+			Map<String, Object> maps = new HashMap<>();
+			maps = payService.payKeyInfo(rentCfg);
+			modelAndView.addAllObjects(maps);
+			
+			modelAndView.setViewName("/rent/rent_order");
+			return modelAndView;
+			
+		}else {
+			rentList = service.getMyRentList2(map);
+			modelAndView.addObject("rentList", rentList);
+			Map<String, Object> maps = new HashMap<>();
+			maps.put("MEM_ID", userId); 
+			maps.put("MEM_NO", members.getMemNo());
+			//memberService.memSession(request, userId);		
+			modelAndView.addObject("otherData", maps);
+			modelAndView.setViewName("mypage/rentDetail");
+			
+			System.out.println(modelAndView);
+			
+			return modelAndView;
+		}
+				
 		//final List<Map <String,Object>> cancelPay = service.getMyClssList(userId);
 		//modelAndView.addObject("cancelPay", cancelPay);
 		
-		Map<String, Object> maps = new HashMap<>();
-		maps.put("MEM_ID", userId); 
-		maps.put("MEM_NO", members.getMemNo());
-		//memberService.memSession(request, userId);		
-		modelAndView.addObject("otherData", maps);
-		modelAndView.setViewName("mypage/rentDetail");
 		
-		System.out.println(modelAndView);
-		
-		return modelAndView;
 	}
 	
 	

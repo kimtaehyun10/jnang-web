@@ -219,6 +219,7 @@ const searchNtc = function(){
 	$.get('/data/ntc/'+$('#h_cmsCd').val(), param, function(data){		
 		let cont = '';
 		let size = data.resultList.length;	
+		debugger;
 		if(size!=0){
 			for(var i=0; i<size; i++){
 				if(i==0){

@@ -241,8 +241,8 @@ $(function(){
 		<input type="hidden" id="attach_id" name="attach_id" value="<c:out value='${teamData.ATTACH_ID}'/>">
 		<input type="hidden" id="arryData" name="arryData">
 		<input type="hidden" id="arryDel" name="arryDel">
-		<%-- <input type="submit" class="size_m2 btn_green1" value="<%=(sSEQ =="0") ? "팀 신청" : "팀 수정" %>"> --%>
-		<a href="#none" onclick="javascript:alert('현재 이용하실 수 없습니다. 관리자에게 문의해주세요');" id=" " class="size_m2 btn_green1">팀 신청</a>
+		<input type="submit" class="size_m2 btn_green1" value="<%=(sSEQ =="0") ? "팀 신청" : "팀 수정" %>">
+		<!-- <a href="#none" onclick="javascript:alert('현재 이용하실 수 없습니다. 관리자에게 문의해주세요');" id=" " class="size_m2 btn_green1">팀 신청</a> -->
 		<input type="button" class="size_m2 btn_green1" value="대관신청" onClick="top.location.href='/rentlist';">
 	</div>
 
