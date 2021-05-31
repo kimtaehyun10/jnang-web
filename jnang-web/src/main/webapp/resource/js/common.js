@@ -275,8 +275,6 @@ function comma_str_n(str){
 }
 
 function fn_convertDate(uType, uDate){
-	debugger;
-	console.log("uType=" + uType, "uDate=" + uDate);
 	var day, rtn;
 	var yy,mm,dd,hh,ii,ss;
 	//날짜 ==> 숫자로

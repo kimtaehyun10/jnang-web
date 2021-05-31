@@ -144,6 +144,17 @@ function selectSport(selCT) {
 	//return false;
 	
 };
+function getDate(ymd){ 
+	//날짜문자열 형식은 자유로운 편 
+	var week = ['일', '월', '화', '수', '목', '금', '토'];
+	var year = ymd.substring(0,4);
+    var month = ymd.substring(4,6);
+    var day = ymd.substring(6,8);
+	ymd = year + "-" + month + "-" + day;
+	var dayOfWeek = week[new Date(ymd).getDay()];
+	return dayOfWeek; 
+	
+}
 
 
 /// 실시간 예약현황 출력
@@ -154,9 +165,13 @@ function getRent(ymd,seq) {
 	//for(var ii=1; ii<= coteCnt; ii++){
 		console.clear();
 		console.log('ymd:'+ ymd +', seq==>'+seq);
+		var yoil = getDate(ymd);
+		
 		$("#ymd").val(''); rntYMD = ymd;
 		
+		
 		$.get('/data/getRentList', { "ymd" : ymd, "q" : seq +"/0" } , function(data){
+			console.log(data);
 			//try {
 				var arr = [];
 				var arrTmp = []; //임시저장
@@ -170,45 +185,91 @@ function getRent(ymd,seq) {
 					
 					for(var i=0; i<data.length; i++){
 						
-						var place_tab = data[i].place_tab;
-						var checked = (data[i].rentIdx == 0) ? "" : " checked ";
-						
-						arrTabCnt[place_tab] = (isNaN(arrTabCnt[place_tab])) ? 0 : arrTabCnt[place_tab]+1;
-						//console.log("arrTabCnt2 :"+ arrTabCnt[place_tab]);
-						
-						firstStr = '<div><label><input type="checkbox" sid="chk_tab_'+ place_tab +'" ';
-						
-						tmpList = firstStr;
-						
-						var tmpNoItem = ' value="" class="chkbxSize" checked disabled> <span class="rented margin_l5">'+ data[i].item +'</span></label></div>';
-						
-						
-						
-						// 접수가능
-						console.log(data);
-						if (data[i].rentIdx == "0") {
-
-							tmpList += ' name="tseq" value="'+ data[i].seq +'" class="chkbxSize" onClick="selectCheck('+ place_tab +','+ data[i].seq +');" >'
-									+ '<span class="margin_l5">'+ data[i].item +'</span></label></div>';
-							arrTmpIdx[arrTabCnt[place_tab]] = data[i].seq;
-						
-						//접수 불가능
-						} else {
-							debugger;
-							//2번째가 예약이 되어있으면 첫번째도 예약 못하도록
-							if (arrTabCnt[place_tab] == 1 && arrTmpIdx[arrTabCnt[0]] != 0 ) {
-								//arr[0] = "xxxxx";
+						if(data[i].place_cd == "8" && yoil == "일"){
+							console.log("asdfasdf");
+							var place_tab = data[i].place_tab;
+							var checked = (data[i].rentIdx == 0) ? "" : " checked ";
+							
+							arrTabCnt[place_tab] = (isNaN(arrTabCnt[place_tab])) ? 0 : arrTabCnt[place_tab]+1;
+							//console.log("arrTabCnt2 :"+ arrTabCnt[place_tab]);
+							if(data[i].sort != 13 && data[i].sort != 14 && data[i].sort != 15 && data[i].sort != 16){
+								firstStr = '<div><label><input type="checkbox" sid="chk_tab_'+ place_tab +'" ';
+								tmpList = firstStr;
+								
+								var tmpNoItem = ' value="" class="chkbxSize" checked disabled> <span class="rented margin_l5">'+ data[i].item +'</span></label></div>';
+								
+								
+								
+								// 접수가능
+		//						console.log(data);
+								if (data[i].rentIdx == "0") {
+		
+									tmpList += ' name="tseq" value="'+ data[i].seq +'" class="chkbxSize" onClick="selectCheck('+ place_tab +','+ data[i].seq +');" >'
+											+ '<span class="margin_l5">'+ data[i].item +'</span></label></div>';
+									arrTmpIdx[arrTabCnt[place_tab]] = data[i].seq;
+								
+								//접수 불가능
+								} else {
+									//2번째가 예약이 되어있으면 첫번째도 예약 못하도록
+									if (arrTabCnt[place_tab] == 1 && arrTmpIdx[arrTabCnt[0]] != 0 ) {
+										//arr[0] = "xxxxx";
+									}
+									
+									tmpList += tmpNoItem;
+									arrTmpIdx[arrTabCnt[place_tab]] = 0;
+								}
+								
+								if (place_tab == 3) {
+									//console.log("i["+ arrTabCnt[place_tab] +"]: "+ arrTmpIdx[arrTabCnt[place_tab]-1] +", "+ arrTmpIdx[arrTabCnt[place_tab]] +", "+ data[i].item);
+								}						
+		
+								arr[place_tab] = (arr[place_tab] == undefined) ? tmpList : arr[place_tab] + tmpList;
 							}
 							
-							tmpList += tmpNoItem;
-							arrTmpIdx[arrTabCnt[place_tab]] = 0;
+									
+						}else {
+							var place_tab = data[i].place_tab;
+							var checked = (data[i].rentIdx == 0) ? "" : " checked ";
+							
+							arrTabCnt[place_tab] = (isNaN(arrTabCnt[place_tab])) ? 0 : arrTabCnt[place_tab]+1;
+							//console.log("arrTabCnt2 :"+ arrTabCnt[place_tab]);
+							
+							firstStr = '<div><label><input type="checkbox" sid="chk_tab_'+ place_tab +'" ';
+							
+							tmpList = firstStr;
+							
+							var tmpNoItem = ' value="" class="chkbxSize" checked disabled> <span class="rented margin_l5">'+ data[i].item +'</span></label></div>';
+							
+							
+							
+							// 접수가능
+	//						console.log(data);
+							if (data[i].rentIdx == "0") {
+	
+								tmpList += ' name="tseq" value="'+ data[i].seq +'" class="chkbxSize" onClick="selectCheck('+ place_tab +','+ data[i].seq +');" >'
+										+ '<span class="margin_l5">'+ data[i].item +'</span></label></div>';
+								arrTmpIdx[arrTabCnt[place_tab]] = data[i].seq;
+							
+							//접수 불가능
+							} else {
+								//2번째가 예약이 되어있으면 첫번째도 예약 못하도록
+								if (arrTabCnt[place_tab] == 1 && arrTmpIdx[arrTabCnt[0]] != 0 ) {
+									//arr[0] = "xxxxx";
+								}
+								
+								tmpList += tmpNoItem;
+								arrTmpIdx[arrTabCnt[place_tab]] = 0;
+							}
+							
+							if (place_tab == 3) {
+								//console.log("i["+ arrTabCnt[place_tab] +"]: "+ arrTmpIdx[arrTabCnt[place_tab]-1] +", "+ arrTmpIdx[arrTabCnt[place_tab]] +", "+ data[i].item);
+							}						
+	
+							arr[place_tab] = (arr[place_tab] == undefined) ? tmpList : arr[place_tab] + tmpList;
 						}
 						
-						if (place_tab == 3) {
-							console.log("i["+ arrTabCnt[place_tab] +"]: "+ arrTmpIdx[arrTabCnt[place_tab]-1] +", "+ arrTmpIdx[arrTabCnt[place_tab]] +", "+ data[i].item);
-						}						
-
-						arr[place_tab] = (arr[place_tab] == undefined) ? tmpList : arr[place_tab] + tmpList;
+						
+						
 					} //end for
 					
 				}
@@ -224,7 +285,7 @@ function getRent(ymd,seq) {
 				$("#val3").val(ymd);
 				$("#val4").val(seq);
 				ymd = fn_convertDate(2,ymd);
-				console.log("ymd="+ymd);
+//				console.log("ymd="+ymd);
 				$('#selectDate').html("&bull;"+ ymd +" 시간선택");
 				$('#info1').hide();
 			
@@ -257,7 +318,7 @@ function selectCheck(tab, mycnt) {
 	$('input:checkbox[sid="chk_tab_'+tab+'"]').each(function() {
 		
 		if (this.value == mycnt) {
-			console.log("mycnt["+ index +"]:"+ this.value +" == "+ mycnt);
+			//console.log("mycnt["+ index +"]:"+ this.value +" == "+ mycnt);
 			mycnt = index;
 		}
 		index++;		
@@ -272,11 +333,11 @@ function selectCheck(tab, mycnt) {
 			selectCnt++;
 		}
 	});
-	console.log("총 코스별 갯수:"+tabCnt);
-	console.log("총선택 갯수:"+selectCnt);
+//	console.log("총 코스별 갯수:"+tabCnt);
+//	console.log("총선택 갯수:"+selectCnt);
 	if (selectCnt == 1) {
 		var chk1 = $('input:checkbox[sid="chk_tab_'+tab+'"]').eq(mycnt).prop('checked');
-		console.log("chk1:"+chk1);
+		//console.log("chk1:"+chk1);
 		alert("최소 2시간(2개)이상 연속으로 선택하셔야 예약이 가능합니다.\n(1시간만 선택된 경우 무효 처리됨)\n\n");
 		//var chk1 = $('input:checkbox[sid="chk_tab_'+tab+'"]').eq(mycnt).prop('checked');
 		if (chk1) {
@@ -391,10 +452,10 @@ function selectCheck(tab, mycnt) {
 	}//end for
 	
 	if (noSave[tab] == -1) {
-		console.log("이상이상"+ ii +"=================>");
+		//console.log("이상이상"+ ii +"=================>");
 	}
 	
-	console.log("thisChkCnt"+ noSave[tab]);
+	//console.log("thisChkCnt"+ noSave[tab]);
 	//마지막 한시간만 첵크 여부 확인
 	var lastpreChk 		= $('input:checkbox[sid="chk_tab_'+tab+'"]').eq(tabCnt-2).prop('checked');
 	var lastpreChkVal 	= $('input:checkbox[sid="chk_tab_'+tab+'"]').eq(tabCnt-2).val();

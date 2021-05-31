@@ -279,17 +279,33 @@ function rentDetail(comNm, rentIdx, writeDh, placeCd, reserveDate, appType) {
 					
 					<c:set var="now" value="<%=new java.util.Date()%>" />
 					<c:set var="sysDate"><fmt:formatDate value="${now}" pattern="yyyy-MM-dd" /></c:set>
-					<c:if test="${result.APP_TYPE == '15' }">
-						<c:if test="${sysDate < result.RESERVE_DATE }">
-							<input type="button" class="size_m2 btn_green1" value="결제" onClick="test('<%=ediDate%>', '${result.PAY_AMT}','<%=test%>', '${result.RESERVE_DATE}', ${result.PLACE_CD}, '${result.COMCD }',${result.RENT_IDX },'${otherData.MEM_ID }','<%=actionUrl%>' );">
-						</c:if>
-						<c:if test="${sysDate eq result.RESERVE_DATE }">
-							<input type="button" class="size_m2 btn_green1" value="결제" onClick="test('<%=ediDate%>', '${result.PAY_AMT}','<%=test%>', '${result.RESERVE_DATE}', ${result.PLACE_CD}, '${result.COMCD }',${result.RENT_IDX },'${otherData.MEM_ID }','<%=actionUrl%>' );">
-						</c:if>
-						<c:if test="${sysDate > result.RESERVE_DATE }">
-							<!-- 아무것도 안나옴 -->
-						</c:if>	
-					</c:if>
+					<c:choose>
+						<c:when test="${result.APP_TYPE == '15' }">
+							<c:if test="${sysDate < result.RESERVE_DATE }">
+								<input type="button" class="size_m2 btn_green1" value="결제" onClick="test('<%=ediDate%>', '${result.PAY_AMT}','<%=test%>', '${result.RESERVE_DATE}', ${result.PLACE_CD}, '${result.COMCD }',${result.RENT_IDX },'${otherData.MEM_ID }','<%=actionUrl%>' );">
+							</c:if>
+							<c:if test="${sysDate eq result.RESERVE_DATE }">
+								<input type="button" class="size_m2 btn_green1" value="결제" onClick="test('<%=ediDate%>', '${result.PAY_AMT}','<%=test%>', '${result.RESERVE_DATE}', ${result.PLACE_CD}, '${result.COMCD }',${result.RENT_IDX },'${otherData.MEM_ID }','<%=actionUrl%>' );">
+							</c:if>
+							<c:if test="${sysDate > result.RESERVE_DATE }">
+								<!-- 아무것도 안나옴 -->
+							</c:if>	
+						</c:when>
+						<c:when test="${result.APP_TYPE == '5' }">
+							<c:if test="${sysDate < result.RESERVE_DATE }">
+								<input type="button" class="size_m2 btn_green1" value="결제" onClick="rentDetail('${result.COMNM}', '${result.RENT_IDX }', '${result.WRITE_DH }', '${result.PLACE_CD }', '${result.RESERVE_DATE }', '${result.APP_TYPE }');">
+							</c:if>
+							<c:if test="${sysDate eq result.RESERVE_DATE }">
+								<input type="button" class="size_m2 btn_green1" value="결제" onClick="rentDetail('${result.COMNM}', '${result.RENT_IDX }', '${result.WRITE_DH }', '${result.PLACE_CD }', '${result.RESERVE_DATE }', '${result.APP_TYPE }');">
+							</c:if>
+							<c:if test="${sysDate > result.RESERVE_DATE }">
+							</c:if>
+						</c:when>
+						<c:otherwise>
+						
+						</c:otherwise>
+					</c:choose>
+					
 					<c:choose>
 						<c:when test="${sysDate eq result.PAY_DATE_RE}">
 							<c:if test="${result.APP_TYPE == '30' }">
