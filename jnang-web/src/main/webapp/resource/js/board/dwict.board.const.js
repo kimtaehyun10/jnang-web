@@ -216,15 +216,21 @@ const searchNtc = function(){
 		searchKey:$('#searchKey').val(),
 		searchValue:$('#searchValue').val()
 	};
-	$.get('/data/ntc/'+$('#h_cmsCd').val(), param, function(data){		
+	$.get('/data/ntc/'+$('#h_cmsCd').val(), param, function(data){
+		var donCmsCd = $('#h_cmsCd').val();
 		let cont = '';
-		let size = data.resultList.length;	
-		debugger;
+		let size = data.resultList.length;			
 		if(size!=0){
 			for(var i=0; i<size; i++){
 				if(i==0){
 					cont += '<colgroup><col width="70px"/><col width="*"/><col width="150px"/><col width="110px"/><col width="70px"/></colgroup>';
-					cont += '<tr><th>번호</th><th>제목</th><th>작성자</th><th>작성일</th><th>조회</th></tr>';
+					//공단운영규정 작성일 안보이게
+					if(donCmsCd == '07090100' || donCmsCd == '07090101' || donCmsCd == '07090102' || donCmsCd == '07090103' || donCmsCd == '07090104'){
+						cont += '<tr><th>번호</th><th>제목</th><th>작성자</th><th>조회</th></tr>';
+					}else{
+						cont += '<tr><th>번호</th><th>제목</th><th>작성자</th><th>작성일</th><th>조회</th></tr>';
+					}
+					
 				}				
 				if(data.resultList[i].ntcYn === 'Y'){
 					cont += '<tr class="noti">';
@@ -240,7 +246,13 @@ const searchNtc = function(){
 				cont += '<td class="tit01 ali_l"><a onclick="ntcDetailPage(\''+ data.resultList[i].cmsCd +'\','+data.resultList[i].brdNo+');">'+data.resultList[i].title+'</a></td>';
 				cont += '<td>'+data.resultList[i].regNm+'</td>';
 				//cont += '<td>'+data.resultList[i].regDt.year+'-'+lpad(data.resultList[i].regDt.monthValue,2,"0")+'-'+lpad(data.resultList[0].regDt.dayOfMonth,2,"0")+'</td>';				
-				cont += '<td>'+data.resultList[i].regDtYmd+'</td>';
+				//공단운영규정 작성일 안보이게
+				if(donCmsCd == '07090100' || donCmsCd == '07090101' || donCmsCd == '07090102' || donCmsCd == '07090103' || donCmsCd == '07090104'){
+					
+				}else{
+					cont += '<td>'+data.resultList[i].regDtYmd+'</td>';
+				}
+								
 				cont += '<td>'+data.resultList[i].hit+'</td>';
 				cont += '</tr>';								
 			}
@@ -269,6 +281,7 @@ const ntcDetailPage = function(cmsCd,brdNo){
 };
 
 const searchNtcDetailPage = function(){
+	var donCmsCd = $('#h_cmsCd').val();
 	const param = {
 		cmsCd:$('#h_cmsCd').val(),
 		brdNo:$('#h_brdNo').val()
@@ -284,11 +297,18 @@ const searchNtcDetailPage = function(){
 		cont1 += '<th>작성자</th>';
 		cont1 += '<td>'+data.regNm+'</td>';
 		cont1 += '</tr>';
-		cont1 += '<tr>';
-		cont1 += '<th>작성일</th>';
-		cont1 += '<td>'+data.regDt.year+'-'+lpad(data.regDt.monthValue,2,"0")+'-'+lpad(data.regDt.dayOfMonth,2,"0")+'</td>';
-		cont1 += '</tr>';
-		cont1 += '<tr>';
+		
+		//공단운영규정 작성일 안보이게
+		if(donCmsCd == '07090100' || donCmsCd == '07090101' || donCmsCd == '07090102' || donCmsCd == '07090103' || donCmsCd == '07090104'){
+			
+		}else{
+			cont1 += '<tr>';
+			cont1 += '<th>작성일</th>';
+			cont1 += '<td>'+data.regDt.year+'-'+lpad(data.regDt.monthValue,2,"0")+'-'+lpad(data.regDt.dayOfMonth,2,"0")+'</td>';
+			cont1 += '</tr>';
+		}		
+		
+		cont1 += '<tr>';		
 		cont1 += '<th>조회수</th>';
 		cont1 += '<td>'+data.hit+'</td>';
 		cont1 += '</tr>';
