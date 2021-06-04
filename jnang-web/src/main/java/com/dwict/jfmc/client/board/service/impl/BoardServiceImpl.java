@@ -44,6 +44,8 @@ public class BoardServiceImpl implements BoardService {
 		obj.handlePaging(Integer.valueOf((String) param.get("pageIndex")), Integer.valueOf((String) param.get("pageSize")));
 		param.put("startRow", obj.getStartRow());
 		param.put("pageSize", obj.getPageSize());
+		int ntcPageCnt = mapper.ntcPageCnt(param);
+		param.put("ntcPageCnt",ntcPageCnt+1);
 		obj.handlePagingList(mapper.ntcPage(param), mapper.ntcPageCnt(param));
 		return obj;
 	}

@@ -237,11 +237,12 @@ const searchNtc = function(){
 					cont += '<td class="no01">공지</td>';
 				}else{
 					cont += '<tr class="">';
-					if($('#h_cmsCd').val() === '05061201'){
+					/*if($('#h_cmsCd').val() === '05061201'){
 						cont += '<td class="no01">'+data.resultList[i].rownum+'</td>';
 					}else{
 						cont += '<td class="no01">'+data.resultList[i].brdNo+'</td>';
-					}										
+					}*/										
+					cont += '<td class="no01">'+data.resultList[i].rownum+'</td>';
 				}
 				cont += '<td class="tit01 ali_l"><a onclick="ntcDetailPage(\''+ data.resultList[i].cmsCd +'\','+data.resultList[i].brdNo+');">'+data.resultList[i].title+'</a></td>';
 				cont += '<td>'+data.resultList[i].regNm+'</td>';

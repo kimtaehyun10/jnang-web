@@ -323,11 +323,7 @@ var data = {
 	
 	$('#ReturnURL').val($('#ReturnURL').val()+'/'+because);
 	if(because > 0 ) {
-		if (confirm("\n 이용자의 50%가 할인대상자입니까? (할인여부 현장확인) ")) {
-			
-		} else {
-			return false;	
-		}
+		alert("이용자의 50%가 할인대상자여야 합니다.\n(현장에서 확인예정)")
 	}
 	 
 	var saleRentPrice = "";

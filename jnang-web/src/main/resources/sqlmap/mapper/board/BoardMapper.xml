@@ -63,9 +63,12 @@
     <select id="ntcPage" resultType="ntc" parameterType="java.util.HashMap">
 		 SELECT R1.* 
 		   FROM ( SELECT CMS_CD		   			
+					   <!-- 
 					   <if test="cmsCd == '05061201'">
 					    , @ROWNUM:=@ROWNUM+1 AS ROWNUM
-					   </if>
+					   </if> 
+					   -->
+					   , @ROWNUM:=@ROWNUM-1 AS ROWNUM
 					   , BRD_NO		               
 		               , TITLE
 		               , CONT
@@ -75,36 +78,38 @@
 		               , fn_getEmpCodeNm(REG_ID) AS REG_NM
 		               , DATE_FORMAT(REG_DT,'%Y-%m-%d') AS REG_DT
 		               , DATE_FORMAT(REG_DT,'%Y-%m-%d') AS REG_DT_YMD
-		            FROM CMS_CONT_NTC		            
+		            FROM CMS_CONT_NTC, (SELECT @ROWNUM:=#{ntcPageCnt}) R		            
 		            <choose>
-					    <when test="cmsCd == '05061201'">
-					    , (SELECT @ROWNUM:=0) R
-					    WHERE CMS_CD IN 
+					    <when test="cmsCd == '05061201'">					    
+					    <!-- WHERE CMS_CD IN 
 					    (SELECT CMS_CD 
 					    FROM CMS_MENU 
 					    WHERE UP_CMS_CD = (SELECT UP_CMS_CD 
 					    				  FROM CMS_MENU 
-					    				  WHERE CMS_CD = #{cmsCd}))
+					    				  WHERE CMS_CD = #{cmsCd})) -->
+					    WHERE CMS_CD IN ('05061201','05061202','05061203','05061204','05061205','05061206','05061207')
 					    </when>
 					    <otherwise>
 					    WHERE CMS_CD = #{cmsCd}
 					    </otherwise>
-					</choose>		           
+					</choose>					 		           
 		             AND DEL_YN = 'N'
+		             <if test="searchValue != null and searchValue != ''">
+					  <choose>
+					    <when test="searchKey == 'ALL'">
+					   AND ( TITLE LIKE CONCAT('%', #{searchValue}, '%')
+					           OR
+					           CONT LIKE CONCAT('%', #{searchValue}, '%') )
+					    </when>
+					    <otherwise>
+					   AND ${searchKey} LIKE CONCAT('%', #{searchValue}, '%')
+					    </otherwise>
+					  </choose>
+					</if>
+		             ORDER BY NTC_YN DESC, REG_DT DESC
 		        ) R1
-		 WHERE 1=1
-		<if test="searchValue != null and searchValue != ''">
-		  <choose>
-		    <when test="searchKey == 'ALL'">
-		   AND ( TITLE LIKE CONCAT('%', #{searchValue}, '%')
-		           OR
-		           CONT LIKE CONCAT('%', #{searchValue}, '%') )
-		    </when>
-		    <otherwise>
-		   AND ${searchKey} LIKE CONCAT('%', #{searchValue}, '%')
-		    </otherwise>
-		  </choose>
-		</if>
+		 WHERE 1=1						
+		<!-- 
 		<choose>
 		    <when test="cmsCd == '05061201'">
 		    	ORDER BY NTC_YN DESC, ROWNUM DESC
@@ -112,8 +117,8 @@
 		    <otherwise>
 				ORDER BY NTC_YN DESC, BRD_NO DESC    
 		    </otherwise>
-		</choose>				
-		
+		</choose> 
+		-->						   
 		   LIMIT #{startRow}, #{pageSize}
 	</select>	
 	<select id="ntcPageCnt" resultType="int" parameterType="java.util.HashMap">

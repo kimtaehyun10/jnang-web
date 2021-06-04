@@ -91,8 +91,8 @@ function getDataList(p_cd,p_tab) {
 						
 					//이전작업본} else if ( (Number(yymmdd) < Number(nyymm+""+23) && ii >= 23) ||  m_diff > 1 ) {
 						
-					} else if ( (Number(yymmdd) < Number(nyymm+""+23) && ii >= 23) ||  m_diff > 1 
-							|| (Number(yymm) < Number(nyymm) && Number(yymmdd) < Number(yymm+""+23) )) {
+					} else if ( (Number(yymmdd) < Number(nyymm+""+31) && ii >= 31) ||  m_diff > 1 
+							|| (Number(yymm) < Number(nyymm) && Number(yymmdd) < Number(yymm+""+31) )) {
 						tmpList += "[<span class='gray1'>준비중</span>]<br>";
 					} else {
 							
