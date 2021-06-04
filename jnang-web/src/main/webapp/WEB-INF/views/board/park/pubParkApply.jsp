@@ -28,7 +28,7 @@ $(function(){
 	});
 });
 </script>
-
+ 
 <!-- <style>
 .greenDiv{	
 	background: url('/resource/images/sub/bg_green.png') no-repeat;
