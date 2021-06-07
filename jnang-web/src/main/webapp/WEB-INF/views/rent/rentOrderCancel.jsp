@@ -158,9 +158,13 @@ function send() {
 		<th>취소사유</th>
 		<td>
 			<textarea name="CONCEPT" id="CONCEPT" maxlength="1000" style="height:200px;width:80%;" class="inputbox_01a" required="" placeholder="1,000자 이내로 작성하세요.">
-취소사유 : (예:개인일정변경)
-기타 문의 내용 :  
-
+						대관취소요청
+문의내용
+은행명 : 
+예금주 : 
+계좌번호 : 
+취소사유 : (예 단순변심)
+※ 환불금은 계좌로 환불됩니다.
 </textarea>
 		</td>
 	</tr>
