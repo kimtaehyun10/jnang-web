@@ -651,6 +651,7 @@ function send(COMCD){
 	    	//대여 총금액
 	    	int rentSum = 0;
 	    	%>
+	    	
 			<c:forEach items="${dataList.dataList}" var="result" varStatus="status">
 				<!-- 공휴일 확인 -->
 				<c:set var="holiday_yn" value="${result.holiday_yn}" />

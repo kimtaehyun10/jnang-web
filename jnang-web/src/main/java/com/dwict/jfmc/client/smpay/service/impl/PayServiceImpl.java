@@ -952,6 +952,13 @@ public class PayServiceImpl implements PayService {
 								maps.put("tennisPayAmt",tennisPayAmt);
 								maps.put("LIGHTSUM", lightSum);
 								maps.put("brdNoArr",brdNoArr[i]);
+								
+								int checkRentType = mapper.checkRentType(maps);
+								
+								if(checkRentType == 0) {
+									
+								}
+								
 								mapper.rentOrderSave2(maps);
 							}
 						}

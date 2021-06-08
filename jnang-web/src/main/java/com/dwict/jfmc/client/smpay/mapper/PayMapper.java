@@ -90,6 +90,8 @@ public interface PayMapper {
 
 	String getBankMethodCd(String bankCode);
 
+	int checkRentType(Map<String, Object> maps);
+
 
 
 	

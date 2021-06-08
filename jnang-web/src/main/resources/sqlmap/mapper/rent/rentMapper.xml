@@ -293,6 +293,7 @@
 			and PLACE_CD = #{PLACE_CD}
 			and PLACE_TIME_SEQ = #{TIME_SEQ}
 			and APP_TYPE != 40
+			and APP_TYPE != 60
 	</select>
 	
 	<!-- 대관문의 등록 -->
@@ -465,6 +466,7 @@
 			 where t1.RESERVE_DATE = #{RESERVE_DATE}
 			 and t1.PLACE_CD = #{PLACE_CD} 
 			 and t1.APP_TYPE != 40 
+			 and t1.APP_TYPE != 60
 			 <if test='MEM_NO !="" and MEM_NO != null'> 
 				AND t1.MEM_NO = #{MEM_NO}
 			</if>
@@ -622,6 +624,7 @@
 			and t1.seq = t3.PLACE_TIME_SEQ
 			
 			and t3.APP_TYPE != 40
+			and t3.APP_TYPE != 60
 		where
 			t2.PLACE_CD = #{PLACE_CD}
 			and t1.use_yn =1

@@ -485,6 +485,7 @@
  		AND MEM_NO = #{MEM_NO}
  		AND PLACE_CD = #{PLACE_CD}
 		AND PLACE_TIME_SEQ = #{brdNoArr}
+		AND TID IS NULL
 	</update>
 	
 	<!-- 체육관 대관 결제완료 처리 -->
@@ -642,6 +643,19 @@
 		  AND PG_VAN = 'PG'
 		  AND USE_YN = 'Y' 
 		  AND CARD_SEC = #{bankCode}
+	</select>
+	
+	<select id="checkRentType" resultType="int" parameterType="java.util.HashMap">
+		SELECT 
+			COUNT(*) 
+		FROM 
+			RENT_APP
+		WHERE ORDER_SEQ = 0
+		AND MEM_NO = #{MEM_NO}
+		AND PLACE_TIME_SEQ = #{brdNoArr}
+		AND RESERVE_DATE = #{RESERVE_DATE} 
+		AND TID IS NULL
+		
 	</select>
 	
 </mapper>
