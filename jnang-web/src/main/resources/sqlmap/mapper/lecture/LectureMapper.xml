@@ -160,9 +160,9 @@
                      		                      		 
                      		 AND
                      		 (case 
-                             when (A.COMCD = 'JUNGNANG01' OR A.COMCD = 'JUNGNANG02' OR A.COMCD = 'JUNGNANG03') AND DATE_FORMAT(NOW(),'%d') <= '10' then  DATE_FORMAT(NOW(),'%Y-%m-%d') BETWEEN DATE_FORMAT(D.TRAIN_SDATE,'%Y-%m-%d') AND DATE_FORMAT(D.TRAIN_EDATE,'%Y-%m-%d') 
-                             when (A.COMCD = 'JUNGNANG04' OR A.COMCD = 'JUNGNANG05') AND DATE_FORMAT(NOW(),'%d') <= '07' then  DATE_FORMAT(NOW(),'%Y-%m-%d') BETWEEN DATE_FORMAT(D.TRAIN_SDATE,'%Y-%m-%d') AND DATE_FORMAT(D.TRAIN_EDATE,'%Y-%m-%d') 
-							 else  DATE_ADD(DATE_FORMAT(NOW(),'%Y-%m-%d'),INTERVAL 1 MONTH) BETWEEN DATE_FORMAT(D.TRAIN_SDATE,'%Y-%m-%d') AND DATE_FORMAT(D.TRAIN_EDATE,'%Y-%m-%d') 
+                             when (A.COMCD = 'JUNGNANG01' OR A.COMCD = 'JUNGNANG02' OR A.COMCD = 'JUNGNANG03') AND DATE_FORMAT(NOW(),'%d') <= '10' then  DATE_FORMAT(NOW(),'%Y-%m') BETWEEN DATE_FORMAT(D.TRAIN_SDATE,'%Y-%m') AND DATE_FORMAT(D.TRAIN_EDATE,'%Y-%m') 
+                             when (A.COMCD = 'JUNGNANG04' OR A.COMCD = 'JUNGNANG05') AND DATE_FORMAT(NOW(),'%d') <= '07' then  DATE_FORMAT(NOW(),'%Y-%m') BETWEEN DATE_FORMAT(D.TRAIN_SDATE,'%Y-%m') AND DATE_FORMAT(D.TRAIN_EDATE,'%Y-%m') 
+							 else DATE_FORMAT(DATE_ADD(DATE_FORMAT(NOW(),'%Y-%m-%d'),INTERVAL 1 MONTH),'%Y-%m') BETWEEN DATE_FORMAT(D.TRAIN_SDATE,'%Y-%m') AND DATE_FORMAT(D.TRAIN_EDATE,'%Y-%m') 
                              end)                     		 
                      		 
                      		 AND D.COMCD = I.COMCD
