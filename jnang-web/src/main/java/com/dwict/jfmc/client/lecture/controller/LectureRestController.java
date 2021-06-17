@@ -76,11 +76,12 @@ public class LectureRestController {
 		return service.getProgramInfo(programItem);
 	}
 	
-	//과목 => 장바구니 담기
+	//과목 => 장바구니 담기, 잔여수량 첵크
 	@GetMapping(value = "/lecture/basketIn")
 	public Map<String, Object> setBasket(@RequestParam Map<String, Object> requestMap,ProgramItem programItem) {
-		final String sDate = (String) requestMap.get("lectDate[sDate]");
-		final String eDate = (String) requestMap.get("lectDate[eDate]");
+		final String sDate = (String) requestMap.get("oderData[sDate]");
+		final String eDate = (String) requestMap.get("oderData[eDate]");
+		final String step = (String) requestMap.get("oderData[step]");
 		final String secureText = (String) requestMap.get("secureText");
 		final String jsonString = commonService.decodeText(secureText);
 		final JsonObject jsonObject = JsonParser.parseString(jsonString).getAsJsonObject();
@@ -89,6 +90,7 @@ public class LectureRestController {
 		programItem.setItemCd(jsonObject.get("itemCd").getAsString());
 		programItem.setTcSdate(sDate); //수강 시작일
 		programItem.setTcEdate(eDate); //수강 종료일
+		programItem.setStep(step); //진행단계 1:신청리스트단계, 2:결제페이지단계
 		
 		return service.setBasket(programItem);
 	

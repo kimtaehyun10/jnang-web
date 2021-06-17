@@ -3,16 +3,20 @@
 <mapper namespace="com.dwict.jfmc.client.mypage.mapper.MypageMapper">
 
 
-	<!-- 오래된 장바구니 삭제 -->
+	<!-- 오래된 장바구니 또는 선택삭제 -->
 	<delete id="basketClear" parameterType="java.util.HashMap">
     	DELETE FROM MEM_CART
-    	WHERE MEM_NO = #{MEM_NO} 
+    	<where>
+		<if test='MEM_NO != null and MEM_NO != ""  and MEM_NO != " " and MEM_NO != "0" '>
+            AND MEM_NO = #{MEM_NO}
+        </if>    	
   	  	<if test='SEQ != null and SEQ != ""  and SEQ != " " and SEQ != "0" '>
             AND SEQ = #{SEQ}
         </if> 
         <if test='SEQ == null or SEQ == "" or SEQ == "0"'>
-			AND TIMESTAMPDIFF(minute, WRITE_DH , now()) >= 600
+			AND TIMESTAMPDIFF(minute, WRITE_DH , now()) >= 20
         </if>
+        </where>
     </delete>
 
     

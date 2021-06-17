@@ -53,5 +53,8 @@ public class ProgramItem extends TrainClass {
 
 	@Column(name = "ADULT_GUBN")
 	private String adultGubn;
+	
+	@Column(name = "SETP")
+	private String step;
 
 }

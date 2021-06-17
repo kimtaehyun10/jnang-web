@@ -48,6 +48,8 @@
  	//VoPay test1 = new VoPay();
  	//VoPay Vos = (VoPay)request.getAttribute("VoPay");
 
+ 	String REFERER = request.getHeader("REFERER");
+
  	// 상점 ID MID
 
 	Member member 	= (Member) session.getAttribute("member");
@@ -66,6 +68,17 @@
 
 %> 
 <script type="text/javascript">
+
+	<%
+ 	if (REFERER == null) {
+ 	%>
+ 		alert("정상적인 접근방법이 아닙니다.");
+ 		history.back(-1);
+	</script>
+ 	<%
+ 	return;
+ 	}
+	%>
 
 	var encodingType = "EUC-KR";//EUC-KR
 	
@@ -120,6 +133,21 @@
 		<%
 		}
 		%> --%>
+		var oderData = { }; //신청할 강좌 시작종료값 임시 저장
+		oderData.sDate = "<%=ediDate%>".substring(0,8);
+		oderData.eDate = "<%=ediDate%>".substring(0,8);
+		oderData.step  = 2;
+
+		//주문전 수량 첵크
+		$.get('/data/lecture/basketIn', {secureText:localStorage.getItem('lecture'), "oderData" : oderData }, function(data){
+			console.log(data);
+			if (data.code == "0"){
+				alert("신청하신 강좌가 마감되었습니다.");
+				window.history.back(-1);
+				return false;
+			}
+		});
+					
 		
 		//alert(seq +", "+ goodsAmt +", "+ GoodsName +", "+ COMCD);
 		var BuyerName = encodeURI("<%=MEM_NM%>");
@@ -127,7 +155,7 @@
 		//debugger;
 		$.get("/data/getOdEncryptData/"+ <%=ediDate%> +"/"+ goodsAmt +"/"+ COMCD +"?GoodsName="+ encodeURI(GoodsName) +"&BuyerName="+ BuyerName, function(data){
 		//try {
-			console.log(data);
+			//console.log(data);
 			var dataList = "";
 			if(data.length != 0){				
 				$("#EncryptData").val(data.EncryptData);

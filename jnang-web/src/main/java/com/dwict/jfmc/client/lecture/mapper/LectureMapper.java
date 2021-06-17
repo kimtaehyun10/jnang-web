@@ -33,7 +33,11 @@ public interface LectureMapper {
 	
 	List<Map<String, Object>> classGroupList(Map<String, Object> param);
 	List<Map<String, Object>> lecClassList(Map<String, Object> param);
+	
+	//강좌 잔여 수량 첵크(잔여수량=총할당수량 -주문수량+장바구니수량)
+	Map<String, Object> limitCnt(Map<String, Object> basketMap);
 	int getBasketSeq(Map<String, Object> basketMap);
+
 	
 	
 }

@@ -91,6 +91,7 @@
    	<select id="lectureList" parameterType="java.util.HashMap" resultType="trainClass">
 		<![CDATA[
 		SELECT R1.*
+				,(orderCnt + cartCnt) as WEB_USER
 		           FROM (
 		           
 		           SELECT A.COMCD
@@ -170,7 +171,8 @@
                      		 AND I.ITEM_CD = F.ITEM_CD
                      		 AND F.CANCEL_YN = 'N'
                      		 AND F.SALE_SEQ = D.SALE_SEQ
-                     		 ) AS WEB_USER						     						     						     						     						     						     						     						     						                         	   
+                     		 ) AS orderCnt
+                     		 ,(select count(*) from mem_cart as cart where COMCD = A.COMCD and CLASS_CD = A.CLASS_CD) as cartCnt						     						     						     						     						     						     						     						     						                         	   
                  FROM TRAIN_CLASS A
                   WHERE A.USE_YN = 'Y'
                    AND A.WEB_DISPLAY = 'Y'    
@@ -191,7 +193,67 @@
    		 LIMIT #{startRow}, #{pageSize}
    		
     </select>
-    
+
+	<!-- 남은수량 첵크   -->
+   	<select id="limitCnt" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		<![CDATA[
+		SELECT
+			WEB_CAPA
+			,orderCnt
+			,cartCnt
+			,WEB_CAPA-(orderCnt + cartCnt) as limitCnt
+		           FROM (
+		           SELECT A.COMCD
+                       , A.CLASS_CD
+                       , A.CLASS_NM
+                       , A.CS_CAPA
+                       , A.WEB_CAPA
+                       , A.CAPA
+                       , A.USE_YN
+                       , ( SELECT COUNT(*) 
+                          FROM ITEM_CLASS B
+                             , PROGRAM_ITEM C 
+                         WHERE A.COMCD = B.COMCD
+                           AND B.COMCD = C.COMCD
+                           AND A.CLASS_CD = B.CLASS_CD
+                           AND B.ITEM_CD = C.ITEM_CD
+                           AND C.USE_YN = 'Y' ) AS PRG_COUNT
+                       , ( SELECT  COUNT(*)
+                             FROM TRAIN_HIST D,  MEM_SALE F, ITEM_CLASS I
+                             WHERE D.CLASS_CD = A.CLASS_CD                      
+                             and A.COMCD = D.COMCD
+                             and D.MEM_NO  = F.MEM_NO 
+                     		 AND F.WEB_TYPE = "ONLINE"
+                     		                      		 
+                     		 AND
+                     		 (case 
+                             when (A.COMCD = 'JUNGNANG01' OR A.COMCD = 'JUNGNANG02' OR A.COMCD = 'JUNGNANG03') AND DATE_FORMAT(NOW(),'%d') <= '10' then  DATE_FORMAT(NOW(),'%Y-%m') BETWEEN DATE_FORMAT(D.TRAIN_SDATE,'%Y-%m') AND DATE_FORMAT(D.TRAIN_EDATE,'%Y-%m') 
+                             when (A.COMCD = 'JUNGNANG04' OR A.COMCD = 'JUNGNANG05') AND DATE_FORMAT(NOW(),'%d') <= '07' then  DATE_FORMAT(NOW(),'%Y-%m') BETWEEN DATE_FORMAT(D.TRAIN_SDATE,'%Y-%m') AND DATE_FORMAT(D.TRAIN_EDATE,'%Y-%m') 
+							 else DATE_FORMAT(DATE_ADD(DATE_FORMAT(NOW(),'%Y-%m-%d'),INTERVAL 1 MONTH),'%Y-%m') BETWEEN DATE_FORMAT(D.TRAIN_SDATE,'%Y-%m') AND DATE_FORMAT(D.TRAIN_EDATE,'%Y-%m') 
+                             end)                     		 
+                     		 
+                     		 AND D.COMCD = I.COMCD
+                     		 AND D.CLASS_CD = I.CLASS_CD
+                     		 AND I.ITEM_CD = F.ITEM_CD
+                     		 AND F.CANCEL_YN = 'N'
+                     		 AND F.SALE_SEQ = D.SALE_SEQ
+                     		 ) AS orderCnt
+                     		 ,(select count(*) from mem_cart as cart where COMCD = A.COMCD and CLASS_CD = A.CLASS_CD) as cartCnt						     						     						     						     						     						     						     						     						                         	   
+                 FROM TRAIN_CLASS A
+                 WHERE A.USE_YN = 'Y'
+                 AND A.WEB_DISPLAY = 'Y'    
+		) R1                  
+		]]>
+	  <where>
+		<if test="msportsCd != null and msportsCd != 'all'">
+		   AND R1.MSPORTS_CD = #{msportsCd}
+		</if>	  
+		   AND R1.COMCD = #{COMCD}
+		   AND R1.CLASS_CD = #{CLASS_CD}
+	  </where>
+
+    </select>
+        
     <select id="lectureListCnt" parameterType="java.util.HashMap" resultType="int">
     	   SELECT COUNT(1)
 		     FROM TRAIN_CLASS
