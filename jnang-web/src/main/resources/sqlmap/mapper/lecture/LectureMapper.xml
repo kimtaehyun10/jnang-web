@@ -259,17 +259,20 @@
         
     <select id="lectureListCnt" parameterType="java.util.HashMap" resultType="int">
     	   SELECT COUNT(1)
-		     FROM TRAIN_CLASS
-		    WHERE USE_YN = 'Y'
-		      AND WEB_DISPLAY = 'Y'
+			 FROM TRAIN_CLASS A LEFT OUTER JOIN COT_GRPCD C ON A.COMCD = C.COMCD
+             WHERE A.USE_YN = 'Y'
+                 AND C.USE_YN = 'Y'
+                 AND A.WEB_DISPLAY = 'Y'
+                 AND C.GRP_CD='CM_SPORTS_CD'
+                 AND A.SPORTS_CD = C.CD 
 		<if test="comcd != null and comcd != 'all'">
-		      AND COMCD = #{comcd}
+		      AND A.COMCD = #{comcd}
 		</if>
 		<if test="sportsCd != null and sportsCd != 'all'">
-		      AND SPORTS_CD = #{sportsCd}
+		      AND A.SPORTS_CD = #{sportsCd}
 		</if>
 		<if test="msportsCd != null and msportsCd != 'all'">
-		      AND MSPORTS_CD = #{msportsCd}
+		      AND A.MSPORTS_CD = #{msportsCd}
 		</if>
     </select>
     

@@ -169,7 +169,7 @@ var searchLectureList = function(){
 		tableHead += '<th>상세보기</th>';
 		tableHead += '</tr>';
 		//tableBody
-		console.log(JSON.stringify(data.resultList));
+		//console.log(JSON.stringify(data.resultList));
 		if(data.resultList.length > 0){
 			var prgTot = 0;
 				
