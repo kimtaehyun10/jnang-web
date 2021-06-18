@@ -475,33 +475,49 @@ var lecturePaymentDetail = function(comcd, classCd, itemCd, sold, eold, recSdate
 	});*/		
 	
 	
-	var date = new Date(); 
-	var year = date.getFullYear(); 
-	var month = new String(date.getMonth()+1); 
-	var day = new String(date.getDate()); 
+	//현재날짜 java util date로 가져와야함
+	$.ajax({
+        type: "get",        
+        url:'/data/lecture/today',
+        data: {},
+        dataType: 'json',
+        async: false,
+        success: function (data) {        	
+        	
+        	var date = data.today; 
+        	var year = String(date).substr(0,4); 
+        	var month = String(date).substr(4,2); 
+        	var day = String(date).substr(6,2); 
 
-	// 한자리수일 경우 0을 채워준다. 
-	if(month.length == 1){ 
-	  month = "0" + month; 
-	} 
-	if(day.length == 1){ 
-	  day = "0" + day; 
-	} 
-	
-	var total = year + month + day;
-	
-	//해당 강좌 수강신청 날짜에 따라 조건		
-	if(!(total>=recSdate && total<=recEdate)){	
-		
-		if($('#memId').val() == 'tom881205' || $('#memId').val() == 'kjseo' || $('#memId').val() == 'powerjyc'){
-			alert('테스트아이디 입니다.');
-		}else{
-			alert('수강신청 가능한 날짜는 '+String(recSdate).substr(0,4)+'-'+String(recSdate).substr(4,2)+'-'+String(recSdate).substr(6,2)+' ~ '+String(recEdate).substr(0,4)+'-'+String(recEdate).substr(4,2)+'-'+String(recEdate).substr(6,2)+' 입니다.');
-			return;
-		}				
-	}
+        	// 한자리수일 경우 0을 채워준다. 
+        	if(month.length == 1){ 
+        	  month = "0" + month; 
+        	} 
+        	if(day.length == 1){ 
+        	  day = "0" + day; 
+        	} 
+        	
+        	var total = year + month + day;
+        	
+        	//해당 강좌 수강신청 날짜에 따라 조건		
+        	if(!(total>=recSdate && total<=recEdate)){	
+        		
+        		if($('#memId').val() == 'tom881205' || $('#memId').val() == 'kjseo'){
+        			alert('테스트아이디 입니다.');
+        		}else{
+        			alert('수강신청 가능한 날짜는 '+String(recSdate).substr(0,4)+'-'+String(recSdate).substr(4,2)+'-'+String(recSdate).substr(6,2)+' ~ '+String(recEdate).substr(0,4)+'-'+String(recEdate).substr(4,2)+'-'+String(recEdate).substr(6,2)+' 입니다.');
+        			return;
+        		}				
+        	}
+        	
+        },        
+        error: function (jqXHR,textStatus,errorThrown) { 
+        	console.log(jqXHR,textStatus,errorThrown);
+        }
+    });
 			
 	//회원 성인 청소년 구분해서 수강신청 여부 처리하자
+	var date = new Date();
 	if($('#memId').val() != null && $('#memId').val() != ''){
 		var beforeBirth = $('#memBirth').val();
 		var memBirth = new Date(beforeBirth.substr(0,4)+'/'+beforeBirth.substr(4,2)+'/'+beforeBirth.substr(6,2));

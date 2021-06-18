@@ -123,7 +123,8 @@
 
 	//결제 버튼
 	function goBtn(seq, goodsAmt, GoodsName, COMCD) {
-		
+		//가격 위변조값 체크
+		goodsAmt = $('#costAmt').val();
 		<%-- <%
 		if (strUrl.contains("localhost") || strUrl.contains("14.36.179.143") || MEM_ID.equals("powerjyc")) {
 		} else  {
@@ -316,8 +317,9 @@
     	}
     	
     	html3 += '<a class="size_m2 btn_gray2" href="/lecture/list">목록</a>';
-    	html3 += "<a class='size_m2 btn_red2' onclick=\"goBtn('"+ seq +"','"+ resultCost +"','"+ classNm +"','"+ comcd +"');\">결제</a>";
-		
+    	<!-- html3 += '<a class="size_m2 btn_red2" onclick=\"goBtn('"+ seq +"','"+ resultCost +"','"+ classNm +"','"+ comcd +"');\">결제</a>'; -->
+		html3 += "<a class='size_m2 btn_red2' onclick=\"goBtn('"+ seq +"','"+ resultCost +"','"+ classNm +"','"+ comcd +"' );\">결제</a>";										  		
+		$('#costAmt').val(resultCost);
     	$("#DCREASON_CD").html(html1);		
 		$("#costHtml").html(html2);
 		$('#insertLecture').empty().append(html3);
@@ -346,6 +348,7 @@
 	<input type="hidden" id="memName" value="<%=MEM_NM%>">
 	<input type="hidden" id="memGender" value="<%=GENDER%>">
 	<input type="hidden" id="GUBUN" value="${GUBUN}">
+	<input type="hidden" id="costAmt" value="">
 	<table id='programTable' class='stbl_w3b' summary='이 표는 강좌명/대상/요일/시간/정원/수강료 등의 정보로 구성되어 있습니다.'></table>
 	<table style="margin-top:50px;" id='programDetailTable' class='stbl_w3b' summary='이 표는 강좌소개/세부내용/기타 등의 정보로 구성되어 있습니다.'></table>
 

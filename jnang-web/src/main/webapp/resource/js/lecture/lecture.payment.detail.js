@@ -117,8 +117,9 @@ var initPage = function(){
 		var btnHtml = '';
 		btnHtml += '<a class="size_m2 btn_gray2" href="/lecture/list">목록</a>';
 		
-		// 실 결제 가격 data.costAmt
+		// 실 결제 가격 data.costAmt hidden값에넣어서 위변조 막자
 		btnHtml += "<a class='size_m2 btn_red2' onclick=\"goBtn('"+ SEQ +"','"+ data.costAmt +"','"+ data.classNm +"','"+ data.comcd +"' );\">결제</a>";
+		$('#costAmt').val(data.costAmt);
 		
 		$('#insertLecture').empty().append(btnHtml);
 		$('#programTable').empty().append(tableDesc+tableHead+tableBody);
@@ -146,7 +147,8 @@ var initPage = function(){
 	    	
 	    	html3 += '<a class="size_m2 btn_gray2" href="/lecture/list">목록</a>';
 	    	html3 += "<a class='size_m2 btn_red2' onclick=\"goBtn('"+ SEQ +"','"+ resultCost +"','"+ data.classNm +"','"+ data.comcd +"');\">결제</a>";
-			
+	    	$('#costAmt').val(resultCost);
+	    	
 	    	$("#DCREASON_CD").html(html1);		
 			$("#costHtml").html(html2);
 			$('#insertLecture').empty().append(html3);
@@ -169,6 +171,7 @@ var initPage = function(){
 	    	html3 += '<a class="size_m2 btn_gray2" href="/lecture/list">목록</a>';
 	    	html3 += "<a class='size_m2 btn_red2' onclick=\"goBtn('"+ SEQ +"','"+ resultCost +"','"+ data.classNm +"','"+ data.comcd +"');\">결제</a>";
 			
+	    	$('#costAmt').val(resultCost);
 	    	$("#DCREASON_CD").html(html1);		
 			$("#costHtml").html(html2);
 			$('#insertLecture').empty().append(html3);			

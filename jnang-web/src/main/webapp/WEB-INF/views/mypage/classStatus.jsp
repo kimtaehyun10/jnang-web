@@ -78,7 +78,7 @@ String MEM_MAIL = member.getEmail();
 				<td>${status.count}</td>
 				<td>[${result.COMNM}] ${result.CLASS_NM}</td>
 				<td>${result.ITEM_NM}</td>
-				<td>${result.COST_AMT}원</td>
+				<td>${result.COST_AMT}원,값은?${result}</td>
 				<td>
 					<span id="" class="cap_blue">${result.MIDCANCEL_YN_NM}</span>
 					<%

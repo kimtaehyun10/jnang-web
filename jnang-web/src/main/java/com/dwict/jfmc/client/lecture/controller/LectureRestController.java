@@ -2,6 +2,7 @@ package com.dwict.jfmc.client.lecture.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dwict.jfmc.client.com.model.Paging;
@@ -110,5 +112,18 @@ public class LectureRestController {
 		return service.lecClassList(request);
 	}
 	
+	//현재날짜 가져오기
+	@RequestMapping(value = "/lecture/today")
+	@ResponseBody
+	public Map<String, Object> today(){
+		Map<String, Object> resultMap = new HashMap<>();
+		
+		Date from = new Date();
+		SimpleDateFormat transFormat = new SimpleDateFormat("yyyyMMdd");
+		String today = transFormat.format(from);
+		
+		resultMap.put("today",today);
+		return resultMap;
+	}
 	
 }
