@@ -172,6 +172,7 @@
                         ,C.REC_EDATE
                  FROM TRAIN_CLASS A LEFT OUTER JOIN COT_GRPCD C ON A.COMCD = C.COMCD
                   WHERE A.USE_YN = 'Y'
+                   AND C.USE_YN = 'Y'
                    AND A.WEB_DISPLAY = 'Y'
                    AND C.GRP_CD='CM_SPORTS_CD'
                    AND A.SPORTS_CD = C.CD    
@@ -239,6 +240,7 @@
                         ,C.REC_EDATE
                  FROM TRAIN_CLASS A LEFT OUTER JOIN COT_GRPCD C ON A.COMCD = C.COMCD
                  WHERE A.USE_YN = 'Y'
+                 AND C.USE_YN = 'Y'
                  AND A.WEB_DISPLAY = 'Y'
                  AND C.GRP_CD='CM_SPORTS_CD'
                  AND A.SPORTS_CD = C.CD    
