@@ -14,8 +14,22 @@ var lectDate = { }; //신청할 강좌 시작종료값 임시 저장
 var initPage = function(){
 	$.get('/data/lecture/program', {secureText:localStorage.getItem('lecture')}, function(data){													
 		console.log(data);
+		var GUBUN = $('#GUBUN').val();
 		
-		var programStartDate = dateUtil.getProgramStartDate(data.grpcd.startdate, data.grpcd.recSdate);
+		var date = new Date(); 
+		var year = date.getFullYear(); 
+		var month = new String(date.getMonth()+1); 
+		var day = new String(date.getDate());
+		
+		//신규수강신청 재수강신청 구분
+		var gubunDate = '';
+		if(GUBUN == 'R'){
+			gubunDate = data.grpcd.repSdate
+		}else{
+			gubunDate = data.grpcd.recSdate;
+		}
+		
+		var programStartDate = dateUtil.getProgramStartDate(data.grpcd.startdate, gubunDate);
 		var programEndDate = dateUtil.getProgramEndDate(programStartDate, data.monthCnt);
 		var tableDesc = '', tableHead = '', tableBody = '', capaTableHead = '', capaTableBody = '', tableDetail = '';
 		

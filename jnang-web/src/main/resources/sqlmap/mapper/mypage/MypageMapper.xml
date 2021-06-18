@@ -190,18 +190,24 @@
 		,DATE_FORMAT(A.WRITE_DH , '%Y%m%d') as WRITE_YMD
 		,(select TID from card_app_hist_damo where MEM_NO = a.MEM_NO and SLIP_NO =
 		a.SLIP_NO limit 1) as TID
+		,G.REP_SDATE
+        ,G.REP_EDATE
 		FROM PROGRAM_ITEM B, MEM_SALE A
 		left outer join RECESS C ON A.COMCD = C.COMCD AND A.SALE_SEQ = C.SALE_SEQ AND A.MEM_NO = C.MEM_NO
-		left join cominfo t3 on A.COMCD = t3.COMCD 
+		left join cominfo t3 on A.COMCD = t3.COMCD
+		LEFT OUTER JOIN COT_GRPCD G ON A.COMCD = G.COMCD 
 		WHERE A.COMCD = B.COMCD
 		AND A.ITEM_CD = B.ITEM_CD
 		AND A.MEM_NO = (select MEM_NO from v_member where id= #{userId})
+		
+		AND G.GRP_CD='CM_SPORTS_CD'
+		AND A.SPORTS_CD = G.CD
 
 		AND B.PROGRAM_KIND = '01'
 		AND A.CANCEL_YN = 'N' and MIDCANCEL_YN='N' and A.COST_AMT > 0
 		) R1
 		ORDER BY WRITE_DH DESC
-		LIMIT 20
+		
 
 	</select>
     

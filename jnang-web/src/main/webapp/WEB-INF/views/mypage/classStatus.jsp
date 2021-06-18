@@ -91,23 +91,34 @@ String MEM_MAIL = member.getEmail();
 					}
 					%>
 					
+					<c:set var="REP_SDATE" value="${result.REP_SDATE}"/>
+					<c:set var="REP_EDATE" value="${result.REP_EDATE}"/>
+					
 					<%
 					//<!-- 재등록 버튼 -->
 					String a_dateYM = ITEM_EDATE.substring(0,6); //구매 종료 월
-					String t_dateYM = "202104";        //today.substring(0,6); //date 댱월
+					String t_dateYM = "202104";        //today.substring(0,6); //date 댱월										
 					
 					String a_dateD = ITEM_EDATE.substring(6); //구매 종료일
 					String t_dateD = today.substring(6); //date 당일
 					int toDay = Integer.parseInt(t_dateD);
-					//out.println("COMCD:"+ COMCD);
-					//out.println("toDay:"+ toDay);
 					
-					
+					int REP_SDATE = Integer.parseInt((String)pageContext.getAttribute("REP_SDATE"));					
+					int REP_EDATE = Integer.parseInt((String)pageContext.getAttribute("REP_EDATE"));
+					int myToday = Integer.parseInt(today);
+					//out.println("REP_SDATE:"+ REP_SDATE); //재수강시작일자
+					//out.println("REP_EDATE:"+ REP_EDATE); //재수강종료일자
+					//out.println("today:"+ today); //오늘날짜
+									
 					//재구매 여부
 					boolean rePay = false;
+															
+					if (myToday>=REP_SDATE && myToday<=REP_EDATE) {
+						rePay = true;					
+					}
 					
 					//메인 스포츠센터 재등록 11~23일
-					if (a_dateYM.equals(t_dateYM) && toDay >= 11 && toDay <= 23 ) {
+					/* if (a_dateYM.equals(t_dateYM) && toDay >= 11 && toDay <= 23 ) {
 						if (COMCD.equals("JUNGNANG01") || COMCD.equals("JUNGNANG02") || COMCD.equals("JUNGNANG03")) {
 							rePay = true;
 						}
@@ -117,12 +128,12 @@ String MEM_MAIL = member.getEmail();
 							rePay = true;	
 						}
 												
-					}
+					} */
 					
 					//재 수강신청 버튼					
 					if (rePay == true){
 					%>
-						<a class="size_s2 btn_pink_blueWrite" onclick="addBasket1('${result.COMCD}', '${result.CLASS_CD}', '${result.ITEM_CD}');">재 수강신청</a>
+						<a class="size_s2 btn_pink_blueWrite" onclick="addBasket1('${result.COMCD}', '${result.CLASS_CD}', '${result.ITEM_CD}', '${result.REP_SDATE}', '${result.REP_EDATE}');">재 수강신청</a>
 					<%
 					}
 					%>

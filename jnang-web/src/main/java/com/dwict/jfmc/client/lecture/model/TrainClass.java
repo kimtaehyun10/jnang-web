@@ -148,6 +148,12 @@ public class TrainClass {
 	@Column(name = "PRG_COUNT")
 	private int prgCount;
 
+	@Column(name = "REP_SDATE")
+	private String repSdate;
+	
+	@Column(name = "REP_EDATE")
+	private String repEdate;
+	
 	private int saleCount;
 
 	private List<ProgramItem> programItem;

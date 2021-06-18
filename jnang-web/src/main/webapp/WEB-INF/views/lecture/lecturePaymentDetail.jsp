@@ -345,6 +345,7 @@
 	<input type="hidden" id="memBirth" value="<%=MEM_BIRTH%>">
 	<input type="hidden" id="memName" value="<%=MEM_NM%>">
 	<input type="hidden" id="memGender" value="<%=GENDER%>">
+	<input type="hidden" id="GUBUN" value="${GUBUN}">
 	<table id='programTable' class='stbl_w3b' summary='이 표는 강좌명/대상/요일/시간/정원/수강료 등의 정보로 구성되어 있습니다.'></table>
 	<table style="margin-top:50px;" id='programDetailTable' class='stbl_w3b' summary='이 표는 강좌소개/세부내용/기타 등의 정보로 구성되어 있습니다.'></table>
 

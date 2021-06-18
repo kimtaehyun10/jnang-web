@@ -33,10 +33,9 @@ function cancelPay(tid, s_no, pay, comcd, seq) {
 }
 
 
+var oderData = { }; //신청할 강좌 시작종료값 임시 저장
 
-
-var lectDate = { }; //신청할 강좌 시작종료값 임시 저장
-var addBasket1 = function(comcd, classCd, itemCd){
+var addBasket1 = function(comcd, classCd, itemCd, repSdate, repEdate){
 	
 	// 재등록 작업 해야한다 (수강신청기간 구분 해야한다 - 신규등록 참고)
 	
@@ -53,6 +52,8 @@ var addBasket1 = function(comcd, classCd, itemCd){
 	  day = "0" + day; 
 	}
 	
+	
+	
 	var lecture = { comcd:comcd, classCd:classCd, itemCd:itemCd };
 	
 	$.get('/data/encode/text', {text:JSON.stringify(lecture)}, function(data){
@@ -60,27 +61,27 @@ var addBasket1 = function(comcd, classCd, itemCd){
 		
 	}).done(function(){
 		$.get('/data/lecture/program', {secureText:localStorage.getItem('lecture')}, function(data){
-			var programStartDate = dateUtil.getProgramStartDate(data.grpcd.startdate, comcd, day); //수정작업해야함
+			var programStartDate = dateUtil.getProgramStartDate(data.grpcd.startdate, repSdate);
 			var programEndDate = dateUtil.getProgramEndDate(programStartDate, data.monthCnt);			
 			//신청할 강좌 시작종료값 임시 저장
-			lectDate.sDate =  programStartDate;
-			lectDate.eDate =  programEndDate;
-						
+			oderData.sDate =  programStartDate;
+			oderData.eDate =  programEndDate;
+			oderData.step  =  1;			
 		}).done(function(){
-			$.get('/data/lecture/basketIn', {secureText:localStorage.getItem('lecture'), "lectDate" : lectDate }, function(data){
+			$.get('/data/lecture/basketIn', {secureText:localStorage.getItem('lecture'), "oderData" : oderData }, function(data){
 				
-				if (data.SEQ != undefined && data.SEQ != "" && data != null){					
-					window.location.href='/lecture/lecturePaymentDetail?SEQ='+data.SEQ;
-				} else if (data.code == "-9"){
+				if (data.code == "-9"){
 					alert("세션이 종료되었거나 로그인 회원이 아닙니다.\n\n로그인 페이지로 이동합니다.");
 					window.location.href='/mem/login';
 				} else if(data.code == "-10"){
 					/*alert("회원카드를 발급받은 회원만 신청이 가능합니다. 센터에 방문하셔서 발급 받으세요.");
 					window.location.reload();*/
+				} else if (Number(data.SEQ) && data.SEQ != undefined && data.SEQ != "" && data != null){
+						window.location.href='/lecture/lecturePaymentDetail?SEQ='+data.SEQ+'&GUBUN=R';
 				} else {
 					alert("접수오류 \n\n다시 시도 후 관리자에게 문의 하세요.");
 					window.location.reload();
-				}
+				}							
 				
 			});
 		});

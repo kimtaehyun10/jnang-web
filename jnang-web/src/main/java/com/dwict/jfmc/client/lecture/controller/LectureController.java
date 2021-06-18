@@ -93,6 +93,7 @@ public class LectureController {
 		modelAndView.addObject("otherData", maps);		
 		
 		modelAndView.addObject("SEQ",request.getParameter("SEQ"));
+		modelAndView.addObject("GUBUN",request.getParameter("GUBUN"));
 		modelAndView.setViewName("/lecture/lecturePaymentDetail");		
 		return modelAndView;
 	}
