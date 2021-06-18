@@ -119,7 +119,16 @@ const dateUtil = {
 		if(typeof str != 'string') return false;
 		return str.substring(0,4) + '.' + str.substring(4,6) + '.' + str.substring(6,8);
 	},
-	getProgramStartDate: function(startdate, comcd, day){
+	getProgramStartDate: function(startdate, recSdate){				
+		
+		if(typeof startdate != 'string') return false;
+		var rec = String(recSdate).substr(0,4)+'-'+String(recSdate).substr(4,2);
+		var age = new Date(rec);
+		var onMonthAge = new Date(age.setMonth(age.getMonth()+1));
+		
+		var temp = onMonthAge.getMonth()+1;
+		var month = temp.toString().length < 2 ? '0'+temp : temp;
+		return onMonthAge.getFullYear().toString() + month.toString() + startdate.toString();								
 		
 		/*if(typeof startdate != 'string') return false;
 		const now = new Date();
@@ -127,7 +136,7 @@ const dateUtil = {
 		const month = temp.toString().length < 2 ? '0'+temp : temp;
 		return now.getFullYear().toString() + month.toString() + startdate.toString();*/
 		
-		if(typeof startdate != 'string') return false;
+		/*if(typeof startdate != 'string') return false;
 		var now = new Date();
 		
 		if(day <='10' && comcd == 'JUNGNANG01' || comcd == 'JUNGNANG02' || comcd == 'JUNGNANG03'){
@@ -139,7 +148,7 @@ const dateUtil = {
 		}		
 		
 		var month = temp.toString().length < 2 ? '0'+temp : temp;
-		return now.getFullYear().toString() + month.toString() + startdate.toString();
+		return now.getFullYear().toString() + month.toString() + startdate.toString();*/
 	},
 	getProgramEndDate: function(str, monthCnt){
 		if(typeof str != 'string') return false;

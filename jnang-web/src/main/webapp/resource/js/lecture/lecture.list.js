@@ -231,9 +231,9 @@ var searchLectureList = function(){
 									}else if(data.resultList[i].comcd == 'JUNGNANG07'){
 										tableBody += '<td ><a class="size_s3 btn_pink_blueWrite" onclick=\'alert("코로나19에 따른 시설물 제한적 운영으로 \\n정규강좌는 수강신청이 불가 합니다.\\n정규강좌 운영시 공지사항에 게재합니다.");\'>준비중</a></td>';
 									}else{
-										tableBody += '<td ><a class="size_s3 btn_pink_blueWrite" onclick="lecturePaymentDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[0].itemCd+'\'\,'+data.resultList[i].programItem[0].sold+','+data.resultList[i].programItem[0].eold+');">수강신청</a></td>';
+										tableBody += '<td ><a class="size_s3 btn_pink_blueWrite" onclick="lecturePaymentDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[0].itemCd+'\'\,'+data.resultList[i].programItem[0].sold+','+data.resultList[i].programItem[0].eold+','+data.resultList[i].grpcd.recSdate+','+data.resultList[i].grpcd.recEdate+');">수강신청</a></td>';
 									}*/
-									tableBody += '<td ><a class="size_s3 btn_pink_blueWrite" onclick="lecturePaymentDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[0].itemCd+'\'\,'+data.resultList[i].programItem[0].sold+','+data.resultList[i].programItem[0].eold+');">수강신청</a></td>';
+									tableBody += '<td ><a class="size_s3 btn_pink_blueWrite" onclick="lecturePaymentDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[0].itemCd+'\'\,'+data.resultList[i].programItem[0].sold+','+data.resultList[i].programItem[0].eold+','+data.resultList[i].grpcd.recSdate+','+data.resultList[i].grpcd.recEdate+');">수강신청</a></td>';
 									
 							}
                     	//6월 24일 아침 7시에 구민센터 상세보기 가능하도록 해야함 
@@ -314,9 +314,9 @@ var searchLectureList = function(){
 								}else if(data.resultList[i].comcd == 'JUNGNANG07'){
 									tableBody += '<td ><a class="size_s3 btn_pink_blueWrite" onclick=\'alert("코로나19에 따른 시설물 제한적 운영으로 \\n정규강좌는 수강신청이 불가 합니다.\\n정규강좌 운영시 공지사항에 게재합니다.");\'>준비중</a></td>';
 								}else{
-									tableBody += '<td ><a class="size_s3 btn_pink_blueWrite" onclick="lecturePaymentDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[0].itemCd+'\'\,'+data.resultList[i].programItem[0].sold+','+data.resultList[i].programItem[0].eold+');">수강신청</a></td>';
+									tableBody += '<td ><a class="size_s3 btn_pink_blueWrite" onclick="lecturePaymentDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[0].itemCd+'\'\,'+data.resultList[i].programItem[0].sold+','+data.resultList[i].programItem[0].eold+','+data.resultList[i].grpcd.recSdate+','+data.resultList[i].grpcd.recEdate+');">수강신청</a></td>';
 								}*/
-								tableBody += '<td ><a class="size_s3 btn_pink_blueWrite" onclick="lecturePaymentDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[0].itemCd+'\'\,'+data.resultList[i].programItem[0].sold+','+data.resultList[i].programItem[0].eold+');">수강신청</a></td>';
+								tableBody += '<td ><a class="size_s3 btn_pink_blueWrite" onclick="lecturePaymentDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[0].itemCd+'\'\,'+data.resultList[i].programItem[0].sold+','+data.resultList[i].programItem[0].eold+','+data.resultList[i].grpcd.recSdate+','+data.resultList[i].grpcd.recEdate+');">수강신청</a></td>';
 																
 							}
 							
@@ -378,9 +378,9 @@ var searchLectureList = function(){
 									}else if(data.resultList[i].comcd == 'JUNGNANG07'){
 										tableBody += '<td ><a class="size_s3 btn_pink_blueWrite" onclick=\'alert("코로나19에 따른 시설물 제한적 운영으로 \\n정규강좌는 수강신청이 불가 합니다.\\n정규강좌 운영시 공지사항에 게재합니다.");\'>준비중</a></td>';
 									}else{
-										tableBody += '<td ><a class="size_s3 btn_pink_blueWrite" onclick="lecturePaymentDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[0].itemCd+'\'\,'+data.resultList[i].programItem[0].sold+','+data.resultList[i].programItem[0].eold+');">수강신청</a></td>';
+										tableBody += '<td ><a class="size_s3 btn_pink_blueWrite" onclick="lecturePaymentDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[0].itemCd+'\'\,'+data.resultList[i].programItem[0].sold+','+data.resultList[i].programItem[0].eold+','+data.resultList[i].grpcd.recSdate+','+data.resultList[i].grpcd.recEdate+');">수강신청</a></td>';
 									}*/
-									tableBody += '<td ><a class="size_s3 btn_pink_blueWrite" onclick="lecturePaymentDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[0].itemCd+'\'\,'+data.resultList[i].programItem[0].sold+','+data.resultList[i].programItem[0].eold+');">수강신청</a></td>';
+									tableBody += '<td ><a class="size_s3 btn_pink_blueWrite" onclick="lecturePaymentDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[0].itemCd+'\'\,'+data.resultList[i].programItem[0].sold+','+data.resultList[i].programItem[0].eold+','+data.resultList[i].grpcd.recSdate+','+data.resultList[i].grpcd.recEdate+');">수강신청</a></td>';
 																	
 								}
 								
@@ -465,7 +465,7 @@ var needAuthorize = {
 
 
 var oderData = { }; //신청할 강좌 시작종료값 임시 저장
-var lecturePaymentDetail = function(comcd, classCd, itemCd, sold, eold){	
+var lecturePaymentDetail = function(comcd, classCd, itemCd, sold, eold, recSdate, recEdate){	
 	
 	/*var lecture = { comcd:comcd, classCd:classCd, itemCd:itemCd };	
 	$.get('/data/encode/text', {text:JSON.stringify(lecture)}, function(data){
@@ -474,11 +474,6 @@ var lecturePaymentDetail = function(comcd, classCd, itemCd, sold, eold){
 		window.location.href='/lecture/lecturePaymentDetail';
 	});*/		
 	
-	/*
-	 	홈페이지  강좌 신청 접수기간
-		메인 체육센터3군데 , 재등록 11~23일 , 신규 : 24~다음달10일
-		신대 다목적,  재등록 18~24일 , 신규 : 25~다음달07일
-	 */
 	
 	var date = new Date(); 
 	var year = date.getFullYear(); 
@@ -492,6 +487,19 @@ var lecturePaymentDetail = function(comcd, classCd, itemCd, sold, eold){
 	if(day.length == 1){ 
 	  day = "0" + day; 
 	} 
+	
+	var total = year + month + day;
+	
+	//해당 강좌 수강신청 날짜에 따라 조건		
+	if(!(total>=recSdate && total<=recEdate)){	
+		
+		if($('#memId').val() == 'tom881205' || $('#memId').val() == 'kjseo'){
+			alert('테스트아이디 입니다.');
+		}else{
+			alert('수강신청 가능한 날짜는 '+String(recSdate).substr(0,4)+'-'+String(recSdate).substr(4,2)+'-'+String(recSdate).substr(6,2)+' ~ '+String(recEdate).substr(0,4)+'-'+String(recEdate).substr(4,2)+'-'+String(recEdate).substr(6,2)+' 입니다.');
+			return;
+		}				
+	}
 			
 	//회원 성인 청소년 구분해서 수강신청 여부 처리하자
 	if($('#memId').val() != null && $('#memId').val() != ''){
@@ -504,24 +512,6 @@ var lecturePaymentDetail = function(comcd, classCd, itemCd, sold, eold){
 		}
 				
 	}
-
-	if(!(day >='24' || day <='10') && comcd == 'JUNGNANG01' || comcd == 'JUNGNANG02' || comcd == 'JUNGNANG03'){
-		if($('#memId').val() == 'tom881205' || $('#memId').val() == 'kjseo' || $('#memId').val() == 'powerjyc'){
-			alert('테스트아이디 입니다.');
-		}else{
-			alert('신규수강신청 기한은 24일 ~ 다음달 10일 까지 입니다.');
-			return;
-		}
-	}
-	
-	if(!(day >='25' || day <='07') && comcd == 'JUNGNANG04' || comcd == 'JUNGNANG05'){		
-		if($('#memId').val() == 'tom881205' || $('#memId').val() == 'kjseo' || $('#memId').val() == 'powerjyc'){
-			alert('테스트아이디 입니다.');
-		}else{
-			alert('신규수강신청 기한은 25일 ~ 다음달 07일 까지 입니다.');
-			return;
-		}
-	}
 	
 	var lecture = { comcd:comcd, classCd:classCd, itemCd:itemCd };
 	
@@ -531,7 +521,7 @@ var lecturePaymentDetail = function(comcd, classCd, itemCd, sold, eold){
 	}).done(function(){
 		$.get('/data/lecture/program', {secureText:localStorage.getItem('lecture')}, function(data){
 			//debugger;
-			var programStartDate = dateUtil.getProgramStartDate(data.grpcd.startdate, comcd, day);
+			var programStartDate = dateUtil.getProgramStartDate(data.grpcd.startdate, recSdate);
 			var programEndDate = dateUtil.getProgramEndDate(programStartDate, data.monthCnt);			
 			//신청할 강좌 시작종료값 임시 저장
 			oderData.sDate =  programStartDate;

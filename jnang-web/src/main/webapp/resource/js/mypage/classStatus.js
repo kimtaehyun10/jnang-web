@@ -60,7 +60,7 @@ var addBasket1 = function(comcd, classCd, itemCd){
 		
 	}).done(function(){
 		$.get('/data/lecture/program', {secureText:localStorage.getItem('lecture')}, function(data){
-			var programStartDate = dateUtil.getProgramStartDate(data.grpcd.startdate, comcd, day);
+			var programStartDate = dateUtil.getProgramStartDate(data.grpcd.startdate, comcd, day); //수정작업해야함
 			var programEndDate = dateUtil.getProgramEndDate(programStartDate, data.monthCnt);			
 			//신청할 강좌 시작종료값 임시 저장
 			lectDate.sDate =  programStartDate;

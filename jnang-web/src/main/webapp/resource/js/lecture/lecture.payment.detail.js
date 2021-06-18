@@ -13,21 +13,9 @@ $(function(){
 var lectDate = { }; //신청할 강좌 시작종료값 임시 저장
 var initPage = function(){
 	$.get('/data/lecture/program', {secureText:localStorage.getItem('lecture')}, function(data){													
+		console.log(data);
 		
-		var date = new Date(); 
-		var year = date.getFullYear(); 
-		var month = new String(date.getMonth()+1); 
-		var day = new String(date.getDate()); 
-
-		// 한자리수일 경우 0을 채워준다. 
-		if(month.length == 1){ 
-		  month = "0" + month; 
-		} 
-		if(day.length == 1){ 
-		  day = "0" + day; 
-		}
-		
-		var programStartDate = dateUtil.getProgramStartDate(data.grpcd.startdate, data.comcd, day);
+		var programStartDate = dateUtil.getProgramStartDate(data.grpcd.startdate, data.grpcd.recSdate);
 		var programEndDate = dateUtil.getProgramEndDate(programStartDate, data.monthCnt);
 		var tableDesc = '', tableHead = '', tableBody = '', capaTableHead = '', capaTableBody = '', tableDetail = '';
 		

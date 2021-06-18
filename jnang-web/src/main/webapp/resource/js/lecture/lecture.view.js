@@ -26,7 +26,7 @@ var initPage = function(){
 		  day = "0" + day; 
 		}
 		
-		var programStartDate = dateUtil.getProgramStartDate(data.grpcd.startdate, data.comcd, day);
+		var programStartDate = dateUtil.getProgramStartDate(data.grpcd.startdate, data.grpcd.recSdate);
 		var programEndDate = dateUtil.getProgramEndDate(programStartDate, data.monthCnt);
 		var tableDesc = '', tableHead = '', tableBody = '', capaTableHead = '', capaTableBody = '', tableDetail = '';
 		
