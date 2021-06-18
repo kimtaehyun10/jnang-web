@@ -1,5 +1,7 @@
 package com.dwict.jfmc.client.lecture.service.impl;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -161,6 +163,24 @@ public class LectureServiceImpl implements LectureService {
 		basketMap.put("ADD_YMD", FormatUtil.getDefaultDate(2, "",""));
 		basketMap.put("WRITE_DH", FormatUtil.getDefaultDate(1, "",""));
 
+		
+		
+		/*
+		//나중에 접수시간 첵크시에
+		 * 
+		Grpcd Grpcd = mapper.lectureGrpcd(new Grpcd(result.getComcd(), result.getSportsCd()));
+		접수시간 첵크
+		SimpleDateFormat format1 = new SimpleDateFormat ("HH:mm:ss");
+		Calendar time = Calendar.getInstance();
+		String sHH = (format1.format(time.getTime()).substring(0,2));
+		int iHH = Integer.parseInt(sHH);
+		if (iHH < 7) {
+			requestMap.put("code", "T");
+			requestMap.put("msg", "07:00");
+			return requestMap;			
+		}
+		*/
+		
 		//강좌 잔여 수량 첵크(잔여수량=총할당수량 -주문수량+장바구니수량)
 		Map<String, Object> orderMap = mapper.limitCnt(basketMap);
 		int limitCnt = 0;

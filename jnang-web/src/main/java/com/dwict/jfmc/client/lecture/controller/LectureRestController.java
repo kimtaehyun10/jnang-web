@@ -94,22 +94,6 @@ public class LectureRestController {
 		programItem.setTcEdate(eDate); //수강 종료일
 		programItem.setStep(step); //진행단계 1:신청리스트단계, 2:결제페이지단계
 		
-		
-		SimpleDateFormat format1 = new SimpleDateFormat ("HH:mm:ss");
-		Calendar time = Calendar.getInstance();
-		String format_time1 = (format1.format(time.getTime()).substring(0,2));
-		
-		
-		/*
-		//시간첵크
-		get
-		if (userId.equals("anonymousUser") || member == null)
-		{
-			requestMap.put("code", -9);
-			return requestMap;
-		}
-		*/
-		
 		return service.setBasket(programItem);
 	
 	}

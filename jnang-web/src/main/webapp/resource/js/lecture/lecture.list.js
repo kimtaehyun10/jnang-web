@@ -195,7 +195,7 @@ var searchLectureList = function(){
 				       	if(data.resultList[i].webCapa-data.resultList[i].webUser === 0 || data.resultList[i].webCapa-data.resultList[i].webUser < 0){
 									tableBody += '<td>'+0+' 명</td>';
 								}else{
-									tableBody += '<td>'+(data.resultList[i].webCapa-data.resultList[i].webUser)+' 명11111</td>';
+									tableBody += '<td>'+(data.resultList[i].webCapa-data.resultList[i].webUser)+' 명</td>';
 								}
 						
                     		if(data.resultList[i].webCapa-data.resultList[i].webUser === 0 || data.resultList[i].webCapa-data.resultList[i].webUser < 0){
@@ -278,7 +278,7 @@ var searchLectureList = function(){
 								if(data.resultList[i].webCapa-data.resultList[i].webUser === 0 || data.resultList[i].webCapa-data.resultList[i].webUser < 0){
 									tableBody += '<td rowspan='+prgCount+'>'+0+' 명</td>';
 								}else{
-									tableBody += '<td rowspan='+prgCount+'>'+(data.resultList[i].webCapa-data.resultList[i].webUser)+' 명222222</td>';
+									tableBody += '<td rowspan='+prgCount+'>'+(data.resultList[i].webCapa-data.resultList[i].webUser)+' 명</td>';
 								}
 								
 							if(data.resultList[i].webCapa-data.resultList[i].webUser === 0 || data.resultList[i].webCapa-data.resultList[i].webUser < 0){
@@ -316,7 +316,7 @@ var searchLectureList = function(){
 								}else{
 									tableBody += '<td ><a class="size_s3 btn_pink_blueWrite" onclick="lecturePaymentDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[0].itemCd+'\'\,'+data.resultList[i].programItem[0].sold+','+data.resultList[i].programItem[0].eold+','+data.resultList[i].grpcd.recSdate+','+data.resultList[i].grpcd.recEdate+');">수강신청</a></td>';
 								}*/
-								tableBody += '<td ><a class="size_s3 btn_pink_blueWrite" onclick="lecturePaymentDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[0].itemCd+'\'\,'+data.resultList[i].programItem[0].sold+','+data.resultList[i].programItem[0].eold+','+data.resultList[i].grpcd.recSdate+','+data.resultList[i].grpcd.recEdate+');">수강신청</a></td>';
+								tableBody += '<td ><a class="size_s3 btn_pink_blueWrite" onclick="lecturePaymentDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[j].itemCd+'\'\,'+data.resultList[i].programItem[0].sold+','+data.resultList[i].programItem[0].eold+','+data.resultList[i].grpcd.recSdate+','+data.resultList[i].grpcd.recEdate+');">수강신청</a></td>';
 																
 							}
 							
@@ -380,7 +380,7 @@ var searchLectureList = function(){
 									}else{
 										tableBody += '<td ><a class="size_s3 btn_pink_blueWrite" onclick="lecturePaymentDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[0].itemCd+'\'\,'+data.resultList[i].programItem[0].sold+','+data.resultList[i].programItem[0].eold+','+data.resultList[i].grpcd.recSdate+','+data.resultList[i].grpcd.recEdate+');">수강신청</a></td>';
 									}*/
-									tableBody += '<td ><a class="size_s3 btn_pink_blueWrite" onclick="lecturePaymentDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[0].itemCd+'\'\,'+data.resultList[i].programItem[0].sold+','+data.resultList[i].programItem[0].eold+','+data.resultList[i].grpcd.recSdate+','+data.resultList[i].grpcd.recEdate+');">수강신청</a></td>';
+									tableBody += '<td ><a class="size_s3 btn_pink_blueWrite" onclick="lecturePaymentDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[j].itemCd+'\'\,'+data.resultList[i].programItem[0].sold+','+data.resultList[i].programItem[0].eold+','+data.resultList[i].grpcd.recSdate+','+data.resultList[i].grpcd.recEdate+');">수강신청</a></td>';
 																	
 								}
 								
@@ -493,7 +493,7 @@ var lecturePaymentDetail = function(comcd, classCd, itemCd, sold, eold, recSdate
 	//해당 강좌 수강신청 날짜에 따라 조건		
 	if(!(total>=recSdate && total<=recEdate)){	
 		
-		if($('#memId').val() == 'tom881205' || $('#memId').val() == 'kjseo'){
+		if($('#memId').val() == 'tom881205' || $('#memId').val() == 'kjseo' || $('#memId').val() == 'powerjyc'){
 			alert('테스트아이디 입니다.');
 		}else{
 			alert('수강신청 가능한 날짜는 '+String(recSdate).substr(0,4)+'-'+String(recSdate).substr(4,2)+'-'+String(recSdate).substr(6,2)+' ~ '+String(recEdate).substr(0,4)+'-'+String(recEdate).substr(4,2)+'-'+String(recEdate).substr(6,2)+' 입니다.');
@@ -532,6 +532,9 @@ var lecturePaymentDetail = function(comcd, classCd, itemCd, sold, eold, recSdate
 				if (data.code == "0"){
 					alert("신청하신 강좌가 마감되었습니다.");
 					window.location.reload();
+				} else if (data.code == "T"){
+					alert("현재 신청 시간이 아닙니다.\n\n"+ data.msg +"시 이후 부터 신청가능합니다.");
+					return false;					
 				} else if (data.code == "-9"){
 					alert("세션이 종료되었거나 로그인 회원이 아닙니다.\n\n로그인 페이지로 이동합니다.");
 					window.location.href='/mem/login';

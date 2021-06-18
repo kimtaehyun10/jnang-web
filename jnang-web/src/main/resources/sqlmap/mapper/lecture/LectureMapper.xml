@@ -201,22 +201,24 @@
 			,orderCnt
 			,cartCnt
 			,WEB_CAPA-(orderCnt + cartCnt) as limitCnt
-		           FROM (
+           FROM (
+
 		           SELECT A.COMCD
+		           	   , (SELECT COMNM FROM COMINFO WHERE COMCD = A.COMCD) AS COMNM
                        , A.CLASS_CD
-                       , A.CLASS_NM
+                       , A.USER_NO
+                       , A.SPORTS_CD
+                       , A.PLACE_CD
+                       , A.GRADE_CD
+                       , A.PROGRESS_CD
+                       , A.STYLE
+                       , A.TRAIN_DAY
+                       , A.TRAIN_STIME
+                       , A.TRAIN_ETIME
                        , A.CS_CAPA
                        , A.WEB_CAPA
                        , A.CAPA
                        , A.USE_YN
-                       , ( SELECT COUNT(*) 
-                          FROM ITEM_CLASS B
-                             , PROGRAM_ITEM C 
-                         WHERE A.COMCD = B.COMCD
-                           AND B.COMCD = C.COMCD
-                           AND A.CLASS_CD = B.CLASS_CD
-                           AND B.ITEM_CD = C.ITEM_CD
-                           AND C.USE_YN = 'Y' ) AS PRG_COUNT
                        , ( SELECT  COUNT(*)
                              FROM TRAIN_HIST D,  MEM_SALE F, ITEM_CLASS I
                              WHERE D.CLASS_CD = A.CLASS_CD                      
@@ -224,12 +226,7 @@
                              and D.MEM_NO  = F.MEM_NO 
                      		 AND F.WEB_TYPE = "ONLINE"
                      		                      		 
-                     		 AND
-                     		 (case 
-                             when (A.COMCD = 'JUNGNANG01' OR A.COMCD = 'JUNGNANG02' OR A.COMCD = 'JUNGNANG03') AND DATE_FORMAT(NOW(),'%d') <= '10' then  DATE_FORMAT(NOW(),'%Y-%m') BETWEEN DATE_FORMAT(D.TRAIN_SDATE,'%Y-%m') AND DATE_FORMAT(D.TRAIN_EDATE,'%Y-%m') 
-                             when (A.COMCD = 'JUNGNANG04' OR A.COMCD = 'JUNGNANG05') AND DATE_FORMAT(NOW(),'%d') <= '07' then  DATE_FORMAT(NOW(),'%Y-%m') BETWEEN DATE_FORMAT(D.TRAIN_SDATE,'%Y-%m') AND DATE_FORMAT(D.TRAIN_EDATE,'%Y-%m') 
-							 else DATE_FORMAT(DATE_ADD(DATE_FORMAT(NOW(),'%Y-%m-%d'),INTERVAL 1 MONTH),'%Y-%m') BETWEEN DATE_FORMAT(D.TRAIN_SDATE,'%Y-%m') AND DATE_FORMAT(D.TRAIN_EDATE,'%Y-%m') 
-                             end)                     		 
+                     		 AND DATE_FORMAT(F.SALE_DATE,'%Y-%m-%d') BETWEEN DATE_FORMAT(C.REC_SDATE,'%Y-%m-%d') AND DATE_FORMAT(C.REC_EDATE,'%Y-%m-%d')                    		 
                      		 
                      		 AND D.COMCD = I.COMCD
                      		 AND D.CLASS_CD = I.CLASS_CD
@@ -237,10 +234,15 @@
                      		 AND F.CANCEL_YN = 'N'
                      		 AND F.SALE_SEQ = D.SALE_SEQ
                      		 ) AS orderCnt
-                     		 ,(select count(*) from mem_cart as cart where COMCD = A.COMCD and CLASS_CD = A.CLASS_CD) as cartCnt						     						     						     						     						     						     						     						     						                         	   
-                 FROM TRAIN_CLASS A
+                     	,(select count(*) from mem_cart as cart where COMCD = A.COMCD and CLASS_CD = A.CLASS_CD) as cartCnt
+                     	,C.REC_SDATE
+                        ,C.REC_EDATE
+                 FROM TRAIN_CLASS A LEFT OUTER JOIN COT_GRPCD C ON A.COMCD = C.COMCD
                  WHERE A.USE_YN = 'Y'
-                 AND A.WEB_DISPLAY = 'Y'    
+                 AND A.WEB_DISPLAY = 'Y'
+                 AND C.GRP_CD='CM_SPORTS_CD'
+                 AND A.SPORTS_CD = C.CD    
+                 
 		) R1                  
 		]]>
 	  <where>
