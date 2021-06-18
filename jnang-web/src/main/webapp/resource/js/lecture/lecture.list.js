@@ -336,7 +336,7 @@ var searchLectureList = function(){
 	        				}else{
 	        					tableBody += '<td ><a class="size_s2 btn_blue2" onclick="searchLectureDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].sportsCd+'\'\, \''+data.resultList[i].msportsCd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[0].itemCd+'\');">상세보기</a></td>';
 	        				}*/
-							tableBody += '<td ><a class="size_s2 btn_blue2" onclick="searchLectureDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].sportsCd+'\'\, \''+data.resultList[i].msportsCd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[0].itemCd+'\');">상세보기</a></td>';
+							tableBody += '<td ><a class="size_s2 btn_blue2" onclick="searchLectureDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].sportsCd+'\'\, \''+data.resultList[i].msportsCd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[j].itemCd+'\');">상세보기</a></td>';
 								tableBody += '</tr>';
 							}else{
 								tableBody += '<tr>';   
@@ -400,7 +400,7 @@ var searchLectureList = function(){
 		        				}else{
 		        					tableBody += '<td ><a class="size_s2 btn_blue2" onclick="searchLectureDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].sportsCd+'\'\, \''+data.resultList[i].msportsCd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[0].itemCd+'\');">상세보기</a></td>';
 		        				}*/
-									tableBody += '<td ><a class="size_s2 btn_blue2" onclick="searchLectureDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].sportsCd+'\'\, \''+data.resultList[i].msportsCd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[0].itemCd+'\');">상세보기</a></td>';
+									tableBody += '<td ><a class="size_s2 btn_blue2" onclick="searchLectureDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].sportsCd+'\'\, \''+data.resultList[i].msportsCd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[j].itemCd+'\');">상세보기</a></td>';
 						
 							}
 									tableBody += '</tr>';
