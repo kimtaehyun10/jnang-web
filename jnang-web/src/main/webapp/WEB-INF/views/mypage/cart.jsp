@@ -26,6 +26,8 @@
 *	1	스마트로	2017.12.01		결제요청페이지
 *******************************************************************************/
 	
+
+
 	String ediDate = getyyyyMMddHHmmss(); // 전문생성일시
 	
 	String Moid = "Moid"; 
@@ -59,6 +61,11 @@
 	//out.println("MEM_MAIL:"+ MEM_MAIL +"<BR>");
 	
 
+	out.println("사용안함");
+	
+	if (1 == 1) {
+		return;
+	}
 	//String EncryptData = encodeMD5HexBase64(ediDate + MID + goodsAmt + merchantKey);
 
 %> 
