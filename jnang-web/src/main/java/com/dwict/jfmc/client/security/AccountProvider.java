@@ -1,5 +1,8 @@
 package com.dwict.jfmc.client.security;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -16,6 +19,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.dwict.jfmc.client.com.util.SHA256PasswordEncoder;
 import com.dwict.jfmc.client.mem.service.MemberService;
+import com.dwict.jfmc.client.mypage.mapper.MypageMapper;
 import com.dwict.jfmc.client.security.service.AccountService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +36,9 @@ public class AccountProvider implements AuthenticationProvider {
 	@Resource(name = "memberService")
 	private MemberService memberService;
 
+	@Resource(name="mypageMapper")
+	private MypageMapper mypageMapper;
+	
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 		final String userId = (String) authentication.getPrincipal();
@@ -59,6 +66,17 @@ public class AccountProvider implements AuthenticationProvider {
 		memberService.updateLastLogin(userId);
 		memberService.memSession(request, userId);
 		session.setAttribute("member", session.getAttribute("member"));
+
+		try {
+			Map<String, Object> maps = new HashMap<>();
+			maps.put("allClear", "ok");
+			maps.put("MEM_ID", userId);
+			//장바구니 오래된 주문 비우기 #######################
+			mypageMapper.basketClear(maps);
+		} catch ( Exception ex) {
+			
+		}
+		
 		return new UsernamePasswordAuthenticationToken(account, account.getPassword(), account.getAuthorities());
 	}
 

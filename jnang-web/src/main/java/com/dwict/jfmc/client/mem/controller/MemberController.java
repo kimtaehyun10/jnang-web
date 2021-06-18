@@ -1,6 +1,8 @@
 package com.dwict.jfmc.client.mem.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.dwict.jfmc.client.mem.model.Member;
 import com.dwict.jfmc.client.mem.service.IpinService;
+import com.dwict.jfmc.client.mypage.mapper.MypageMapper;
 import com.dwict.jfmc.client.security.service.ErrorService;
 
 @RestController
@@ -28,6 +32,9 @@ public class MemberController {
 	@Resource(name = "errorService")
 	private ErrorService errorService;
 
+	@Resource(name="mypageMapper")
+	private MypageMapper mypageMapper;
+	
 	@GetMapping(value = "/mem/login")
 	public ModelAndView login(HttpServletRequest request, ModelAndView modelAndView) {
 		modelAndView.addObject("status", request.getSession().getAttribute("status"));
@@ -42,6 +49,17 @@ public class MemberController {
 	public ModelAndView logout(ModelAndView modelAndView, HttpServletRequest request, HttpServletResponse response) {
 		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth != null) {
+
+			try {
+				Map<String, Object> maps = new HashMap<>();
+				maps.put("allClear", "ok");
+				maps.put("MEM_ID", auth.getName());
+				//장바구니 오래된 주문 비우기 #######################
+				mypageMapper.basketClear(maps);
+			} catch ( Exception ex) {
+				
+			}
+			
 			new SecurityContextLogoutHandler().logout(request, response, auth);
 		}
 		modelAndView.setViewName("redirect:/");

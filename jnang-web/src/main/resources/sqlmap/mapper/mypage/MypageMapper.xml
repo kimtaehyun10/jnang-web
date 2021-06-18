@@ -7,14 +7,20 @@
 	<delete id="basketClear" parameterType="java.util.HashMap">
     	DELETE FROM MEM_CART
     	<where>
-		<if test='MEM_NO != null and MEM_NO != ""  and MEM_NO != " " and MEM_NO != "0" '>
-            AND MEM_NO = #{MEM_NO}
-        </if>    	
-  	  	<if test='SEQ != null and SEQ != ""  and SEQ != " " and SEQ != "0" '>
-            AND SEQ = #{SEQ}
-        </if> 
-        <if test='SEQ == null or SEQ == "" or SEQ == "0"'>
-			AND TIMESTAMPDIFF(minute, WRITE_DH , now()) >= 20
+		<if test='allClear == "ok"'>
+			AND MEM_NO in (select MEM_NO from member_damo where ID =#{MEM_ID})
+			or TIMESTAMPDIFF(minute, WRITE_DH , now()) <![CDATA[ >= ]]> 20
+		</if>
+    	<if test='allClear != "ok"'>
+			<if test='MEM_NO != null and MEM_NO != ""  and MEM_NO != " " and MEM_NO != "0" '>
+	            AND MEM_NO = #{MEM_NO}
+	        </if>
+	  	  	<if test='SEQ != null and SEQ != ""  and SEQ != " " and SEQ != "0" '>
+	            AND SEQ = #{SEQ}
+	        </if> 
+	        <if test='SEQ == null or SEQ == "" or SEQ == "0"'>
+				AND TIMESTAMPDIFF(minute, WRITE_DH , now()) <![CDATA[ >= ]]> 20
+	        </if>
         </if>
         </where>
     </delete>

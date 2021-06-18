@@ -59,8 +59,8 @@ public class LectureServiceImpl implements LectureService {
 		obj.handlePaging((Integer) param.get("pageIndex"), (Integer) param.get("pageSize"));
 		param.put("startRow", obj.getStartRow());
 		param.put("pageSize", obj.getPageSize());
+
 		Map<String, Object> maps = new HashMap<>();
-		
 		//장바구니 오래된 주문 비우기
 		mypageMapper.basketClear(maps);
 		

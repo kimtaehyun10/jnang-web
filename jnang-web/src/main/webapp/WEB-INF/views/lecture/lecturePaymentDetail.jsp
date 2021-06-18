@@ -140,14 +140,13 @@
 
 		//주문전 수량 첵크
 		$.get('/data/lecture/basketIn', {secureText:localStorage.getItem('lecture'), "oderData" : oderData }, function(data){
-			console.log(data);
+			//console.log(data);
 			if (data.code == "0"){
 				alert("신청하신 강좌가 마감되었습니다.");
-				window.history.back(-1);
+				window.location.href='/lecture/list/'+ data.COMCD;
 				return false;
 			}
 		});
-					
 		
 		//alert(seq +", "+ goodsAmt +", "+ GoodsName +", "+ COMCD);
 		var BuyerName = encodeURI("<%=MEM_NM%>");
