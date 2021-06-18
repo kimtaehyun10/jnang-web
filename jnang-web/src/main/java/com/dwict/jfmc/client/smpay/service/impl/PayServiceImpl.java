@@ -575,7 +575,7 @@ public class PayServiceImpl implements PayService {
 						requestMapMemSale.put("SALE_NUM", SALE_NUM);//	판매수량
 						requestMapMemSale.put("USE_CNT", USE_CNT);//	이용기간내횟수
 						requestMapMemSale.put("DC_AMT", DC_AMT);//	할인금액
-						requestMapMemSale.put("SALE_AMT", SALE_AMT);//	판매금액
+						requestMapMemSale.put("SALE_AMT", Amt);//	판매금액
 						requestMapMemSale.put("VAT_YN", VAT_YN);//	부가세여부YN
 						requestMapMemSale.put("VAT_AMT", VAT_AMT);//	부가세금액
 						requestMapMemSale.put("WEB_TYPE", "ONLINE");//	온오프라인구분

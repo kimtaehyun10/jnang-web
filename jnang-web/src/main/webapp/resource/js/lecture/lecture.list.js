@@ -476,6 +476,7 @@ var lecturePaymentDetail = function(comcd, classCd, itemCd, sold, eold, recSdate
 	
 	
 	//현재날짜 java util date로 가져와야함
+	var boolean = false;
 	$.ajax({
         type: "get",        
         url:'/data/lecture/today',
@@ -507,7 +508,8 @@ var lecturePaymentDetail = function(comcd, classCd, itemCd, sold, eold, recSdate
         		}else{
         			alert('수강신청 가능한 날짜는 '+String(recSdate).substr(0,4)+'-'+String(recSdate).substr(4,2)+'-'+String(recSdate).substr(6,2)+' ~ '+String(recEdate).substr(0,4)+'-'+String(recEdate).substr(4,2)+'-'+String(recEdate).substr(6,2)+' 입니다.');
         			return;
-        		}				
+        		}
+        		
         	}
         	
         },        
@@ -515,7 +517,11 @@ var lecturePaymentDetail = function(comcd, classCd, itemCd, sold, eold, recSdate
         	console.log(jqXHR,textStatus,errorThrown);
         }
     });
-			
+	
+	if(boolean == true){
+		return;
+	}
+	
 	//회원 성인 청소년 구분해서 수강신청 여부 처리하자
 	var date = new Date();
 	if($('#memId').val() != null && $('#memId').val() != ''){

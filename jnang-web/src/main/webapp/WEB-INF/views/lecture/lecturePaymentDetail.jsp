@@ -319,7 +319,8 @@
     	html3 += '<a class="size_m2 btn_gray2" href="/lecture/list">목록</a>';
     	<!-- html3 += '<a class="size_m2 btn_red2" onclick=\"goBtn('"+ seq +"','"+ resultCost +"','"+ classNm +"','"+ comcd +"');\">결제</a>'; -->
 		html3 += "<a class='size_m2 btn_red2' onclick=\"goBtn('"+ seq +"','"+ resultCost +"','"+ classNm +"','"+ comcd +"' );\">결제</a>";										  		
-		$('#costAmt').val(resultCost);
+		
+		$('#costAmt').val(resultCost);				
     	$("#DCREASON_CD").html(html1);		
 		$("#costHtml").html(html2);
 		$('#insertLecture').empty().append(html3);

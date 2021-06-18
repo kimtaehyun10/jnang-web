@@ -78,14 +78,14 @@ String MEM_MAIL = member.getEmail();
 				<td>${status.count}</td>
 				<td>[${result.COMNM}] ${result.CLASS_NM}</td>
 				<td>${result.ITEM_NM}</td>
-				<td>${result.COST_AMT}원,값은?${result}</td>
+				<td>${result.COST_AMT}원</td>
 				<td>
 					<span id="" class="cap_blue">${result.MIDCANCEL_YN_NM}</span>
 					<%
 					//<!-- 당일취소 -->
 					if (today.equals(WRITE_YMD)){
 						if (COST_AMT > 0) { %>
-						<br><a href="#none" onclick="cancelPay('${result.TID}', '${result.SLIP_NO}', '${result.COST_AMT}','${result.COMCD}','${result.SALE_SEQ}');" class="btn_green1">당일취소</a>
+						<br><a href="#none" onclick="cancelPay('${result.TID}', '${result.SLIP_NO}', '${result.SALE_AMT}','${result.COMCD}','${result.SALE_SEQ}');" class="btn_green1">당일취소</a>
 						<%
 						}
 					}
