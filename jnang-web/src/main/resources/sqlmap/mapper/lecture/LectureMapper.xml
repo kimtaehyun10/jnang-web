@@ -172,12 +172,12 @@
                      		 AND F.CANCEL_YN = 'N'
                      		 AND F.SALE_SEQ = D.SALE_SEQ
                      		 ) AS orderCnt
-                     		 ,(select count(*) from mem_cart as cart where COMCD = A.COMCD and CLASS_CD = A.CLASS_CD) as cartCnt						     						     						     						     						     						     						     						     						                         	   
+                     		 ,(select count(*) from mem_cart as cart where COMCD = A.COMCD and CLASS_CD = A.CLASS_CD) as cartCnt
                  FROM TRAIN_CLASS A
                   WHERE A.USE_YN = 'Y'
                    AND A.WEB_DISPLAY = 'Y'    
-		) R1                  
-		]]>	               
+		) R1
+		]]>
 	  <where>
    		<if test="comcd != null and comcd != 'all'">
 		   AND R1.COMCD = #{comcd}
