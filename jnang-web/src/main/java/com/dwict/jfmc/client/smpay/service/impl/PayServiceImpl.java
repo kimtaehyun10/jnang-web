@@ -474,9 +474,11 @@ public class PayServiceImpl implements PayService {
 		    	requestMapPayList.put("CARD_SEC2", "");//
 		    	
 		    	if(P_TYPE.equals("CARD")) {
-		    		requestMapPayList.put("CARD_INFO", "0000"+fn_name); //카드 정보
+		    		String card_code = String.format("%04d", Integer.parseInt(fn_cd));
+		    		requestMapPayList.put("CARD_INFO", card_code+fn_name); //카드 정보
 		    	}else if(P_TYPE.equals("BANK")) {
-		    		requestMapPayList.put("CARD_INFO", "0000"+BankName); //은행 정보
+		    		String bank_code = String.format("%04d", Integer.parseInt(BankCode));
+		    		requestMapPayList.put("CARD_INFO", bank_code+BankName); //은행 정보
 		    	}
 				
 		    	
