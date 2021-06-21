@@ -194,7 +194,7 @@
    		
     </select>
 
-	<!-- 남은수량 첵크   -->
+	<!-- 강좌 남은수량 첵크   -->
    	<select id="limitCnt" parameterType="java.util.HashMap" resultType="java.util.HashMap">
 		<![CDATA[
 		SELECT
@@ -239,11 +239,11 @@
                      	,C.REC_SDATE
                         ,C.REC_EDATE
                  FROM TRAIN_CLASS A LEFT OUTER JOIN COT_GRPCD C ON A.COMCD = C.COMCD
-                 WHERE A.USE_YN = 'Y'
-                 AND C.USE_YN = 'Y'
-                 AND A.WEB_DISPLAY = 'Y'
-                 AND C.GRP_CD='CM_SPORTS_CD'
-                 AND A.SPORTS_CD = C.CD    
+                  WHERE A.USE_YN = 'Y'
+                   AND C.USE_YN = 'Y'
+                   AND A.WEB_DISPLAY = 'Y'
+                   AND C.GRP_CD='CM_SPORTS_CD'
+                   AND A.SPORTS_CD = C.CD     
                  
 		) R1                  
 		]]>

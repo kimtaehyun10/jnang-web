@@ -28,6 +28,7 @@ import com.dwict.jfmc.client.smpay.service.PayService;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.BaseNCodec;
 import com.dwict.jfmc.client.com.util.FormatUtil;
+import com.dwict.jfmc.client.lecture.mapper.LectureMapper;
 import com.dwict.jfmc.client.mem.mapper.MemberMapper;
 import com.dwict.jfmc.client.mem.model.Member;
 import com.dwict.jfmc.client.mem.service.MemberService;
@@ -55,6 +56,9 @@ public class PayServiceImpl implements PayService {
 	
 	@Resource(name = "memberMapper")
 	private MemberMapper memberMapper;
+	
+	@Resource(name = "lectureMapper")
+	private LectureMapper lectureMapper;
 	
 	@Override
 	public int testInsert(String dirPath, HttpServletRequest request) {
@@ -304,6 +308,8 @@ public class PayServiceImpl implements PayService {
 		    	//장바구니 정보 가져오기
 				List<Map<String, Object>> aPrgList = mypageMapper.basketList(maps);
 				String comCd =  aPrgList.get(0).get("COMCD").toString();
+				String SPORTS_CD =  aPrgList.get(0).get("SPORTS_CD").toString();
+				String CLASS_CD =  aPrgList.get(0).get("CLASS_CD").toString();
 				
 		  		//등록강습반 및 프로그램 저장
 		  		//String prgList = List; //request.getParameter("PRG");//array 강습반 및 프로그램 정보
@@ -360,6 +366,42 @@ public class PayServiceImpl implements PayService {
 		   		String NEXT_APP_NO = "";
 		
 		   		
+				/*
+				 *강좌 잔여 수량 첵크(잔여수량=총할당수량 -주문수량) #####################################################
+				 */
+				Map<String, Object> basketMap = new HashMap<String, Object>();
+				basketMap.put("SPORTS_CD",SPORTS_CD);
+				basketMap.put("COMCD",comCd);
+				basketMap.put("CLASS_CD",CLASS_CD);
+				Map<String, Object> orderMap = lectureMapper.limitCnt(basketMap);
+				int limitCnt = 0;
+				//결제 단계(STEP 2)에서 수량첵크
+				//결제 2단계에서 수량첵크(할당수 - 실제결제수)
+				int web_capa = Integer.parseInt(String.valueOf(orderMap.get("WEB_CAPA"))); //웹 할당수량
+				int order_Cnt = Integer.parseInt(String.valueOf(orderMap.get("orderCnt"))); //결제 완료수량
+				limitCnt = web_capa - order_Cnt;	
+					
+				Map<String, Object>  rtnData = new HashMap<String, Object>();
+				rtnData = FormatUtil.formatMapRequest(request);
+				
+				//limitCnt =0;
+				if (limitCnt <= 0) {
+					
+					//장바구니 오래된 주문 비우기
+					mypageMapper.basketClear(maps);
+					
+					rtnData = FormatUtil.formatMapRequest(request);
+					rtnData.put("GoodsNameDe", GoodsName);
+					rtnData.put("BuyerNameDe", BuyerName);
+					rtnData.put("ResultMsgDe", "정원초과");
+					rtnData.put("COMCD", comCd);
+					//rtnData.put("SLIP_NO", NEXT_SLIP_NO);
+					rtnData.put("MEM_NO", MEM_NO);
+					rtnData.put("rtnEndUrl", rtnUrl); //완료후 이동
+					return rtnData;					
+				}
+				
+				
 				//주문_결제정보(CALC_MASTER) 저장  
 		   		//select * from CALC_MASTER order by  WRITE_DH desc
 				Map<String, Object> requestMapCalcMaster = new HashMap<String, Object>();
@@ -536,9 +578,9 @@ public class PayServiceImpl implements PayService {
 				//for (int ii=0; ii < aPrgList.size(); ii++) {		
 		  			//프로그램/사물함구분 PRG:프로그램, LOCKER:사물함, DEPOSIT:사물함보증금
 		  			String GUBUN = aPrgList.get(ii).get("ITM_TYPE").toString(); //aPrgList.getJSONObject(jj).getString("ITM_TYPE").toString();
-					String CLASS_CD = aPrgList.get(ii).get("CLASS_CD").toString(); //aPrgList.getJSONObject(jj).getString("CLASS_CD").toString();
+					CLASS_CD = aPrgList.get(ii).get("CLASS_CD").toString(); //aPrgList.getJSONObject(jj).getString("CLASS_CD").toString();
 					String PART_CD = aPrgList.get(ii).get("PART_CD").toString(); //aPrgList.getJSONObject(jj).getString("PART_CD").toString();
-					String SPORTS_CD = aPrgList.get(ii).get("SPORTS_CD").toString(); //aPrgList.getJSONObject(jj).getString("SPORTS_CD").toString();
+					SPORTS_CD = aPrgList.get(ii).get("SPORTS_CD").toString(); //aPrgList.getJSONObject(jj).getString("SPORTS_CD").toString();
 					String ITEM_CD = aPrgList.get(ii).get("ITEM_CD").toString(); //aPrgList.getJSONObject(jj).getString("ITEM_CD").toString();
 					String ITEM_SDATE = aPrgList.get(ii).get("ITEM_SDATE").toString(); //aPrgList.getJSONObject(jj).getString("ITEM_SDATE").toString();
 					String ITEM_EDATE = aPrgList.get(ii).get("ITEM_EDATE").toString(); //aPrgList.getJSONObject(jj).getString("ITEM_EDATE").toString();

@@ -68,23 +68,41 @@ input {
 
 -->
 </style>
+
+<c:set var="goUrl" value="${rtnMap.goURL}" />
+<%
+String goUrl = (String)pageContext.getAttribute("goUrl") ;
+%>
 <script type="text/javascript">
 
-function gtnUrl(val1) {
-	//opener.location.href='/mypage/classStatus';
-	var goURL = "${rtnMap.goURL}";
-	if (goURL != "") {
-		try {
-		opener.location.href='${rtnMap.goURL}';
-		} catch (ex) {
-
-		}
-	}
+<%
+////정원초과 취소처리
+if ( goUrl.equals("close1") ) {
+%>	
+	alert("정원이 마감 되어 취소처리 됩니다.")
+	//window.opener.cancelPay('${rtnMap.TID}','','${rtnMap.Amt}','${rtnMap.COMCD}',0);
+	opener.location.href='/smartPay/mainCancelPay?p1=${rtnMap.TID}&p2=${rtnMap.Amt}&p3=spno&p4=com&p5=payCancel';
 	self.close();
-}
-
-opener.location.href='${rtnMap.goURL}';
-
+<%
+} else {
+	%>
+	function gtnUrl(val1) {
+		//opener.location.href='/mypage/classStatus';
+		var goURL = "${rtnMap.goURL}";
+		if (goURL != "") {
+			try {
+			opener.location.href='${rtnMap.goURL}';
+			} catch (ex) {
+	
+			}
+		}
+		self.close();
+	}
+	
+	opener.location.href='${rtnMap.goURL}';
+<%
+} //정원초과 취소처리
+%>
 
 
 
@@ -186,19 +204,3 @@ opener.location.href='${rtnMap.goURL}';
 	</table>
 </body>
 </html>
-<%
-/* public String getDefaultStr(String src, String defaultStr) {
-		if (src == null || src.length() < 1) {
-			if (defaultStr == null) {
-				return "";
-			}
-			return defaultStr;
-		}
-		return src;
-	}
-
-	public static final String encodeMD5HexBase64(String pw) {
-		return new String(
-				Base64.encodeBase64(DigestUtils.md5Hex(pw).getBytes()));
-	} */
-%>

@@ -27,7 +27,7 @@
 						slipOn = (slipOn == null) ? "" : slipOn;
 	String COMCD   	 	= request.getParameter("p4");
 						COMCD = (COMCD == null) ? "" : COMCD;
-
+						
 	//그외 아래 메뉴별 파라미터
 	String otherParam = "";
 
@@ -44,24 +44,35 @@
 			break;
 		
 		case "class" :
-			
 			otherParam  	 	= request.getParameter("otherParam");
 			COMCD = (COMCD == null) ? "" : COMCD;
 			
 			actionUrl = "/smartPay/classCancelPayAct";
 			cancelUrl = "/mypage/classStatus";
 			break;
-			
+
+		//선착순 결제 즉시 취소처리
+		case "payCancel" :
+			otherParam  	 	= request.getParameter("otherParam");
+			actionUrl = "/smartPay/payCancel";
+			cancelUrl = "/lecture/list";
+			break;
+
 	}
-						
-						
+	
+		
 	String CancelMSG	= "사용자 당일 취소"; //request.getParameter("CancelMSG");
-	Member member 	= (Member) session.getAttribute("member");
-	String MEM_ID	= member.getId();
+	String MEM_ID = "";
+	try {
+		Member member 	= (Member) session.getAttribute("member");
+		MEM_ID	= member.getId();
+	} catch (Exception ex) {
+		
+	}
 	TID = TID == null ? "" : TID.trim();
 	//MID = MID == null ? "" : MID.trim();
 	CancelMSG = CancelMSG == null ? "" : CancelMSG;
-
+	
 	/*	서브몰정산 가맹점 전용 */
 	String MerchantMode = "T"; // 상점모드
 	String DivideInfo = "{'DivideInfo':[{'Amt':'502','MID':'SMTSUB002m','GoodsName':'상품1'},{'Amt':'502','MID':'SMTSUB003m','GoodsName':'상품2'}]}"; // 서브몰 정보
@@ -137,7 +148,7 @@ final String strUrl = request.getScheme()+"://"+request.getServerName()+":"+requ
 	//사용자 자동 폼 submit
 	if (TID != "" && CancelAmt != "" && COMCD != "") {
 	%>
-		/* setTimeout("goCancelCard();",500); */
+		setTimeout("goCancelCard();",500);
 	<%
 	} else {
 	

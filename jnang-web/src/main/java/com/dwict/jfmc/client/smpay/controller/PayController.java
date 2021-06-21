@@ -71,9 +71,33 @@ public class PayController {
 				case "returnPay":
 					//결과
 					rtnMap = service.lecOrderInsert(request);
-					//창닫을경우 이동할 URL
-					rtnMap.put("goURL", "/mypage/classStatus");
-					modelAndView.addObject("rtnMap", rtnMap);
+					
+					//정원초과 확인후 취소처리############
+					String ResultMsgDe = (String) rtnMap.get("ResultMsgDe");
+					if (ResultMsgDe.equals("정원초과")) {
+						
+						String COMCD = (String) rtnMap.get("COMCD");
+						String TID 	= (String) rtnMap.get("TID");
+						String MEM_NO = (String) rtnMap.get("MEM_NO");
+						String Amt 	= (String) rtnMap.get("Amt");
+						
+						//rtnMap.put("SLIP_NO", NULL);
+						rtnMap.put("PAY_AMT", Amt);
+						Map<String, Object> maps = new HashMap<>();
+						maps = service.payKeyInfoCancel(rtnMap);
+						rtnMap.put("goURL", "close1");
+						modelAndView.addObject("rtnMap", rtnMap);
+						break;
+				
+
+						//이동할 URL
+						//rtnMap.put("goURL", "/mypage/classStatus");
+						//modelAndView.addObject("rtnMap", rtnMap);
+					} else {
+						//창닫을경우 이동할 URL
+						rtnMap.put("goURL", "/mypage/classStatus");
+						modelAndView.addObject("rtnMap", rtnMap);
+					}
 					break;
 
 					//대관 (축구장/야구장,테니스장) 결제
@@ -107,6 +131,13 @@ public class PayController {
 					rtn = "/smartPay/"+ dirPath;
 					break;
 					
+				//정원초과 취소처리
+				case "payCancel":
+						rtnMap = service.classCancelPay(request);
+						rtnMap.put("rtn_url", "/lecture/list"); //취소완료후 처음되돌아가는 부분
+						modelAndView.addAllObjects(rtnMap);
+						rtn = "/smartPay/CancelPayAct";
+						break;
 				//강좌 결제 취소	
 				case "classCancelPayAct":
 					rtnMap = service.classCancelPay(request);

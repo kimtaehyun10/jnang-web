@@ -125,19 +125,20 @@
 	function goBtn(seq, goodsAmt, GoodsName, COMCD) {
 		//가격 위변조값 체크
 		goodsAmt = $('#costAmt').val();
-		<%-- <%
-		if (strUrl.contains("localhost") || strUrl.contains("14.36.179.143") || MEM_ID.equals("powerjyc")) {
-		} else  {
-		%>
-		alert("현재 결제 서비스는 점검중입니다.");
-		return false;
 		<%
-		}
-		%> --%>
+		if (strUrl.contains("localhost") || strUrl.contains("14.36.179.143") || MEM_ID.equals("powerjyc")) {
+		%>
+		//goodsAmt = 10;
+		<%
+		} 
+		%>
 		var oderData = { }; //신청할 강좌 시작종료값 임시 저장
 		oderData.sDate = "<%=ediDate%>".substring(0,8);
 		oderData.eDate = "<%=ediDate%>".substring(0,8);
 		oderData.step  = 2;
+
+		var BuyerName = encodeURI("<%=MEM_NM%>");
+		var boolean = false;
 
 		//주문전 수량 첵크
 		$.get('/data/lecture/basketIn', {secureText:localStorage.getItem('lecture'), "oderData" : oderData }, function(data){
@@ -146,33 +147,36 @@
 				alert("신청하신 강좌가 마감되었습니다.");
 				window.location.href='/lecture/list/'+ data.COMCD;
 				return false;
+			} else {
+				boolean = true;
 			}
-		});
-		
-		//alert(seq +", "+ goodsAmt +", "+ GoodsName +", "+ COMCD);
-		var BuyerName = encodeURI("<%=MEM_NM%>");
-		
-		//debugger;
-		$.get("/data/getOdEncryptData/"+ <%=ediDate%> +"/"+ goodsAmt +"/"+ COMCD +"?GoodsName="+ encodeURI(GoodsName) +"&BuyerName="+ BuyerName, function(data){
-		//try {
-			//console.log(data);
-			var dataList = "";
-			if(data.length != 0){				
-				$("#EncryptData").val(data.EncryptData);
-				$("#merchantKey").val(data.KEY);
-				$("#MID").val(data.MID);
-				$("#Amt").val(goodsAmt);
-				$("#GoodsName").val(data.enGoodsName);
-				$("#BuyerName").val(data.enBuyerName);
-				actionUrl = data.URL;
-				$("#ReturnURL").val("<%=ReturnURL%>?q=${otherData.MEM_ID}/"+ seq +"///");
-			goPay();	
-			} 
-		/*} catch (exception) {
-			alert("할인적용 오류 : 잠시후 다시 시도하여 주세요..");
-			window.location.reload();
-			return;
-		}*/
+		}).done(function(){
+			
+			if (boolean == false) {
+				return false;
+			}
+			//debugger;
+			$.get("/data/getOdEncryptData/"+ <%=ediDate%> +"/"+ goodsAmt +"/"+ COMCD +"?GoodsName="+ encodeURI(GoodsName) +"&BuyerName="+ BuyerName, function(data){
+			try {
+				var dataList = "";
+				if(data.length != 0){				
+					$("#EncryptData").val(data.EncryptData);
+					$("#merchantKey").val(data.KEY);
+					$("#MID").val(data.MID);
+					$("#Amt").val(goodsAmt);
+					$("#GoodsName").val(data.enGoodsName);
+					$("#BuyerName").val(data.enBuyerName);
+					actionUrl = data.URL;
+					$("#ReturnURL").val("<%=ReturnURL%>?q=${otherData.MEM_ID}/"+ seq +"///");
+				goPay();	
+				} 
+			} catch (exception) {
+				alert("할인적용 오류 : 잠시후 다시 시도하여 주세요..");
+				window.location.reload();
+				return;
+			}
+			});
+			
 		});
 			
 		
