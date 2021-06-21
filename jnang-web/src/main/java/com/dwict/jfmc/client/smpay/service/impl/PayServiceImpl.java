@@ -398,8 +398,16 @@ public class PayServiceImpl implements PayService {
 	  	  		
 	  	  		String METHOD_CD = "";
 	  			if(ResultCode.equals("3001")) {
-	  				METHOD_CD = mapper.getMethodCd(fn_cd);// aPayList.getJSONObject(ii).getString("METHOD_CD").toString(); //결제수단코드
+	  				//METHOD_CD = mapper.getMethodCd(fn_cd);// aPayList.getJSONObject(ii).getString("METHOD_CD").toString(); //결제수단코드
+	  				
+	  				//card_method 데이터를 단말기 결제쪽하고 맞추든지 다른방법이 뭐가있을지 생각해봐야함 일단 코드는 단말기 결제쪽 method_cd 맞춤
+	  				METHOD_CD = mapper.getMethodCd(fn_name);// aPayList.getJSONObject(ii).getString("METHOD_CD").toString(); //결제수단코드
 	  			}else if(ResultCode.equals("4000")) {
+	  				
+	  				//bank_name 값 확인해서 온라인 카드결제와 마찬가지로 db 작업해야함
+	  				//ex)
+	  				//BankName= '기업은행'
+	  				//BankCode='03'
 	  				METHOD_CD = mapper.getBankMethodCd(BankCode);
 	  			}
 	  			
@@ -436,7 +444,7 @@ public class PayServiceImpl implements PayService {
 	       		
 	       		
 	       		//승인구분__1_카드결제승인__2_카드승인취소__3_현금영수증승인__4_현금영수증승인취소
-	       		String APP_GBN	= (P_TYPE.equals("CARD")) ? "1" : "3";
+	       		String APP_GBN	= (P_TYPE.equals("CARD") || P_TYPE.equals("BANK")) ? "1" : "3";	       		
 	       		
 	  			Map<String, Object> requestMapPayList = new HashMap<String, Object>();
 	  			
@@ -464,7 +472,13 @@ public class PayServiceImpl implements PayService {
 		    	
 		    	requestMapPayList.put("CARD_SEC", APP_CARD_CD);//카드사 코드
 		    	requestMapPayList.put("CARD_SEC2", "");//
-				//requestMapPayList.put("CARD_INFO", "0000"+fn_name);//
+		    	
+		    	if(P_TYPE.equals("CARD")) {
+		    		requestMapPayList.put("CARD_INFO", "0000"+fn_name); //카드 정보
+		    	}else if(P_TYPE.equals("BANK")) {
+		    		requestMapPayList.put("CARD_INFO", "0000"+BankName); //은행 정보
+		    	}
+				
 		    	
 		    	//계좌이체시 할부 없음
 		    	if ("".equals(APP_CARD_HALBU) || APP_CARD_HALBU.equals(null)) {

@@ -619,12 +619,31 @@
     <!-- 인터넷 결제 당일  취소처리 종료 ################################## -->
     
     <select id="getMethodCd" resultType="string" parameterType="string">
-		SELECT IFNULL(MAX(METHOD_CD),'98') AS METHOD_CD FROM PAY_METHOD 
+		<!-- SELECT IFNULL(MAX(METHOD_CD),'98') AS METHOD_CD FROM PAY_METHOD 
 		WHERE P_COMCD = 'SMARTRO_PG'
 		  AND P_TYPE = 'CARD'
 		  AND PG_VAN = 'PG'
 		  AND USE_YN = 'Y' 
-		  AND CARD_SEC = #{fn_cd}
+		  AND CARD_SEC = #{fn_cd} -->
+		  
+		  select case WHEN (#{fn_name} like '%비씨%') = 1 THEN '01'
+					WHEN (#{fn_name} like '%BC%') = 1 THEN '01'
+					WHEN (#{fn_name} like '%국민%') = 1 THEN '02'
+				    WHEN (#{fn_name} like '%KB%') = 1 THEN '02'
+			        WHEN (#{fn_name} like '%하나%') = 1 THEN '03'
+			        WHEN (#{fn_name} like '%삼성%') = 1 THEN '04'
+			        WHEN (#{fn_name} like '%신한%') = 1 THEN '05'
+			        WHEN (#{fn_name} like '%현대%') = 1 THEN '09'
+			        WHEN (#{fn_name} like '%롯데%') = 1 THEN '10'
+			        WHEN (#{fn_name} like '%농협%') = 1 THEN '12'
+			        WHEN (#{fn_name} like '%수협%') = 1 THEN '13'
+			        WHEN (#{fn_name} like '%광주%') = 1 THEN '17'
+			        WHEN (#{fn_name} like '%전북%') = 1 THEN '22'
+			        WHEN (#{fn_name} like '%제주%') = 1 THEN '23'
+			        WHEN (#{fn_name} like '%씨티%') = 1 THEN '31'
+			        WHEN (#{fn_name} like '%제로%') = 1 THEN '77'
+				    ELSE '98' END AS METHOD_CD
+		  
 	</select>
 	
 	<select id="rentAddLight" resultType="int" parameterType="string">
