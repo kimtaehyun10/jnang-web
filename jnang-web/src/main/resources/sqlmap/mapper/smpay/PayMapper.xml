@@ -627,7 +627,7 @@
 		  AND CARD_SEC = #{fn_cd} -->
 		  
 		  select case WHEN (#{fn_name} like '%비씨%') = 1 THEN '01'
-					WHEN (#{fn_name} like '%BC%') = 1 THEN '01'
+					WHEN (#{fn_name} like '%BC%') = 1 THEN '01'					
 					WHEN (#{fn_name} like '%국민%') = 1 THEN '02'
 				    WHEN (#{fn_name} like '%KB%') = 1 THEN '02'
 			        WHEN (#{fn_name} like '%하나%') = 1 THEN '03'
@@ -641,6 +641,7 @@
 			        WHEN (#{fn_name} like '%전북%') = 1 THEN '22'
 			        WHEN (#{fn_name} like '%제주%') = 1 THEN '23'
 			        WHEN (#{fn_name} like '%씨티%') = 1 THEN '31'
+			        WHEN (#{fn_name} like '%우리%') = 1 THEN '32'
 			        WHEN (#{fn_name} like '%제로%') = 1 THEN '77'
 				    ELSE '98' END AS METHOD_CD
 		  
