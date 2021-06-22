@@ -127,33 +127,49 @@ var initPage = function(){
 		//회원 성별 나이를 비교해서 가임여성 13~55세(10%), 경로우대(30%) 자동선택								
 		var beforeBirth = $('#memBirth').val();
 		var memBirth = new Date(beforeBirth.substr(0,4)+'/'+beforeBirth.substr(4,2)+'/'+beforeBirth.substr(6,2));
-		var age = date.getFullYear() - memBirth.getFullYear(); // 회원 나이
+		var manAge = date.getFullYear() - memBirth.getFullYear(); // 회원 만나이
+		var koreaAge = (date.getFullYear() - memBirth.getFullYear()) + 1;
 		var gender = $('#memGender').val(); // 회원성별		
+		console.log(beforeBirth.substr(4,2),beforeBirth.substr(6,2));
+		if(beforeBirth.substr(4,2) <= month && beforeBirth.substr(6,2) <= day){
+			//생일이 지나지 않으면
+			manAge = manAge-1;
+		}
+		console.log('만나이'+manAge);
+		console.log('한국나이'+koreaAge);
 		
-		if(age >= '13' && age <= '55' && gender == 'F'){
-			//가임여성
-			var html1 = '';
-	    	var html2 = '';
-	    	var html3 = '';
-	    	var beforeCost = '';
-	    	var afterCost = '';
-	    	var resultCost = '';    	    	    					
-
-    		html1 = '가임여성 13~55세(10%)';    		
-    		beforeCost = $('#lectureCost').val();
-    		afterCost = Math.round((beforeCost*0.1)/100)*100;
-    		resultCost = beforeCost - afterCost;
-    		html2 += '수강료 : '+comma_str_y(resultCost)+'원(할인가격 : '+comma_str_y(afterCost)+'원)';   			    	
-	    	
-	    	html3 += '<a class="size_m2 btn_gray2" href="/lecture/list">목록</a>';
-	    	html3 += "<a class='size_m2 btn_red2' onclick=\"goBtn('"+ SEQ +"','"+ resultCost +"','"+ data.classNm +"','"+ data.comcd +"');\">결제</a>";
-	    	$('#costAmt').val(resultCost);
-	    	
-	    	$("#DCREASON_CD").html(html1);		
-			$("#costHtml").html(html2);
-			$('#insertLecture').empty().append(html3);
+		if(koreaAge >= '13' && koreaAge <= '55' && gender == 'F'){
 			
-		}else if(age >= '65'){
+			if(data.grpcd.cd == '01'){
+				//수강 종목이 수영이라면
+				//가임여성
+				var html1 = '';
+		    	var html2 = '';
+		    	var html3 = '';
+		    	var beforeCost = '';
+		    	var afterCost = '';
+		    	var resultCost = '';    	    	    					
+
+	    		html1 = '가임여성 13~55세(10%)';    		
+	    		beforeCost = $('#lectureCost').val();
+	    		afterCost = Math.round((beforeCost*0.1)/100)*100;
+	    		resultCost = beforeCost - afterCost;
+	    		html2 += '수강료 : '+comma_str_y(resultCost)+'원(할인가격 : '+comma_str_y(afterCost)+'원)';   			    	
+		    	
+		    	html3 += '<a class="size_m2 btn_gray2" href="/lecture/list">목록</a>';
+		    	html3 += "<a class='size_m2 btn_red2' onclick=\"goBtn('"+ SEQ +"','"+ resultCost +"','"+ data.classNm +"','"+ data.comcd +"');\">결제</a>";
+		    	$('#costAmt').val(resultCost);
+		    	
+		    	$("#DCREASON_CD").html(html1);		
+				$("#costHtml").html(html2);
+				$('#insertLecture').empty().append(html3);
+			}else{
+				var html1 = '';
+				html1 = '가임여성 13~55세(10%) 할인 대상자 입니다.(수영 종목 이외의 강좌는 가임여성 할인을 받을 수 없습니다.)';
+				$("#DCREASON_CD").html(html1);
+			}			
+			
+		}else if(manAge >= '65'){
 			//경로우대
 			var html1 = '';
 	    	var html2 = '';
