@@ -65,7 +65,7 @@ var modify = {
 		var paramSelect = makeParam.concat('secBirthDate', makeParam.select('yyyy', 'mm', 'dd'));
 		var paramCustom = {gender:$('#male').hasClass('on')?'M':'F'};
 		var param = Object.assign(paramInput, paramRadio, paramSelect, paramCustom);		
-		$.put('/data/mypage/modify/'+$('#id').val(), param, function(data){
+		$.post('/data/mypage/modify/'+$('#id').val(), param, function(data){
 			alert(data.msg);
 			window.location.href='/mypage/classStatus';
 		});

@@ -80,7 +80,7 @@ public class MypageRestController {
 		return service.myBoard(param);
 	}
 
-	@PutMapping(value = "/mypage/modify/{userId}")
+	@PostMapping(value = "/mypage/modify/{userId}")
 	public Map<String, Object> modifyUpdate(HttpServletRequest request, @PathVariable String userId) {
 		final Map<String, Object> param = new HashMap<>();
 		final Map<String, Object> resultMap = new HashMap<>();
@@ -98,6 +98,12 @@ public class MypageRestController {
 		param.put("dpstrNm", request.getParameter("dpstrNm"));
 		param.put("bankNm", request.getParameter("bankNm"));
 		param.put("acountNum", request.getParameter("acountNum"));
+		System.out.println("-------------------------------------------------");
+		System.out.println("-------------------------------------------------");
+		System.out.println("-------------------------------------------------");
+		System.out.println("-------------------------------------------------");
+		System.out.println("-------------------------------------------------");
+		System.out.println(param);
 		try {
 			service.modifyUpdate(param);
 			resultMap.put("msg", "수정완료");
