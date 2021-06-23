@@ -218,8 +218,13 @@ var searchLectureList = function(){
                     				//tableBody += '<td><a class="size_s2 btn_pink_redWrite">준비중</a></td>';
 							}else{
 									//6월 24일 아침 7시에 구민체육센터 해당코드 삭제해야함!!!! 그때부터 접수가 가능하도록								
-									if(data.resultList[i].comcd == 'JUNGNANG01'){
-										tableBody += '<td ><a class="size_s3 btn_pink_blueWrite" onclick=\'alert("코로나19에 따른 시설물 제한적 운영으로 \\n정규강좌는 수강신청이 불가 합니다.\\n정규강좌 운영시 공지사항에 게재합니다. \\n자세한 문의는 아래로 연락 바랍니다. \\n연락처 : 02-3423-1070");\'>준비중</a></td>';
+									if(data.resultList[i].comcd == 'JUNGNANG01'){										
+										  //온라인 수강신청 테스트용 
+										  if(data.resultList[i].classCd == '03258'){
+											  tableBody += '<td ><a class="size_s3 btn_pink_blueWrite" onclick="lecturePaymentDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[0].itemCd+'\'\,'+data.resultList[i].programItem[0].sold+','+data.resultList[i].programItem[0].eold+','+data.resultList[i].grpcd.recSdate+','+data.resultList[i].grpcd.recEdate+');">테스트</a></td>'; 
+										  }else{
+											  tableBody += '<td ><a class="size_s3 btn_pink_blueWrite" onclick=\'alert("코로나19에 따른 시설물 제한적 운영으로 \\n정규강좌는 수강신청이 불가 합니다.\\n정규강좌 운영시 공지사항에 게재합니다. \\n자세한 문의는 아래로 연락 바랍니다. \\n연락처 : 02-3423-1070");\'>준비중</a></td>';
+										  }
 									}else if(data.resultList[i].comcd == 'JUNGNANG02'){
 										tableBody += '<td ><a class="size_s3 btn_pink_blueWrite" onclick=\'alert("코로나19에 따른 시설물 제한적 운영으로 \\n정규강좌는 수강신청이 불가 합니다.\\n정규강좌 운영시 공지사항에 게재합니다. \\n자세한 문의는 아래로 연락 바랍니다. \\n연락처 : 02-436-9200");\'>준비중</a></td>';
 									}else if(data.resultList[i].comcd == 'JUNGNANG03'){
@@ -503,11 +508,11 @@ var lecturePaymentDetail = function(comcd, classCd, itemCd, sold, eold, recSdate
         	//해당 강좌 수강신청 날짜에 따라 조건		
         	if(!(total>=recSdate && total<=recEdate)){	
         		
-        		if($('#memId').val() == 'tom881205' || $('#memId').val() == 'kjseo'  || $('#memId').val() == 'sdhan007'){
+        		if($('#memId').val() == 'tom881205' || $('#memId').val() == 'kjseo'  || $('#memId').val() == 'sdhan007' || $('#memId').val() == 'djaskrud'){
         			alert('테스트아이디 입니다.');
         		}else{
         			alert('수강신청 가능한 날짜는 '+String(recSdate).substr(0,4)+'-'+String(recSdate).substr(4,2)+'-'+String(recSdate).substr(6,2)+' ~ '+String(recEdate).substr(0,4)+'-'+String(recEdate).substr(4,2)+'-'+String(recEdate).substr(6,2)+' 입니다.');
-        			return;
+        			boolean = true;
         		}
         		
         	}
