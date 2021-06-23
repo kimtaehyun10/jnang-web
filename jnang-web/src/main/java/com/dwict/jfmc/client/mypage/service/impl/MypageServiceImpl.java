@@ -333,4 +333,11 @@ public class MypageServiceImpl implements MypageService {
 	public List<Map<String, Object>> getMyRentIdxList(Map<String, Object> map) {
 		return mapper.getMyRentIdxList(map);
 	}
+
+
+	@Override
+	public Map<String, Object> getMyClss(Map<String, Object> requestMap) {
+
+		return mapper.getMyClss(requestMap);
+	}
 }

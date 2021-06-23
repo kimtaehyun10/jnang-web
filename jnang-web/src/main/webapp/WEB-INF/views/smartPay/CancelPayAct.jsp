@@ -272,10 +272,10 @@ box-shadow: 0 0 0 1px #6698cb inset,
 		<td><%=CancelMSG%></td>
 	</tr>
 
-	   <tr>
+	   <%-- <tr>
 		<th scope="row">결과코드</th>
 		<td><%=ResultCode%></td>
-	</tr>
+	</tr> --%>
 
 	   <tr>
 		<th scope="row">결과메시지</th>
@@ -292,10 +292,10 @@ box-shadow: 0 0 0 1px #6698cb inset,
 		<td><%=CancelTime%></td>
 	</tr>
 
-	   <tr>
+	   <%-- <tr>
 		<th scope="row">취소번호</th>
 		<td><%=CancelNum%></td>
-	</tr>
+	</tr> --%>
 
 </tbody>
 

@@ -2,12 +2,26 @@
 <%@page import="java.net.URLDecoder"%>
 <%@ page import="org.apache.commons.lang.StringUtils"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="com.dwict.jfmc.client.mem.model.Member"%>
 
 <%
 	String VbankName = request.getParameter("VbankName")==null?"":request.getParameter("VbankName"); // 가상계좌은행명
 		
 	VbankName = URLDecoder.decode(VbankName, "utf-8");
 	
+	Member member 	= (Member) session.getAttribute("member");
+	String MEM_ID = "";
+	String MEM_BIRTH = "";
+	String MEM_HP = "";
+	String MEM_MAIL = "";
+	String MEM_NM = "";
+	if(member != null){
+		MEM_ID	= member.getId();
+		MEM_NM = member.getMemNm();
+		MEM_BIRTH = member.getSecBirthDate();
+		MEM_HP = member.getHp();
+		MEM_MAIL = member.getEmail();
+	}
 %>
 <style type="text/css">
 <!--
@@ -74,10 +88,10 @@ input {
 String goUrl = (String)pageContext.getAttribute("goUrl") ;
 %>
 <script type="text/javascript">
-
+var goURL = "${rtnMap.goURL}";
 <%
 ////정원초과 취소처리
-if ( goUrl.equals("close1") ) {
+if ( "close1".equals(goUrl) ) {
 %>	
 	alert("정원이 마감 되어 취소처리 됩니다.")
 	//window.opener.cancelPay('${rtnMap.TID}','','${rtnMap.Amt}','${rtnMap.COMCD}',0);
@@ -87,8 +101,8 @@ if ( goUrl.equals("close1") ) {
 } else {
 	%>
 	function gtnUrl(val1) {
-		//opener.location.href='/mypage/classStatus';
-		var goURL = "${rtnMap.goURL}";
+		
+		//opener.location.href='/mypage/classStatus';		
 		if (goURL != "") {
 			try {
 			opener.location.href='${rtnMap.goURL}';
@@ -98,12 +112,18 @@ if ( goUrl.equals("close1") ) {
 		}
 		self.close();
 	}
+		
+	if (goURL != "") {
+		try {			
+			opener.location.href='${rtnMap.goURL}';
+		} catch (ex) {
+
+		}
+	}
 	
-	opener.location.href='${rtnMap.goURL}';
 <%
 } //정원초과 취소처리
 %>
-
 
 
 </script>
@@ -121,15 +141,7 @@ if ( goUrl.equals("close1") ) {
 			<tr>
 				<th scope="row">지불수단</th>
 				<td><strong><c:out value="${rtnMap.PayMethod}"/><%//=PayMethod%></strong></td>
-			</tr>
-			<tr>
-				<th scope="row">가상계좌번호</th>
-				<td><strong><c:out value="${rtnMap.VbankNum}"/><%//=VbankNum%></strong></td>
-			</tr>
-			<tr>
-				<th scope="row">가상계좌은행명</th>
-				<td><strong><%=VbankName%></strong></td>
-			</tr>	
+			</tr>				
 			<tr>
 				<th scope="row">금액
 					</td>
@@ -138,7 +150,7 @@ if ( goUrl.equals("close1") ) {
 			<tr>
 				<th scope="row">결제자명
 					</td>
-					<td><c:out value="${rtnMap.BuyerNameDe}"/><%//=BuyerName%></strong></td>
+					<td><c:out value="<%=MEM_NM %>"/><%//=BuyerName%></strong></td>
 			</tr>
 			<tr>
 				<th scope="row">상품명
@@ -146,9 +158,9 @@ if ( goUrl.equals("close1") ) {
 					<td><c:out value="${rtnMap.GoodsNameDe}"/><strong><%//=GoodsName%></strong></td>
 			</tr>
 			<tr>
-				<th scope="row">주문번호
+				<th scope="row">카드번호
 					</td>
-					<td><strong><c:out value="${rtnMap.OID}"/><%//=OID%></strong></td>
+					<td><strong><c:out value="${rtnMap.CardNum}"/><%//=OID%></strong></td>
 			</tr>
 			<tr>
 				<th scope="row">승인일자
@@ -159,12 +171,7 @@ if ( goUrl.equals("close1") ) {
 				<th scope="row">승인번호 (AuthCode)
 					</td>
 					<td><c:out value="${rtnMap.AuthCode}"/><%//=AuthCode%></td>
-			</tr>
-			<tr>
-				<th scope="row">결과코드
-					</td>
-					<td><strong><c:out value="${rtnMap.ResultCode}"/><%//=ResultCode%></strong></td>
-			</tr>
+			</tr>			
 			<tr>
 				<th scope="row">결과메시지
 					</td>
@@ -173,13 +180,13 @@ if ( goUrl.equals("close1") ) {
 			<tr>
 				<th scope="row">결제카드사명
 					</td>
-					<td><strong><c:out value="${rtnMap.fn_name}"/><%//=fn_name%></strong></td>
+					<td><strong><c:out value="${rtnMap.AcquCardName}"/><%//=fn_name%></strong></td>
 			</tr>
-			<tr>
+			<%-- <tr>
 				<th scope="row">결제카드사코드
 					</td>
 					<td><strong><c:out value="${rtnMap.fn_cd}"/><%//=fn_name%></strong></td>
-			</tr>
+			</tr> --%>
 			<tr>
 				<th scope="row">할부개월수
 					</td>
@@ -188,12 +195,12 @@ if ( goUrl.equals("close1") ) {
 			<tr>
 				<th scope="row">구매자전화번호
 					</td>
-					<td><strong><c:out value="${rtnMap.BuyerTel}"/><%//=BuyerTel%></strong></td>
+					<td><strong><c:out value="<%=MEM_HP%>"/><%//=BuyerTel%></strong></td>
 			</tr>
 			<tr>
 				<th scope="row">구매자이메일주소
 					</td>
-					<td><strong><c:out value="${rtnMap.BuyerEmail}"/><%//=BuyerEmail%></strong></td>
+					<td><strong><c:out value="<%=MEM_MAIL %>"/><%//=BuyerEmail%></strong></td>
 			</tr>
 			<tr>
 				<td class="btnblue" colspan="3" onclick="gtnUrl();">닫기</td>

@@ -302,6 +302,19 @@ public class MypageController {
 		
 	}
 	
+	//결제 상세보기
+	@RequestMapping(value = "/mypage/myPay")
+	public ModelAndView myPay(ModelAndView modelAndView, HttpServletRequest request, @RequestParam Map<String, Object> requestMap) {
+		final Account account = (Account) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		final String MEM_ID = account.getUsername();			
+		requestMap.put("MEM_ID", MEM_ID);
+		//결제정보 가져오기
+		Map<String,Object> myData = service.getMyClss(requestMap);
+		modelAndView.addObject("rtnMap", myData);
+
+		modelAndView.setViewName("smartPay/returnPay.none");
+		return modelAndView;
+	}
 	
 	
 }

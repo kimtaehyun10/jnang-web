@@ -144,7 +144,8 @@
 		END AS USE_CNT
 		,A.SALE_AMT
 		,A.MIDCANCEL_YN
-		,if(A.MIDCANCEL_YN = 'Y', '중도해약', '정상') AS MIDCANCEL_YN_NM
+		<!-- ,if(A.MIDCANCEL_YN = 'Y', '중도해약', '정상') AS MIDCANCEL_YN_NM -->
+		,if(A.CANCEL_YN = 'Y', '취소', '정상') AS MIDCANCEL_YN_NM
 		,A.TRANSFER_GBN
 		,A.SLIP_NO
 		,A.SALE_SEQ
@@ -188,15 +189,17 @@
 		limit 1) AS CLASS_NM
 		,A.WRITE_DH
 		,DATE_FORMAT(A.WRITE_DH , '%Y%m%d') as WRITE_YMD
-		,(select TID from card_app_hist_damo where MEM_NO = a.MEM_NO and SLIP_NO =
-		a.SLIP_NO limit 1) as TID
+		,D.TID
+        ,D.APP_NO
 		,G.REP_SDATE
         ,G.REP_EDATE
 		FROM PROGRAM_ITEM B, MEM_SALE A
 		left outer join RECESS C ON A.COMCD = C.COMCD AND A.SALE_SEQ = C.SALE_SEQ AND A.MEM_NO = C.MEM_NO
 		left join cominfo t3 on A.COMCD = t3.COMCD
-		LEFT OUTER JOIN COT_GRPCD G ON A.COMCD = G.COMCD 
+		LEFT OUTER JOIN COT_GRPCD G ON A.COMCD = G.COMCD
+		LEFT OUTER JOIN CARD_APP_HIST_DAMO D ON A.SLIP_NO = D.SLIP_NO 
 		WHERE A.COMCD = B.COMCD
+		AND A.COMCD = D.COMCD
 		AND A.ITEM_CD = B.ITEM_CD
 		AND A.MEM_NO = (select MEM_NO from v_member where id= #{userId})
 		
@@ -204,7 +207,7 @@
 		AND A.SPORTS_CD = G.CD
 
 		AND B.PROGRAM_KIND = '01'
-		AND A.CANCEL_YN = 'N' and MIDCANCEL_YN='N' and A.COST_AMT > 0
+		AND (A.CANCEL_YN = 'N' OR A.CANCEL_YN = 'Y') and A.COST_AMT > 0 <!-- and MIDCANCEL_YN='N' -->
 		) R1
 		ORDER BY WRITE_DH DESC
 		
@@ -646,6 +649,136 @@
 			WRITE_DH = #{writeDh}
 		AND
 			PLACE_CD = #{placeCd}		
+	</select>
+	
+	<select id="getMyClss" parameterType="java.util.HashMap"
+		resultType="java.util.HashMap">
+		select TOTAL_CNT , R1.*
+		FROM (SELECT COUNT(*) OVER() AS TOTAL_CNT
+		,A.COMCD 
+		,t3.COMNM
+		,CASE WHEN ifnull(TRIM(A.RETURN_YN), 'N') = 'Y' THEN '종료'
+		WHEN ifnull(TRIM(A.CHANGE_YN), 'N') = 'B' THEN '종료'
+		WHEN
+		(SELECT COUNT(*)
+		FROM RECESS
+		WHERE DATE_FORMAT(SYSDATE(), '%Y%m%d') BETWEEN R_SDATE AND R_EDATE
+		AND MEM_NO = A.MEM_NO
+		AND SALE_SEQ = A.SALE_SEQ
+		) > 0
+		THEN '휴회'
+		WHEN DATE_FORMAT(SYSDATE(), '%Y%m%d') BETWEEN A.ITEM_SDATE AND
+		CASE
+		WHEN A.PROMOTION_YN = 'Y'
+		AND A.PROMOTION_SALE_GBN = '03'
+		THEN DATE_FORMAT(STR_TO_DATE(A.ITEM_EDATE, '%Y%m%d%s') +
+		A.PROMOTION_VALUE, '%Y%m%d')
+		ELSE A.ITEM_EDATE
+		END
+		THEN '등록' WHEN DATE_FORMAT(SYSDATE(), '%Y%m%d') &lt; A.ITEM_SDATE
+		THEN '사용대기'
+		ELSE '종료'
+		END AS PRO_STATE
+		,A.SALE_DATE
+		,B.ITEM_NM
+		,A.ITEM_CD
+		,(select CLASS_CD from item_class where COMCD = a.COMCD and ITEM_CD= a.ITEM_CD
+		limit 1) as CLASS_CD
+		,A.ITEM_SDATE
+		,fn_int_to_date(A.ITEM_SDATE,'.') as ITEM_SDATE_DT
+		,fn_int_to_date(A.ITEM_EDATE,'.') as ITEM_EDATE_DT
+		,CASE
+		WHEN A.PROMOTION_YN = 'Y'
+		AND A.PROMOTION_SALE_GBN = '03'
+		THEN DATE_FORMAT(STR_TO_DATE(A.ITEM_EDATE, '%Y%m%d%s') +
+		A.PROMOTION_VALUE, '%Y%m%d')
+		ELSE A.ITEM_EDATE
+		END AS ITEM_EDATE
+		,CASE
+		WHEN A.USE_CNT = 0 THEN '제한없음'
+		ELSE A.USE_CNT - ifnull(
+		(SELECT COUNT(*) AS ENTER_CNT
+		FROM ENTER_INFO E
+		WHERE E.COMCD = A.COMCD
+		AND E.MEM_NO = A.MEM_NO
+		AND E.ENTR_DATE BETWEEN A.ITEM_SDATE AND A.ITEM_EDATE
+		),0
+		)
+		END AS USE_CNT
+		,A.SALE_AMT AS Amt
+		,A.MIDCANCEL_YN
+		,if(A.CANCEL_YN = 'Y', '취소', '정상') AS ResultMsgDe
+		,A.TRANSFER_GBN
+		,A.SLIP_NO
+		,A.SALE_SEQ
+		,A.SALE_REL_NO
+		,A.PROMOTION_YN
+		,A.PROMOTION_CD
+		,A.CHANGE_YN
+		,CASE IFNULL(TRIM(A.CHANGE_YN), 'N') WHEN 'B' THEN '변경' ELSE '정상' END AS CHANGE_YN_NM		
+		,A.PROMOTION_SALE_GBN
+		,A.PROMOTION_VALUE
+		,C.R_SDATE
+		,C.R_EDATE
+		,C.R_ADATE
+		,C.REMARK AS R_REMARK
+		,C.R_SEQ
+		,A.ITEM_EDATE AS SITEM_EDATE
+		,B.PROGRAM_KIND
+		,B.MONTH_CNT
+		,A.SPORTS_CD
+		,B.PART_CD
+		,A.USE_CNT AS USE_CNT1
+		,A.DC_AMT
+		,B.USE_DAY
+		,fn_getUseDayNm(B.USE_DAY) AS USE_DAY_NM
+		,FORMAT(A.COST_AMT , 0) as COST_AMT
+		,A.UNIT_AMT
+		,B.VAT_YN
+		,DCREASON_CD
+		,DCREASON_CD2
+		,B.SALE_AMT AS ORG_SALE_AMT
+		,(SELECT TC.CLASS_NM
+		FROM TRAIN_HIST TH,
+		TRAIN_CLASS TC
+		WHERE TH.COMCD = TC.COMCD
+		AND TH.CLASS_CD = TC.CLASS_CD
+		AND TH.COMCD = A.COMCD
+		AND TH.MEM_NO = A.MEM_NO
+		AND TH.SALE_SEQ = A.SALE_SEQ
+		<!-- AND @ROWNUM = 1 -->
+		limit 1) AS GoodsNameDe
+		,A.WRITE_DH
+		,DATE_FORMAT(A.WRITE_DH , '%Y%m%d') as WRITE_YMD
+		,D.TID
+        ,D.APP_NO AS AuthCode
+        ,D.P_TYPE AS PayMethod
+        ,D.SEC_CARD_NO1 AS CardNum
+        ,D.APP_DATE AS AuthDate
+        ,fn_getCardNm('', D.COMCD, D.P_TYPE, D.SLIP_NO) AS AcquCardName
+        ,D.HALBU_CNT AS CardQuota
+		,G.REP_SDATE
+        ,G.REP_EDATE
+		FROM PROGRAM_ITEM B, MEM_SALE A
+		left outer join RECESS C ON A.COMCD = C.COMCD AND A.SALE_SEQ = C.SALE_SEQ AND A.MEM_NO = C.MEM_NO
+		left join cominfo t3 on A.COMCD = t3.COMCD
+		LEFT OUTER JOIN COT_GRPCD G ON A.COMCD = G.COMCD
+		LEFT OUTER JOIN CARD_APP_HIST_DAMO D ON A.SLIP_NO = D.SLIP_NO 
+		WHERE A.COMCD = B.COMCD
+		AND A.COMCD = D.COMCD
+		AND A.ITEM_CD = B.ITEM_CD
+		AND A.MEM_NO = (select MEM_NO from v_member where id= #{MEM_ID})
+		
+		AND G.GRP_CD='CM_SPORTS_CD'
+		AND A.SPORTS_CD = G.CD
+
+		AND B.PROGRAM_KIND = '01'
+		AND (A.CANCEL_YN = 'N' OR A.CANCEL_YN = 'Y') and A.COST_AMT > 0 <!-- and MIDCANCEL_YN='N' -->
+		) R1
+		WHERE R1.COMCD = #{COMCD}
+		  AND R1.AuthCode = #{APP_NO}
+		ORDER BY WRITE_DH DESC
+		
 	</select>
 	
 </mapper>

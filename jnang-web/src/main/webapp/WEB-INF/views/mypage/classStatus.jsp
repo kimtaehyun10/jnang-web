@@ -20,6 +20,16 @@ String MEM_MAIL = member.getEmail();
 //out.println("MEM_MAIL:"+ MEM_MAIL +"<BR>");
 %>
 
+<script>
+	function myPay(COMCD,APP_NO){
+		var param = {
+				COMCD:COMCD,
+				APP_NO:APP_NO
+		}
+		window.open("/mypage/myPay?COMCD="+COMCD+"&APP_NO="+APP_NO, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,width=400,height=600");
+	}
+</script>
+
 <div id="sub_my_status" class=''>
 	<div id="notes" class="border_box_a_gray_1a margin_b50">
 		<h4 class="margin_b20">유의사항</h4>
@@ -43,7 +53,7 @@ String MEM_MAIL = member.getEmail();
 	 -->	
 	<table class="stbl_l1a">
 		<colgroup>
-			<col width="5%"><col width="*"><col width="25%"><col width="10%"><col width="10%"><col width="20%">
+			<col width="5%"><col width="*"><col width="25%"><col width="10%"><col width="10%"><col width="20%"><col width="10%">
 		</colgroup>
 		<thead>
 			<tr>
@@ -53,6 +63,7 @@ String MEM_MAIL = member.getEmail();
 				<th>수강료</th>
 				<th>결제상태</th>
 				<th>수강기간</th>
+				<th>결제 상세보기</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -85,7 +96,9 @@ String MEM_MAIL = member.getEmail();
 					//<!-- 당일취소 -->
 					if (today.equals(WRITE_YMD)){
 						if (COST_AMT > 0) { %>
-						<br><a href="#none" onclick="cancelPay('${result.TID}', '${result.SLIP_NO}', '${result.SALE_AMT}','${result.COMCD}','${result.SALE_SEQ}');" class="btn_green1">당일취소</a>
+						<c:if test="${result.MIDCANCEL_YN_NM ne '취소'}">
+							<br><a href="#none" onclick="cancelPay('${result.TID}', '${result.SLIP_NO}', '${result.SALE_AMT}','${result.COMCD}','${result.SALE_SEQ}');" class="btn_green1">당일취소</a>
+						</c:if>						
 						<%
 						}
 					}
@@ -143,7 +156,10 @@ String MEM_MAIL = member.getEmail();
 					<div id="" class="">${result.MONTH_CNT}개월</div>
 					<div>${result.ITEM_SDATE_DT} ~ ${result.ITEM_EDATE_DT}</div>
 					<!-- <div><a class="size_s2 btn_blue2" onclick="">재등록</a></div>-->
-				</td>
+				</td>	
+				<td>
+					<a class="size_s2 btn_pink_blueWrite" onclick="myPay('${result.COMCD}',${result.APP_NO});">상세보기</a>
+				</td>			
 			</tr>
 			</c:forEach>
 			<!-- 					

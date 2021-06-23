@@ -48,4 +48,7 @@ public interface MypageService {
 	List<Map<String, Object>> getMyRentList2(Map<String, Object> map);
 
 	List<Map<String, Object>> getMyRentIdxList(Map<String, Object> map);
+	
+	//결제상세보기
+	Map<String, Object> getMyClss(Map<String, Object> requestMap);
 }

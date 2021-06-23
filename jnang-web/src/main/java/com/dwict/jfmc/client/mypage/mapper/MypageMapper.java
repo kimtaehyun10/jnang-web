@@ -50,5 +50,7 @@ public interface MypageMapper {
 	List<Map<String, Object>> myRentDataList2(Map<String, Object> map);
 
 	List<Map<String, Object>> getMyRentIdxList(Map<String, Object> map);
+
+	Map<String, Object> getMyClss(Map<String, Object> requestMap);
 	
 }
