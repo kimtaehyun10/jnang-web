@@ -53,6 +53,30 @@
 								<td><input type="text" id="email" name="email" value="${member.email}"></td>
 							</tr>
 							<tr>
+								<th>보호자 휴대전화번호</th>
+								<td>
+									<input type="text" id="etcNo" name="etcNo" class="txt_s3 alnum" value="${member.etcNo}">
+								</td>
+							</tr>
+							<tr>
+								<th>예금주명 <span class="nece">*</span></th>
+								<td>
+									<input type="text" id="dpstrNm" name="dpstrNm" class="txt_s3 alnum" value="${member.dpstrNm}">
+								</td>
+							</tr>
+							<tr>
+								<th>환불계좌 은행명 <span class="nece">*</span></th>
+								<td>
+									<input type="text" id="bankNm" name="bankNm" class="txt_s3 alnum" value="${member.bankNm}">
+								</td>
+							</tr>
+							<tr>
+								<th>환불계좌번호 <span class="nece">*</span></th>
+								<td>
+									<input type="text" id="acountNum" name="acountNum" class="txt_s3 alnum" value="${member.acountNum}">
+								</td>
+							</tr>
+							<tr>
 								<th>성별 <span class="nece">*</span></th>
 								<td>
 									<c:choose>

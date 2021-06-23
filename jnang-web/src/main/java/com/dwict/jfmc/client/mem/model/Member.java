@@ -195,6 +195,15 @@ public class Member {
 
 	@Column(name = "ETC_NO")
 	private String etcNo;
+	
+	@Column(name = "DPSTR_NM")
+	private String dpstrNm;
+	
+	@Column(name = "BANK_NM")
+	private String bankNm;
+	
+	@Column(name = "ACOUNT_NUM")
+	private String acountNum;
 
 	@Column(name = "ADDRESS_YN")
 	private String addressYn;

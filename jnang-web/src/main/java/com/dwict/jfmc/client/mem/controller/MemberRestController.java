@@ -74,6 +74,9 @@ public class MemberRestController {
 				member.setMemNm(sessionMember.getMemNm());
 				member.setSecBirthDate(sessionMember.getSecBirthDate());
 				member.setGender(sessionMember.getGender());
+				member.setDpstrNm(request.getParameter("dpstrNm"));
+				member.setBankNm(request.getParameter("bankNm"));
+				member.setAcountNum(request.getParameter("acountNum"));
 				if(sessionMember.getHp() != null) member.setHp(sessionMember.getHp()); //ipin 인증은 hp를 리턴하지 않음
 				if(isExist) {
 					result = memberService.update(member);

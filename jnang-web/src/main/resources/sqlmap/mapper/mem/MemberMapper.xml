@@ -60,13 +60,15 @@
 		  HOME_TEL, HOME_ZIP, HOME_ADDR,
 		  MEM_NO, GENDER, ID, PW, JOIN_DATE, BIRTH_SEC,
 		  EMAIL_YN, SMS_YN, AGREE_YN, STATUS,
-		  NICKNAME , DUPCHK_KEY , WRITER, WRITE_DH, WEBLOGIN_DH)
+		  NICKNAME , DUPCHK_KEY , WRITER, WRITE_DH, WEBLOGIN_DH,
+		  ETC_NO, DPSTR_NM, BANK_NM, ACOUNT_NUM)
 		VALUES
 		( #{memNm}, #{hp}, #{email}, ENC_STR('KEY1', #{secBirthDate}),
 		  #{homeTel}, #{homeZip}, #{homeAddr},
 		  #{memNo}, #{gender}, #{id}, #{pw}, DATE_FORMAT(SYSDATE(), '%Y%m%d'), #{birthSec},
 		  #{emailYn}, #{smsYn}, 'Y', '00',
-		  #{memNm} , #{dupchkKey}, #{writer}, now(), now())
+		  #{memNm} , #{dupchkKey}, #{writer}, now(), now(),
+		  #{etcNo}, #{dpstrNm}, #{bankNm}, #{acountNum})
 	</insert>
 	
 	<!--  14세미만 회원가입 + 부모동의  -->
@@ -80,13 +82,15 @@
 		  HOME_TEL, HOME_ZIP, HOME_ADDR,
 		  MEM_NO, GENDER, ID, PW, JOIN_DATE, BIRTH_SEC,
 		  EMAIL_YN, SMS_YN, AGREE_YN, STATUS, ETC_NO,
-		  NICKNAME, DUPCHK_KEY, WRITER, WRITE_DH, WEBLOGIN_DH )
+		  NICKNAME, DUPCHK_KEY, WRITER, WRITE_DH, WEBLOGIN_DH,
+		  DPSTR_NM, BANK_NM, ACOUNT_NUM)
 		VALUES
 		( #{memNm}, #{hp}, #{email}, ENC_STR('KEY1', #{secBirthDate}),
 		  #{homeTel}, #{homeZip}, #{homeAddr},
 		  #{memNo}, #{gender}, #{id}, #{pw}, DATE_FORMAT(SYSDATE(), '%Y%m%d'), #{birthSec},
 		  #{emailYn}, #{smsYn}, 'Y', '00', #{etcNo},
-		  #{memNm} , #{dupchkKey}, #{writer}, now(), now())
+		  #{memNm} , #{dupchkKey}, #{writer}, now(), now(),
+		  #{dpstrNm}, #{bankNm}, #{acountNum})
 	</insert>
 	
 	
@@ -133,6 +137,9 @@
     	     , ETC_NO
     	     , BIRTH_SEC
     	     , HOME_ZIP
+    	     , DPSTR_NM
+    	     , BANK_NM
+    	     , ACOUNT_NUM
     	     , DEC_STR('KEY1', SEC_BIRTH_DATE) AS SEC_BIRTH_DATE
     	     , ( SELECT MAX(CARD_NO) FROM MEM_CARD CARD WHERE MBER.MEM_NO = CARD.MEM_NO AND CARD.USE_YN = 'Y' ) AS CARD_NO
     	     , ( SELECT COUNT(1) FROM MEM_CARD CARD WHERE MBER.MEM_NO = CARD.MEM_NO AND CARD.USE_YN = 'Y' ) AS CARD_CNT

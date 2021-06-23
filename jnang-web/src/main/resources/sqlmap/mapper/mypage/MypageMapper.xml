@@ -517,7 +517,11 @@
 		    HOME_TEL = #{homeTel},
 		    SEC_BIRTH_DATE = ENC_STR('KEY1', #{secBirthDate}),
 		    EMAIL = #{email},
-		    BIRTH_SEC = #{birthSec}
+		    BIRTH_SEC = #{birthSec},
+		    ETC_NO = #{etcNo},
+		    DPSTR_NM = #{dpstrNm},
+		    BANK_NM = #{bankNm},
+		    ACOUNT_NUM = #{acountNum}
 		WHERE ID = #{userId}	
 	</update>
 	

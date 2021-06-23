@@ -264,7 +264,7 @@ function send() {
 				formData.append("MIC",$("#MIC").val());
 			}
 			
-			var inputFile=$("#file");
+			/* var inputFile=$("#file");
 			if(inputFile.length > 0) {
 				var files=inputFile[0].files;	
 				var fileCheck = document.getElementById("file").value;
@@ -276,7 +276,7 @@ function send() {
 			if(!fileCheck){
 		        alert("대관사용허가 신청서 , 대관 계약서를 첨부해주세요.");
 		        return false;
-		    }
+		     }*/
 			var tape = $("input[name=tapeYn]:checked").val();
 			
 			//formData.append("TAPE_YN",);

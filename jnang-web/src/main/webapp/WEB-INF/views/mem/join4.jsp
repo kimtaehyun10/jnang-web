@@ -97,6 +97,24 @@
 							<td><input type="text" id="email" name="email" value="${member.email}"></td>
 						</tr>
 						<tr>
+							<th>예금주 은행명</th>
+							<td>
+								<input type="text" id="dpstrNm" name="dpstrNm" class="txt_s3 alnum" placeholder="ex. 홍길동" maxlength="13">
+							</td>
+						</tr>
+						<tr>
+							<th>환불계좌 은행명</th>
+							<td>
+								<input type="text" id="bankNm" name="bankNm" class="txt_s3 alnum" placeholder="ex. 국민은행" maxlength="30">
+							</td>
+						</tr>
+						<tr>
+							<th>환불계좌번호</th>
+							<td>
+								<input type="text" id="acountNum" name="acountNum" class="txt_s3 alnum" placeholder="ex. 123-45678-91011" maxlength="30">
+							</td>
+						</tr>
+						<tr>
 							<th>성별 <span class="nece">*</span></th>
 							<td>
 								<c:choose>

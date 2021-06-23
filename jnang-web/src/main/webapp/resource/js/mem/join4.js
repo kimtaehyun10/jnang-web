@@ -138,6 +138,21 @@ var join4 = {
 			$("#email").focus();
 			return false;
 		};
+		if($("#dpstrNm").val() === ''){
+			alert('환불 예금주를 입력해주세요.');
+			$("#dpstrNm").focus();
+			return false;
+		};
+		if($("#bankNm").val() === ''){
+			alert('환불 은행명을 입력해주세요.');
+			$("#bankNm").focus();
+			return false;
+		};
+		if($("#acountNum").val() === ''){
+			alert('환불 계좌번호를 입력해주세요.');
+			$("#acountNum").focus();
+			return false;
+		};
 		if($("#yyyy").val() === '' || $("#mm").val() === '' || $("#dd").val() === ''){
 			alert('생년월일을 입력해 주세요.');
 			return false;
@@ -155,7 +170,7 @@ var join4 = {
 		return true;
 	},
 	insert: function(){
-		var paramInput = makeParam.input('cardNo', 'memNm', 'id', 'pw', 'hp', 'email', 'homeZip', 'homeAddr', 'homeTel', 'etcNo');
+		var paramInput = makeParam.input('cardNo', 'memNm', 'id', 'pw', 'hp', 'email', 'homeZip', 'homeAddr', 'homeTel', 'etcNo', 'dpstrNm', 'bankNm', 'acountNum');
 		var paramRadio = makeParam.radio('birthSec', 'emailYn', 'smsYn');
 		var paramSelect = makeParam.concat('secBirthDate', makeParam.select('yyyy', 'mm', 'dd'));
 		var paramCustom = {gender:$('#male').hasClass('on')?'M':'F'};

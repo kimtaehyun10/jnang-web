@@ -95,6 +95,9 @@ public class MypageRestController {
 		param.put("secBirthDate", request.getParameter("secBirthDate"));
 		param.put("smsYn", request.getParameter("smsYn"));
 		param.put("etcNo", request.getParameter("etcNo"));
+		param.put("dpstrNm", request.getParameter("dpstrNm"));
+		param.put("bankNm", request.getParameter("bankNm"));
+		param.put("acountNum", request.getParameter("acountNum"));
 		try {
 			service.modifyUpdate(param);
 			resultMap.put("msg", "수정완료");

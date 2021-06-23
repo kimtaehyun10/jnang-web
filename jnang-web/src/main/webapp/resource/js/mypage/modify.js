@@ -60,14 +60,14 @@ var modify = {
 		return true;
 	},
 	update: function(){		
-		var paramInput = makeParam.input('id', 'email', 'homeZip', 'homeAddr', 'homeTel', 'etcNo');
+		var paramInput = makeParam.input('id', 'email', 'homeZip', 'homeAddr', 'homeTel', 'etcNo','dpstrNm', 'bankNm', 'acountNum');
 		var paramRadio = makeParam.radio('birthSec', 'emailYn', 'smsYn');
 		var paramSelect = makeParam.concat('secBirthDate', makeParam.select('yyyy', 'mm', 'dd'));
 		var paramCustom = {gender:$('#male').hasClass('on')?'M':'F'};
 		var param = Object.assign(paramInput, paramRadio, paramSelect, paramCustom);		
 		$.put('/data/mypage/modify/'+$('#id').val(), param, function(data){
 			alert(data.msg);
-			window.location.href='/mypage/cart';
+			window.location.href='/mypage/classStatus';
 		});
 	},
 	delete: function(){		
