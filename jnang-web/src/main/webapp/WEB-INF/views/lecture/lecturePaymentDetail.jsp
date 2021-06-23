@@ -166,13 +166,13 @@
 					$("#Amt").val(goodsAmt);
 					$("#GoodsName").val(data.enGoodsName);
 					$("#BuyerName").val(data.enBuyerName);
-										
+					
 					//모바일인지 pc인지
 					var deCheck = deviceCheck();
 					if(deCheck == 'MOBILE'){
 						var beforeUrl = data.URL;
 						if(data.PG_MODE == '1'){
-							var afterUrl = beforeUrl.substr(0,8) + 'sm' + beforeUrl.substr(8,18) + 'pay/interfaceURL';							
+							var afterUrl = beforeUrl.substr(0,8) + 'sm' + beforeUrl.substr(8,19) + 'pay/interfaceURL';							
 							$("#GoodsName").val(GoodsName);
 							var MEM_NM = '<%=MEM_NM%>';
 							$("#BuyerName").val(MEM_NM);
