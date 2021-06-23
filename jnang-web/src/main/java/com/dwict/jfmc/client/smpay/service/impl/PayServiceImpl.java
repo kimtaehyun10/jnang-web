@@ -260,8 +260,11 @@ public class PayServiceImpl implements PayService {
 		String BankName			= request.getParameter("BankName")==null?"":request.getParameter("BankName"); // 은행명
 		BankName				= rtnDecode(BankName);
 		
-		String pinNo			= request.getParameter("pinNo")==null?"":request.getParameter("pinNo"); // 카드번호
-		/*
+		//String pinNo			= request.getParameter("CardNum")==null?"":request.getParameter("CardNum"); // 카드번호  CardNum,pinNo 으로 받자
+		Map<String, Object>  cardNumData = new HashMap<String, Object>();
+		cardNumData = FormatUtil.formatMapRequest(request);
+		String pinNo            = cardNumData.get("CardNum")==null?"":(String)cardNumData.get("CardNum");
+		/*												
 		final HttpSession session = request.getSession(false);
 		//Member members = null;
 		//try {

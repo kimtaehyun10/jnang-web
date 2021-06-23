@@ -193,6 +193,8 @@
         ,D.APP_NO
 		,G.REP_SDATE
         ,G.REP_EDATE
+        ,B.S_TIME
+        ,B.E_TIME
 		FROM PROGRAM_ITEM B, MEM_SALE A
 		left outer join RECESS C ON A.COMCD = C.COMCD AND A.SALE_SEQ = C.SALE_SEQ AND A.MEM_NO = C.MEM_NO
 		left join cominfo t3 on A.COMCD = t3.COMCD

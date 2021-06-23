@@ -155,6 +155,8 @@ String MEM_MAIL = member.getEmail();
 				<td>
 					<div id="" class="">${result.MONTH_CNT}개월</div>
 					<div>${result.ITEM_SDATE_DT} ~ ${result.ITEM_EDATE_DT}</div>
+					<div>요일 : ${result.USE_DAY_NM}</div>
+					<div>시간 : ${result.S_TIME} ~ ${result.E_TIME}</div>
 					<!-- <div><a class="size_s2 btn_blue2" onclick="">재등록</a></div>-->
 				</td>	
 				<td>

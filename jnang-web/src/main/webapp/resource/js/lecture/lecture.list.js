@@ -218,7 +218,8 @@ var searchLectureList = function(){
                     				//tableBody += '<td><a class="size_s2 btn_pink_redWrite">준비중</a></td>';
 							}else{
 									//6월 24일 아침 7시에 구민체육센터 해당코드 삭제해야함!!!! 그때부터 접수가 가능하도록								
-									if(data.resultList[i].comcd == 'JUNGNANG01'){										
+									if(data.resultList[i].comcd == 'JUNGNANG01'){
+										//tableBody += '<td ><a class="size_s3 btn_pink_blueWrite" onclick="lecturePaymentDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[0].itemCd+'\'\,'+data.resultList[i].programItem[0].sold+','+data.resultList[i].programItem[0].eold+','+data.resultList[i].grpcd.recSdate+','+data.resultList[i].grpcd.recEdate+');">수강신청</a></td>';
 										  //온라인 수강신청 테스트용 
 										  if(data.resultList[i].classCd == '03258'){
 											  tableBody += '<td ><a class="size_s3 btn_pink_blueWrite" onclick="lecturePaymentDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[0].itemCd+'\'\,'+data.resultList[i].programItem[0].sold+','+data.resultList[i].programItem[0].eold+','+data.resultList[i].grpcd.recSdate+','+data.resultList[i].grpcd.recEdate+');">테스트</a></td>'; 
