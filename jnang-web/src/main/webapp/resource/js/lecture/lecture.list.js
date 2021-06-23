@@ -503,7 +503,7 @@ var lecturePaymentDetail = function(comcd, classCd, itemCd, sold, eold, recSdate
         	//해당 강좌 수강신청 날짜에 따라 조건		
         	if(!(total>=recSdate && total<=recEdate)){	
         		
-        		if($('#memId').val() == 'tom881205' || $('#memId').val() == 'kjseo'){
+        		if($('#memId').val() == 'tom881205' || $('#memId').val() == 'kjseo'  || $('#memId').val() == 'sdhan007'){
         			alert('테스트아이디 입니다.');
         		}else{
         			alert('수강신청 가능한 날짜는 '+String(recSdate).substr(0,4)+'-'+String(recSdate).substr(4,2)+'-'+String(recSdate).substr(6,2)+' ~ '+String(recEdate).substr(0,4)+'-'+String(recEdate).substr(4,2)+'-'+String(recEdate).substr(6,2)+' 입니다.');
