@@ -31,7 +31,7 @@
 	//final String DEV_PAY_ACTION_URL = "https://tpay.smilepay.co.kr/interfaceURL.jsp";	//개발테스트
 	//final String PRD_PAY_ACTION_URL = "https://pay.smilepay.co.kr/interfaceURL.jsp";	//운영
 	
-	String actionUrl = (String) request.getAttribute("URL");
+	//String actionUrl = (String) request.getAttribute("URL");	
 	String URL = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort();
 	String MID = (String) request.getAttribute("MID"); //"SMTPAY001m";
 	String merchantKey  = (String) request.getAttribute("KEY");
@@ -166,7 +166,29 @@
 					$("#Amt").val(goodsAmt);
 					$("#GoodsName").val(data.enGoodsName);
 					$("#BuyerName").val(data.enBuyerName);
-					actionUrl = data.URL;
+										
+					//모바일인지 pc인지
+					var deCheck = deviceCheck();
+					if(deCheck == 'MOBILE'){
+						var beforeUrl = data.URL;
+						if(data.PG_MODE == '1'){
+							var afterUrl = beforeUrl.substr(0,8) + 'sm' + beforeUrl.substr(8,18) + 'pay/interfaceURL';							
+							$("#GoodsName").val(GoodsName);
+							var MEM_NM = '<%=MEM_NM%>';
+							$("#BuyerName").val(MEM_NM);
+						}else{
+							var afterUrl = beforeUrl.substr(0,8) + 'ts' + beforeUrl.substr(9,19) + 'pay/interfaceURL';
+							$("#GoodsName").val(GoodsName);
+							var MEM_NM = '<%=MEM_NM%>';
+							$("#BuyerName").val(MEM_NM);
+						}						
+						actionUrl = afterUrl;
+					}else if(deCheck == 'PC'){
+						actionUrl = data.URL;
+					}					
+					
+					//actionUrl = 'https://tspay.smilepay.co.kr/pay/interfaceURL';
+					
 					$("#ReturnURL").val("<%=ReturnURL%>?q=${otherData.MEM_ID}/"+ seq +"///");
 				goPay();	
 				} 
@@ -342,7 +364,20 @@
 		}
 	}
 
-	
+	// PC, MOBILE 구별
+	function deviceCheck() {
+	    // 디바이스 종류 설정
+	    var pcDevice = "win16|win32|win64|mac|macintel";
+	 
+	    // 접속한 디바이스 환경
+	    if ( navigator.platform ) {
+	        if ( pcDevice.indexOf(navigator.platform.toLowerCase()) < 0 ) {
+	            return 'MOBILE';
+	        } else {
+	            return 'PC';
+	        }
+	    }
+	}
 	
 </script>
 <div class='sub_lecture_v01'>

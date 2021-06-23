@@ -35,7 +35,9 @@ public class PageServiceImpl implements PageService {
 
 	@Resource(name = "rentMapper")
 	private RentMapper rentMapper;
-
+	
+	@Value("#{appConfig['smpayPG.mode']}")
+	private String PG_MODE; //1:실제, 0:테스트
 
 	@Override
 	public Cont htmlPage(String cmsCd) {
@@ -348,6 +350,7 @@ public class PageServiceImpl implements PageService {
 		maps.put("enGoodsName",enGoodsName);
 		maps.put("enBuyerName",enBuyerName);
 		
+		maps.put("PG_MODE", PG_MODE);
 		return maps;
 	}
 	
