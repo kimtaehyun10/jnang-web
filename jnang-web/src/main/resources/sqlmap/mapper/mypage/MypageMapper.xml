@@ -753,7 +753,7 @@
 		,D.TID
         ,D.APP_NO AS AuthCode
         ,D.P_TYPE AS PayMethod
-        ,D.SEC_CARD_NO1 AS CardNum
+        ,D.CARD_NO1 AS CardNum
         ,D.APP_DATE AS AuthDate
         ,fn_getCardNm('', D.COMCD, D.P_TYPE, D.SLIP_NO) AS AcquCardName
         ,D.HALBU_CNT AS CardQuota
@@ -763,7 +763,7 @@
 		left outer join RECESS C ON A.COMCD = C.COMCD AND A.SALE_SEQ = C.SALE_SEQ AND A.MEM_NO = C.MEM_NO
 		left join cominfo t3 on A.COMCD = t3.COMCD
 		LEFT OUTER JOIN COT_GRPCD G ON A.COMCD = G.COMCD
-		LEFT OUTER JOIN CARD_APP_HIST_DAMO D ON A.SLIP_NO = D.SLIP_NO 
+		LEFT OUTER JOIN V_CARD_APP_HIST D ON A.SLIP_NO = D.SLIP_NO 
 		WHERE A.COMCD = B.COMCD
 		AND A.COMCD = D.COMCD
 		AND A.ITEM_CD = B.ITEM_CD
