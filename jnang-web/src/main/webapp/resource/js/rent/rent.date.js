@@ -179,14 +179,25 @@ function getRent(ymd,seq) {
 				var arrTmpIdx = []; //버튼 생성  임시 비교용
 				
 				if(data.length != 0){
-
+					console.log("ymd = " + ymd);
 					var firstStr = "" ;
 					var tmpList = "";
+					var now = new Date();	// 현재 날짜 및 시간
+					var hours = now.getHours();
+					var month = now.getMonth() + 1;
+					if(month > 0 && month < 10) {
+						month = "0" + month;
+					}
+					var year = now.getFullYear();	// 연도
+					var date = now.getDate();
+					if(date > 0 && date < 10) {
+						date = "0" + date;
+					} 
+					var nowToday = String(year)+String(month)+String(date)+String(hours);
 					
 					for(var i=0; i<data.length; i++){
-						
+						var rentTimes = ymd + data[i].item.substring(0,2);
 						if(data[i].place_cd == "8" && yoil == "일"){
-							console.log("asdfasdf");
 							var place_tab = data[i].place_tab;
 							var checked = (data[i].rentIdx == 0) ? "" : " checked ";
 							
@@ -202,7 +213,7 @@ function getRent(ymd,seq) {
 								
 								// 접수가능
 		//						console.log(data);
-								if (data[i].rentIdx == "0") {
+								if (data[i].rentIdx == "0" && nowToday < rentTimes) {
 		
 									tmpList += ' name="tseq" value="'+ data[i].seq +'" class="chkbxSize" onClick="selectCheck('+ place_tab +','+ data[i].seq +');" >'
 											+ '<span class="margin_l5">'+ data[i].item +'</span></label></div>';
@@ -233,7 +244,7 @@ function getRent(ymd,seq) {
 							
 							arrTabCnt[place_tab] = (isNaN(arrTabCnt[place_tab])) ? 0 : arrTabCnt[place_tab]+1;
 							//console.log("arrTabCnt2 :"+ arrTabCnt[place_tab]);
-							
+							 
 							firstStr = '<div><label><input type="checkbox" sid="chk_tab_'+ place_tab +'" ';
 							
 							tmpList = firstStr;
@@ -244,7 +255,7 @@ function getRent(ymd,seq) {
 							
 							// 접수가능
 	//						console.log(data);
-							if (data[i].rentIdx == "0") {
+							if (data[i].rentIdx == "0" && nowToday < rentTimes) {
 	
 								tmpList += ' name="tseq" value="'+ data[i].seq +'" class="chkbxSize" onClick="selectCheck('+ place_tab +','+ data[i].seq +');" >'
 										+ '<span class="margin_l5">'+ data[i].item +'</span></label></div>';

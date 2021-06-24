@@ -421,8 +421,8 @@ if (PLACE_GROUP != 4) {
 
 등록된 팀이 있어야 예약할 수 있습니다.	<br>
 <!-- 매달&nbsp;<span style="color:rgb(255, 0, 0);">25일 26일</span>은 관내팀만 예약할 수 있습니다.<br> -->
-관내팀은&nbsp;<span style="color:rgb(255, 0, 0);">당월 25일</span> 이후부터 다음달을 예약하실 수 있습니다.<br>
-관외팀은&nbsp;<span style="color:rgb(255, 0, 0);">당월 27일</span> 이후부터 다음달을 예약하실 수 있습니다.
+관내팀은&nbsp;<span style="color:rgb(255, 0, 0);">당월 25일 오전 10시</span> 이후부터 다음달을 예약하실 수 있습니다.<br>
+관외팀은&nbsp;<span style="color:rgb(255, 0, 0);">당월 27일 오전 10시</span> 이후부터 다음달을 예약하실 수 있습니다.
 
 	<!--날짜 네비게이션  -->
 	<div class="navigation">
