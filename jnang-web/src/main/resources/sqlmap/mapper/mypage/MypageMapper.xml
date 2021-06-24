@@ -193,8 +193,19 @@
         ,D.APP_NO
 		,G.REP_SDATE
         ,G.REP_EDATE
-        ,B.S_TIME
-        ,B.E_TIME
+        
+        ,(SELECT TC.TRAIN_STIME
+		FROM TRAIN_CLASS TC
+		WHERE TC.CLASS_CD = (select CLASS_CD from item_class where COMCD = a.COMCD and ITEM_CD= a.ITEM_CD
+        AND TC.COMCD = A.COMCD
+		limit 1)) AS S_TIME
+                
+        ,(SELECT TC.TRAIN_ETIME
+		FROM TRAIN_CLASS TC
+		WHERE TC.CLASS_CD = (select CLASS_CD from item_class where COMCD = a.COMCD and ITEM_CD= a.ITEM_CD
+        AND TC.COMCD = A.COMCD
+		limit 1)) AS E_TIME
+        
 		FROM PROGRAM_ITEM B, MEM_SALE A
 		left outer join RECESS C ON A.COMCD = C.COMCD AND A.SALE_SEQ = C.SALE_SEQ AND A.MEM_NO = C.MEM_NO
 		left join cominfo t3 on A.COMCD = t3.COMCD

@@ -202,7 +202,7 @@ var searchLectureList = function(){
                     				//준비중 팝업창 6월 24일 아침 7시에 구민센터 해당코드 삭제
                     				if(data.resultList[i].comcd == 'JUNGNANG01'){
                     					//tableBody += '<td><a class="size_s2 btn_pink_redWrite" onclick=\'alert("코로나19에 따른 시설물 제한적 운영으로 \\n정규강좌는 수강신청이 불가 합니다.\\n정규강좌 운영시 공지사항에 게재합니다. \\n자세한 문의는 아래로 연락 바랍니다. \\n연락처 : 02-3423-1070");\'>준비중</a></td>';
-                    					  tableBody += '<td><a class="size_s2 btn_pink_redWrite">준비중</a></td>';
+                    					  tableBody += '<td><a class="size_s2 btn_pink_redWrite">접수마감</a></td>';
                     				}else if(data.resultList[i].comcd == 'JUNGNANG02'){
                     					tableBody += '<td><a class="size_s2 btn_pink_redWrite" onclick=\'alert("코로나19에 따른 시설물 제한적 운영으로 \\n정규강좌는 수강신청이 불가 합니다.\\n정규강좌 운영시 공지사항에 게재합니다. \\n자세한 문의는 아래로 연락 바랍니다. \\n연락처 : 02-436-9200");\'>준비중</a></td>';
                     				}else if(data.resultList[i].comcd == 'JUNGNANG03'){
@@ -297,7 +297,7 @@ var searchLectureList = function(){
 									if(data.resultList[i].comcd == 'JUNGNANG01'){
 	                					
 										//tableBody += '<td><a class="size_s2 btn_pink_redWrite" onclick=\'alert("코로나19에 따른 시설물 제한적 운영으로 \\n정규강좌는 수강신청이 불가 합니다.\\n정규강좌 운영시 공지사항에 게재합니다. \\n자세한 문의는 아래로 연락 바랍니다. \\n연락처 : 02-3423-1070");\'>준비중</a></td>';
-										tableBody += '<td><a class="size_s2 btn_pink_redWrite">준비중</a></td>';
+										tableBody += '<td><a class="size_s2 btn_pink_redWrite">접수마감</a></td>';
 										
 	                				}else if(data.resultList[i].comcd == 'JUNGNANG02'){
 	                					tableBody += '<td><a class="size_s2 btn_pink_redWrite" onclick=\'alert("코로나19에 따른 시설물 제한적 운영으로 \\n정규강좌는 수강신청이 불가 합니다.\\n정규강좌 운영시 공지사항에 게재합니다. \\n자세한 문의는 아래로 연락 바랍니다. \\n연락처 : 02-436-9200");\'>준비중</a></td>';
@@ -370,7 +370,7 @@ var searchLectureList = function(){
 									if(data.resultList[i].comcd == 'JUNGNANG01'){
 										
 										//tableBody += '<td><a class="size_s2 btn_pink_redWrite" onclick=\'alert("코로나19에 따른 시설물 제한적 운영으로 \\n정규강좌는 수강신청이 불가 합니다.\\n정규강좌 운영시 공지사항에 게재합니다. \\n자세한 문의는 아래로 연락 바랍니다. \\n연락처 : 02-3423-1070");\'>준비중</a></td>';
-										tableBody += '<td><a class="size_s2 btn_pink_redWrite">준비중</a></td>';
+										tableBody += '<td><a class="size_s2 btn_pink_redWrite">접수마감</a></td>';
 										
 									}else if(data.resultList[i].comcd == 'JUNGNANG02'){
 										tableBody += '<td><a class="size_s2 btn_pink_redWrite" onclick=\'alert("코로나19에 따른 시설물 제한적 운영으로 \\n정규강좌는 수강신청이 불가 합니다.\\n정규강좌 운영시 공지사항에 게재합니다. \\n자세한 문의는 아래로 연락 바랍니다. \\n연락처 : 02-436-9200");\'>준비중</a></td>';
