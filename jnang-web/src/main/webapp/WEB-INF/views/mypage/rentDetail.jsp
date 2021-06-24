@@ -136,7 +136,7 @@ $(function(){
 	</c:if>
     </tbody>
 </table>
-※ 작성한 내용과 다른 부분이 있다면 관리에게 연락바랍니다.
+※ 작성한 내용과 다른 부분이 있다면 관리자에게 연락바랍니다.
 <br>
 <br>
 		<div class="bx_btns_01a ali_c">

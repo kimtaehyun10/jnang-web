@@ -301,12 +301,23 @@ function rentDetail(comNm, rentIdx, writeDh, placeCd, reserveDate, appType) {
 							<c:if test="${sysDate > result.RESERVE_DATE }">
 							</c:if>
 						</c:when>
+						<c:when test="${result.APP_TYPE == '30' }">
+							<c:if test="${sysDate > result.RESERVE_DATE }">
+								<input type="button" class="size_m2 btn_gray1" value="취소불가" onclick="javascript:alert('대관날짜가 지난 날짜입니다.\n취소불가능합니다.\n관리자에게 문의해주세요');">
+							</c:if>
+							<c:if test="${sysDate eq result.RESERVE_DATE }">
+								<input type="button" class="size_m2 btn_gray1" value="취소불가" onclick="javascript:alert('대관신청날짜와 오늘날짜가 같습니다.\n취소불가능합니다.\n관리자에게 문의해주세요');">
+							</c:if>
+							<c:if test="${sysDate < result.RESERVE_DATE }">
+								<input type="button" class="size_m2 btn_green1" value="취소" onClick="cancelPay('${result.TID}', '${result.SLIP_NO}', '${result.PAY_AMT}','${result.PAY_DATE }','${result.COMCD}' );">
+							</c:if>
+						</c:when>
 						<c:otherwise>
 						
 						</c:otherwise>
 					</c:choose>
 					
-					<c:choose>
+					<%-- <c:choose>
 						<c:when test="${sysDate eq result.PAY_DATE_RE}">
 							<c:if test="${result.APP_TYPE == '30' }">
 								<input type="button" class="size_m2 btn_green1" value="취소" onClick="cancelPay('${result.TID}', '${result.SLIP_NO}', '${result.PAY_AMT}','${result.PAY_DATE }','${result.COMCD}' );">
@@ -334,7 +345,7 @@ function rentDetail(comNm, rentIdx, writeDh, placeCd, reserveDate, appType) {
 								<input type="button" class="size_m2 btn_green1" value="취소" onClick="cancelPay('${result.TID}', '${result.SLIP_NO}', '${result.PAY_AMT}','${result.PAY_DATE }','${result.COMCD}' );">
 							</c:if> 
 						</c:otherwise>
-					</c:choose>
+					</c:choose> --%>
 				</td>
 			</tr>
 			<%-- </c:if> --%>
