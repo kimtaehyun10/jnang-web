@@ -377,7 +377,7 @@
 		<!-- and T1.APP_TYPE != 5 -->
 		group by write_dh, TID, COMCD, PLACE_GROUP
 		order by RENT_IDX desc
-		limit 20
+		limit 100
 	
 	</select>
 	

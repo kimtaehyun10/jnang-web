@@ -82,7 +82,7 @@ $(function(){
 			</td>
 		</tr>
 	</c:if>
-	<c:if test="${rentList[0].PLACE_GROUP ne '1' }">
+	<c:if test="${rentList[0].PLACE_GROUP eq '2' }">
 		<tr>
 			<th>예약한 시간</th>
 			<td>
@@ -93,9 +93,31 @@ $(function(){
 			</td>
 		</tr>
 	</c:if>
+	<c:if test="${rentList[0].PLACE_GROUP eq '3' }">
+		<tr>
+			<th>예약한 시간</th>
+			<td>
+				
+				<c:forEach items="${rentList}" var="result" varStatus="status">
+					날짜 : <span style="color:red;">${result.RESERVE_DATE}</span> 시간 : <span style="color:red;">${result.item }</span><br>
+				</c:forEach>
+			</td>
+		</tr>
+	</c:if>
+	<c:if test="${rentList[0].PLACE_GROUP eq '4' }">
+		<tr>
+			<th>예약한 시간</th>
+			<td>
+				
+				<c:forEach items="${rentList}" var="result" varStatus="status">
+					날짜 : <span style="color:red;">${result.RESERVE_DATE}</span> 시간 : <span style="color:red;">${result.item }</span> 코트정보 : <span style="color:red;">${result.place_tab }번코트</span><br>
+				</c:forEach>
+			</td>
+		</tr>
+	</c:if>
 	<c:if test="${rentList[0].PAY_AMT ne '0'}">
 		<tr>
-			<th>결제예정 또는 결제 완료 금액</th>
+			<th>결제 금액</th>
 			<td>
 				<input type="text" name="PAY_AMT" id="PAY_AMT" value="<c:out value='${rentList[0].PAY_AMT}'/>" readonly="readonly" class="inputbox_01a"/>
 			</td>
