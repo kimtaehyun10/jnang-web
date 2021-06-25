@@ -91,9 +91,13 @@ String goUrl = (String)pageContext.getAttribute("goUrl") ;
 var goURL = "${rtnMap.goURL}";
 <%
 ////정원초과 취소처리
-if ( "close1".equals(goUrl) ) {
+if ( "close1".equals(goUrl) || "close2".equals(goUrl) ) {
 %>	
-	alert("정원이 마감 되어 취소처리 됩니다.")
+	if(goURL == 'close1'){
+		alert("정원이 마감 되어 취소처리 됩니다.")
+	}else{
+		alert("결제오류로 인하여 취소처리 됩니다.\n다시 결제를 진행해주세요.")
+	}
 	//window.opener.cancelPay('${rtnMap.TID}','','${rtnMap.Amt}','${rtnMap.COMCD}',0);
 	opener.location.href='/smartPay/mainCancelPay?p1=${rtnMap.TID}&p2=${rtnMap.Amt}&p3=spno&p4=com&p5=payCancel';
 	self.close();

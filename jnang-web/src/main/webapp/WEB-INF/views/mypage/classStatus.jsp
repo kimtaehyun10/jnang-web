@@ -25,7 +25,7 @@ String MEM_MAIL = member.getEmail();
 		var param = {
 				COMCD:COMCD,
 				APP_NO:APP_NO
-		}
+		}		
 		window.open("/mypage/myPay?COMCD="+COMCD+"&APP_NO="+APP_NO, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,width=400,height=600");
 	}
 </script>
@@ -160,7 +160,7 @@ String MEM_MAIL = member.getEmail();
 					<!-- <div><a class="size_s2 btn_blue2" onclick="">재등록</a></div>-->
 				</td>	
 				<td>
-					<a class="size_s2 btn_pink_blueWrite" onclick="myPay('${result.COMCD}',${result.APP_NO});">상세보기</a>
+					<a class="size_s2 btn_pink_blueWrite" onclick="myPay('${result.COMCD}','${result.APP_NO}');">상세보기</a>
 				</td>			
 			</tr>
 			</c:forEach>

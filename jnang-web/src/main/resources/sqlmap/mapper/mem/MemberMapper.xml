@@ -106,6 +106,9 @@
 		     , EMAIL_YN = #{emailYn}
 		     , SMS_YN = #{smsYn}
 		     , WEBLOGIN_DH = now()
+		     , DPSTR_NM = #{dpstrNm}
+		     , BANK_NM = #{bankNm}
+		     , ACOUNT_NUM = #{acountNum}
 		 WHERE MEM_NM = #{memNm}
 		   AND SEC_BIRTH_DATE = ENC_STR('KEY1', #{secBirthDate})
 		   AND GENDER = #{gender}

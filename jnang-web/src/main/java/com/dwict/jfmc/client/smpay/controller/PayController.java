@@ -93,6 +93,21 @@ public class PayController {
 						//이동할 URL
 						//rtnMap.put("goURL", "/mypage/classStatus");
 						//modelAndView.addObject("rtnMap", rtnMap);
+					} else if(ResultMsgDe.equals("결제오류")) {
+						//결제오류일 경우 취소처리
+						String COMCD = (String) rtnMap.get("COMCD");
+						String TID 	= (String) rtnMap.get("TID");
+						String MEM_NO = (String) rtnMap.get("MEM_NO");
+						String Amt 	= (String) rtnMap.get("Amt");
+						
+						//rtnMap.put("SLIP_NO", NULL);
+						rtnMap.put("PAY_AMT", Amt);
+						Map<String, Object> maps = new HashMap<>();
+						maps = service.payKeyInfoCancel(rtnMap);
+						rtnMap.put("goURL", "close2");
+						modelAndView.addObject("rtnMap", rtnMap);
+						break;
+						
 					} else {
 						//창닫을경우 이동할 URL
 						rtnMap.put("goURL", "/mypage/classStatus");

@@ -71,19 +71,25 @@ public class LogintalkServiceImpl implements LogintalkService {
 		Member member = new Member(memNm, secBirthDate, gender, hp);
 		final boolean isExistingMember = memberService.isExistingMember(member);
 		if (isExistingMember) {
-			member = memberService.findExistingMember(member);
-			final UserDetails account = accountService.loadUserByUsername(member.getId());
-			final Authentication auth = new UsernamePasswordAuthenticationToken(account, account.getPassword(), account.getAuthorities());
-			final SecurityContext sc = SecurityContextHolder.getContext();
-			final HttpSession session = request.getSession(true);
-			sc.setAuthentication(auth);
-			session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, sc);
-			modelAndView.setViewName("redirect:/");
+			if(member.getId() == null || member.getId().equals("")) {
+				final HttpSession session = request.getSession(true);
+				session.setAttribute("find.exist", false);
+				modelAndView.setViewName("redirect:/mem/find/id");
+			}else {
+				member = memberService.findExistingMember(member);
+				final UserDetails account = accountService.loadUserByUsername(member.getId());
+				final Authentication auth = new UsernamePasswordAuthenticationToken(account, account.getPassword(), account.getAuthorities());
+				final SecurityContext sc = SecurityContextHolder.getContext();
+				final HttpSession session = request.getSession(true);
+				sc.setAuthentication(auth);
+				session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, sc);
+				modelAndView.setViewName("redirect:/");
+			}
+						
 		} else {
 			final HttpSession session = request.getSession(true);
 			session.setAttribute("find.exist", false);
-			modelAndView.setViewName("redirect:/mem/find/id");
-			return modelAndView;
+			modelAndView.setViewName("redirect:/mem/find/id");			
 		}
 		return modelAndView;
 	}
