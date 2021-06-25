@@ -6,7 +6,8 @@
 */
 'use strict'
 $(function(){
-	var weatherInfo = getWeatherInfo();
+	//날씨 오류 주석처리
+	//var weatherInfo = getWeatherInfo();
 });
 
 function getWeatherInfo(){
