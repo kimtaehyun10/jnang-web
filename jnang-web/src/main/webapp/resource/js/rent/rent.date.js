@@ -192,11 +192,16 @@ function getRent(ymd,seq) {
 					var date = now.getDate();
 					if(date > 0 && date < 10) {
 						date = "0" + date;
-					} 
+					}
+					if(hours > 0 && hours < 10) {
+						hours = "0" + hours;
+					}  
 					var nowToday = String(year)+String(month)+String(date)+String(hours);
 					
 					for(var i=0; i<data.length; i++){
 						var rentTimes = ymd + data[i].item.substring(0,2);
+						console.log(nowToday);
+						console.log(rentTimes);
 						if(data[i].place_cd == "8" && yoil == "일"){
 							var place_tab = data[i].place_tab;
 							var checked = (data[i].rentIdx == 0) ? "" : " checked ";

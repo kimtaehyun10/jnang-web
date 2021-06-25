@@ -105,7 +105,7 @@ var initPage = function(){
 		if(data.sportsCd == "18" || data.sportsCd == "27"){
 			tableDetail += '<tr>';
 			tableDetail += '<th>즉시감면</th>';
-			tableDetail += '<td><p style="color:red">※ 피아노와 필라테스는 할인이 불가능합니다.</p></td>';
+			tableDetail += '<td><p style="color:red">※ 피아노와 기구필라테스는 할인이 불가능합니다.</p></td>';
 		}else {
 			tableDetail += '<tr>';
 			tableDetail += '<th>즉시감면</th>';
@@ -183,7 +183,7 @@ var initPage = function(){
 		}else if(manAge >= '65'){
 			if(data.sportsCd == "18" || data.sportsCd == "27"){
 				var html1 = '';
-				html1 = '※ 피아노와 필라테스는 할인이 불가능합니다.';
+				html1 = '※ 피아노와 기구필라테스는 할인이 불가능합니다.';
 				$("#DCREASON_CD").html(html1);
 			}else {
 				//경로우대

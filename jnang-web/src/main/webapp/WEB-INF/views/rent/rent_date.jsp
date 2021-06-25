@@ -303,7 +303,7 @@ for (int ii = 0 ; ii < arryDays.length; ii++) {
 	//다음달
 	String strNextMonth = (nextMonth > 9) ? Integer.toString(nextMonth) : "0"+ nextMonth;
 	Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-	SimpleDateFormat sdf = new SimpleDateFormat ("yyyy-MM-dd hh:mm:ss");
+	SimpleDateFormat sdf = new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss");
 	
 	int day1 = Integer.parseInt(today.substring(6,8));
 	int int_today	= Integer.parseInt(today);
@@ -330,6 +330,7 @@ for (int ii = 0 ; ii < arryDays.length; ii++) {
 	//out.print("int_rentYmd :"+ int_rentYmd +"<BR>");
 	//out.print("int_LimitYmd :"+ int_LimitYmd +"<BR><BR>");
 	//out.println("myTeamList :" + myTeamList + "<BR>");
+	//out.println("TM_TYPE :" + myTeamList.get(0).get("TM_TYPE") + "<BR>");
 	int sortEndTime = Integer.parseInt(nextYear + strNextMonth + 31);
 	
 	Date date1 = transFormat.parse(today);
