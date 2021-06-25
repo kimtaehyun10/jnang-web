@@ -6,7 +6,10 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/resource/js/mypage/modify.js"></script>
 <script type="text/javascript" src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resource/js/com/daumPostcode.min.js"></script>
-
+<a class='size_m2 btn_green1' href="/mypage/classStatus">수강신청현황</a>
+<a class='size_m2 btn_green1' href="/mypage/lockerStatus">사물함신청현황</a>
+<a class='size_m2 btn_green1' href="/mypage/rent">대관신청현황</a>
+<a class='size_m2 btn_gray1' href="/mypage/modify">회원정보수정</a>
 <div id="sub_join" class=' '>
 	<div class="join_input">
 		<div class="ipt_info margin_b50">			

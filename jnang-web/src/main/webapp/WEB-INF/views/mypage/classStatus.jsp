@@ -29,8 +29,12 @@ String MEM_MAIL = member.getEmail();
 		window.open("/mypage/myPay?COMCD="+COMCD+"&APP_NO="+APP_NO, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,width=400,height=600");
 	}
 </script>
-
+<a class='size_m2 btn_gray1' href="/mypage/classStatus">수강신청현황</a>
+<a class='size_m2 btn_green1' href="/mypage/lockerStatus">사물함신청현황</a>
+<a class='size_m2 btn_green1' href="/mypage/rent">대관신청현황</a>
+<a class='size_m2 btn_green1' href="/mypage/modify">회원정보수정</a>
 <div id="sub_my_status" class=''>
+
 	<div id="notes" class="border_box_a_gray_1a margin_b50">
 		<h4 class="margin_b20">유의사항</h4>
 		<ul class="ul_hyphen1a13" >

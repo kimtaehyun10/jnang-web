@@ -216,7 +216,11 @@
 		});*/
 }
 </script>
-
+<a class='size_m2 btn_green1' href="/mypage/classStatus">수강신청현황</a>
+<a class='size_m2 btn_gray1' href="/mypage/lockerStatus">사물함신청현황</a>
+<a class='size_m2 btn_green1' href="/mypage/rent">대관신청현황</a>
+<a class='size_m2 btn_green1' href="/mypage/modify">회원정보수정</a>
+<br><br><br><br>
 <div id="subCon">		
 	<input type="hidden" id="h_memNo" name="h_memNo" value="${member.memNo}" />
 </div>
