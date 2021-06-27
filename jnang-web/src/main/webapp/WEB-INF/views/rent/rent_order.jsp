@@ -473,6 +473,29 @@ function send(COMCD){
 				$("#GoodsName").val(goodsName);
 				
 				
+				var deCheck = deviceCheck();
+				if(deCheck == 'MOBILE'){
+					var beforeUrl = data.URL;
+					if(data.PG_MODE == '1'){
+						var afterUrl = beforeUrl.substr(0,8) + 'sm' + beforeUrl.substr(8,19) + 'pay/interfaceURL';							
+						$("#GoodsName").val(GoodsName);
+						var MEM_NM = '<%=MEM_NM%>';
+						$("#BuyerName").val(MEM_NM);
+					}else{
+						var afterUrl = beforeUrl.substr(0,8) + 'ts' + beforeUrl.substr(9,19) + 'pay/interfaceURL';
+						$("#GoodsName").val(GoodsName);
+						var MEM_NM = '<%=MEM_NM%>';
+						$("#BuyerName").val(MEM_NM);
+					}						
+					actionUrl = afterUrl;
+				}else if(deCheck == 'PC'){
+					actionUrl = data.URL;
+				}					
+				$("#actionUrl").val(actionUrl);
+				//actionUrl = 'https://tspay.smilepay.co.kr/pay/interfaceURL';
+				
+				<%-- $("#ReturnURL").val("<%=ReturnURL%>?q=${otherData.MEM_ID}/"+ seq +"///"); --%>
+				
 				
 				var html1=$("#returnURL").val();
 				
@@ -487,6 +510,20 @@ function send(COMCD){
 	});
 	
 
+}
+
+function deviceCheck() {
+    // 디바이스 종류 설정
+    var pcDevice = "win16|win32|win64|mac|macintel";
+ 
+    // 접속한 디바이스 환경
+    if ( navigator.platform ) {
+        if ( pcDevice.indexOf(navigator.platform.toLowerCase()) < 0 ) {
+            return 'MOBILE';
+        } else {
+            return 'PC';
+        }
+    }
 }
 </script>
 
@@ -532,10 +569,8 @@ function send(COMCD){
 
 		 return version; 
 	}
-
-	function goPay() 
-	{	
-		
+	
+	function goPay(){	
 		<%-- var MEM_ID = '<%=MEM_ID%>';
 		if(MEM_ID != "vos1") {
 			alert("현재 이용하실 수 없습니다. 관리자에게 문의해주세요.");
@@ -551,7 +586,8 @@ function send(COMCD){
 		
 		
 		var form = document.tranMgr;
-		form.action = '<%=actionUrl%>';
+		<%-- form.action = '<%=actionUrl%>'; --%>
+		form.action = $("#actionUrl").val();
 		
 		/* if (form.GoodsCnt.value == "0") {
 			alert("수강 신청 내역이 없습니다.");
@@ -1253,6 +1289,7 @@ if (PLACE_GROUP == 2 || PLACE_GROUP == 3) {
 		    <input type="hidden" id="BuyerTel" name="BuyerTel" maxlength="2" value="<c:out value='${memData.HP}'/>">
 			<!-- <div>이메일:</div> -->
 		    <input type="hidden" id="BuyerEmail" name="BuyerEmail" maxlength="2" value="<c:out value='${memData.EMAIL}'/>">
+		    <input type="hidden" id="actionUrl" name="actionUrl" maxlength="2" value="">
 			
 			<!-- 
 		    <tr>

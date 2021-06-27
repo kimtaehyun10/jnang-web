@@ -1,6 +1,7 @@
 <%@page import="java.text.DateFormat"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.util.*"%>
+<%@page import="java.sql.Timestamp"%>
 <%@page import="java.util.concurrent.TimeUnit"%>
 <%@page import="java.lang.reflect.Array"%>
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -301,6 +302,8 @@ for (int ii = 0 ; ii < arryDays.length; ii++) {
 	String strii = ((ii+1) > 9) ? Integer.toString(ii+1) : "0"+(ii+1);
 	//다음달
 	String strNextMonth = (nextMonth > 9) ? Integer.toString(nextMonth) : "0"+ nextMonth;
+	Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+	SimpleDateFormat sdf = new SimpleDateFormat ("yyyy-MM-dd hh:mm:ss");
 	
 	int day1 = Integer.parseInt(today.substring(6,8));
 	int int_today	= Integer.parseInt(today);
@@ -316,9 +319,10 @@ for (int ii = 0 ; ii < arryDays.length; ii++) {
 	int nextYmd 	= Integer.parseInt(nextYear + strNextMonth + strii);
 	int nextMonth2 = Integer.parseInt(nextMonth1);
 	int monthYYMM = Integer.parseInt(nextMonth1.substring(0,6));
-	
+	int timeNow = Integer.parseInt(sdf.format(timestamp).substring(11,13));
 	//out.print("int_toYYMM :"+ int_toYYMM +"<BR>");
-	//out.print("day1 :"+ day1 +"<BR>");
+	//out.print("timeNow :"+ timeNow +"<BR>");
+	//out.print("sdf.format(timestamp) :"+ sdf.format(timestamp) +"<BR>");
 	//out.print("selectMonth :"+ selectMonth +"<BR>");
 	//out.print("monthYYMM :"+ monthYYMM +"<BR>");
 	//out.print("todayYYMM :"+ todayYYMM +"<BR>");
@@ -349,12 +353,12 @@ for (int ii = 0 ; ii < arryDays.length; ii++) {
 				rentDays[ii+1] = " <a class='size_m2 btn_green1' onclick=\"getRent('"+ int_rentYmd +"','"+PLACE_CD+"');\">예약 가능 </a>";		
 				//rentDays[ii] = "<a class='size_m2 btn_gray1'>예약 종료</a>";
 				//현재연도 + 월 + 날짜가 25일 26일이라면
-			} else if(day1 >= 25) {
+			} else if(day1 >= 25 && timeNow >= 10) {
 				if(int_rentYmd  <= nextMonth2 && myTeamList.get(0).get("TM_TYPE").equals("1") ){
 					//rentDays[ii+1] = " <a class='size_m2 btn_green1' onclick=\"getRent('"+ int_rentYmd +"','"+PLACE_CD+"');\">예약 가능 ("+ (itemTot - rentCnt) +"건) </a>";
 					rentDays[ii+1] = " <a class='size_m2 btn_green1' onclick=\"getRent('"+ int_rentYmd +"','"+PLACE_CD+"');\">예약 가능 </a>";
 					//rentDays[ii] = "<a class='size_m2 btn_gray1'>준비중</a>";
-				} else if(day1 >= 27) {
+				} else if(day1 >= 27 && timeNow >= 10) {
 					if(int_rentYmd  <= nextMonth2 && myTeamList.get(0).get("TM_TYPE").equals("1") ){
 						//rentDays[ii+1] = " <a class='size_m2 btn_green1' onclick=\"getRent('"+ int_rentYmd +"','"+PLACE_CD+"');\">예약 가능 ("+ (itemTot - rentCnt) +"건) </a>";
 						rentDays[ii+1] = " <a class='size_m2 btn_green1' onclick=\"getRent('"+ int_rentYmd +"','"+PLACE_CD+"');\">예약 가능 </a>";
