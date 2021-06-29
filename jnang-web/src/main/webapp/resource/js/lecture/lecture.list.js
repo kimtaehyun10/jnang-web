@@ -273,7 +273,7 @@ var searchLectureList = function(){
 						
 					
 						for(var j=0; j<prgCount; j++){
-					     
+
 							if(j===0){
 							
 								tableBody += '<tr>';															
@@ -318,7 +318,7 @@ var searchLectureList = function(){
 								if(data.resultList[i].comcd == 'JUNGNANG01'){
 									
 									//tableBody += '<td ><a class="size_s3 btn_pink_blueWrite" onclick=\'alert("코로나19에 따른 시설물 제한적 운영으로 \\n정규강좌는 수강신청이 불가 합니다.\\n정규강좌 운영시 공지사항에 게재합니다. \\n자세한 문의는 아래로 연락 바랍니다. \\n연락처 : 02-3423-1070");\'>준비중</a></td>';
-									tableBody += '<td ><a class="size_s3 btn_pink_blueWrite" onclick="lecturePaymentDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[0].itemCd+'\'\,'+data.resultList[i].programItem[0].sold+','+data.resultList[i].programItem[0].eold+','+data.resultList[i].grpcd.recSdate+','+data.resultList[i].grpcd.recEdate+');">수강신청</a></td>';
+									tableBody += '<td ><a class="size_s3 btn_pink_blueWrite" onclick="lecturePaymentDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[j].itemCd+'\'\,'+data.resultList[i].programItem[0].sold+','+data.resultList[i].programItem[0].eold+','+data.resultList[i].grpcd.recSdate+','+data.resultList[i].grpcd.recEdate+');">수강신청</a></td>';
 									
 								}else if(data.resultList[i].comcd == 'JUNGNANG02'){
 									tableBody += '<td ><a class="size_s3 btn_pink_blueWrite" onclick=\'alert("코로나19에 따른 시설물 제한적 운영으로 \\n정규강좌는 수강신청이 불가 합니다.\\n정규강좌 운영시 공지사항에 게재합니다. \\n자세한 문의는 아래로 연락 바랍니다. \\n연락처 : 02-436-9200");\'>준비중</a></td>';
@@ -331,7 +331,7 @@ var searchLectureList = function(){
 								}else if(data.resultList[i].comcd == 'JUNGNANG07'){
 									tableBody += '<td ><a class="size_s3 btn_pink_blueWrite" onclick=\'alert("코로나19에 따른 시설물 제한적 운영으로 \\n정규강좌는 수강신청이 불가 합니다.\\n정규강좌 운영시 공지사항에 게재합니다.");\'>준비중</a></td>';
 								}else{
-									tableBody += '<td ><a class="size_s3 btn_pink_blueWrite" onclick="lecturePaymentDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[0].itemCd+'\'\,'+data.resultList[i].programItem[0].sold+','+data.resultList[i].programItem[0].eold+','+data.resultList[i].grpcd.recSdate+','+data.resultList[i].grpcd.recEdate+');">수강신청</a></td>';
+									tableBody += '<td ><a class="size_s3 btn_pink_blueWrite" onclick="lecturePaymentDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[j].itemCd+'\'\,'+data.resultList[i].programItem[0].sold+','+data.resultList[i].programItem[0].eold+','+data.resultList[i].grpcd.recSdate+','+data.resultList[i].grpcd.recEdate+');">수강신청</a></td>';
 								}
 								//tableBody += '<td ><a class="size_s3 btn_pink_blueWrite" onclick="lecturePaymentDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[j].itemCd+'\'\,'+data.resultList[i].programItem[0].sold+','+data.resultList[i].programItem[0].eold+','+data.resultList[i].grpcd.recSdate+','+data.resultList[i].grpcd.recEdate+');">수강신청</a></td>';
 																
@@ -341,7 +341,7 @@ var searchLectureList = function(){
 							if(data.resultList[i].comcd == 'JUNGNANG01'){
 	        					
 								//tableBody += '<td><a class="size_s2 btn_blue2" onclick=\'alert("코로나19에 따른 시설물 제한적 운영으로 \\n정규강좌는 수강신청이 불가 합니다.\\n정규강좌 운영시 공지사항에 게재합니다. \\n자세한 문의는 아래로 연락 바랍니다. \\n연락처 : 02-3423-1070");\'>준비중</a></td>';
-								tableBody += '<td ><a class="size_s2 btn_blue2" onclick="searchLectureDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].sportsCd+'\'\, \''+data.resultList[i].msportsCd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[0].itemCd+'\');">상세보기</a></td>';
+								tableBody += '<td ><a class="size_s2 btn_blue2" onclick="searchLectureDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].sportsCd+'\'\, \''+data.resultList[i].msportsCd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[j].itemCd+'\');">상세보기</a></td>';
 							
 							}else if(data.resultList[i].comcd == 'JUNGNANG02'){
 	        					tableBody += '<td><a class="size_s2 btn_blue2" onclick=\'alert("코로나19에 따른 시설물 제한적 운영으로 \\n정규강좌는 수강신청이 불가 합니다.\\n정규강좌 운영시 공지사항에 게재합니다. \\n자세한 문의는 아래로 연락 바랍니다. \\n연락처 : 02-436-9200");\'>준비중</a></td>';
@@ -354,7 +354,7 @@ var searchLectureList = function(){
 	        				}else if(data.resultList[i].comcd == 'JUNGNANG07'){
 	        					tableBody += '<td><a class="size_s2 btn_blue2" onclick=\'alert("코로나19에 따른 시설물 제한적 운영으로 \\n정규강좌는 수강신청이 불가 합니다.\\n정규강좌 운영시 공지사항에 게재합니다.");\'>준비중</a></td>';
 	        				}else{
-	        					tableBody += '<td ><a class="size_s2 btn_blue2" onclick="searchLectureDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].sportsCd+'\'\, \''+data.resultList[i].msportsCd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[0].itemCd+'\');">상세보기</a></td>';
+	        					tableBody += '<td ><a class="size_s2 btn_blue2" onclick="searchLectureDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].sportsCd+'\'\, \''+data.resultList[i].msportsCd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[j].itemCd+'\');">상세보기</a></td>';
 	        				}
 								//tableBody += '<td ><a class="size_s2 btn_blue2" onclick="searchLectureDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].sportsCd+'\'\, \''+data.resultList[i].msportsCd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[j].itemCd+'\');">상세보기</a></td>';
 								tableBody += '</tr>';
@@ -391,7 +391,7 @@ var searchLectureList = function(){
 									if(data.resultList[i].comcd == 'JUNGNANG01'){
 										
 										//tableBody += '<td ><a class="size_s3 btn_pink_blueWrite" onclick=\'alert("코로나19에 따른 시설물 제한적 운영으로 \\n정규강좌는 수강신청이 불가 합니다.\\n정규강좌 운영시 공지사항에 게재합니다. \\n자세한 문의는 아래로 연락 바랍니다. \\n연락처 : 02-3423-1070");\'>준비중</a></td>';
-										tableBody += '<td ><a class="size_s3 btn_pink_blueWrite" onclick="lecturePaymentDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[0].itemCd+'\'\,'+data.resultList[i].programItem[0].sold+','+data.resultList[i].programItem[0].eold+','+data.resultList[i].grpcd.recSdate+','+data.resultList[i].grpcd.recEdate+');">수강신청</a></td>';
+										tableBody += '<td ><a class="size_s3 btn_pink_blueWrite" onclick="lecturePaymentDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[j].itemCd+'\'\,'+data.resultList[i].programItem[0].sold+','+data.resultList[i].programItem[0].eold+','+data.resultList[i].grpcd.recSdate+','+data.resultList[i].grpcd.recEdate+');">수강신청</a></td>';
 									
 									}else if(data.resultList[i].comcd == 'JUNGNANG02'){
 										tableBody += '<td ><a class="size_s3 btn_pink_blueWrite" onclick=\'alert("코로나19에 따른 시설물 제한적 운영으로 \\n정규강좌는 수강신청이 불가 합니다.\\n정규강좌 운영시 공지사항에 게재합니다. \\n자세한 문의는 아래로 연락 바랍니다. \\n연락처 : 02-436-9200");\'>준비중</a></td>';
@@ -404,17 +404,17 @@ var searchLectureList = function(){
 									}else if(data.resultList[i].comcd == 'JUNGNANG07'){
 										tableBody += '<td ><a class="size_s3 btn_pink_blueWrite" onclick=\'alert("코로나19에 따른 시설물 제한적 운영으로 \\n정규강좌는 수강신청이 불가 합니다.\\n정규강좌 운영시 공지사항에 게재합니다.");\'>준비중</a></td>';
 									}else{
-										tableBody += '<td ><a class="size_s3 btn_pink_blueWrite" onclick="lecturePaymentDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[0].itemCd+'\'\,'+data.resultList[i].programItem[0].sold+','+data.resultList[i].programItem[0].eold+','+data.resultList[i].grpcd.recSdate+','+data.resultList[i].grpcd.recEdate+');">수강신청</a></td>';
+										tableBody += '<td ><a class="size_s3 btn_pink_blueWrite" onclick="lecturePaymentDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[j].itemCd+'\'\,'+data.resultList[i].programItem[0].sold+','+data.resultList[i].programItem[0].eold+','+data.resultList[i].grpcd.recSdate+','+data.resultList[i].grpcd.recEdate+');">수강신청</a></td>';
 									}
 									//tableBody += '<td ><a class="size_s3 btn_pink_blueWrite" onclick="lecturePaymentDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[j].itemCd+'\'\,'+data.resultList[i].programItem[0].sold+','+data.resultList[i].programItem[0].eold+','+data.resultList[i].grpcd.recSdate+','+data.resultList[i].grpcd.recEdate+');">수강신청</a></td>';
-																	
+
 								}
 								
 								//6월 24일 아침 7시에 구민센터 상세보기 가능하도록 해야함
 								if(data.resultList[i].comcd == 'JUNGNANG01'){
 		        					
 									//tableBody += '<td><a class="size_s2 btn_blue2" onclick=\'alert("코로나19에 따른 시설물 제한적 운영으로 \\n정규강좌는 수강신청이 불가 합니다.\\n정규강좌 운영시 공지사항에 게재합니다. \\n자세한 문의는 아래로 연락 바랍니다. \\n연락처 : 02-3423-1070");\'>준비중</a></td>';
-									tableBody += '<td ><a class="size_s2 btn_blue2" onclick="searchLectureDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].sportsCd+'\'\, \''+data.resultList[i].msportsCd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[0].itemCd+'\');">상세보기</a></td>';
+									tableBody += '<td ><a class="size_s2 btn_blue2" onclick="searchLectureDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].sportsCd+'\'\, \''+data.resultList[i].msportsCd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[j].itemCd+'\');">상세보기</a></td>';
 									
 								}else if(data.resultList[i].comcd == 'JUNGNANG02'){
 		        					tableBody += '<td><a class="size_s2 btn_blue2" onclick=\'alert("코로나19에 따른 시설물 제한적 운영으로 \\n정규강좌는 수강신청이 불가 합니다.\\n정규강좌 운영시 공지사항에 게재합니다. \\n자세한 문의는 아래로 연락 바랍니다. \\n연락처 : 02-436-9200");\'>준비중</a></td>';
@@ -427,10 +427,10 @@ var searchLectureList = function(){
 		        				}else if(data.resultList[i].comcd == 'JUNGNANG07'){
 		        					tableBody += '<td><a class="size_s2 btn_blue2" onclick=\'alert("코로나19에 따른 시설물 제한적 운영으로 \\n정규강좌는 수강신청이 불가 합니다.\\n정규강좌 운영시 공지사항에 게재합니다.");\'>준비중</a></td>';
 		        				}else{
-		        					tableBody += '<td ><a class="size_s2 btn_blue2" onclick="searchLectureDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].sportsCd+'\'\, \''+data.resultList[i].msportsCd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[0].itemCd+'\');">상세보기</a></td>';
+		        					tableBody += '<td ><a class="size_s2 btn_blue2" onclick="searchLectureDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].sportsCd+'\'\, \''+data.resultList[i].msportsCd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[j].itemCd+'\');">상세보기</a></td>';
 		        				}
 									//tableBody += '<td ><a class="size_s2 btn_blue2" onclick="searchLectureDetail(\''+data.resultList[i].comcd+'\'\, \''+data.resultList[i].sportsCd+'\'\, \''+data.resultList[i].msportsCd+'\'\, \''+data.resultList[i].classCd+'\'\, \''+data.resultList[i].programItem[j].itemCd+'\');">상세보기</a></td>';
-						
+
 							}
 									tableBody += '</tr>';
 						}
