@@ -6,10 +6,30 @@
 */
 var rntYMD;
 function send(tabCnt) {
+	var chkTabCnt1 = 0;
+	var chkTabCnt2 = 0;
+	var tabNo = $("#tabNo").val();
+	
+	for(var x=1; x <= tabNo; x++){
+		
+		var iii =  $("#chk_tab_" + x ).val();	
+		chkTabCnt1 = $("input:checkbox[sid='chk_tab_"+ x +"']:checked").length;
+		chkTabCnt2 = $("input:checkbox[sid='chk_tab_"+ x +"']:disabled").length;
+		
+		var finalChkTabCnt = chkTabCnt1 - chkTabCnt2;
+		//alert(chkTabCnt1 + '^' + chkTabCnt2);
+		if(finalChkTabCnt == 1) {
+			var MSG = (tabCnt == "0") ? "" : "[ "+ x +" 코트] ";  
+			alert(MSG +"예약 불가 2시간(2개)이상 연속되게  예약을 선택하여 주세요.\n(★★ 한개만 선택할수 없습니다. ★★ );");
+			return false;
+		}				
+	}
+	
 	
 	$.ajaxSetup({ cache: false });
 	var frm = document.frm3;
 	var chkCnt = $("input:checkbox[name='tseq']:checked").length;
+	
 	if (chkCnt == 0) {
 		alert("신청하실 시간을 선택하세요.");
 		return false;
@@ -33,6 +53,7 @@ function send(tabCnt) {
 			return false;
 		}
 	}
+	
 	if (chkCnt <= 1) {
 		alert("예약 불가 2시간(2개)이상 연속되게  예약을 선택하여 주세요.\n(★★ 한개만 선택할수 없습니다. ★★ );");
 		return false;
@@ -297,6 +318,7 @@ function getRent(ymd,seq) {
 				//console.log("tmpList["+ arr[2] +"]");
 				for(var i=1; i< arr.length; i++){
 					$('#data_tab'+i).html(arr[i]);
+					$('#tabNo').val(i);
 				}
 				$("#val3").val(ymd);
 				$("#val4").val(seq);

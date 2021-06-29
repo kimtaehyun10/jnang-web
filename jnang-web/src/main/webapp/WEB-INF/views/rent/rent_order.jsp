@@ -466,6 +466,8 @@ function send(COMCD){
 			var dataList = "";
 			if(data.length != 0){
 				
+				var MEM_ID = '<%=MEM_ID%>';
+				
 				$("#EncryptData").val(data.EncryptData);
 				$("#merchantKey").val(data.KEY);
 				$("#MID").val(data.MID);
@@ -585,9 +587,12 @@ function deviceCheck() {
 		}
 		
 		
+		
+		
 		var form = document.tranMgr;
 		<%-- form.action = '<%=actionUrl%>'; --%>
 		form.action = $("#actionUrl").val();
+		
 		
 		/* if (form.GoodsCnt.value == "0") {
 			alert("수강 신청 내역이 없습니다.");
@@ -600,8 +605,7 @@ function deviceCheck() {
 			return false;
 		}
 
-		if(form.FORWARD.value == 'Y') // 화면처리방식 Y(권장):상점페이지 팝업호출
-		{
+		if(form.FORWARD.value == 'Y') { // 화면처리방식 Y(권장):상점페이지 팝업호출
 			var popupX = ((window.screen.width) / 2) - (545 / 2);
 			var popupY = ((window.screen.height) /2) - (573 / 2);
 						
@@ -1218,7 +1222,7 @@ if (PLACE_GROUP == 2 || PLACE_GROUP == 3) {
 <%} %>	
 </form>
 <%
-totalSum = (strUrl.contains("localhost") || MEM_ID.equals("powerjyc")) ? 10 : totalSum;
+totalSum = (strUrl.contains("localhost") || MEM_ID.equals("powerjyc") || MEM_ID.equals("kjseo")) ? 10 : totalSum;
 
 String EncryptData = encodeMD5HexBase64(ediDate + MID + totalSum + merchantKey);
 

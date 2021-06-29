@@ -174,6 +174,11 @@ function goPay()
 	//form.ReturnURL.value = ReturnURL;
 	
 	form.action = actinURL;
+	if(MEM_ID == "kjseo") {
+		
+		$("#Amt").val(10);
+		$("#goodsAmt").val(10);
+	}
 	
 	//form.GoodsName.value = encodeURI("<%//=GoodsName%>");
 	//form.BuyerName.value = "<%//=BuyerName%>";

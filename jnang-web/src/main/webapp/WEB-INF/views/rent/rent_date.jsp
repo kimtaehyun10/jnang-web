@@ -320,12 +320,21 @@ for (int ii = 0 ; ii < arryDays.length; ii++) {
 	int nextMonth2 = Integer.parseInt(nextMonth1);
 	int monthYYMM = Integer.parseInt(nextMonth1.substring(0,6));
 	int timeNow = Integer.parseInt(sdf.format(timestamp).substring(11,13));
-	//out.print("int_toYYMM :"+ int_toYYMM +"<BR>");
+	int nextTimeNow = Integer.parseInt(sdf.format(timestamp).substring(5,7));
+	String todayNow = today + sdf.format(timestamp).substring(11,13);
+	String TM_TYPE1 = today.substring(0,6) + "25" + "10";
+	String TM_TYPE2 = today.substring(0,6) + "27" + "10";
+	int intTM_TYPE1 = Integer.parseInt(TM_TYPE1);
+	int intTM_TYPE2 = Integer.parseInt(TM_TYPE2);
+	int intTodayNow = Integer.parseInt(todayNow);
+	//out.print("intTodayNow :"+ intTodayNow +"<BR>");
+	//out.print("intTM_TYPE1 :"+ intTM_TYPE1 +"<BR>");
+	//out.print("TM_TYPE2 :"+ TM_TYPE2 +"<BR>");
 	//out.print("timeNow :"+ timeNow +"<BR>");
 	//out.print("sdf.format(timestamp) :"+ sdf.format(timestamp) +"<BR>");
 	//out.print("selectMonth :"+ selectMonth +"<BR>");
 	//out.print("monthYYMM :"+ monthYYMM +"<BR>");
-	//out.print("todayYYMM :"+ todayYYMM +"<BR>");
+	//out.print("day1 :"+ day1 +"<BR>");
 	//out.print("nextMonth2 :"+ nextMonth2 +"<BR>");
 	//out.print("int_rentYmd :"+ int_rentYmd +"<BR>");
 	//out.print("int_LimitYmd :"+ int_LimitYmd +"<BR><BR>");
@@ -354,12 +363,12 @@ for (int ii = 0 ; ii < arryDays.length; ii++) {
 				rentDays[ii+1] = " <a class='size_m2 btn_green1' onclick=\"getRent('"+ int_rentYmd +"','"+PLACE_CD+"');\">예약 가능 </a>";		
 				//rentDays[ii] = "<a class='size_m2 btn_gray1'>예약 종료</a>";
 				//현재연도 + 월 + 날짜가 25일 26일이라면
-			} else if(day1 >= 25 && timeNow >= 10) {
+			} else if(intTodayNow >= intTM_TYPE1) {
 				if(int_rentYmd  <= nextMonth2 && myTeamList.get(0).get("TM_TYPE").equals("1") ){
 					//rentDays[ii+1] = " <a class='size_m2 btn_green1' onclick=\"getRent('"+ int_rentYmd +"','"+PLACE_CD+"');\">예약 가능 ("+ (itemTot - rentCnt) +"건) </a>";
 					rentDays[ii+1] = " <a class='size_m2 btn_green1' onclick=\"getRent('"+ int_rentYmd +"','"+PLACE_CD+"');\">예약 가능 </a>";
 					//rentDays[ii] = "<a class='size_m2 btn_gray1'>준비중</a>";
-				} else if(day1 >= 27 && timeNow >= 10) {
+				} else if(intTodayNow >= intTM_TYPE2) {
 					if(int_rentYmd  <= nextMonth2 && myTeamList.get(0).get("TM_TYPE").equals("1") ){
 						//rentDays[ii+1] = " <a class='size_m2 btn_green1' onclick=\"getRent('"+ int_rentYmd +"','"+PLACE_CD+"');\">예약 가능 ("+ (itemTot - rentCnt) +"건) </a>";
 						rentDays[ii+1] = " <a class='size_m2 btn_green1' onclick=\"getRent('"+ int_rentYmd +"','"+PLACE_CD+"');\">예약 가능 </a>";
@@ -621,6 +630,8 @@ if (PLACE_GROUP == 4) {
 	</table>
 	<input type="hidden" name="q" value="<%=param %>">
 	<input type="hidden" id="ymd" name="ymd" value="">
+	<input type="hidden" id="tabNo" name="tabNo" value="">
+	<input type="hidden" id="tabCnt" name="tabCnt" value="<%=int_tabCnt%>">
 </form>
 <%
 }
@@ -693,4 +704,5 @@ private int getMonthsDiff(Date date1, Date date2){
 return month2 - month1;
 }
 
-%>    
+%>
+

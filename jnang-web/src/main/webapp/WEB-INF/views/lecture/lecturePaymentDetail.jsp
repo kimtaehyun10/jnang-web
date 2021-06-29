@@ -69,12 +69,13 @@
 %> 
 <script type="text/javascript">
 
+
 	<%
  	if (REFERER == null) {
  	%>
  		alert("정상적인 접근방법이 아닙니다.");
  		history.back(-1);
-	</script>
+	
  	<%
  	return;
  	}
@@ -342,9 +343,9 @@
     		
     	}
     	
-    	html3 += '<a class="size_m2 btn_gray2" href="/lecture/list">목록</a>';
+    	<!-- html3 += '<a class="size_m2 btn_gray2" href="/lecture/list">목록</a>'; -->
     	<!-- html3 += '<a class="size_m2 btn_red2" onclick=\"goBtn('"+ seq +"','"+ resultCost +"','"+ classNm +"','"+ comcd +"');\">결제</a>'; -->
-		html3 += "<a class='size_m2 btn_red2' onclick=\"goBtn('"+ seq +"','"+ resultCost +"','"+ classNm +"','"+ comcd +"' );\">결제</a>";										  		
+		<!-- html3 += "<a class='size_m2 btn_red2' onclick=\"goBtn('"+ seq +"','"+ resultCost +"','"+ classNm +"','"+ comcd +"' );\">결제</a>"; -->										  		
 		
 		$('#costAmt').val(resultCost);				
     	$("#DCREASON_CD").html(html1);		
