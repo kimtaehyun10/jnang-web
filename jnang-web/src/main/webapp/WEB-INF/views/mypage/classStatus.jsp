@@ -57,13 +57,13 @@ String MEM_MAIL = member.getEmail();
 	 -->	
 	<table class="stbl_l1a">
 		<colgroup>
-			<col width="5%"><col width="*"><col width="25%"><col width="10%"><col width="10%"><col width="20%"><col width="10%">
+			<col width="5%"><col width="*"><col width="10%"><col width="10%"><col width="20%"><col width="10%">
 		</colgroup>
 		<thead>
 			<tr>
 				<th>번호</th>
 				<th>[시설명] 강좌명</th>
-				<th>대상</th>
+				<!-- <th>대상</th> -->
 				<th>수강료</th>
 				<th>결제상태</th>
 				<th>수강기간</th>
@@ -92,7 +92,7 @@ String MEM_MAIL = member.getEmail();
 				
 				<td>${status.count}</td>
 				<td>[${result.COMNM}] ${result.CLASS_NM}</td>
-				<td>${result.ITEM_NM}</td>
+				<%-- <td>${result.ITEM_NM}</td> --%>
 				<td>${result.COST_AMT}원</td>
 				<td>
 					<span id="" class="cap_blue">${result.MIDCANCEL_YN_NM}</span>

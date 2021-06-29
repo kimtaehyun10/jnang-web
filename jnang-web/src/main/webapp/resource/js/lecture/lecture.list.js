@@ -143,7 +143,7 @@ var searchLectureList = function(){
 		pageIndex:$('#h_pageIndex').val(), pageSize:$('#h_pageSize').val(), startRow:$('#h_startRow').val()
 	};
 	$.get('/data/lecture/lectureList/', param, function(data){
-		
+		console.log(data);
 		var tableDesc = '', tableHead = '', tableBody = '', reception = '', lectureBtn = '';
 		//tableDesc
 		tableDesc = '<caption>수강신청</caption>';
@@ -187,7 +187,7 @@ var searchLectureList = function(){
 						tableBody += '<td >'+data.resultList[i].classNm+'</td>';						
 						//토요일 시간 변경 (임시로 기타항목에 들어감 추후에 개발해야함)
 						tableBody += '<td>'+data.resultList[i].trainTimeNm+'<br>'+data.resultList[i].trainDayNm+'</td>';
-						tableBody += '<td>'+data.resultList[i].classObj+'</td>';
+						tableBody += '<td>'+data.resultList[i].programItem[0].itemNm+'</td>';  //data.resultList[i].classObj 
 										
 						tableBody += '<td>'+data.resultList[i].programItem[0].costAmt.toLocaleString(undefined, {maximumFractionDigits: 5})+'</td>';
 						
@@ -283,7 +283,7 @@ var searchLectureList = function(){
 								
 								tableBody += '<td rowspan='+prgCount+'>'+data.resultList[i].trainTimeNm+'<br>'+data.resultList[i].trainDayNm+'</td>'
 								
-					        	tableBody += '<td>'+data.resultList[i].classObj+'</td>';				
+					        	tableBody += '<td>'+data.resultList[i].programItem[j].itemNm+'</td>';				
 								tableBody += '<td>'+data.resultList[i].programItem[j].costAmt.toLocaleString(undefined, {maximumFractionDigits: 5})+'</td>';
 								
 								if(data.resultList[i].webCapa-data.resultList[i].webUser === 0 || data.resultList[i].webCapa-data.resultList[i].webUser < 0){
@@ -360,7 +360,7 @@ var searchLectureList = function(){
 								tableBody += '</tr>';
 							}else{
 								tableBody += '<tr>';   
-				                tableBody += '<td>'+data.resultList[i].classObj+'</td>';
+				                tableBody += '<td>'+data.resultList[i].programItem[j].itemNm+'</td>';
 								tableBody += '<td>'+data.resultList[i].programItem[j].costAmt.toLocaleString(undefined, {maximumFractionDigits: 5})+'</td>';
 								
 										
