@@ -63,9 +63,12 @@ function getDataList(p_cd,p_tab) {
 			
 				var today = new Date();
 				var arrayTmp = (today.toLocaleString()).split(".");
+				
 				var yy = arrayTmp[0];
 				var mm = Number(arrayTmp[1]); //(Number(mm) > 9) ? mm : "0"+mm;
 				var dd = Number(arrayTmp[2]); //(Number(dd) > 9) ? dd : "0"+dd;
+				var hours = today.getHours(); // 시
+				
 				mm = (Number(mm) > 9) ? mm : "0"+ mm;
 				dd = (Number(dd) > 9) ? dd : "0"+ dd;
 				today = new Date(yy,mm,dd ,0,0,0);
@@ -74,7 +77,8 @@ function getDataList(p_cd,p_tab) {
 				var yymmdd = yy +""+ mm +""+ dd;
 				var yymm = yy +""+ mm;
 				var nyymm = YYMM;
-
+				var nowToday = yymmdd + "" + hours;
+				
 
 				//달력 출력
 				for(var ii=1; ii<= 31; ii++) {
@@ -119,14 +123,25 @@ function getDataList(p_cd,p_tab) {
 								} 
 							}//jj for
 							
+							var rTime = nyymmdd.substring(0,4) + "" + nyymmdd.substring(4,6) + "" + nyymmdd.substring(6,8) + "" + item.substring(0,2);
+							rTime = Number(rTime);
+							nowToday = Number(nowToday); 
+							
+							
 							
 							
 							tmpList += item;
 							if (dataIn) {
 								tmpList += "[<span class='red1'>예약완료</span>]<br>";
 							} else {
-								tmpList += "<a href='/rent/date/?yy="+ nyymmdd.substring(0,4) +"&mm="+  nyymmdd.substring(4,6) +"&q="+ p_cd +"/0'>[<span class='btn_green1'>예약가능</span>]</a><br>";
+								if(rTime > nowToday){
+									tmpList += "<a href='/rent/date/?yy="+ nyymmdd.substring(0,4) +"&mm="+  nyymmdd.substring(4,6) +"&q="+ p_cd +"/0'>[<span class='btn_green1'>예약가능</span>]</a><br>";	
+								}else {
+									tmpList += "[<span class='red1'>예약종료</span>]<br>";
+								}
+								
 								//tmpList += "[<span class='gray1'>예약불가</span>]<br>";
+								
 							}
 									
 	
