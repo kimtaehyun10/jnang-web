@@ -68,7 +68,12 @@ function getDataList(p_cd,p_tab) {
 				var mm = Number(arrayTmp[1]); //(Number(mm) > 9) ? mm : "0"+mm;
 				var dd = Number(arrayTmp[2]); //(Number(dd) > 9) ? dd : "0"+dd;
 				var hours = today.getHours(); // 시
+				hours = Number(hours);
 				
+				if(hours < 10){
+					
+					hours = "0"+hours;
+				}
 				mm = (Number(mm) > 9) ? mm : "0"+ mm;
 				dd = (Number(dd) > 9) ? dd : "0"+ dd;
 				today = new Date(yy,mm,dd ,0,0,0);
@@ -128,7 +133,8 @@ function getDataList(p_cd,p_tab) {
 							nowToday = Number(nowToday); 
 							
 							
-							
+							console.log(rTime);
+							console.log(nowToday);
 							
 							tmpList += item;
 							if (dataIn) {
