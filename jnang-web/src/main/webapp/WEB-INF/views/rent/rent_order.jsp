@@ -1116,12 +1116,12 @@ function deviceCheck() {
 	   		<c:set var="PRICE1" value="${rentPriceList[1].PRICE}" />
 	    <td>
 	    <%
-	    PRICE = (int) pageContext.getAttribute("PRICE");
-	    int PRICE1 = (int) pageContext.getAttribute("PRICE1");
+	   
 	  	//축구장/야구장 #################################################################
 	  	
 		if (PLACE_GROUP == 2 || PLACE_GROUP == 3) {
-			
+			PRICE = (int) pageContext.getAttribute("PRICE");
+		    int PRICE1 = (int) pageContext.getAttribute("PRICE1");
 				if (holiday_yn.equals("Y")) {
 					rentSum = rentPrice[0][rent_timeCnt];
 				} else {

@@ -10,20 +10,21 @@ function send(tabCnt) {
 	var chkTabCnt2 = 0;
 	var tabNo = $("#tabNo").val();
 	
-	for(var x=1; x <= tabNo; x++){
-		
-		var iii =  $("#chk_tab_" + x ).val();	
-		chkTabCnt1 = $("input:checkbox[sid='chk_tab_"+ x +"']:checked").length;
-		chkTabCnt2 = $("input:checkbox[sid='chk_tab_"+ x +"']:disabled").length;
-		
-		var finalChkTabCnt = chkTabCnt1 - chkTabCnt2;
-		//alert(chkTabCnt1 + '^' + chkTabCnt2);
-		if(finalChkTabCnt == 1) {
-			var MSG = (tabCnt == "0") ? "" : "[ "+ x +" 코트] ";  
-			alert(MSG +"예약 불가 2시간(2개)이상 연속되게  예약을 선택하여 주세요.\n(★★ 한개만 선택할수 없습니다. ★★ );");
-			return false;
-		}				
-	}
+	
+//	for(var x=1; x <= tabNo; x++){
+//		
+//		var iii =  $("#chk_tab_" + x ).val();	
+//		chkTabCnt1 = $("input:checkbox[sid='chk_tab_"+ x +"']:checked").length;
+//		chkTabCnt2 = $("input:checkbox[sid='chk_tab_"+ x +"']:disabled").length;
+//		
+//		var finalChkTabCnt = chkTabCnt1 - chkTabCnt2;
+//		//alert(chkTabCnt1 + '^' + chkTabCnt2);
+//		if(finalChkTabCnt == 1) {
+//			var MSG = (tabCnt == "0") ? "" : "[ "+ x +" 코트] ";  
+//			alert(MSG +"예약 불가 2시간(2개)이상 연속되게  예약을 선택하여 주세요.\n(★★ 한개만 선택할수 없습니다. ★★ );");
+//			return false;
+//		}				
+//	}
 	
 	
 	$.ajaxSetup({ cache: false });
@@ -43,21 +44,21 @@ function send(tabCnt) {
 		return false;
 	}*/
 	
-	for(var ii=0; ii<noSave.length; ii++){
-		
-		if (noSave[ii] < 0) {
-			
-			//축구장 야구장
-			var MSG = (tabCnt == "0") ? "" : "[ "+ ii +" 코트] ";  
-			alert(MSG +"예약 불가 2시간(2개)이상 연속되게  예약을 선택하여 주세요.\n(★★ 한개만 선택할수 없습니다. ★★ );");
-			return false;
-		}
-	}
+//	for(var ii=0; ii<noSave.length; ii++){
+//		
+//		if (noSave[ii] < 0) {
+//			
+//			//축구장 야구장
+//			var MSG = (tabCnt == "0") ? "" : "[ "+ ii +" 코트] ";  
+//			alert(MSG +"예약 불가 2시간(2개)이상 연속되게  예약을 선택하여 주세요.\n(★★ 한개만 선택할수 없습니다. ★★ );");
+//			return false;
+//		}
+//	}
 	
-	if (chkCnt <= 1) {
-		alert("예약 불가 2시간(2개)이상 연속되게  예약을 선택하여 주세요.\n(★★ 한개만 선택할수 없습니다. ★★ );");
-		return false;
-	}
+//	if (chkCnt <= 1) {
+//		alert("예약 불가 2시간(2개)이상 연속되게  예약을 선택하여 주세요.\n(★★ 한개만 선택할수 없습니다. ★★ );");
+//		return false;
+//	}
 	
 	
 	if (confirm("\n일        자 : "+ fn_convertDate(2,rntYMD) +" \n예약시간 : 총 [ "+ chkCnt +" ]시간(건) 선택\n\n              대관 신청  하시겠습니까?\n ")) {
@@ -366,33 +367,32 @@ function selectCheck(tab, mycnt) {
 	//var selectCnt 	= $('input[sid="chk_tab_'+tab+'"]:checked [value != ""]').length;
 	//첵크된 갯수
 	var selectCnt = 0;
-	$('input[sid="chk_tab_'+tab+'"]:checked').each(function() {
-		if (this.value != "") {
-			selectCnt++;
-		}
-	});
+//	$('input[sid="chk_tab_'+tab+'"]:checked').each(function() {
+//		if (this.value != "") {
+//			selectCnt++;
+//		}
+//	});
 //	console.log("총 코스별 갯수:"+tabCnt);
 //	console.log("총선택 갯수:"+selectCnt);
-	if (selectCnt == 1) {
-		var chk1 = $('input:checkbox[sid="chk_tab_'+tab+'"]').eq(mycnt).prop('checked');
-		//console.log("chk1:"+chk1);
-		alert("최소 2시간(2개)이상 연속으로 선택하셔야 예약이 가능합니다.\n(1시간만 선택된 경우 무효 처리됨)\n\n");
-		//var chk1 = $('input:checkbox[sid="chk_tab_'+tab+'"]').eq(mycnt).prop('checked');
-		if (chk1) {
-			$('input:checkbox[sid="chk_tab_'+tab+'"]').eq((mycnt+1)).prop("checked",true);
-		}else {
-			$('input:checkbox[sid="chk_tab_'+tab+'"]').eq((mycnt+1)).prop("checked",false);
-		}
-	}
+//	if (selectCnt == 1) {
+//		var chk1 = $('input:checkbox[sid="chk_tab_'+tab+'"]').eq(mycnt).prop('checked');
+//		//console.log("chk1:"+chk1);
+//		alert("최소 2시간(2개)이상 연속으로 선택하셔야 예약이 가능합니다.\n(1시간만 선택된 경우 무효 처리됨)\n\n");
+//		//var chk1 = $('input:checkbox[sid="chk_tab_'+tab+'"]').eq(mycnt).prop('checked');
+//		if (chk1) {
+//			$('input:checkbox[sid="chk_tab_'+tab+'"]').eq((mycnt+1)).prop("checked",true);
+//		}else {
+//			$('input:checkbox[sid="chk_tab_'+tab+'"]').eq((mycnt+1)).prop("checked",false);
+//		}
+//	}
 	
 	//초기화
-	//selectCnt 	= $("input:checkbox[name='tseq']:checked").length; //$('input:checkbox[sid="chk_tab_'+tab+'"]:checked').length;
-	selectCnt = 0;
-	$('input[sid="chk_tab_'+tab+'"]:checked').each(function() {
-		if (this.value != "") {
-			selectCnt++;
-		}
-	});	
+//	selectCnt = 0;
+//	$('input[sid="chk_tab_'+tab+'"]:checked').each(function() {
+//		if (this.value != "") {
+//			selectCnt++;
+//		}
+//	});	
 	if (selectCnt == 0) {
 		$("input:checkbox[sid=chk_tab_"+ tab +"]:not(:checked)").prop('disabled', false);
 		$("input:checkbox[sid=chk_tab_"+ tab +"]:not(:checked)").prop('checked', false);
