@@ -139,7 +139,7 @@
 		oderData.step  = 2;
 
 		var BuyerName = encodeURI("<%=MEM_NM%>");
-		var boolean = false;
+		var boolean1 = false;
 
 		//주문전 수량 첵크
 		$.get('/data/lecture/basketIn', {secureText:localStorage.getItem('lecture'), "oderData" : oderData }, function(data){
@@ -149,11 +149,11 @@
 				window.location.href='/lecture/list/'+ data.COMCD;
 				return false;
 			} else {
-				boolean = true;
+				boolean1 = true;
 			}
 		}).done(function(){
 			
-			if (boolean == false) {
+			if (boolean1 == false) {
 				return false;
 			}
 			//debugger;
