@@ -34,6 +34,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -42,10 +44,14 @@ import org.xml.sax.SAXException;
 
 import com.dwict.jfmc.client.etc.service.EtcService;
 import com.dwict.jfmc.client.security.service.AccountService;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.dwict.jfmc.client.com.util.SHA256PasswordEncoder;
 import com.dwict.jfmc.client.etc.mapper.EtcMapper;
 
 import lombok.extern.slf4j.Slf4j;
+import net.sf.json.JSONArray;
 
 @Slf4j
 @Service("etcService")
@@ -401,4 +407,120 @@ public class EtcServiceImpl implements EtcService {
 	
 	  return strbuf.toString();
 	}
+	
+
+	/**########################################################
+	 * 키오스크 API 시작 
+	 *#########################################################
+	 */
+	//정수클로벌 키오스크 일일권 종류/가격 정보를 제공하는 API를 요청합니다	
+	@Override
+	public String apiKioskDayItemList(HttpServletRequest request) {					        
+
+		String gtype 		= request.getParameter("gtype").trim();
+		String COMCD 		= request.getParameter("comcd").trim();			//사업장
+		String SPORTS_CD 	= request.getParameter("spcd"); //종목(수영,헬스..)
+		String USE_TYPE 	= request.getParameter("u_type");  //평일,주말
+		
+		Map<String, Object> maps = new HashMap<>();
+		maps.put("gtype", gtype); //
+		maps.put("COMCD", COMCD);
+		maps.put("SPORTS_CD", SPORTS_CD);
+		maps.put("USE_TYPE", USE_TYPE);
+		
+		//회원조회/*
+		List<Map <String,Object>> mapss = new ArrayList<Map<String, Object>>();
+		mapss = etcMapper.apiKioskDayItemList(maps);
+		
+		String rtn = "";
+		Gson gson = new Gson();
+		JsonObject jsonobject = new JsonObject();
+		JsonObject name1Info = new JsonObject();		
+		JsonArray jsonArray = new JsonArray();
+		/*
+		if (maps == null) {
+	        name1Info.addProperty("responseCode", "0");
+	        name1Info.addProperty("responseData", "");
+		} else {
+			
+			rtn = new Gson().toJson(mapss);
+		}*/
+		//jsonobject.add("response", name1Info);
+		//rtn = gson.toJson(jsonobject);
+		rtn = name1Info.toString();
+		System.out.println(rtn);
+		rtn = new Gson().toJson(mapss);
+		return rtn;
+		//return null;
+        
+	}
+	
+	//일일권 매출 발생시 귀사의 DB에 등록할 수 있도록 매출 정보를 전송할 API가 필요합니
+	@Override
+	@Transactional
+	public String kioskDayInsert(Map<String, Object> requestMap, HttpServletRequest request) {
+	
+
+  		//등록강습반 및 프로그램 저장
+  		String prgList = (String)requestMap.get("PRG");//강습반 및 프로그램 정보
+  		String payList = (String)requestMap.get("PAY");//주문상품 정보
+  		
+  		JSONArray aPrgList = JSONArray.fromObject(prgList);
+  		JSONArray aPayList = JSONArray.fromObject(payList);
+  		String MEM_NO = (String)requestMap.get("MEM_NO");
+  		String CH_DATE = (String)requestMap.get("CH_DATE"); //일일매출 매출일자변경
+  		CH_DATE = (CH_DATE == null) ? "" : CH_DATE;
+  		String [] arrayREMARK = new String[20]; //비고 메모 
+		
+  		String userId = (String)requestMap.get("userId");
+  		String comCd = (String)requestMap.get("comCd");
+  		String userNm = (String)requestMap.get("userNm");
+  		String zeroCashPay = "N";//0원 현금결제인가 ?;
+  		try {
+  			zeroCashPay = (String)requestMap.get("zeroCashPay");
+  		}
+  		catch (Exception e) {
+  			zeroCashPay = "N";
+		}
+  		
+
+  		//ACT_MODE : "Change" 강좌 변경
+  		String ACT_MODE = (String)requestMap.get("ACT_MODE");
+		//METHOD_CD:결제수단코드(00:현금, 99:현금영수증, 01:비씨카드.....)
+  		
+  		int CASH_AMT_SUM = 0;//현금결제금액
+  		int CARD_AMT_SUM = 0;//카드결제금액
+  		int RECEIVE_AMT = 0; //받은금액
+  		int iDEPOSIT_AMT = 0; //보증금
+  	
+  		
+  		//현금,카드 합계
+  		for (int i=0;i<aPayList.size();i++ ) {
+  			String P_TYPE = aPayList.getJSONObject(i).getString("P_TYPE").toString();
+  			if ("CASH".equals(P_TYPE)) { //현금
+  	  			CASH_AMT_SUM 	= CASH_AMT_SUM + aPayList.getJSONObject(i).getInt("PAY_AMT"); //결제금액
+  	  			RECEIVE_AMT = RECEIVE_AMT + aPayList.getJSONObject(i).getInt("RECEIVE_AMT");
+  			} else { //카드
+  	  			CARD_AMT_SUM = CARD_AMT_SUM + aPayList.getJSONObject(i).getInt("PAY_AMT"); //결제금액
+  			}
+  		}
+
+  		String paytype = "";
+   		//현금만 일경우
+   		if ((CASH_AMT_SUM > 0 && CARD_AMT_SUM == 0) || "Y".equals(zeroCashPay)) {
+   			paytype = "cash";
+   		//카드만 일경우
+   		} else if (CARD_AMT_SUM > 0 && CASH_AMT_SUM == 0) {
+   			paytype = "card";
+   		//현금 + 카드
+   		} else {
+   			paytype = "cpc";
+   		}
+   		
+   		
+   		
+		
+		return rtn;
+	}
+	
 }

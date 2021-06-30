@@ -16,4 +16,11 @@ public interface EtcService {
 	//sso API
 	Map<String, Object> scc(Map<String, Object> requestMap, HttpServletRequest request);
 
+	//kiosk 정수 API
+	String apiKioskDayItemList(HttpServletRequest request);
+
+	//kiosk 정수 API
+	String kioskDayInsert(Map<String, Object> requestMap, HttpServletRequest request);
+
+
 }

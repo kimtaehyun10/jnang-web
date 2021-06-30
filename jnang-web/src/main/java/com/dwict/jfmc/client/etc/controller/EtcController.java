@@ -86,9 +86,9 @@ public class EtcController {
 	
 	
 
-	/* ########################################################
-	 * 혁산 API
-	 *#########################################################
+	/* 
+	 * 혁산 API ########################################################
+	 *
 	 */
 	//혁산 api 회원가입 여부 조회
 	@GetMapping(value = "/member/isMember.do")
@@ -134,5 +134,31 @@ public class EtcController {
 		return modelAndView;
 	}
 	*/	
+	
+	
+	/* 
+	 * 정수클로벌 키오스크 제공 API ########################################################
+	 *
+	 */
+	//일일권 종류/가격 정보를 제공하는 API를 요청합니다
+	@GetMapping(value = "/kiosk/dayItemList.do")
+	public ModelAndView kioskDayItemList(HttpServletRequest request, ModelAndView modelAndView) {
+		String rtnMSG = etcService.apiKioskDayItemList(request);
+		modelAndView.addObject("rtnMSG",rtnMSG);
+		modelAndView.setViewName("etc/sccAPI.none");
+		return modelAndView;
+	}
+	
+	//일일권 매출 발생시 귀사의 DB에 등록할 수 있도록 매출 정보를 전송할 API가 필요합니
+	@GetMapping(value = "/kiosk/dayInsert.do")
+	public ModelAndView kioskDayInsert(Map<String, Object> requestMap, HttpServletRequest request, ModelAndView modelAndView) {
+		String rtnMSG = etcService.kioskDayInsert(requestMap, request);
+		modelAndView.addObject("rtnMSG",rtnMSG);
+		modelAndView.setViewName("etc/sccAPI.none");
+		return modelAndView;
+	}
+	
+	
+	
 	
 }
