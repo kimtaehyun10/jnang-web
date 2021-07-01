@@ -24,14 +24,34 @@
 	
 	<!-- 다음정산번호 조회 -->
 	<select id="getNextSlipNo" resultType="String" parameterType="java.util.HashMap">
-		select lpad(CAST(ifnull(max(SLIP_NO), '0') AS UNSIGNED) + 1, 13, '0') 
-		  from PAY_LIST	
+		<!-- 관리자와 똑같이변경함 select lpad(CAST(ifnull(max(SLIP_NO), '0') AS UNSIGNED) + 1, 13, '0') 
+		  from PAY_LIST -->
+		select max(SLIP_NO) AS SLIP_NO
+		  from ( 
+				select lpad(CAST(ifnull(max(SLIP_NO), '0') AS UNSIGNED) + 1, 13, '0') as SLIP_NO
+			 	  from CALC_MASTER
+				union
+				select lpad(CAST(ifnull(max(SLIP_NO), '0') AS UNSIGNED) + 1, 13, '0') as SLIP_NO 
+				  from PAY_LIST
+				union
+				select lpad(CAST(ifnull(max(SLIP_NO), '0') AS UNSIGNED) + 1, 13, '0') as SLIP_NO
+				  from mem_sale
+		       ) X
 	</select>
 	
 	<!-- 다음영수번호 조회 -->
 	<select id="getNextReceiptNo" resultType="String" parameterType="java.util.HashMap">
-		select lpad(CAST(ifnull(max(RECEIPT_NO), '0') AS UNSIGNED) + 1, 13, '0') 
-		  from PAY_CHANGE_INFO	
+		<!-- 관리자와 똑같이변경함 select lpad(CAST(ifnull(max(RECEIPT_NO), '0') AS UNSIGNED) + 1, 13, '0') 
+		  from PAY_CHANGE_INFO -->	
+		select max(RECEIPT_NO) AS RECEIPT_NO
+		  from ( 
+				select lpad(CAST(ifnull(max(RECEIPT_NO), '0') AS UNSIGNED) + 1, 13, '0') as RECEIPT_NO
+			 	  from PAY_CHANGE_INFO
+				union
+				select lpad(CAST(ifnull(max(RECEIPT_NO), '0') AS UNSIGNED) + 1, 13, '0') as RECEIPT_NO 
+				  from PAY_LIST
+		       ) X	
+		       		  
 	</select>	
 	
 	
