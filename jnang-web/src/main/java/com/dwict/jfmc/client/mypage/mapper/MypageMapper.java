@@ -53,4 +53,7 @@ public interface MypageMapper {
 
 	Map<String, Object> getMyClss(Map<String, Object> requestMap);
 	
+	int rentPageCnt(Map<String, Object> param);
+	
+	List<Map<String, ?>> rentPage(Map<String, Object> param);
 }

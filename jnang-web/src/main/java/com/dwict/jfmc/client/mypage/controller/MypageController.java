@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.dwict.jfmc.client.com.model.Paging;
 import com.dwict.jfmc.client.mem.model.Member;
 import com.dwict.jfmc.client.mem.service.MemberService;
 import com.dwict.jfmc.client.mypage.service.MypageService;
@@ -316,5 +317,16 @@ public class MypageController {
 		return modelAndView;
 	}
 	
+	@RequestMapping(value = "/mypage/rentPaging/{MEM_NO}")
+	public Paging rentPage(HttpServletRequest request, @PathVariable String MEM_NO) {
+		final Map<String, Object> param = new HashMap<>();
+		
+		param.put("MEM_NO",MEM_NO);
+		param.put("pageIndex", request.getParameter("pageIndex"));
+		param.put("pageSize", request.getParameter("pageSize"));
+		param.put("startRow", request.getParameter("startRow"));
+		
+		return service.rentPage(param);
+	}
 	
 }

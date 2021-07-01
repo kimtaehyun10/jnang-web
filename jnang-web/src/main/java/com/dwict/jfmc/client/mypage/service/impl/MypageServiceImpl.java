@@ -340,4 +340,17 @@ public class MypageServiceImpl implements MypageService {
 
 		return mapper.getMyClss(requestMap);
 	}
+
+
+	@Override
+	public Paging rentPage(Map<String, Object> param) {
+		final Paging obj = new Paging();
+		obj.handlePaging(Integer.valueOf((String) param.get("pageIndex")), Integer.valueOf((String) param.get("pageSize")));
+		param.put("startRow", obj.getStartRow());
+		param.put("pageSize", obj.getPageSize());
+		int rentPageCnt = mapper.rentPageCnt(param);
+		param.put("rentPageCnt",rentPageCnt+1);
+		obj.handlePagingList(mapper.rentPage(param), mapper.rentPageCnt(param));
+		return obj;	
+	}
 }

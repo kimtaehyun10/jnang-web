@@ -99,6 +99,11 @@
 	
 	
 %> 
+<c:set var="test" value="${result.COMNM } > ${result.PLACE_NM }" />
+<%
+   String test = (String)pageContext.getAttribute("test") ;
+   test = URLEncoder.encode(test, "EUC-KR");
+%>
 
 <script type="text/javascript">
 
@@ -216,154 +221,123 @@ function goPay()
 function rentDetail(comNm, rentIdx, writeDh, placeCd, reserveDate, appType) {
 	var userId = '<%=MEM_ID%>';
 		window.location.href='/mypage/rentDetail?rentIdx='+rentIdx+'&writeDh=' + writeDh + '&userId=' + userId + '&appType=' + appType + '&placeCd=' + placeCd;
-	}
 
+}
+
+function rentPage(){
+	var formData=new FormData();
+	var MEM_NO = '<%=MEM_NO%>';
+	var pageIndex = $('#h_pageIndex').val();
+	var pageSize = $('#h_pageSize').val();
+	var startRow = $('#h_startRow').val();
+	var cont = "";
+	var cont1 = "";
+	formData.append("MEM_NO",MEM_NO);
+	formData.append("pageIndex",pageIndex);
+	formData.append("pageSize",pageSize);
+	formData.append("startRow",startRow);
+	$.ajax({
+        type: "post",
+        url:'/mypage/rentPaging/'+MEM_NO+'',
+        data: formData,
+        processData: false,
+        contentType: false,       
+        success: function (data) {
+	       	var now = new Date();	// 현재 날짜 및 시간
+			var month = now.getMonth() + 1;
+			if(month > 0 && month < 10) {
+				month = "0" + month;
+			}
+			var year = now.getFullYear();	// 연도
+			var date = now.getDate();
+			if(date > 0 && date < 10) {
+				date = "0" + date;
+			}
+			var today = year +""+month+""+date;
+			
+	       	var size = data.resultList.length;
+	       	console.log(data);
+	       	var ediDate = '<%=ediDate%>';
+	       	var test = '<%=test%>';
+	       	var actionUrl = '<%=actionUrl%>';
+	       	var MEM_ID = '<%=MEM_ID%>';
+        	if(size!=0){
+        		for(var i=0; i<size; i++){
+        			if(i==0){
+        				cont += '<colgroup><col width="5%"><col width="5%"><col width="*"><col width="120"><col width="100"><col width="100"><col width="100"></colgroup>';
+        				cont += '<thead><tr><th>No.</th><th>선택</th><th>대관장소</th><th>대관료</th><th>대관일</th><th>확정여부</th><th>접수일</th><th>결제하기</th></tr></thead>';
+        				cont += '<tbody>';
+        			}
+        			cont += '<td>'+data.resultList[i].RENT_IDX+'</td>';
+        			cont += '<td>';
+        			if(data.resultList[i].APP_TYPE == '10' || data.resultList[i].APP_TYPE == '5') {
+        				cont += '<input type="checkbox" id="cbox" name="cbox[]" value='+data.resultList[i].RENT_IDX+' style="width:30px; height:30px;">';
+        			}
+        			cont += '</td>';
+        			cont += "<td onclick=\"rentDetail('"+ data.resultList[i].COMNM +"','"+ data.resultList[i].RENT_IDX +"','"+ data.resultList[i].WRITE_DH +"','"+ data.resultList[i].PLACE_CD +"','"+ data.resultList[i].RESERVE_DATE +"','"+ data.resultList[i].APP_TYPE +"');\" style='cursor: pointer;'>"+ data.resultList[i].COMNM +" &nbsp; > &nbsp;  "+ data.resultList[i].PLACE_NM +"</td>";
+        			//cont += "<td onclick=\"rentDetail('"+ data.resultList[i].COMCD +"','"+ data.resultList[i].RENT_IDX +"','"+ data.resultList[i].WRITE_DH +"','"+ data.resultList[i].PLACE_CD +"','"+ data.resultList[i].RESERVE_DATE +"','"+ data.resultList[i].APP_TYPE +"' style='cursor: pointer;');\"></td>";
+        			cont += '<td>'+data.resultList[i].PAY_AMT+'</td>';
+        			cont += '<td>'+data.resultList[i].R_RESERVE_DATE+'</td>';
+        			cont += '<td>'+data.resultList[i].APP_TYPE_NM+'</td>';
+        			cont += '<td>'+data.resultList[i].R_WRITE_DH+'</td>';
+        			cont += '<td>';
+        			if(data.resultList[i].APP_TYPE == "15"){
+        				if(today < data.resultList[i].RESERVE_DATE){
+        					cont += '<input type="button" class="size_m2 btn_green1" value="결제" onClick="test("'+ediDate+'", "'+data.resultList[i].PAY_AMT+'","'+test+'", "'+data.resultList[i].RESERVE_DATE+'", "'+data.resultList[i].PLACE_CD+'", "'+data.resultList[i].COMCD+'","'+data.resultList[i].RENT_IDX+'","'+MEM_ID+'","'+actionUrl+'");">';
+        				}else if(today == data.resultList[i].RESERVE_DATE){
+        					cont += '<input type="button" class="size_m2 btn_green1" value="결제" onClick="test("'+ediDate+'", "'+data.resultList[i].PAY_AMT+'","'+test+'", "'+data.resultList[i].RESERVE_DATE+'", "'+data.resultList[i].PLACE_CD+'", "'+data.resultList[i].COMCD+'","'+data.resultList[i].RENT_IDX+'","'+MEM_ID+'","'+actionUrl+'");">';
+        				}
+        			}else if(data.resultList[i].APP_TYPE == "5"){
+        				if(today < data.resultList[i].RESERVE_DATE){
+        					cont += "<input type='button' class='size_m2 btn_green1' value='결제' onclick=\"rentDetail('"+ data.resultList[i].COMNM +"','"+ data.resultList[i].RENT_IDX +"','"+ data.resultList[i].WRITE_DH +"','"+ data.resultList[i].PLACE_CD +"','"+ data.resultList[i].RESERVE_DATE +"','"+ data.resultList[i].APP_TYPE +"');\">";
+        				}else if(today == resultList[i].RESERVE_DATE){
+        					cont += "<input type='button' class='size_m2 btn_green1' value='결제' onclick=\"rentDetail('"+ data.resultList[i].COMNM +"','"+ data.resultList[i].RENT_IDX +"','"+ data.resultList[i].WRITE_DH +"','"+ data.resultList[i].PLACE_CD +"','"+ data.resultList[i].RESERVE_DATE +"','"+ data.resultList[i].APP_TYPE +"');\">";
+        				}
+        			}else if(data.resultList[i].APP_TYPE == "30"){
+        				if(today < data.resultList[i].RESERVE_DATE){
+        					cont += '<input type="button" class="size_m2 btn_green1" value="취소" onClick="cancelPay("'+data.resultList[i].TID+'", "'+data.resultList[i].SLIP_NO+'", "'+data.resultList[i].PAY_AMT+'","'+data.resultList[i].PAY_DATE+'","'+data.resultList[i].COMCD+'" );">';
+        				}else if(today == data.resultList[i].RESERVE_DATE){
+        					cont += "<input type='button' class='size_m2 btn_gray1' value='취소불가' onclick=\"alert('대관신청날짜와 오늘날짜가 같습니다.\\n취소가 불가능 합니다.\\n관리자에게 문의해주세요.');\")>";
+        				}else {
+        					cont += "<input type='button' class='size_m2 btn_gray1' value='취소불가' onclick=\"alert('대관날짜가 지난 날짜입니다.\\n취소가 불가능 합니다.\\n관리자에게 문의해주세요.');\")>";
+        				}		
+        			}
+        			cont += '</td></tr>';
+        		}
+        		
+    			cont += '</tbody>';
+        	}
+        	console.log(cont);
+        	$('#rentList').empty().append(cont);
+        	paging(data, 'rentPage()');
+        },        
+        error: function (jqXHR,textStatus,errorThrown) { 
+        	console.log(jqXHR,textStatus,errorThrown);
+        }
+    });
+}
+
+window.onload = function(){
+	rentPage();
+}
 
 </script>
+<input type="hidden" id="h_pageIndex" name="h_pageIndex" value="1"/>
+<input type="hidden" id="h_pageSize" name="h_pageSize" value="10"/>
+<input type="hidden" id="h_startRow" name="h_startRow" value="0"/>
 <a class='size_m2 btn_green1' href="/mypage/classStatus">수강신청현황</a>
 <a class='size_m2 btn_green1' href="/mypage/lockerStatus">사물함신청현황</a>
 <a class='size_m2 btn_gray1' href="/mypage/rent">대관신청현황</a>
 <a class='size_m2 btn_green1' href="/mypage/modify">회원정보수정</a>
 <div id="sub_cart" class=' '>
 	<form name="frm" method="post">
-	<table class="stbl_l1a">
-		<colgroup>
-			<col width="5%"><col width="5%"><col width="*"><col width="120"><col width="100"><col width="100"><col width="100">
-		</colgroup>
-		<thead>
-			<tr>
-				<th>No.</th>
-				<th>선택</th>
-				<th>대관장소</th>
-				<th>대관료</th>
-				<th>대관일</th>
-				<th>확정여부</th>
-				<th>접수일</th>
-				<th>결제하기</th>
-			</tr>
-		</thead>
-		<tbody id="dataList">
-			<c:forEach items="${rentList}" var="result" varStatus="status">
-			<!-- 체육관 대관만 현재 확인 가능 -->
-			<%-- <c:if test="${result.PLACE_NM ne '축구장'  && result.PLACE_NM ne '야구장' && result.PALCE_NM ne '테니스장' && result.PLACE_NM ne '잔디운동장'}"> --%>
-			<%-- <c:if test="${result.PLACE_GROUP == '1' }"> --%>
-			<tr>
-				<td>${status.count}</td>
-				<td>
-					<c:if test="${result.APP_TYPE == '10' or result.APP_TYPE == '5'}">	
-					<input type="checkbox" id="cbox" name="cbox[]" value="${result.RENT_IDX}" style='width:30px; height:30px;'></td>
-					</c:if>
-				<td onclick="rentDetail('${result.COMNM}', '${result.RENT_IDX }', '${result.WRITE_DH }', '${result.PLACE_CD }', '${result.RESERVE_DATE }', '${result.APP_TYPE }');" style="cursor: pointer;">${result.COMNM}  &nbsp; > &nbsp;  ${result.PLACE_NM}
-					<c:if test="${result.PLACE_GROUP ne '4' }">
-							<c:if test="${result.OBJECT ne null}">
-								&nbsp; ( ${result.OBJECT} )
-								${result.SDATE }~${result.EDATE}
-							</c:if>
-							<c:if test="${result.place_tab ne 0}">
-								&nbsp; / ( ${result.place_tab} ) 코트
-							</c:if>
-							<c:if test="${result.add_light ne 0}">
-								&nbsp; / 조명 사용
-							</c:if>
-					</c:if>	
-				</td>
-				<td>
-					<%-- <c:if test="${result.PLACE_NM == '축구장' }">
-						
-					</c:if> --%>
-					<%-- <c:if test="${result.PLACE_NM == '생활체육실' }"> --%>
-						<fmt:formatNumber value="${result.PAY_AMT}" pattern="#,###"/>원
-					<%-- </c:if> --%>
-				</td>
-				<td>${result.RESERVE_DATE}</td>
-				<td>${result.APP_TYPE_NM}</td>
-				<td>${result.CHNG_DH}</td>
-				<td>
-				 <c:set var="test" value="${result.COMNM } > ${result.PLACE_NM }" />
-				 <%
-				    String test = (String)pageContext.getAttribute("test") ;
-				 	test = URLEncoder.encode(test, "EUC-KR");
-				 %>
-					
-					<c:set var="now" value="<%=new java.util.Date()%>" />
-					<c:set var="sysDate"><fmt:formatDate value="${now}" pattern="yyyy-MM-dd" /></c:set>
-					<c:choose>
-						<c:when test="${result.APP_TYPE == '15' }">
-							<c:if test="${sysDate < result.RESERVE_DATE }">
-								<input type="button" class="size_m2 btn_green1" value="결제" onClick="test('<%=ediDate%>', '${result.PAY_AMT}','<%=test%>', '${result.RESERVE_DATE}', ${result.PLACE_CD}, '${result.COMCD }',${result.RENT_IDX },'${otherData.MEM_ID }','<%=actionUrl%>' );">
-							</c:if>
-							<c:if test="${sysDate eq result.RESERVE_DATE }">
-								<input type="button" class="size_m2 btn_green1" value="결제" onClick="test('<%=ediDate%>', '${result.PAY_AMT}','<%=test%>', '${result.RESERVE_DATE}', ${result.PLACE_CD}, '${result.COMCD }',${result.RENT_IDX },'${otherData.MEM_ID }','<%=actionUrl%>' );">
-							</c:if>
-							<c:if test="${sysDate > result.RESERVE_DATE }">
-								<!-- 아무것도 안나옴 -->
-							</c:if>	
-						</c:when>
-						<c:when test="${result.APP_TYPE == '5' }">
-							<c:if test="${sysDate < result.RESERVE_DATE }">
-								<input type="button" class="size_m2 btn_green1" value="결제" onClick="rentDetail('${result.COMNM}', '${result.RENT_IDX }', '${result.WRITE_DH }', '${result.PLACE_CD }', '${result.RESERVE_DATE }', '${result.APP_TYPE }');">
-							</c:if>
-							<c:if test="${sysDate eq result.RESERVE_DATE }">
-								<input type="button" class="size_m2 btn_green1" value="결제" onClick="rentDetail('${result.COMNM}', '${result.RENT_IDX }', '${result.WRITE_DH }', '${result.PLACE_CD }', '${result.RESERVE_DATE }', '${result.APP_TYPE }');">
-							</c:if>
-							<c:if test="${sysDate > result.RESERVE_DATE }">
-							</c:if>
-						</c:when>
-						<c:when test="${result.APP_TYPE == '30' }">
-							<c:if test="${sysDate > result.RESERVE_DATE }">
-								<input type="button" class="size_m2 btn_gray1" value="취소불가" onclick="javascript:alert('대관날짜가 지난 날짜입니다.\n취소불가능합니다.\n관리자에게 문의해주세요');">
-							</c:if>
-							<c:if test="${sysDate eq result.RESERVE_DATE }">
-								<input type="button" class="size_m2 btn_gray1" value="취소불가" onclick="javascript:alert('대관신청날짜와 오늘날짜가 같습니다.\n취소불가능합니다.\n관리자에게 문의해주세요');">
-							</c:if>
-							<c:if test="${sysDate < result.RESERVE_DATE }">
-								<input type="button" class="size_m2 btn_green1" value="취소" onClick="cancelPay('${result.TID}', '${result.SLIP_NO}', '${result.PAY_AMT}','${result.PAY_DATE }','${result.COMCD}' );">
-							</c:if>
-						</c:when>
-						<c:otherwise>
-						
-						</c:otherwise>
-					</c:choose>
-					
-					<%-- <c:choose>
-						<c:when test="${sysDate eq result.PAY_DATE_RE}">
-							<c:if test="${result.APP_TYPE == '30' }">
-								<input type="button" class="size_m2 btn_green1" value="취소" onClick="cancelPay('${result.TID}', '${result.SLIP_NO}', '${result.PAY_AMT}','${result.PAY_DATE }','${result.COMCD}' );">
-							</c:if>
-						</c:when>
-						<c:when test="${sysDate ne result.PAY_DATE_RE}">
-							<c:if test="${sysDate > result.RESERVE_DATE }">
-								<c:if test="${result.APP_TYPE == '30' }">
-									
-								</c:if>
-							</c:if>
-							<c:if test="${sysDate > result.RESERVE_DATE }">
-								<c:if test="${result.APP_TYPE == '15' }">
-									
-								</c:if>
-							</c:if>
-							<c:if test="${sysDate < result.RESERVE_DATE }">
-								<c:if test="${result.APP_TYPE == '30' }">
-									<input type="button" class="size_m2 btn_green1" value="취소" onClick="cancelPay('${result.TID}', '${result.SLIP_NO}', '${result.PAY_AMT}','${result.PAY_DATE }','${result.COMCD}' );">
-								</c:if>
-							</c:if>
-						</c:when>
-						<c:otherwise>
-							<c:if test="${result.APP_TYPE == '30' }">
-								<input type="button" class="size_m2 btn_green1" value="취소" onClick="cancelPay('${result.TID}', '${result.SLIP_NO}', '${result.PAY_AMT}','${result.PAY_DATE }','${result.COMCD}' );">
-							</c:if> 
-						</c:otherwise>
-					</c:choose> --%>
-				</td>
-			</tr>
-			<%-- </c:if> --%>
-			</c:forEach>
-		</tbody>
+	<table class="stbl_l1a" id="rentList">
 	</table>
 	</form>
     <div class="btnarea margin_t80">
         <a href="#none" onClick="data.list('del');" id=" " class="gray2">선택 대관 취소</a>
     </div>
+    <div id="paging" class="paging_01a"></div>
 </div>
 
 <%

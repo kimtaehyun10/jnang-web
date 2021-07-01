@@ -240,7 +240,7 @@
     <!-- 대관접수 리스트 -->
     <select id="myRentDataList" parameterType="String" resultType="java.util.HashMap">
     
- select
+ 		select
 			t1.RENT_IDX
 			,(select COMNM from cominfo cm where cm.COMCD = t1.COMCD) as COMNM
 			,(select PLACE_NM from rent_place rp where rp.PLACE_CD = t1.PLACE_CD ) as PLACE_NM
@@ -802,6 +802,77 @@
 		  AND R1.AuthCode = #{APP_NO}
 		ORDER BY WRITE_DH DESC
 		
+	</select>
+	
+	<select id="rentPageCnt" resultType="int" parameterType="java.util.HashMap">
+		SELECT COUNT(1)
+		FROM RENT_APP
+		WHERE MEM_NO = #{MEM_NO}
+	</select>
+	
+	<select id="rentPage" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+	 SELECT R1.*
+			FROM 
+        ( SELECT APP.RENT_IDX
+				, APP.ORDER_SEQ
+                , APP.COMCD
+                , APP.PLACE_CD
+				, (SELECT COMNM FROM COMINFO A WHERE A.COMCD = APP.COMCD) AS COMNM
+                , (SELECT PLACE_NM FROM RENT_PLACE A WHERE A.PLACE_CD = APP.PLACE_CD) AS PLACE_NM
+                , APP.PLACE_TIME_SEQ
+                , APP.APP_DATE
+                , APP.MEM_NO
+                , CASE APP.APP_TYPE
+					WHEN '5' THEN '결제대기'				
+					WHEN '15' THEN '결제대기'
+					WHEN '10' THEN '접수대기'
+					WHEN '20' THEN '확인중'
+					WHEN '30' THEN '확정'
+					WHEN '40' THEN '취소'
+					WHEN '50' THEN '환불신청중'
+				END AS APP_TYPE_NM
+                , APP.BOSSNM
+                , APP.COM_NM
+                , APP.PERSON_YN
+                , APP.CP
+                , APP.OBJECT
+                , APP.INWON
+                , APP.SDATE
+                , APP.EDATE
+                , APP_TYPE
+                , APP.DISPLAY_YN
+                , APP.SALE_AMT
+                , APP.PAY_AMT
+                , APP.PAY_DATE
+                , DATE_FORMAT(APP.RESERVE_DATE , '%Y%m%d') AS RESERVE_DATE
+                , DATE_FORMAT(APP.RESERVE_DATE , '%Y-%m-%d') AS R_RESERVE_DATE
+                , APP.SLIP_NO
+                , APP.OFFLINE_YN
+                , APP.OFFLINE_DATE
+                , APP.CONCEPT
+                , APP.DISCOUNT_MSG
+<!--                 , APP.WRITE_DH -->
+                , DATE_FORMAT(APP.WRITE_DH , '%Y-%m-%d') AS R_WRITE_DH
+                , DATE_FORMAT(APP.WRITE_DH , '%Y-%m-%d %H:%i:%s.%f') AS WRITE_DH
+                , APP.WRITER
+                , APP.CHNG_DH
+                , APP.START_DATE
+                , APP.END_DATE
+                , APP.ATTACH_ID
+                , APP.TID
+                , APP.BECAUSE
+                , APP.DIVIDEDSALERENT
+                , APP.LIGHTSUM
+                , APP.TENNISPAYAMT
+                , APP.PURPOSE
+                , APP.DESK
+                , APP.MIC
+                FROM RENT_APP APP, (SELECT @ROWNUM:=#{rentPageCnt}) R
+			WHERE MEM_NO = #{MEM_NO}
+			ORDER BY RENT_IDX DESC
+			) R1
+			WHERE 1=1		
+            LIMIT #{startRow}, #{pageSize}
 	</select>
 	
 </mapper>

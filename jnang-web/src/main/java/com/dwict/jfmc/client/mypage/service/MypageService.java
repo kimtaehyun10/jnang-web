@@ -51,4 +51,5 @@ public interface MypageService {
 	
 	//결제상세보기
 	Map<String, Object> getMyClss(Map<String, Object> requestMap);
+	Paging rentPage(Map<String, Object> param);
 }
