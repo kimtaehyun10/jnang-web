@@ -57,17 +57,18 @@ String MEM_MAIL = member.getEmail();
 	 -->	
 	<table class="stbl_l1a">
 		<colgroup>
-			<col width="5%"><col width="*"><col width="10%"><col width="10%"><col width="20%"><col width="10%">
+			<col width="5%"><col width="10%"><col width="*"><col width="10%"><col width="10%"><col width="20%"><col width="10%">
 		</colgroup>
 		<thead>
 			<tr>
 				<th>번호</th>
+				<th>구분</th>
 				<th>[시설명] 강좌명</th>
 				<!-- <th>대상</th> -->
 				<th>수강료</th>
 				<th>결제상태</th>
 				<th>수강기간</th>
-				<th>결제 상세보기</th>
+				<th>카드결제<br>상세보기</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -79,6 +80,7 @@ String MEM_MAIL = member.getEmail();
 				<c:set var="ITEM_SDATE" value="${result.ITEM_SDATE}"/>
 				<c:set var="ITEM_EDATE" value="${result.ITEM_EDATE}"/>
 				<c:set var="COST_AMT" value="${result.COST_AMT}"/>
+				<c:set var="WEB_TYPE" value="${result.WEB_TYPE}"/>
 				
 				<%
 					String COMCD = (String)pageContext.getAttribute("COMCD") ;
@@ -86,11 +88,20 @@ String MEM_MAIL = member.getEmail();
 					String ITEM_SDATE = (String)pageContext.getAttribute("ITEM_SDATE") ;
 					String ITEM_EDATE = (String)pageContext.getAttribute("ITEM_EDATE") ;
 					String sCOST_AMT = (String)pageContext.getAttribute("COST_AMT") ;
+					String WEB_TYPE = (String)pageContext.getAttribute("WEB_TYPE") ;
 					sCOST_AMT = sCOST_AMT.replace(",","");
 					int COST_AMT = Integer.parseInt(sCOST_AMT);
 				%>
 				
 				<td>${status.count}</td>
+				<td>
+					<c:if test="${result.WEB_TYPE eq 'OFFLINE'}">
+						현장결제
+					</c:if>
+					<c:if test="${result.WEB_TYPE eq 'ONLINE'}">
+						온라인결제
+					</c:if>
+				</td>
 				<td>[${result.COMNM}] ${result.CLASS_NM}</td>
 				<%-- <td>${result.ITEM_NM}</td> --%>
 				<td>${result.COST_AMT}원</td>
@@ -98,7 +109,7 @@ String MEM_MAIL = member.getEmail();
 					<span id="" class="cap_blue">${result.MIDCANCEL_YN_NM}</span>
 					<%
 					//<!-- 당일취소 -->
-					if (today.equals(WRITE_YMD)){
+					if (today.equals(WRITE_YMD) && "ONLINE".equals(WEB_TYPE)){
 						if (COST_AMT > 0) { %>
 						<c:if test="${result.MIDCANCEL_YN_NM ne '취소'}">
 							<br><a href="#none" onclick="cancelPay('${result.TID}', '${result.SLIP_NO}', '${result.SALE_AMT}','${result.COMCD}','${result.SALE_SEQ}');" class="btn_green1">당일취소</a>
@@ -150,7 +161,9 @@ String MEM_MAIL = member.getEmail();
 					//재 수강신청 버튼					
 					if (rePay == true){
 					%>
-						<a class="size_s2 btn_pink_blueWrite" onclick="addBasket1('${result.COMCD}', '${result.CLASS_CD}', '${result.ITEM_CD}', '${result.REP_SDATE}', '${result.REP_EDATE}');">재 수강신청</a>
+						<c:if test="${result.MIDCANCEL_YN_NM eq '정상'}">
+							<a class="size_s2 btn_pink_blueWrite" onclick="addBasket1('${result.COMCD}', '${result.CLASS_CD}', '${result.ITEM_CD}', '${result.REP_SDATE}', '${result.REP_EDATE}');">재 수강신청</a>
+						</c:if>						
 					<%
 					}
 					%>
@@ -164,7 +177,9 @@ String MEM_MAIL = member.getEmail();
 					<!-- <div><a class="size_s2 btn_blue2" onclick="">재등록</a></div>-->
 				</td>	
 				<td>
-					<a class="size_s2 btn_pink_blueWrite" onclick="myPay('${result.COMCD}','${result.APP_NO}');">상세보기</a>
+					<c:if test="${!empty result.APP_NO}">
+						<a class="size_s2 btn_pink_blueWrite" onclick="myPay('${result.COMCD}','${result.APP_NO}');">상세보기</a>
+					</c:if>					
 				</td>			
 			</tr>
 			</c:forEach>

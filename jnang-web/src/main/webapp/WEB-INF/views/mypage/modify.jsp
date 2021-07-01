@@ -100,12 +100,12 @@
 									<div>
 										<c:choose>
 											<c:when test="${member.birthSec eq 'S'}">
-												<input type="radio" id="solar" name="birthSec" value="S" checked disabled="disabled"> <label for="solar"> 양력</label>  
-												<input type="radio" id="lunar" name="birthSec" value="M" disabled="disabled"> <label for="lunar"> 음력</label>
+												<input type="radio" id="solar" name="birthSec" value="S" checked> <label for="solar"> 양력</label>  
+												<input type="radio" id="lunar" name="birthSec" value="M" > <label for="lunar"> 음력</label>
 											</c:when>
 											<c:otherwise>
-												<input type="radio" id="solar" name="birthSec" value="S" disabled="disabled"> <label for="solar"> 양력</label>  
-												<input type="radio" id="lunar" name="birthSec" value="M" checked disabled="disabled"> <label for="lunar"> 음력</label> 
+												<input type="radio" id="solar" name="birthSec" value="S" > <label for="solar"> 양력</label>  
+												<input type="radio" id="lunar" name="birthSec" value="M" checked > <label for="lunar"> 음력</label> 
 											</c:otherwise>
 										</c:choose>										
 									</div>

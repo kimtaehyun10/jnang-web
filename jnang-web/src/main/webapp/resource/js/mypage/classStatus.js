@@ -70,7 +70,25 @@ var addBasket1 = function(comcd, classCd, itemCd, repSdate, repEdate){
 		}).done(function(){
 			$.get('/data/lecture/basketIn', {secureText:localStorage.getItem('lecture'), "oderData" : oderData }, function(data){
 				
-				if (data.code == "-9"){
+				/*if (data.code == "-9"){
+					alert("세션이 종료되었거나 로그인 회원이 아닙니다.\n\n로그인 페이지로 이동합니다.");
+					window.location.href='/mem/login';
+				} else if(data.code == "-10"){
+					alert("회원카드를 발급받은 회원만 신청이 가능합니다. 센터에 방문하셔서 발급 받으세요.");
+					window.location.reload();
+				} else if (Number(data.SEQ) && data.SEQ != undefined && data.SEQ != "" && data != null){
+						window.location.href='/lecture/lecturePaymentDetail?SEQ='+data.SEQ+'&GUBUN=R';
+				} else {
+					alert("접수오류 \n\n다시 시도 후 관리자에게 문의 하세요.");
+					window.location.reload();
+				}*/							
+				if (data.code == "0"){
+					alert("신청하신 강좌가 마감되었습니다.");
+					window.location.reload();
+				} else if (data.code == "T"){
+					alert("현재 신청 시간이 아닙니다.\n\n"+ data.msg +"시 이후 부터 신청가능합니다.");
+					return false;					
+				} else if (data.code == "-9"){
 					alert("세션이 종료되었거나 로그인 회원이 아닙니다.\n\n로그인 페이지로 이동합니다.");
 					window.location.href='/mem/login';
 				} else if(data.code == "-10"){
@@ -81,7 +99,7 @@ var addBasket1 = function(comcd, classCd, itemCd, repSdate, repEdate){
 				} else {
 					alert("접수오류 \n\n다시 시도 후 관리자에게 문의 하세요.");
 					window.location.reload();
-				}							
+				}				
 				
 			});
 		});

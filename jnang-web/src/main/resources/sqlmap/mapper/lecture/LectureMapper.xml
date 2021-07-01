@@ -291,7 +291,8 @@
 		     , B.TIME_CHECKYN
 		     , B.S_OLD
 		     , B.E_OLD
-		     , B.ADULT_GUBN
+		     <!-- , B.ADULT_GUBN -->
+		     ,(select CD_NM from cot_grpcd where grp_cd='CM_CLASSOBJ_CD' and cd = B.ADULT_GUBN and comcd = A.COMCD) as ADULT_GUBN
 		     , B.BIGO
 	      FROM ITEM_CLASS A
 		  JOIN PROGRAM_ITEM B

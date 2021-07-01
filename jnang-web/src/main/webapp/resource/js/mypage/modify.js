@@ -57,6 +57,21 @@ var modify = {
 			$("#homeAddr").focus();
 			return false;
 		};
+		if($("#dpstrNm").val() === ''){
+			alert('예금주명을 입력해 주세요.');
+			$("#dpstrNm").focus();
+			return false;
+		};
+		if($("#bankNm").val() === ''){
+			alert('환불계좌 은행명을 입력해 주세요.');
+			$("#bankNm").focus();
+			return false;
+		};
+		if($("#acountNum").val() === ''){
+			alert('환불계좌번호를 입력해 주세요.');
+			$("#acountNum").focus();
+			return false;
+		};
 		return true;
 	},
 	update: function(){		
