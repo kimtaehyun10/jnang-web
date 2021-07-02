@@ -875,6 +875,7 @@
                 , APP.MIC
                 FROM RENT_APP APP, (SELECT @ROWNUM:=#{rentPageCnt}) R
 			WHERE MEM_NO = #{MEM_NO}
+			GROUP BY WRITE_DH
 			ORDER BY RENT_IDX DESC
 			) R1
 			WHERE 1=1		

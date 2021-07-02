@@ -179,11 +179,6 @@ function goPay()
 	//form.ReturnURL.value = ReturnURL;
 	
 	form.action = actinURL;
-	if(MEM_ID == "kjseo") {
-		
-		$("#Amt").val(10);
-		$("#goodsAmt").val(10);
-	}
 	
 	//form.GoodsName.value = encodeURI("<%//=GoodsName%>");
 	//form.BuyerName.value = "<%//=BuyerName%>";
@@ -259,7 +254,8 @@ function rentPage(){
 	       	console.log(data);
 	       	var ediDate = '<%=ediDate%>';
 	       	var test = '<%=test%>';
-	       	var actionUrl = '<%=actionUrl%>';
+	       	var form = document.tranMgr;
+	    	var actinURL = $("#actionUrl").val();
 	       	var MEM_ID = '<%=MEM_ID%>';
         	if(size!=0){
         		for(var i=0; i<size; i++){
@@ -283,9 +279,9 @@ function rentPage(){
         			cont += '<td>';
         			if(data.resultList[i].APP_TYPE == "15"){
         				if(today < data.resultList[i].RESERVE_DATE){
-        					cont += '<input type="button" class="size_m2 btn_green1" value="결제" onClick="test("'+ediDate+'", "'+data.resultList[i].PAY_AMT+'","'+test+'", "'+data.resultList[i].RESERVE_DATE+'", "'+data.resultList[i].PLACE_CD+'", "'+data.resultList[i].COMCD+'","'+data.resultList[i].RENT_IDX+'","'+MEM_ID+'","'+actionUrl+'");">';
+        					cont += "<input type='button' class='size_m2 btn_green1' value='결제' onclick=\"test('"+ediDate+"', '"+data.resultList[i].PAY_AMT+"','"+test+"', '"+data.resultList[i].RESERVE_DATE+"', '"+data.resultList[i].PLACE_CD+"', '"+data.resultList[i].COMCD+"','"+data.resultList[i].RENT_IDX+"','"+MEM_ID+"');\">";
         				}else if(today == data.resultList[i].RESERVE_DATE){
-        					cont += '<input type="button" class="size_m2 btn_green1" value="결제" onClick="test("'+ediDate+'", "'+data.resultList[i].PAY_AMT+'","'+test+'", "'+data.resultList[i].RESERVE_DATE+'", "'+data.resultList[i].PLACE_CD+'", "'+data.resultList[i].COMCD+'","'+data.resultList[i].RENT_IDX+'","'+MEM_ID+'","'+actionUrl+'");">';
+        					cont += "<input type='button' class='size_m2 btn_green1' value='결제' onclick=\"test('"+ediDate+"', '"+data.resultList[i].PAY_AMT+"','"+test+"', '"+data.resultList[i].RESERVE_DATE+"', '"+data.resultList[i].PLACE_CD+"', '"+data.resultList[i].COMCD+"','"+data.resultList[i].RENT_IDX+"','"+MEM_ID+"');\">";
         				}
         			}else if(data.resultList[i].APP_TYPE == "5"){
         				if(today < data.resultList[i].RESERVE_DATE){
@@ -295,7 +291,7 @@ function rentPage(){
         				}
         			}else if(data.resultList[i].APP_TYPE == "30"){
         				if(today < data.resultList[i].RESERVE_DATE){
-        					cont += '<input type="button" class="size_m2 btn_green1" value="취소" onClick="cancelPay("'+data.resultList[i].TID+'", "'+data.resultList[i].SLIP_NO+'", "'+data.resultList[i].PAY_AMT+'","'+data.resultList[i].PAY_DATE+'","'+data.resultList[i].COMCD+'" );">';
+        					cont += "<input type='button' class='size_m2 btn_green1' value='취소' onclick=\"cancelPay('"+data.resultList[i].TID+"', '"+data.resultList[i].SLIP_NO+"', '"+data.resultList[i].PAY_AMT+"','"+data.resultList[i].PAY_DATE+"','"+data.resultList[i].COMCD+"');\">";
         				}else if(today == data.resultList[i].RESERVE_DATE){
         					cont += "<input type='button' class='size_m2 btn_gray1' value='취소불가' onclick=\"alert('대관신청날짜와 오늘날짜가 같습니다.\\n취소가 불가능 합니다.\\n관리자에게 문의해주세요.');\")>";
         				}else {
@@ -325,6 +321,7 @@ window.onload = function(){
 <input type="hidden" id="h_pageIndex" name="h_pageIndex" value="1"/>
 <input type="hidden" id="h_pageSize" name="h_pageSize" value="10"/>
 <input type="hidden" id="h_startRow" name="h_startRow" value="0"/>
+※대관신청현황이 보이지 않을땐 새로고침(F5)을 해주세요.<br>
 <a class='size_m2 btn_green1' href="/mypage/classStatus">수강신청현황</a>
 <a class='size_m2 btn_green1' href="/mypage/lockerStatus">사물함신청현황</a>
 <a class='size_m2 btn_gray1' href="/mypage/rent">대관신청현황</a>
