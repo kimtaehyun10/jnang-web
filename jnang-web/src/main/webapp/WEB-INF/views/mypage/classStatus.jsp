@@ -56,9 +56,9 @@ String MEM_MAIL = member.getEmail();
 	</div>
 	 -->	
 	<table class="stbl_l1a">
-		<colgroup>
+		<%-- <colgroup>
 			<col width="5%"><col width="10%"><col width="*"><col width="10%"><col width="10%"><col width="20%"><col width="10%">
-		</colgroup>
+		</colgroup> --%>
 		<thead>
 			<tr>
 				<th>번호</th>
@@ -162,7 +162,7 @@ String MEM_MAIL = member.getEmail();
 					if (rePay == true){
 					%>
 						<c:if test="${result.MIDCANCEL_YN_NM eq '정상'}">
-							<a class="size_s2 btn_pink_blueWrite" onclick="addBasket1('${result.COMCD}', '${result.CLASS_CD}', '${result.ITEM_CD}', '${result.REP_SDATE}', '${result.REP_EDATE}');">재 수강신청</a>
+							<br><a class="size_s2 btn_pink_blueWrite" onclick="addBasket1('${result.COMCD}', '${result.CLASS_CD}', '${result.ITEM_CD}', '${result.REP_SDATE}', '${result.REP_EDATE}');">재 수강신청</a>
 						</c:if>						
 					<%
 					}
