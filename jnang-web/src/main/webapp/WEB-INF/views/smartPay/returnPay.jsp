@@ -156,12 +156,14 @@ if ( "close1".equals(goUrl) || "close2".equals(goUrl) ) {
 					</td>
 					<td><c:out value="<%=MEM_NM %>"/><%//=BuyerName%></strong></td>
 			</tr>
-			<c:if test="${(rtnMap.CHANGE_YN ne 'B') and (rtnMap.CHANGE_YN ne 'Y' and rtnMap.MIDCANCEL_YN_NM ne '취소')}">			
-				<tr>
-					<th scope="row">상품명
-						</td>
-						<td><c:out value="${rtnMap.GoodsNameDe}"/><strong><%//=GoodsName%></strong></td>
-				</tr>
+			<c:if test="${(rtnMap.CHANGE_YN ne 'B')}">
+				<c:if test="${!(rtnMap.CHANGE_YN eq 'Y' and rtnMap.MIDCANCEL_YN_NM eq '취소')}">
+					<tr>
+						<th scope="row">상품명
+							</td>
+							<td><c:out value="${rtnMap.GoodsNameDe}"/><strong><%//=GoodsName%></strong></td>
+					</tr>
+				</c:if>										
 			</c:if>			
 			<tr>
 				<th scope="row">카드번호

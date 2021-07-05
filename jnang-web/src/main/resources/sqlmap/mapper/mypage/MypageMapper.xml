@@ -738,6 +738,7 @@
 		,FORMAT(ABS(A.SALE_AMT) , 0) as Amt
 		,A.MIDCANCEL_YN
 		,if(A.CANCEL_YN = 'Y', '취소', '정상') AS ResultMsgDe
+		,if(A.CANCEL_YN = 'Y', '취소', '정상') AS MIDCANCEL_YN_NM
 		,A.TRANSFER_GBN
 		,A.SLIP_NO
 		,A.SALE_SEQ

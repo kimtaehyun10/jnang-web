@@ -183,13 +183,16 @@ String MEM_MAIL = member.getEmail();
 					%>
 
 				</td>
-				<td>
-					<c:if test="${(result.CHANGE_YN ne 'B') and (result.CHANGE_YN ne 'Y' and result.MIDCANCEL_YN_NM ne '취소')}">
-						<div id="" class="">${result.MONTH_CNT}개월</div>
-						<div>${result.ITEM_SDATE_DT} ~ ${result.ITEM_EDATE_DT}</div>
-						<div>요일 : ${result.USE_DAY_NM}</div>
-						<div>시간 : ${result.S_TIME} ~ ${result.E_TIME}</div>
-						<!-- <div><a class="size_s2 btn_blue2" onclick="">재등록</a></div>-->
+				<td>					
+					<c:if test="${(result.CHANGE_YN ne 'B')}">
+						<c:if test="${!(result.CHANGE_YN eq 'Y' and result.MIDCANCEL_YN_NM eq '취소')}">
+							<div id="" class="">${result.MONTH_CNT}개월</div>
+							<div>${result.ITEM_SDATE_DT} ~ ${result.ITEM_EDATE_DT}</div>
+							<div>요일 : ${result.USE_DAY_NM}</div>
+							<div>시간 : ${result.S_TIME} ~ ${result.E_TIME}</div>
+							<!-- <div><a class="size_s2 btn_blue2" onclick="">재등록</a></div>-->	
+						</c:if>
+						
 					</c:if>					
 				</td>	
 				<td>
