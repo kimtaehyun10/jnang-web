@@ -102,7 +102,17 @@ String MEM_MAIL = member.getEmail();
 						온라인결제
 					</c:if>
 				</td>
-				<td>[${result.COMNM}] ${result.CLASS_NM}</td>
+				<td>
+					<c:choose>
+						<c:when test="${result.CHANGE_YN eq 'B'}">
+							<%-- ${result.REMARK} --%>
+							강좌변경
+						</c:when>
+						<c:otherwise>
+							[${result.COMNM}]${result.CLASS_NM}
+						</c:otherwise>
+					</c:choose>
+				</td>
 				<%-- <td>${result.ITEM_NM}</td> --%>
 				<td>${result.COST_AMT}원</td>
 				<td>
@@ -161,7 +171,7 @@ String MEM_MAIL = member.getEmail();
 					//재 수강신청 버튼					
 					if (rePay == true){
 					%>
-						<c:if test="${result.MIDCANCEL_YN_NM eq '정상'}">
+						<c:if test="${result.MIDCANCEL_YN_NM eq '정상' and result.CHANGE_YN ne 'B'}">
 							<br><a class="size_s2 btn_pink_blueWrite" onclick="addBasket1('${result.COMCD}', '${result.CLASS_CD}', '${result.ITEM_CD}', '${result.REP_SDATE}', '${result.REP_EDATE}');">재 수강신청</a>
 						</c:if>						
 					<%
@@ -170,11 +180,13 @@ String MEM_MAIL = member.getEmail();
 
 				</td>
 				<td>
-					<div id="" class="">${result.MONTH_CNT}개월</div>
-					<div>${result.ITEM_SDATE_DT} ~ ${result.ITEM_EDATE_DT}</div>
-					<div>요일 : ${result.USE_DAY_NM}</div>
-					<div>시간 : ${result.S_TIME} ~ ${result.E_TIME}</div>
-					<!-- <div><a class="size_s2 btn_blue2" onclick="">재등록</a></div>-->
+					<c:if test="${result.CHANGE_YN ne 'B'}">
+						<div id="" class="">${result.MONTH_CNT}개월</div>
+						<div>${result.ITEM_SDATE_DT} ~ ${result.ITEM_EDATE_DT}</div>
+						<div>요일 : ${result.USE_DAY_NM}</div>
+						<div>시간 : ${result.S_TIME} ~ ${result.E_TIME}</div>
+						<!-- <div><a class="size_s2 btn_blue2" onclick="">재등록</a></div>-->
+					</c:if>					
 				</td>	
 				<td>
 					<c:if test="${!empty result.APP_NO}">

@@ -193,6 +193,7 @@
 	<select id="brdPage" resultType="brd" parameterType="java.util.HashMap">
 		 SELECT R1.* 
 		   FROM ( SELECT CMS_CD
+		   			   , @ROWNUM:=@ROWNUM-1 AS ROWNUM
 		               , BRD_NO		               
 		               , TITLE
 		               , CONT
@@ -205,7 +206,7 @@
 		               , fn_getMemberNm(REG_ID) AS REG_NM
 		               , DATE_FORMAT(REG_DT,'%Y-%m-%d') AS REG_DT
 		               , DATE_FORMAT(REG_DT,'%Y-%m-%d') AS REG_DT_YMD
-		            FROM CMS_CONT_BRD
+		            FROM CMS_CONT_BRD, (SELECT @ROWNUM:=#{brdPageCnt}) R
 		           WHERE CMS_CD = #{cmsCd}
 		             AND DEL_YN = 'N'
 		             AND UP_BRD_NO IS NULL
@@ -226,7 +227,7 @@
 		    </otherwise>
 		  </choose>
 		</if>				
-		ORDER BY BRD_NO DESC
+		ORDER BY REG_DT DESC
 		   LIMIT #{startRow}, #{pageSize}
 	</select>	
 	<select id="brdPageCnt" resultType="int" parameterType="java.util.HashMap">

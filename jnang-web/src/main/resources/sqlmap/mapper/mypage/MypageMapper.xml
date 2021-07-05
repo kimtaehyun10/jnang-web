@@ -217,6 +217,7 @@
 		limit 1)) AS E_TIME
         
         ,A.WEB_TYPE
+        ,A.REMARK
         
 		FROM PROGRAM_ITEM B, MEM_SALE A
 		left outer join RECESS C ON A.COMCD = C.COMCD AND A.SALE_SEQ = C.SALE_SEQ AND A.MEM_NO = C.MEM_NO
@@ -236,7 +237,7 @@
 		<!-- AND A.WEB_TYPE = 'ONLINE' -->
 		AND A.MIDCANCEL_YN='N'
 		AND A.SALE_SEC != '03'
-		AND A.CHANGE_YN = 'N'
+		<!-- AND A.CHANGE_YN = 'N' -->
 		) R1
 		ORDER BY WRITE_DH DESC
 		
