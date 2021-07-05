@@ -108,6 +108,10 @@ String MEM_MAIL = member.getEmail();
 							<%-- ${result.REMARK} --%>
 							강좌변경
 						</c:when>
+						<c:when test="${result.CHANGE_YN eq 'Y' and result.MIDCANCEL_YN_NM eq '취소'}">
+							<%-- ${result.REMARK} --%>
+							강좌변경취소
+						</c:when>
 						<c:otherwise>
 							[${result.COMNM}]${result.CLASS_NM}
 						</c:otherwise>
@@ -180,7 +184,7 @@ String MEM_MAIL = member.getEmail();
 
 				</td>
 				<td>
-					<c:if test="${result.CHANGE_YN ne 'B'}">
+					<c:if test="${(result.CHANGE_YN ne 'B') and (result.CHANGE_YN ne 'Y' and result.MIDCANCEL_YN_NM ne '취소')}">
 						<div id="" class="">${result.MONTH_CNT}개월</div>
 						<div>${result.ITEM_SDATE_DT} ~ ${result.ITEM_EDATE_DT}</div>
 						<div>요일 : ${result.USE_DAY_NM}</div>

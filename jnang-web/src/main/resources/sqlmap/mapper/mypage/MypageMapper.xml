@@ -734,8 +734,8 @@
 		AND E.ENTR_DATE BETWEEN A.ITEM_SDATE AND A.ITEM_EDATE
 		),0
 		)
-		END AS USE_CNT
-		,A.SALE_AMT AS Amt
+		END AS USE_CNT		
+		,FORMAT(ABS(A.SALE_AMT) , 0) as Amt
 		,A.MIDCANCEL_YN
 		,if(A.CANCEL_YN = 'Y', '취소', '정상') AS ResultMsgDe
 		,A.TRANSFER_GBN
@@ -803,7 +803,7 @@
 		AND A.SPORTS_CD = G.CD
 
 		AND B.PROGRAM_KIND = '01'
-		AND (A.CANCEL_YN = 'N' OR A.CANCEL_YN = 'Y') and A.COST_AMT > 0 <!-- and MIDCANCEL_YN='N' -->
+		AND (A.CANCEL_YN = 'N' OR A.CANCEL_YN = 'Y') <!-- and MIDCANCEL_YN='N' -->
 		) R1
 		WHERE R1.COMCD = #{COMCD}
 		  AND R1.AuthCode = #{APP_NO}
