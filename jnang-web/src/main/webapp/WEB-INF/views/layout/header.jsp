@@ -212,7 +212,7 @@
 							</sec:authorize>
 							<sec:authorize access="hasAnyRole('ROLE_USER')">
 								<dt><a href='/mem/logout'>로그아웃</a></dt>
-								<dt><a href='/mypage/cart'>마이페이지</a></dt>
+								<dt><a href='/mypage/classStatus'>마이페이지</a></dt>
 							</sec:authorize>
 							<!-- <div><a>시설통합예약</a></div>
 							<dl><dt><a href='/lecture/list'>수강신청</a></dt></dl>

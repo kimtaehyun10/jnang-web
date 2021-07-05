@@ -43,7 +43,7 @@ String MERCHANT_KEY = (String) request.getAttribute("KEY");
 String Cancelpw = (String) request.getAttribute("PWD");
 String returnUrl = (String) request.getAttribute("rtn_url"); //되돌아갈 페이지
 String dbSaveYN = (String) request.getAttribute("dbSaveYN"); //정상처리 결과 페이지
-returnUrl = (returnUrl == null) ? "/mypage/cart" : returnUrl;
+returnUrl = (returnUrl == null) ? "/mypage/classStatus" : returnUrl;
 //String MERCHANT_KEY = "0/4GFsSd7ERVRGX9WHOzJ96GyeMTwvIaKSWUCKmN3fDklNRGw3CualCFoMPZaS99YiFGOuwtzTkrLo4bR4V+Ow==";// MID(SMTPAY001m)의 상점키 설정 - 결제 요청한 상점ID의 상점키를 입력
 //out.println("Cancelpw:"+ Cancelpw +"<BR>");
 //out.println("MERCHANT_KEY:"+ MERCHANT_KEY +"<BR>");
