@@ -147,7 +147,7 @@ var searchLectureList = function(){
 		var tableDesc = '', tableHead = '', tableBody = '', reception = '', lectureBtn = '';
 		//tableDesc
 		tableDesc = '<caption>수강신청</caption>';
-		tableDesc += '<colgroup>';
+		/*tableDesc += '<colgroup>';
 		tableDesc += '<col width="170px"/>';
 		tableDesc += '<col width="110px"/>';
 		tableDesc += '<col width="130px"/>';
@@ -156,7 +156,7 @@ var searchLectureList = function(){
 		tableDesc += '<col width="120px"/>';
 		tableDesc += '<col width="130px"/>';
 		tableDesc += '<col width="140px"/>';
-		tableDesc += '</colgroup>';
+		tableDesc += '</colgroup>';*/
 		//tableHead
 		tableHead += '<tr>';
 		tableHead += '<th>센터명</th>';

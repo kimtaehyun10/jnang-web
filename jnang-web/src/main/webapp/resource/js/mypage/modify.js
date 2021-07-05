@@ -57,7 +57,7 @@ var modify = {
 			$("#homeAddr").focus();
 			return false;
 		};
-		if($("#dpstrNm").val() === ''){
+		/*if($("#dpstrNm").val() === ''){
 			alert('예금주명을 입력해 주세요.');
 			$("#dpstrNm").focus();
 			return false;
@@ -71,7 +71,7 @@ var modify = {
 			alert('환불계좌번호를 입력해 주세요.');
 			$("#acountNum").focus();
 			return false;
-		};
+		};*/
 		return true;
 	},
 	update: function(){		

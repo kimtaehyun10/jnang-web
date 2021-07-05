@@ -138,7 +138,7 @@ var join4 = {
 			$("#email").focus();
 			return false;
 		};
-		if($("#dpstrNm").val() === ''){
+		/*if($("#dpstrNm").val() === ''){
 			alert('환불 예금주를 입력해주세요.');
 			$("#dpstrNm").focus();
 			return false;
@@ -152,7 +152,7 @@ var join4 = {
 			alert('환불 계좌번호를 입력해주세요.');
 			$("#acountNum").focus();
 			return false;
-		};
+		};*/
 		if($("#yyyy").val() === '' || $("#mm").val() === '' || $("#dd").val() === ''){
 			alert('생년월일을 입력해 주세요.');
 			return false;
