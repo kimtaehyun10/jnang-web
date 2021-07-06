@@ -345,164 +345,164 @@ function getRent(ymd,seq) {
 var start_disabled = [0,0,0,0,0,0,0,0,0,0,0];
 var rentCnt = [];
 var noSave = [];
-function selectCheck(tab, mycnt) {
-	
-	$.ajaxSetup({ cache: false });
-	tab = Number(tab);
-	//mycnt = Number(mycnt);
-	rentCnt[tab] = (isNaN(rentCnt[tab])) ? 0 : rentCnt[tab];
-	noSave[tab] = (isNaN(noSave[tab])) ? 0 : noSave[tab];
-	
-	var index= 0;
-	$('input:checkbox[sid="chk_tab_'+tab+'"]').each(function() {
-		
-		if (this.value == mycnt) {
-			//console.log("mycnt["+ index +"]:"+ this.value +" == "+ mycnt);
-			mycnt = index;
-		}
-		index++;		
-	});
-	//console.log("mycnt :"+mycnt +", index :"+ index);
-	var tabCnt 		= $('input:checkbox[sid="chk_tab_'+tab+'"]').length;
-	//var selectCnt 	= $('input[sid="chk_tab_'+tab+'"]:checked [value != ""]').length;
-	//첵크된 갯수
-	var selectCnt = 0;
-	$('input[sid="chk_tab_'+tab+'"]:checked').each(function() {
-		if (this.value != "") {
-			selectCnt++;
-		}
-	});
-	console.log("총 코스별 갯수:"+tabCnt);
-	console.log("총선택 갯수:"+selectCnt);
-	if (selectCnt == 1) {
-		var chk1 = $('input:checkbox[sid="chk_tab_'+tab+'"]').eq(mycnt).prop('checked');
-		//console.log("chk1:"+chk1);
-		alert("최소 2시간(2개)이상 연속으로 선택하셔야 예약이 가능합니다.\n(1시간만 선택된 경우 무효 처리됨)\n\n");
-		//var chk1 = $('input:checkbox[sid="chk_tab_'+tab+'"]').eq(mycnt).prop('checked');
-		if (chk1) {
-			$('input:checkbox[sid="chk_tab_'+tab+'"]').eq((mycnt+1)).prop("checked",true);
-		}else {
-			$('input:checkbox[sid="chk_tab_'+tab+'"]').eq((mycnt+1)).prop("checked",false);
-		}
-	}
-	
-	//초기화
-	selectCnt = 0;
-	$('input[sid="chk_tab_'+tab+'"]:checked').each(function() {
-		if (this.value != "") {
-			selectCnt++;
-		}
-	});	
-	if (selectCnt == 0) {
-		$("input:checkbox[sid=chk_tab_"+ tab +"]:not(:checked)").prop('disabled', false);
-		$("input:checkbox[sid=chk_tab_"+ tab +"]:not(:checked)").prop('checked', false);
-		//setTimeout("getRent('"+ rntYMD +"',"+tab+");",300);
-		//$("#btn"+ rntYMD).trigger("click");
-		return false;
-	}
-	//console.log("총선택 갯수:"+selectCnt);
-	
-
-	//예약오류 값 초기화
-	noSave[tab] = 0;
-	var groupTemp = false;
-	var thisChkCnt = 0;
-	for (ii=0; ii < tabCnt; ii++) {
-		
-		var chk1 = $('input:checkbox[sid="chk_tab_'+tab+'"]').eq(ii).prop('checked');
-		
-		if (chk1 == false && start_disabled[tab] == 0) {
-			$('input:checkbox[sid="chk_tab_'+tab+'"]').eq(ii).prop('disabled', true);
-		} else {
-			start_disabled[tab] = 1;
-		}
-
-		//2번째가 예약되어있으면 1번째는 예약을 못하도록 비활성으로 적용
-		/*
-		if (ii==1 && chk1) {
-			var tmpVal = $('input:checkbox[sid="chk_tab_'+tab+'"]').eq(ii).val();
-			alert("tab:"+ tab + " / "+ tmpVal);
-			if (tmpVal == "") {
-				$('input:checkbox[sid="chk_tab_'+tab+'"]').eq(0).prop('disabled', true);
-			}
-		}
-		*/
-
-		//연속선택 첵크
-		if (chk1) {
-			
-			if (selectCnt == 1) {
-				rentCnt[tab] = 1;
-			} else if (ii >= mycnt) {
-				//이전 첵크여부
-				var preChk = $('input:checkbox[sid="chk_tab_'+tab+'"]').eq(ii-1).prop('checked');
-				
-				if (preChk) {
-					rentCnt[tab] += 1;
-				} else {
-					var thisChk = $('input:checkbox[sid="chk_tab_'+tab+'"]').eq(ii).prop('checked');
-					//alert("최소 2시간(2개)이상 연속으로 선택하셔야 예약이 가능합니다.\n(1시간만 선택된 경우 무효 처리됨)\n\n.."+ preChk);
-					if (thisChk) {
-						$('input:checkbox[sid="chk_tab_'+tab+'"]').eq((ii+1)).prop("checked",true);
-						rentCnt[tab] += 1;
-					} else {
-						rentCnt[tab] =1;	
-					}
-				} 
-			}
-		}
-		
-		
-		//연속된 첵크값인지  확인
-		var thisChk = $('input:checkbox[sid="chk_tab_'+tab+'"]').eq(ii).prop('checked');
-		var thisChkVal = $('input:checkbox[sid="chk_tab_'+tab+'"]').eq(ii).val();
-		
-		if (!thisChk || thisChkVal == '') {
-			if (thisChkCnt >= 2 || thisChkCnt == 0) {
-				thisChkCnt = 0;
-			} else if (thisChkCnt == 1) {
-				noSave[tab] = -1;
-			}
-		//} else if ( thisChkVal == '') {
-		//	thisChkCnt = 1;
-		} else if (thisChk) {
-			thisChkCnt ++;
-		} 
-		//if (selectCnt==1) {
-		//	noSave[tab] = -1;
-		//}
-		//console.log("이상이상"+ selectCnt +"=================>");
-
-		
-		//console.log("ii:"+ ii +", thisChkCnt:"+ thisChkCnt +", thisChkVal: "+ thisChkVal+", thisChk: "+ thisChk +", noSave[tab]"+ noSave[tab]);
-		//alert('ssss');
-		/*
-		if ((thisChkCnt == 0 && thisChk) || thisChkCnt == 1 && thisChk) {
-			thisChkCnt++;
-			groupTemp = true;
-		} else {
-			thisChkCnt == 1;
-		}
-		*/
-		
-		
-		
-	}//end for
-	
-	if (noSave[tab] == -1) {
-		//console.log("이상이상"+ ii +"=================>");
-	}
-	
-	//console.log("thisChkCnt"+ noSave[tab]);
-	//마지막 한시간만 첵크 여부 확인
-	var lastpreChk 		= $('input:checkbox[sid="chk_tab_'+tab+'"]').eq(tabCnt-2).prop('checked');
-	var lastpreChkVal 	= $('input:checkbox[sid="chk_tab_'+tab+'"]').eq(tabCnt-2).val();
-	var lastChk 		= $('input:checkbox[sid="chk_tab_'+tab+'"]').eq(tabCnt-1).prop('checked');
-	var lastChkVal 		= $('input:checkbox[sid="chk_tab_'+tab+'"]').eq(tabCnt-1).val();
-	
-	if (lastpreChk == false && lastChk == true && lastChkVal != "") {
-		$('input:checkbox[sid=chk_tab_'+ tab +']').eq((tabCnt-2)).prop('disabled', false);
-		$('input:checkbox[sid="chk_tab_'+tab+'"]').eq((tabCnt-2)).prop("checked",true);
-	}
-}
+//function selectCheck(tab, mycnt) {
+//	
+//	$.ajaxSetup({ cache: false });
+//	tab = Number(tab);
+//	//mycnt = Number(mycnt);
+//	rentCnt[tab] = (isNaN(rentCnt[tab])) ? 0 : rentCnt[tab];
+//	noSave[tab] = (isNaN(noSave[tab])) ? 0 : noSave[tab];
+//	
+//	var index= 0;
+//	$('input:checkbox[sid="chk_tab_'+tab+'"]').each(function() {
+//		
+//		if (this.value == mycnt) {
+//			//console.log("mycnt["+ index +"]:"+ this.value +" == "+ mycnt);
+//			mycnt = index;
+//		}
+//		index++;		
+//	});
+//	//console.log("mycnt :"+mycnt +", index :"+ index);
+//	var tabCnt 		= $('input:checkbox[sid="chk_tab_'+tab+'"]').length;
+//	//var selectCnt 	= $('input[sid="chk_tab_'+tab+'"]:checked [value != ""]').length;
+//	//첵크된 갯수
+//	var selectCnt = 0;
+//	$('input[sid="chk_tab_'+tab+'"]:checked').each(function() {
+//		if (this.value != "") {
+//			selectCnt++;
+//		}
+//	});
+//	console.log("총 코스별 갯수:"+tabCnt);
+//	console.log("총선택 갯수:"+selectCnt);
+//	if (selectCnt == 1) {
+//		var chk1 = $('input:checkbox[sid="chk_tab_'+tab+'"]').eq(mycnt).prop('checked');
+//		//console.log("chk1:"+chk1);
+//		alert("최소 2시간(2개)이상 연속으로 선택하셔야 예약이 가능합니다.\n(1시간만 선택된 경우 무효 처리됨)\n\n");
+//		//var chk1 = $('input:checkbox[sid="chk_tab_'+tab+'"]').eq(mycnt).prop('checked');
+//		if (chk1) {
+//			$('input:checkbox[sid="chk_tab_'+tab+'"]').eq((mycnt+1)).prop("checked",true);
+//		}else {
+//			$('input:checkbox[sid="chk_tab_'+tab+'"]').eq((mycnt+1)).prop("checked",false);
+//		}
+//	}
+//	
+//	//초기화
+//	selectCnt = 0;
+//	$('input[sid="chk_tab_'+tab+'"]:checked').each(function() {
+//		if (this.value != "") {
+//			selectCnt++;
+//		}
+//	});	
+//	if (selectCnt == 0) {
+//		$("input:checkbox[sid=chk_tab_"+ tab +"]:not(:checked)").prop('disabled', false);
+//		$("input:checkbox[sid=chk_tab_"+ tab +"]:not(:checked)").prop('checked', false);
+//		//setTimeout("getRent('"+ rntYMD +"',"+tab+");",300);
+//		//$("#btn"+ rntYMD).trigger("click");
+//		return false;
+//	}
+//	//console.log("총선택 갯수:"+selectCnt);
+//	
+//
+//	//예약오류 값 초기화
+//	noSave[tab] = 0;
+//	var groupTemp = false;
+//	var thisChkCnt = 0;
+//	for (ii=0; ii < tabCnt; ii++) {
+//		
+//		var chk1 = $('input:checkbox[sid="chk_tab_'+tab+'"]').eq(ii).prop('checked');
+//		
+//		if (chk1 == false && start_disabled[tab] == 0) {
+//			$('input:checkbox[sid="chk_tab_'+tab+'"]').eq(ii).prop('disabled', true);
+//		} else {
+//			start_disabled[tab] = 1;
+//		}
+//
+//		//2번째가 예약되어있으면 1번째는 예약을 못하도록 비활성으로 적용
+//		/*
+//		if (ii==1 && chk1) {
+//			var tmpVal = $('input:checkbox[sid="chk_tab_'+tab+'"]').eq(ii).val();
+//			alert("tab:"+ tab + " / "+ tmpVal);
+//			if (tmpVal == "") {
+//				$('input:checkbox[sid="chk_tab_'+tab+'"]').eq(0).prop('disabled', true);
+//			}
+//		}
+//		*/
+//
+//		//연속선택 첵크
+//		if (chk1) {
+//			
+//			if (selectCnt == 1) {
+//				rentCnt[tab] = 1;
+//			} else if (ii >= mycnt) {
+//				//이전 첵크여부
+//				var preChk = $('input:checkbox[sid="chk_tab_'+tab+'"]').eq(ii-1).prop('checked');
+//				
+//				if (preChk) {
+//					rentCnt[tab] += 1;
+//				} else {
+//					var thisChk = $('input:checkbox[sid="chk_tab_'+tab+'"]').eq(ii).prop('checked');
+//					//alert("최소 2시간(2개)이상 연속으로 선택하셔야 예약이 가능합니다.\n(1시간만 선택된 경우 무효 처리됨)\n\n.."+ preChk);
+//					if (thisChk) {
+//						$('input:checkbox[sid="chk_tab_'+tab+'"]').eq((ii+1)).prop("checked",true);
+//						rentCnt[tab] += 1;
+//					} else {
+//						rentCnt[tab] =1;	
+//					}
+//				} 
+//			}
+//		}
+//		
+//		
+//		//연속된 첵크값인지  확인
+//		var thisChk = $('input:checkbox[sid="chk_tab_'+tab+'"]').eq(ii).prop('checked');
+//		var thisChkVal = $('input:checkbox[sid="chk_tab_'+tab+'"]').eq(ii).val();
+//		
+//		if (!thisChk || thisChkVal == '') {
+//			if (thisChkCnt >= 2 || thisChkCnt == 0) {
+//				thisChkCnt = 0;
+//			} else if (thisChkCnt == 1) {
+//				noSave[tab] = -1;
+//			}
+//		//} else if ( thisChkVal == '') {
+//		//	thisChkCnt = 1;
+//		} else if (thisChk) {
+//			thisChkCnt ++;
+//		} 
+//		//if (selectCnt==1) {
+//		//	noSave[tab] = -1;
+//		//}
+//		//console.log("이상이상"+ selectCnt +"=================>");
+//
+//		
+//		//console.log("ii:"+ ii +", thisChkCnt:"+ thisChkCnt +", thisChkVal: "+ thisChkVal+", thisChk: "+ thisChk +", noSave[tab]"+ noSave[tab]);
+//		//alert('ssss');
+//		/*
+//		if ((thisChkCnt == 0 && thisChk) || thisChkCnt == 1 && thisChk) {
+//			thisChkCnt++;
+//			groupTemp = true;
+//		} else {
+//			thisChkCnt == 1;
+//		}
+//		*/
+//		
+//		
+//		
+//	}//end for
+//	
+//	if (noSave[tab] == -1) {
+//		//console.log("이상이상"+ ii +"=================>");
+//	}
+//	
+//	//console.log("thisChkCnt"+ noSave[tab]);
+//	//마지막 한시간만 첵크 여부 확인
+//	var lastpreChk 		= $('input:checkbox[sid="chk_tab_'+tab+'"]').eq(tabCnt-2).prop('checked');
+//	var lastpreChkVal 	= $('input:checkbox[sid="chk_tab_'+tab+'"]').eq(tabCnt-2).val();
+//	var lastChk 		= $('input:checkbox[sid="chk_tab_'+tab+'"]').eq(tabCnt-1).prop('checked');
+//	var lastChkVal 		= $('input:checkbox[sid="chk_tab_'+tab+'"]').eq(tabCnt-1).val();
+//	
+//	if (lastpreChk == false && lastChk == true && lastChkVal != "") {
+//		$('input:checkbox[sid=chk_tab_'+ tab +']').eq((tabCnt-2)).prop('disabled', false);
+//		$('input:checkbox[sid="chk_tab_'+tab+'"]').eq((tabCnt-2)).prop("checked",true);
+//	}
+//}
 
