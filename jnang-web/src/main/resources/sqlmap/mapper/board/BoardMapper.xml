@@ -76,6 +76,7 @@
 		               , ATTACH_ID
 		               , NTC_YN
 		               , fn_getEmpCodeNm(REG_ID) AS REG_NM
+					   , REG_DT as wdate
 		               , DATE_FORMAT(REG_DT,'%Y-%m-%d') AS REG_DT
 		               , DATE_FORMAT(REG_DT,'%Y-%m-%d') AS REG_DT_YMD
 		            FROM CMS_CONT_NTC, (SELECT @ROWNUM:=#{ntcPageCnt}) R		            
@@ -118,8 +119,9 @@
 				ORDER BY NTC_YN DESC, BRD_NO DESC    
 		    </otherwise>
 		</choose> 
-		-->						   
-		   LIMIT #{startRow}, #{pageSize}
+		-->			
+		ORDER BY NTC_YN DESC, wdate desc			   
+		LIMIT #{startRow}, #{pageSize}
 	</select>	
 	<select id="ntcPageCnt" resultType="int" parameterType="java.util.HashMap">
 		SELECT COUNT(1)
