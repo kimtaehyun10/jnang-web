@@ -58,14 +58,15 @@ public class LectureRestController {
 
 	@GetMapping(value = "/lecture/lectureList")
 	public Paging lectureList(TrainClass trainClass, 
-			@RequestParam int pageIndex, @RequestParam int pageSize, @RequestParam int startRow) {
+			@RequestParam int pageIndex, @RequestParam int pageSize, @RequestParam int startRow, @RequestParam String searchValue) {
 		final Map<String, Object> param = new HashMap<>();
 		param.put("pageIndex", pageIndex);
 		param.put("pageSize", pageSize);
 		param.put("startRow", startRow);
 		param.put("comcd", trainClass.getComcd());
 		param.put("sportsCd", trainClass.getSportsCd());
-		param.put("msportsCd", trainClass.getMsportsCd());		
+		param.put("msportsCd", trainClass.getMsportsCd());
+		param.put("searchValue", searchValue);
 		
 		return service.lectureList(param);
 	}

@@ -6,7 +6,9 @@
 */
 'use strict'
 $(function(){
-	setMenuTitle('bg_99', '마이페이지', '수강신청현황', true);	
+	setMenuTitle('bg_99', '마이페이지', '수강신청현황', true);
+	$('.bg2').hide();
+	$('.subly1').hide();
 });
 
 

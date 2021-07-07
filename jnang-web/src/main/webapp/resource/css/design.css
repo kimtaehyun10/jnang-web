@@ -896,7 +896,7 @@ div.inputbox_02a{ padding:20px; border:1px solid #ddd; }
 
 /* 강사안내 */
 .teacher_item {float:left;width:100%;}
-.teacher_item .dp1 {float:left;width:49%;height:260px;overflow:hidden;border:1px solid #ddd;border-top:3px solid #227b39;margin-bottom:20px;padding:30px;}
+.teacher_item .dp1 {float:left;width:49%;height:350px;overflow:hidden;border:1px solid #ddd;border-top:3px solid #227b39;margin-bottom:20px;padding:30px;}
 .teacher_item .dp1:nth-child(odd) {margin-right:1%;}
 .teacher_item .dp1:nth-child(even) {margin-left:1%;}
 .teacher_item .dp1 > dt {float:left;width:33%;}

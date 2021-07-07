@@ -7,6 +7,8 @@
 'use strict'
 $(function(){
 	setMenuTitle('bg_99', '마이페이지', '마이게시판', true);
+	$('.bg2').hide();
+	$('.subly1').hide();
 	$('#boardCon').append(brdHtml);
 	searchBrd();
 });

@@ -7,6 +7,8 @@
 'use strict'
 $(function(){
 	setMenuTitle('bg_99', '마이페이지', '사물함신청현황', true);
+	$('.bg2').hide();
+	$('.subly1').hide();
 	searchLocker();
 });
 

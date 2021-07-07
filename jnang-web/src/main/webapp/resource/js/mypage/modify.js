@@ -7,6 +7,8 @@
 'use strict'
 $(function(){
 	setMenuTitle('bg_99', '마이페이지', '회원정보수정', true);
+	$('.bg2').hide();
+	$('.subly1').hide();
 });
 
 var daumPostCode = function(){

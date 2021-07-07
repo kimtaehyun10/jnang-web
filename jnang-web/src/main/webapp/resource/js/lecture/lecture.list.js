@@ -137,9 +137,9 @@ var addOnChangeEvent = function(id){
 	});
 };
 
-var searchLectureList = function(){
+var searchLectureList = function(){	
 	var param = {
-		comcd:$('#sb1').val(), sportsCd:$('#sb2').val(), msportsCd:$('#sb3').val(),
+		comcd:$('#sb1').val(), sportsCd:$('#sb2').val(), msportsCd:$('#sb3').val(), searchValue:$('#searchValue').val(),
 		pageIndex:$('#h_pageIndex').val(), pageSize:$('#h_pageSize').val(), startRow:$('#h_startRow').val()
 	};
 	$.get('/data/lecture/lectureList/', param, function(data){

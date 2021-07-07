@@ -33,6 +33,7 @@ String MEM_MAIL = member.getEmail();
 <a class='size_m2 btn_green1' href="/mypage/lockerStatus">사물함신청현황</a>
 <a class='size_m2 btn_green1' href="/mypage/rent">대관신청현황</a>
 <a class='size_m2 btn_green1' href="/mypage/modify">회원정보수정</a>
+<a class='size_m2 btn_green1' href="/mypage/myBoard">마이게시판</a>
 <div id="sub_my_status" class=''>
 
 	<div id="notes" class="border_box_a_gray_1a margin_b50">
@@ -54,8 +55,9 @@ String MEM_MAIL = member.getEmail();
 			</ul>
 		</form>
 	</div>
-	 -->	
-	<table class="stbl_l1a">
+	 -->
+	<div class="autoscroll_x1 margin_top_1dot0">	
+	<table class="stbl_l1a con_wid">
 		<%-- <colgroup>
 			<col width="5%"><col width="10%"><col width="*"><col width="10%"><col width="10%"><col width="20%"><col width="10%">
 		</colgroup> --%>
@@ -217,6 +219,7 @@ String MEM_MAIL = member.getEmail();
 			 -->
 		</tbody>
 	</table>
+	</div>
 </div>
 
 <form name='frmCancel' method='post' action=''>

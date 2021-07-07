@@ -20,11 +20,11 @@ $(function(){
 		}
 	});
 	let cont = '';
-	cont += '<li><a href="/mypage/classStatus">수강신청현황</a></li>';
+	//cont += '<li><a href="/mypage/classStatus">수강신청현황</a></li>';
 	//cont += '<li><a href="/mypage/cart">장바구니</a></li>';
-	cont += '<li><a href="/mypage/lockerStatus">사물함신청현황</a></li>';
-	cont += '<li><a href="/mypage/rent">대관신청현황</a></li>';
-	cont += '<li><a href="/mypage/modify">회원정보수정</a></li>';
-	cont += '<li><a href="/mypage/myBoard">마이게시판</a></li>';
-	$(".mbx1:eq(1)>ul").append(cont);
+	//cont += '<li><a href="/mypage/lockerStatus">사물함신청현황</a></li>';
+	//cont += '<li><a href="/mypage/rent">대관신청현황</a></li>';
+	//cont += '<li><a href="/mypage/modify">회원정보수정</a></li>';
+	//cont += '<li><a href="/mypage/myBoard">마이게시판</a></li>';
+	//$(".mbx1:eq(1)>ul").append(cont);
 });

@@ -175,7 +175,8 @@
                    AND C.USE_YN = 'Y'
                    AND A.WEB_DISPLAY = 'Y'
                    AND C.GRP_CD='CM_SPORTS_CD'
-                   AND A.SPORTS_CD = C.CD    
+                   AND A.SPORTS_CD = C.CD
+                   AND C.ITEM2 = 'Y'    
 		) R1
 		]]>
 	  <where>
@@ -187,6 +188,9 @@
 		</if>
 		<if test="msportsCd != null and msportsCd != 'all'">
 		   AND R1.MSPORTS_CD = #{msportsCd}
+		</if>
+		<if test="searchValue != null and searchValue != ''">
+		   AND R1.CLASS_NM LIKE CONCAT('%', #{searchValue}, '%')
 		</if>
    	  </where>
    	  	 ORDER BY SORT_ORDER ASC
@@ -273,6 +277,9 @@
 		</if>
 		<if test="msportsCd != null and msportsCd != 'all'">
 		      AND A.MSPORTS_CD = #{msportsCd}
+		</if>
+		<if test="searchValue != null and searchValue != ''">
+		   AND A.CLASS_NM LIKE CONCAT('%', #{searchValue}, '%')
 		</if>
     </select>
     

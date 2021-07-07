@@ -10,6 +10,7 @@
 <a class='size_m2 btn_green1' href="/mypage/lockerStatus">사물함신청현황</a>
 <a class='size_m2 btn_green1' href="/mypage/rent">대관신청현황</a>
 <a class='size_m2 btn_gray1' href="/mypage/modify">회원정보수정</a>
+<a class='size_m2 btn_green1' href="/mypage/myBoard">마이게시판</a>
 <div id="sub_join" class=' '>
 	<div class="join_input">
 		<div class="ipt_info margin_b50">			

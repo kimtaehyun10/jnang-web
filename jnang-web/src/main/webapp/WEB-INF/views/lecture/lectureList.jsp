@@ -11,6 +11,7 @@
 	}
 %>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resource/js/lecture/lecture.list.js"></script>
+
 <div id="subCon">
 	<input type="hidden" id="h_sb1" name="h_sb1" value="${comcd}" />
 	<input type="hidden" id="h_sb2" name="h_sb2" value="all" />
@@ -21,6 +22,20 @@
 	<input type="hidden" id="memId" value="<%=MEM_ID%>">
 	<input type="hidden" id="memBirth" value="<%=MEM_BIRTH%>">
 	<div style="font-size:18px; margin-bottom:20px;">수강신청을 진행할 센터와 분류를 선택하세요.</div>
+</div>
+
+<div class="sub_board_l01">
+	<div class="sch_box_01">
+	<ul>
+	<li>
+	<select id="searchKey" name="searchKey" class="selbox_01">
+	<option value="all" selected>강좌명</option>	
+	</select>
+	</li>
+	<li><input type="text" id="searchValue" name="searchValue" maxlength="10" onkeyup="enterkey()"></li>
+	<li><input type="submit" value="검색하기" onclick="searchGo();"></li>
+	</ul>
+	</div>	
 </div>
 <div class='sub_lecture_l01'>
 	<div class='lect_sch_box_01'>
@@ -64,5 +79,23 @@
 		alert('코로나19에 따른 시설물 제한적 운영으로 \n정규강좌는 수강신청이 불가 합니다.\n정규강좌 운영시 공지사항에 게재합니다. \n자세한 문의는 아래로 연락 바랍니다. \n연락처 : 02-436-9200');
 	}else if($('#h_sb1').val() == 'JUNGNANG03'){
 		alert('코로나19에 따른 시설물 제한적 운영으로 \n정규강좌는 수강신청이 불가 합니다.\n정규강좌 운영시 공지사항에 게재합니다. \n자세한 문의는 아래로 연락 바랍니다. \n연락처 : 02-495-5200');
+	}
+</script>
+<script>
+	function searchGo(){
+		$('#sb1').val('all');
+		$('#sb2').val('all');
+		$('#sb3').val('all');
+		$('#h_pageIndex').val('1');
+		searchLectureList();
+	}
+	function enterkey() { 
+		if (window.event.keyCode == 13) { 
+			$('#sb1').val('all');
+			$('#sb2').val('all');
+			$('#sb3').val('all');
+			$('#h_pageIndex').val('1');
+			searchLectureList();	
+		} 
 	}
 </script>

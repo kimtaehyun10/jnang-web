@@ -301,7 +301,7 @@
 		<div class='bg1'></div>
 		<div id="upTitle" class='tit1'></div>
 		<div class='bg2'></div>
-		<div class='ly1'>
+		<div class='ly1 subly1'>
 			<div class='con_bx con_bx2'>
 				<ul class='navi1'>
 					<li class='dp1'><a href='/'><img src='${pageContext.request.contextPath}/resource/images/sub/icon_shome_01.png' alt='홈으로'></a></li>
