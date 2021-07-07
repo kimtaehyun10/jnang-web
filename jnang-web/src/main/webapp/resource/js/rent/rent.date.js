@@ -11,20 +11,20 @@ function send(tabCnt) {
 	var tabNo = $("#tabNo").val();
 	
 	
-	for(var x=1; x <= tabNo; x++){
-		
-		var iii =  $("#chk_tab_" + x ).val();	
-		chkTabCnt1 = $("input:checkbox[sid='chk_tab_"+ x +"']:checked").length;
-		chkTabCnt2 = $("input:checkbox[sid='chk_tab_"+ x +"']:disabled").length;
-		
-		var finalChkTabCnt = chkTabCnt1 - chkTabCnt2;
-		//alert(chkTabCnt1 + '^' + chkTabCnt2);
-		if(finalChkTabCnt == 1) {
-			var MSG = (tabCnt == "0") ? "" : "[ "+ x +" 코트] ";  
-			alert(MSG +"예약 불가 2시간(2개)이상 연속되게  예약을 선택하여 주세요.\n(★★ 한개만 선택할수 없습니다. ★★ );");
-			return false;
-		}				
-	}
+//	for(var x=1; x <= tabNo; x++){
+//		
+//		var iii =  $("#chk_tab_" + x ).val();	
+//		chkTabCnt1 = $("input:checkbox[sid='chk_tab_"+ x +"']:checked").length;
+//		chkTabCnt2 = $("input:checkbox[sid='chk_tab_"+ x +"']:disabled").length;
+//		
+//		var finalChkTabCnt = chkTabCnt1 - chkTabCnt2;
+//		//alert(chkTabCnt1 + '^' + chkTabCnt2);
+//		if(finalChkTabCnt == 1) {
+//			var MSG = (tabCnt == "0") ? "" : "[ "+ x +" 코트] ";  
+//			alert(MSG +"예약 불가 2시간(2개)이상 연속되게  예약을 선택하여 주세요.\n(★★ 한개만 선택할수 없습니다. ★★ );");
+//			return false;
+//		}				
+//	}
 	
 	
 	$.ajaxSetup({ cache: false });
@@ -44,22 +44,22 @@ function send(tabCnt) {
 		return false;
 	}*/
 	
-	for(var ii=0; ii<noSave.length; ii++){
-		
-		if (noSave[ii] < 0) {
-			
-			//축구장 야구장
-			var MSG = (tabCnt == "0") ? "" : "[ "+ ii +" 코트] ";  
-			alert(MSG +"예약 불가 2시간(2개)이상 연속되게  예약을 선택하여 주세요.\n(★★ 한개만 선택할수 없습니다. ★★ );");
-			return false;
-		}
-	}
-	
-	if (chkCnt <= 1) {
-		alert("예약 불가 2시간(2개)이상 연속되게  예약을 선택하여 주세요.\n(★★ 한개만 선택할수 없습니다. ★★ );");
-		return false;
-	}
-	
+//	for(var ii=0; ii<noSave.length; ii++){
+//		
+//		if (noSave[ii] < 0) {
+//			
+//			//축구장 야구장
+//			var MSG = (tabCnt == "0") ? "" : "[ "+ ii +" 코트] ";  
+//			alert(MSG +"예약 불가 2시간(2개)이상 연속되게  예약을 선택하여 주세요.\n(★★ 한개만 선택할수 없습니다. ★★ );");
+//			return false;
+//		}
+//	}
+//	
+//	if (chkCnt <= 1) {
+//		alert("예약 불가 2시간(2개)이상 연속되게  예약을 선택하여 주세요.\n(★★ 한개만 선택할수 없습니다. ★★ );");
+//		return false;
+//	}
+//	
 	
 	if (confirm("\n일        자 : "+ fn_convertDate(2,rntYMD) +" \n예약시간 : 총 [ "+ chkCnt +" ]시간(건) 선택\n\n              대관 신청  하시겠습니까?\n ")) {
 		
