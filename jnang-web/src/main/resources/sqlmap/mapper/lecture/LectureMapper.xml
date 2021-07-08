@@ -169,7 +169,7 @@
                      		 ) AS orderCnt
                      		 ,(select count(*) from mem_cart as cart where COMCD = A.COMCD and CLASS_CD = A.CLASS_CD) as cartCnt
                      	,C.REC_SDATE
-                        ,C.REC_EDATE
+                        ,C.REC_EDATE                        
                  FROM TRAIN_CLASS A LEFT OUTER JOIN COT_GRPCD C ON A.COMCD = C.COMCD
                   WHERE A.USE_YN = 'Y'
                    AND C.USE_YN = 'Y'
@@ -193,7 +193,7 @@
 		   AND R1.CLASS_NM LIKE CONCAT('%', #{searchValue}, '%')
 		</if>
    	  </where>
-   	  	 ORDER BY SORT_ORDER ASC
+   	  	 ORDER BY R1.COMCD ASC, R1.SPORTS_CD ASC, R1.MSPORTS_CD ASC, SORT_ORDER ASC
    		 LIMIT #{startRow}, #{pageSize}
    		
     </select>

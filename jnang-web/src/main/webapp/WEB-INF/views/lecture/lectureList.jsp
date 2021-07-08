@@ -20,8 +20,7 @@
 	<input type="hidden" id="h_pageSize" name="h_pageSize" value="10"/>
 	<input type="hidden" id="h_startRow" name="h_startRow" value="0"/>
 	<input type="hidden" id="memId" value="<%=MEM_ID%>">
-	<input type="hidden" id="memBirth" value="<%=MEM_BIRTH%>">
-	<div style="font-size:18px; margin-bottom:20px;">수강신청을 진행할 센터와 분류를 선택하세요.</div>
+	<input type="hidden" id="memBirth" value="<%=MEM_BIRTH%>">	
 </div>
 
 <div class="sub_board_l01">
@@ -37,6 +36,7 @@
 	</ul>
 	</div>	
 </div>
+<div style="font-size:18px; margin-bottom:20px;">수강신청을 진행할 센터와 분류를 선택하세요.</div>
 <div class='sub_lecture_l01'>
 	<div class='lect_sch_box_01'>
 		<div class='bx1 clbx'>
