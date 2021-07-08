@@ -6,25 +6,42 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<script type="text/javascript" src="/resource/js/jquery-3.5.1.min.js"></script>
 <body>
-  <form name="frm" method="post" action="/member/joinMember.do">
-	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-	conninfo : <input type="text" name="conninfo" value="269A96546C0E7D7EB6957405281063B4269A96546C0E7D7EB6957405281063B4"> <BR>
-	name : <input type="text" name="name" value="이름2"> <BR>
-	birthday : <input type="text" name="birthday" value="1978-12-19"> <BR>
-	gender :<input type="text" name="gender" value="male"> <BR>
-	password :<input type="text" name="password" value="pwd1234"> <BR>
-	id :<input type="text" name="id" value="powerjyc9"> <BR>
-	mobile :<input type="text" name="mobile" value="010-4291-4292"> <BR>
-	email :<input type="text" name="email" value="powerjyc@email"> <BR>
-	postCode :<input type="text" name="postCode" value="11111"> <BR>
-	address :<input type="text" name="address" value="주소주소주소주소ㅜㅈ소ㅜ 1"> <BR>
-	smsReceive :<input type="text" name="smsReceive" value="Y"> <BR>
-	emailReceive :<input type="text" name="emailReceive" value="Y"> <BR>
-	legalRepresenter :<input type="text" name="legalRepresenter" value="대리인 이름"> <BR>
-	agreePrivacy :<input type="text" name="agreePrivacy" value="Y"> <BR>
-	agreeOffer3Party :<input type="text" name="agreeOffer3Party" value="Y"> <BR>
-  <input type="submit" name="submit" value="전송"> <BR>
-  </form>
+<script>
+
+
+function test1() {
+
+ 	var obj =  { "GTYPE": "1", "COMCD": "JUNGNANG01" , "_csrf" : "${_csrf.token}" };
+	$.post("/member/dayItemList.do", obj , function(data) {
+		alert(data);
+	});
+	//JSON.stringify(aPayData)
+
+	
+	
+	
+	/*
+ $.ajax({
+     url : "/etc/dayItemList.do",
+     type:'POST',
+     dataType:'json',
+     data: {
+		GTYPE: "1",
+		COMCD: "JUNGNANG01"
+     },
+     success : function(data, textStatus, jqXHR) {
+    	alert("ok : " + JSON.stringify(jqXHR));
+     },
+     error : function(jqXHR, textStatus, errorThrown){
+     	//Error시, 처리
+     	//alert("error : " + JSON.stringify(jqXHR));
+     }
+	});  
+*/
+}
+</script>	
+<a href="#none" onclick="test1();">test</a>
  </body>
 </html>
