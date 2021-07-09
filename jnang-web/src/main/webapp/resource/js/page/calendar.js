@@ -140,11 +140,22 @@ function getDataList(p_cd,p_tab) {
 							if (dataIn) {
 								tmpList += "[<span class='red1'>예약완료</span>]<br>";
 							} else {
-								if(rTime > nowToday){
-									tmpList += "<a href='/rent/date/?yy="+ nyymmdd.substring(0,4) +"&mm="+  nyymmdd.substring(4,6) +"&q="+ p_cd +"/0'>[<span class='btn_green1'>예약가능</span>]</a><br>";	
-								}else {
+								//코로나 4단계 격상으로 인한 일시적 예약제한
+								if(rTime >= 2021071206){
 									tmpList += "[<span class='red1'>예약종료</span>]<br>";
+								}else {
+									tmpList += "<a href='/rent/date/?yy="+ nyymmdd.substring(0,4) +"&mm="+  nyymmdd.substring(4,6) +"&q="+ p_cd +"/0'>[<span class='btn_green1'>예약가능</span>]</a><br>";
 								}
+								
+								//코로나가 완화될 시 이걸로 변경해주어야 함
+//								if(rTime > nowToday){
+//									tmpList += "<a href='/rent/date/?yy="+ nyymmdd.substring(0,4) +"&mm="+  nyymmdd.substring(4,6) +"&q="+ p_cd +"/0'>[<span class='btn_green1'>예약가능</span>]</a><br>";	
+//								}else {
+//									tmpList += "[<span class='red1'>예약종료</span>]<br>";
+//								}
+							
+							
+							
 								
 								//tmpList += "[<span class='gray1'>예약불가</span>]<br>";
 								

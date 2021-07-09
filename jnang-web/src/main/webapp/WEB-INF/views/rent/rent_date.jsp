@@ -327,6 +327,9 @@ for (int ii = 0 ; ii < arryDays.length; ii++) {
 	int intTM_TYPE1 = Integer.parseInt(TM_TYPE1);
 	int intTM_TYPE2 = Integer.parseInt(TM_TYPE2);
 	int intTodayNow = Integer.parseInt(todayNow);
+	String todayYYMMDD = today.substring(0,8);
+	int intTodayYYMMDD = Integer.parseInt(todayYYMMDD);
+	//out.print("intTodayYYMMDD :"+ intTodayYYMMDD +"<BR>");
 	//out.print("intTodayNow :"+ intTodayNow +"<BR>");
 	//out.print("intTM_TYPE1 :"+ intTM_TYPE1 +"<BR>");
 	//out.print("TM_TYPE2 :"+ TM_TYPE2 +"<BR>");
@@ -359,9 +362,18 @@ for (int ii = 0 ; ii < arryDays.length; ii++) {
 			//오늘의 월과 캘린더의 월이 같으면 무조건 예약 가능 누구나
 			
 			if(todayYYMM == selectMonth) {
-				//rentDays[ii+1] = " <a class='size_m2 btn_green1' onclick=\"getRent('"+ int_rentYmd +"','"+PLACE_CD+"');\">예약 가능 ("+ (itemTot - rentCnt) +"건) </a>";//3월달만 막아달라 해서 일단 수동으로 막음		
-				rentDays[ii+1] = " <a class='size_m2 btn_green1' onclick=\"getRent('"+ int_rentYmd +"','"+PLACE_CD+"');\">예약 가능 </a>";		
-				//rentDays[ii] = "<a class='size_m2 btn_gray1'>예약 종료</a>";
+				
+				//코로나 단계 완화시 풀어줘야함
+// 				rentDays[ii+1] = " <a class='size_m2 btn_green1' onclick=\"getRent('"+ int_rentYmd +"','"+PLACE_CD+"');\">예약 가능 </a>";
+				//코로나 4단계 격상으로 인한 잠정 중단
+				if(int_rentYmd >= 20210713) {
+					rentDays[ii] = "<a class='size_m2 btn_gray1'>예약 종료</a>";	
+				}else {
+					rentDays[ii+1] = " <a class='size_m2 btn_green1' onclick=\"getRent('"+ int_rentYmd +"','"+PLACE_CD+"');\">예약 가능 </a>";	
+				}
+				
+				
+				
 				//현재연도 + 월 + 날짜가 25일 26일이라면
 			} else if(intTodayNow >= intTM_TYPE1) {
 				if(int_rentYmd  <= nextMonth2 && myTeamList.get(0).get("TM_TYPE").equals("1") ){
@@ -643,8 +655,8 @@ if (PLACE_GROUP == 4) {
 <%
 if (PLACE_GROUP == 4) {
 %>
-		<a href="/rent/team" id=" " class="gray2">팀 신청</a>
-		<!-- <a href="#none" onclick="javascript:alert('현재 이용하실 수 없습니다. 관리자게 문의해주세요');" id=" " class="gray2">팀 신청</a> -->
+	<a href="/rent/team" id=" " class="gray2">팀 신청</a>
+	<!-- <a onclick="javascript:alert('현재는 팀을 신청하실 수 없습니다. 관리자에게 문의해주세요.');" id=" " class="gray2">팀 신청</a> /rent/team -->
 <%
 } else if(PLACE_GROUP == 2 || PLACE_GROUP == 3){
 %>		
