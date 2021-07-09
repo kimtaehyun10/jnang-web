@@ -173,11 +173,10 @@ function selectSport(selCT) {
 									//+ "<td>"+ comma_str_y(saleAmt) +"</td>"
 									+ "<td>"+ info_url +"</td>"
 									//console.log(data[i].COMNM,data[i].COMCD);
-									+ "<td><a href='/calendar/?q="+ data[i].PLACE_CD +"' class='size_m2 btn_green1'>대관 현황</a></td>"
-									//+ "<td><a href='#' class='size_m2 btn_gray1' onclick=\"alert('코로나19에 따른 시설물 제한적 운영 및 원활한\\n온라인 예약접수를 위해 온라인 접수 개시 예정 일자를\\n아래와 같이 안내합니다.\\n개시 예정일 : 2021년 5월 25일 예정 \\n대관관련 사항은 아래 연락처로 문의바랍니다.\\n연락처: 02-6952-2949');\")>준비중</a></td>"	
-									//+ "<td><a href='#' class='size_m2 btn_gray1' onclick=\"alert('코로나19에 따른 시설물 제한적 운영 및 원활한\\n온라인 예약접수를 위해 온라인 접수 개시 예정 일자를\\n아래와 같이 안내합니다.\\n개시 예정일 : 2021년 5월 25일 예정 \\n대관관련 사항은 아래 연락처로 문의바랍니다.\\n연락처: 02-6952-2949');\")>준비중</a></td>"	
-									//+ "<td><a href='#' class='size_m2 btn_gray1' onclick=\"alert('현재 준비중입니다. 관리자에게 문의해주세요.');\")>준비중</a></td>"
-									+ "<td><a href='/rent/"+ rent_url +"/?q="+ data[i].PLACE_CD +"/0' class='size_m2 btn_green1' onclick=\"\")>대관 신청</a></td>"
+									+ "<td><a href='#' class='size_m2 btn_gray1' onclick=\"alert('코로나19에 따른 시설물 제한적 운영 및 원활한\\n온라인 예약접수를 위해 온라인 접수 개시 예정 일자를\\n아래와 같이 안내합니다.\\n개시 예정일 : 2021년 5월 25일 예정 \\n대관관련 사항은 아래 연락처로 문의바랍니다.\\n연락처: 02-6952-2949');\")>준비중</a></td>"	
+									+ "<td><a href='#' class='size_m2 btn_gray1' onclick=\"alert('코로나19에 따른 시설물 제한적 운영 및 원활한\\n온라인 예약접수를 위해 온라인 접수 개시 예정 일자를\\n아래와 같이 안내합니다.\\n개시 예정일 : 2021년 5월 25일 예정 \\n대관관련 사항은 아래 연락처로 문의바랍니다.\\n연락처: 02-6952-2949');\")>준비중</a></td>"
+									//+ "<td><a href='/calendar/?q="+ data[i].PLACE_CD +"' class='size_m2 btn_green1'>대관 현황</a></td>"	
+									//+ "<td><a href='/rent/"+ rent_url +"/?q="+ data[i].PLACE_CD +"/0' class='size_m2 btn_green1' onclick=\"\")>대관 신청</a></td>"
 									+ "</tr>";
 								}else {
 									var saleAmt = data[i].RENT_AMT;
@@ -190,10 +189,10 @@ function selectSport(selCT) {
 									//+ "<td>"+ comma_str_y(saleAmt) +"</td>"
 									+ "<td>"+ info_url +"</td>"
 									//console.log(data[i].COMNM,data[i].COMCD);
-									//+ "<td><a href='#' class='size_m2 btn_gray1' onclick=\"alert('코로나19에 따른 시설물 제한적 운영 및 원활한\\n온라인 예약접수를 위해 온라인 접수 개시 예정 일자를\\n아래와 같이 안내합니다.\\n개시 예정일 : 2021년 5월 25일 예정 \\n대관관련 사항은 아래 연락처로 문의바랍니다.\\n연락처: 02-437-2949');\")>준비중</a></td>"
-									//+ "<td><a href='#' class='size_m2 btn_gray1' onclick=\"alert('코로나19에 따른 시설물 제한적 운영 및 원활한\\n온라인 예약접수를 위해 온라인 접수 개시 예정 일자를\\n아래와 같이 안내합니다.\\n개시 예정일 : 2021년 5월 25일 예정 \\n대관관련 사항은 아래 연락처로 문의바랍니다.\\n연락처: 02-437-2949');\")>준비중</a></td>"
-									+ "<td><a href='/calendar/?q="+ data[i].PLACE_CD +"' class='size_m2 btn_green1'>대관 현황</a></td>"
-									+ "<td><a href='/rent/"+ rent_url +"/?q="+ data[i].PLACE_CD +"/0' class='size_m2 btn_green1' onclick=\"\")>대관 신청</a></td>"
+									+ "<td><a href='#' class='size_m2 btn_gray1' onclick=\"alert('코로나19에 따른 시설물 제한적 운영 및 원활한\\n온라인 예약접수를 위해 온라인 접수 개시 예정 일자를\\n아래와 같이 안내합니다.\\n개시 예정일 : 2021년 5월 25일 예정 \\n대관관련 사항은 아래 연락처로 문의바랍니다.\\n연락처: 02-437-2949');\")>준비중</a></td>"
+									+ "<td><a href='#' class='size_m2 btn_gray1' onclick=\"alert('코로나19에 따른 시설물 제한적 운영 및 원활한\\n온라인 예약접수를 위해 온라인 접수 개시 예정 일자를\\n아래와 같이 안내합니다.\\n개시 예정일 : 2021년 5월 25일 예정 \\n대관관련 사항은 아래 연락처로 문의바랍니다.\\n연락처: 02-437-2949');\")>준비중</a></td>"
+									//+ "<td><a href='/calendar/?q="+ data[i].PLACE_CD +"' class='size_m2 btn_green1'>대관 현황</a></td>"
+									//+ "<td><a href='/rent/"+ rent_url +"/?q="+ data[i].PLACE_CD +"/0' class='size_m2 btn_green1' onclick=\"\")>대관 신청</a></td>"
 									+ "</tr>";
 								}
 							
