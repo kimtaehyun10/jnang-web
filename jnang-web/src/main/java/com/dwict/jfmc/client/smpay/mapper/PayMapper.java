@@ -92,6 +92,8 @@ public interface PayMapper {
 
 	int checkRentType(Map<String, Object> maps);
 
+	void setMemCheckIn(Map<String, Object> maps);
+
 
 
 	

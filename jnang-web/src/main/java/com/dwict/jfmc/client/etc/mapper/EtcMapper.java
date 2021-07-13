@@ -16,5 +16,9 @@ public interface EtcMapper {
 	//sso API
 	Map<String, Object> scc(Map<String, Object> requestMap);
 
+	//키오스크
 	List <Map <String,Object>> apiKioskDayItemList(Map<String, Object> maps);
+
+	//키오스크 취소
+	Map<String, Object> kioskCancelData(Map<String, Object> maps);
 }

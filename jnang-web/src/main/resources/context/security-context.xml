@@ -12,7 +12,8 @@
     <http pattern="/data/file/**" security="none"/>
     <http pattern="/data/image/**" security="none"/>
     <http pattern="/smartPay/**" security="none"/>
-	
+    <http pattern="/kiosk/**" security="none"/>
+    	
     <http auto-config='true' use-expressions="true">
     	<access-denied-handler error-page="/?loginError=02" />
         <intercept-url pattern="/mypage/**" access="hasRole('ROLE_USER')" />

@@ -13,8 +13,8 @@
 
 function test1() {
 
- 	var obj =  { "GTYPE": "1", "COMCD": "JUNGNANG01" , "_csrf" : "${_csrf.token}" };
-	$.post("/member/dayItemList.do", obj , function(data) {
+ 	var obj =  { "GTYPE": "1", "COMCD": "JUNGNANG01"};
+	$.post("/kiosk/dayItemList.do", obj , function(data) {
 		alert(data);
 	});
 	//JSON.stringify(aPayData)

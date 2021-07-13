@@ -412,7 +412,60 @@
     </insert>		
             
             
-
+	<!-- 결제완료후 일일입장 처리 -->
+	<insert id="setMemCheckIn" parameterType="java.util.HashMap">
+		<selectKey keyProperty="NEXT_ENTR_NO" resultType="java.lang.String" order="BEFORE">
+			SELECT concat(DATE_FORMAT(sysdate(), '%Y%m%d'), lpad(CAST(ifnull(SUBSTRING(max(ENTR_NO), 9,5), '00000') AS UNSIGNED) + 1, 5, '0')) 
+			  FROM ENTER_INFO
+			 WHERE ENTR_NO like concat(DATE_FORMAT(sysdate(), '%Y%m%d'), '%')
+			   AND COMCD = #{COMCD}
+		</selectKey>	
+		INSERT INTO ENTER_INFO  
+	    (
+			COMCD,
+			ENTR_NO,
+			MEM_NO,
+			JOIN_NO,
+			ENTR_DATE,
+			ENTR_TIME,
+			ITEM_CD,
+			CUST_SEC,
+			GENDER,
+			COUPON_NO,
+			SLIP_NO,
+			RECEIPT_NO,
+			OUT_YN,
+			HANDKEY_CD,
+			CANCEL_YN,
+			WRITE_DH,
+			WRITER,
+			CLASS_CD,
+			SALE_SEQ
+	    )
+	    VALUES
+		(
+			#{COMCD},
+			#{NEXT_ENTR_NO},
+			#{MEM_NO},
+			0,
+			#{ENTR_DATE},
+			DATE_FORMAT(sysdate(), '%H%i'),
+			#{ITEM_CD},
+			#{CUST_SEC},
+			#{GENDER},
+			0,
+			#{SLIP_NO},
+			#{RECEIPT_NO},
+			'N',
+			#{HANDKEY_CD},
+			'N',
+			SYSDATE(),
+			#{USER_ID},
+			#{CLASS_CD},
+			#{SALE_SEQ}
+		)
+    </insert>	
+    
     
           
 
@@ -603,7 +656,6 @@
 		WHERE TID = #{TID}
 		AND APP_TYPE = '5'
 	</update>
-
 
     <!-- 인터넷 결제 당일  취소처리 시작 ################################## -->
 	<update id="memLecCancelStep1" parameterType="java.util.HashMap">

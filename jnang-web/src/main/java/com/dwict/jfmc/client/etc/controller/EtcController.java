@@ -141,9 +141,9 @@ public class EtcController {
 	 *
 	 */
 	//일일권 종류/가격 정보를 제공하는 API를 요청합니다
-	@GetMapping(value = "/kiosk/dayItemList.do")
-	public ModelAndView kioskDayItemList(HttpServletRequest request, ModelAndView modelAndView) {
-		String rtnMSG = etcService.apiKioskDayItemList(request);
+	@RequestMapping(value = "/kiosk/dayItemList.do")
+	public ModelAndView kioskDayItemList(@RequestParam Map<String, Object> requestMap,HttpServletRequest request, ModelAndView modelAndView) {
+		String rtnMSG = etcService.apiKioskDayItemList(requestMap, request);
 		modelAndView.addObject("rtnMSG",rtnMSG);
 		modelAndView.setViewName("etc/sccAPI.none");
 		return modelAndView;
@@ -157,6 +157,15 @@ public class EtcController {
 		modelAndView.setViewName("etc/sccAPI.none");
 		return modelAndView;
 	}
+	
+	//일일권 매출 취소 API가 필요합니다.
+	@GetMapping(value = "/kiosk/dayCancel.do")
+	public ModelAndView kioskDayCancel(Map<String, Object> requestMap, HttpServletRequest request, ModelAndView modelAndView) {
+		String rtnMSG = etcService.kioskDayCancel(requestMap, request);
+		modelAndView.addObject("rtnMSG",rtnMSG);
+		modelAndView.setViewName("etc/sccAPI.none");
+		return modelAndView;
+	}	
 	
 	
 	

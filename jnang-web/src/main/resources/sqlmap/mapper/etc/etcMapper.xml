@@ -35,7 +35,7 @@
 	<select id="apiKioskDayItemList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
 	
 		<!--  키오스크 종목 대분류 리스트 -->
-		<if test='gtype =="1"'>
+		<if test='GTYPE =="1"'>
 			SELECT 
 				CD as SPORTS_CD
 				, CD_NM 
@@ -52,19 +52,15 @@
 		</if>
 
 		<!--  키오스크 종목별 상품리스트 -->
-		<if test='gtype =="2"'>
-			 SELECT PI.SPORTS_CD
-				, PI.ITEM_CD
-				, PI.ITEM_NM
-				, PI.SALE_AMT AS BASE_AMT
-				, NVL(TRIM(PI.GENDER)
-				, 'M') GENDER
-				, NVL(PI.GR_PRT_YN
-				,'N') GR_PRT_YN
-				, PI.PROGRAM_KIND
+		<if test='GTYPE =="2"'>
+			 SELECT PI.COMCD 
+			  	, PI.PART_CD 
+				, PI.SPORTS_CD 
+				, PI.ITEM_CD 
+				, PI.ITEM_NM 
 				, PI.SALE_AMT
-				, PI.PART_CD
-				, PI.VAT_YN FROM PROGRAM_ITEM PI 
+				, PI.VAT_YN
+			FROM PROGRAM_ITEM PI 
 			 WHERE PI.COMCD = #{COMCD} 
 			 AND ((( PI.PROGRAM_KIND = '02' 
 			 AND PI.USE_TYPE = #{USE_TYPE}  ) OR ( PI.PROGRAM_KIND = '06') OR (PI.PROGRAM_KIND ='05' ) OR (PI.PROGRAM_KIND ='07'))) 
@@ -74,7 +70,18 @@
 		
 	</select>			
 		
-				
+		
+	<!-- 키오스크 결제취소시 정보 불러올 쿼리문 -->
+	<select id="kioskCancelData" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select t1.SLIP_NO, t1.APP_AMT, t2.SALE_SEQ from card_app_hist_damo t1
+		left join mem_sale t2 on t1.COMCD = t2.COMCD and t1.SLIP_NO = t2.SLIP_NO 
+		where SUBSTRING_INDEX(APP_NO, '_', 1) = #{APP_NO} 
+			and t1.COMCD =#{COMCD} and t1.MEM_NO =#{MEM_NO} and WRITER =#{WRITER}
+			and t2.SALE_DATE = DATE_FORMAT(now() , '%Y%m%d') 
+	</select>
+	
+	
+					
 <!-- 	<select id="apiKioskDayItemList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
 		select M.id, M.pw 
 		from member_damo M inner join mem_card C on M.mem_no = C.mem_no
