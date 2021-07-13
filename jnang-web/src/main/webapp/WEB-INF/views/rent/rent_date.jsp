@@ -656,7 +656,7 @@ if (PLACE_GROUP == 4) {
 if (PLACE_GROUP == 4) {
 %>
 	<!-- <a href="/rent/team" id=" " class="gray2">팀 신청</a> -->
-	<a onclick="javascript:alert('현재는 팀을 신청하실 수 없습니다. 관리자에게 문의해주세요.');" id=" " class="gray2">팀 신청</a> /rent/team
+	<a onclick="javascript:alert('현재는 팀을 신청하실 수 없습니다. 관리자에게 문의해주세요.');" id=" " class="gray2">팀 신청</a>
 <%
 } else if(PLACE_GROUP == 2 || PLACE_GROUP == 3){
 %>		
