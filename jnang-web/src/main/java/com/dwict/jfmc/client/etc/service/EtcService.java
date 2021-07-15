@@ -20,7 +20,7 @@ public interface EtcService {
 	String apiKioskDayItemList(Map<String, Object> requestMap, HttpServletRequest request);
 
 	//kiosk 정수 API
-	String kioskDayInsert(Map<String, Object> requestMap, HttpServletRequest request);
+	String kioskDayInsert(HttpServletRequest request);
 
 	//kiosk 결제취소
 	String kioskDayCancel(Map<String, Object> requestMap, HttpServletRequest request);

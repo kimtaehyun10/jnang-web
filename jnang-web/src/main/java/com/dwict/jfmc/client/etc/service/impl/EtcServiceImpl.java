@@ -1,6 +1,8 @@
 package com.dwict.jfmc.client.etc.service.impl;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -8,10 +10,13 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import javax.annotation.Resource;
 import javax.crypto.BadPaddingException;
@@ -56,6 +61,7 @@ import com.dwict.jfmc.client.etc.mapper.EtcMapper;
 
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 @Slf4j
 @Service("etcService")
@@ -465,16 +471,42 @@ public class EtcServiceImpl implements EtcService {
 	//일일권 매출 발생시 귀사의 DB에 등록할 수 있도록 매출 정보를 전송할 API가 필요합니
 	@Override
 	@Transactional
-	public String kioskDayInsert(Map<String, Object> requestMap, HttpServletRequest request) {
+	public String kioskDayInsert(HttpServletRequest request) {
 
 		
+		  /*List<Map<String,Object>> info = new ArrayList<Map<String,Object>>();
+		    info = JSONArray.fromObject(requestMap);
+		    for (Map<String, Object> memberInfo : info) {
+		        System.out.println("xxxxxxxxxxxxxxxx========="+ memberInfo.get("ITEMLIST") + " : " + memberInfo.get("ITEM_CD"));
+		    } */ 
+		
 	   	//	정보가져오기
-   		String prgList = (String)requestMap.get("PGR");//강습반 및 프로그램 정보
-   		JSONArray aPrgList = JSONArray.fromObject(prgList);
-   		
-   		String payList = (String)requestMap.get("PAY");//
-   		JSONArray aPayList = JSONArray.fromObject(payList);
-   		
+		//String prgList = (String)requestMap.get("PRG");//강습반 및 프로그램 정보
+
+		try {
+			
+		
+		String aaaaa = request.getParameter("PAYLIST");//강습반 및 프로그램 정보
+		Gson gson = new Gson();
+		Map<String, String> aPayList = new HashMap<>();
+		aPayList = (Map<String, String>) gson.fromJson(aaaaa, aPayList.getClass());
+		String ss1 = aPayList.get("COMCD");
+		String ss2 = aPayList.get("USER_ID");
+		System.out.println("ss1: "+ ss1);
+		System.out.println("ss2: "+ ss2);
+
+		String bbbbb = (String) request.getParameter("ITEMLIST");//강습반 및 프로그램 정보
+		List<Map<String, Object>> aPrgList = new ArrayList<Map<String, Object>>();
+		aPrgList = (List<Map<String, Object>>) gson.fromJson(bbbbb, aPrgList.getClass());
+		
+		/*
+		for (int ii = 0; ii < aPrgList.size(); ii++) {
+			ss1 = aPrgList.get(ii).get("PART_CD").toString();
+			System.out.println("ss1: "+ ss1);
+			ss2 = aPrgList.get(ii).get("ITEM_CD").toString();
+			System.out.println("ss2: "+ ss2);
+		}
+		*/
 
   		//select * from PAY_LIST
    		String NEXT_RECEIPT_NO = mapper.getNextReceiptNo();
@@ -483,16 +515,33 @@ public class EtcServiceImpl implements EtcService {
    		String NEXT_APP_NO = "";
 
    		//카드 결제정보  ##################################
+   		/*
    		String COMCD		= aPayList.getJSONObject(0).getString("COMCD").toString(); //COMCD
    		String USER_ID 		= aPrgList.getJSONObject(0).getString("USER_ID").toString(); //kiosk1, 2,3,....
        	String APP_DATE 	= aPayList.getJSONObject(0).getString("APP_DATE").toString(); //카드_승인일시__van또는pg또는현금영수증
        	String APP_NO 		= aPayList.getJSONObject(0).getString("APP_NO").toString(); //카드_승인번호__van또는pg또는현금영수증
-       	String APP_TIME 	= aPayList.getJSONObject(0).getString("APP_TIME").toString(); //카드_승인시분Hi__van또는pg또는현금영수증
+       	//String APP_TIME 	= aPayList.getJSONObject(0).getString("APP_TIME").toString(); //카드_승인시분Hi__van또는pg또는현금영수증
+       	String APP_TIME 	= APP_DATE.substring(APP_DATE.length()-6, APP_DATE.length());
+
+       	
        	String REAL_CARD_CD = aPayList.getJSONObject(0).getString("CARD_CD").toString(); //결제수단코드
        	String CARD_NAME	= aPayList.getJSONObject(0).getString("CARD_NM").toString(); //카드사명
        	String CARD_NO 		= aPayList.getJSONObject(0).getString("CARD_NO").toString(); //카드번호
        	String HALBU_CNT	= aPayList.getJSONObject(0).getString("HALBU_CNT").toString(); //할부
        	String REMARK		= aPayList.getJSONObject(0).getString("REMARK").toString(); //memo
+       	*/
+   		String COMCD		= aPayList.get("COMCD").toString(); //COMCD
+   		String USER_ID 		= aPayList.get("USER_ID").toString(); //kiosk1, 2,3,....
+       	String APP_DATE 	= aPayList.get("APP_DATE").toString(); //카드_승인일시__van또는pg또는현금영수증
+       	String APP_NO 		= aPayList.get("APP_NO").toString(); //카드_승인번호__van또는pg또는현금영수증
+       	//String APP_TIME 	= aPayList.get("APP_TIME").toString(); //카드_승인시분Hi__van또는pg또는현금영수증
+       	String APP_TIME 	= APP_DATE.substring(8,12); //HHII
+
+       	String REAL_CARD_CD = aPayList.get("CARD_CD").toString(); //결제수단코드
+       	String CARD_NAME	= aPayList.get("CARD_NM").toString(); //카드사명
+       	String CARD_NO 		= aPayList.get("CARD_NO").toString(); //카드번호
+       	String HALBU_CNT	= aPayList.get("HALBU_CNT").toString(); //할부
+       	String REMARK		= aPayList.get("REMARK").toString(); //memo   		
        	
        	String P_COMCD		= "KIS"; //결제업체
    		String P_TYPE 		= "CARD";
@@ -508,23 +557,20 @@ public class EtcServiceImpl implements EtcService {
   		for (int jj=0;jj < aPrgList.size(); jj++ ) {
   			
  			//프로그램/사물함구분 PRG:프로그램, LOCKER:사물함, DEPOSIT:사물함보증금
-			String CLASS_CD = ""; //일일이용 사용안함 aPrgList.getJSONObject(jj).getString("CLASS_CD").toString();
-			String PART_CD = aPrgList.getJSONObject(jj).getString("PART_CD").toString();
-			String SPORTS_CD = aPrgList.getJSONObject(jj).getString("SPORTS_CD").toString();
-			String ITEM_CD = aPrgList.getJSONObject(jj).getString("ITEM_CD").toString();
-			//String ITEM_SDATE = aPrgList.getJSONObject(jj).getString("ITEM_SDATE").toString();
-			//String ITEM_EDATE = aPrgList.getJSONObject(jj).getString("ITEM_EDATE").toString();
-			//String DCREASON_CD = aPrgList.getJSONObject(jj).getString("DCREASON_CD").toString();
-			//String DCREASON_CD2 = aPrgList.getJSONObject(jj).getString("DCREASON_CD2").toString();
+			String CLASS_CD 	= ""; //일일이용 사용안함 aPrgList.get(jj).get("CLASS_CD").toString();
+			String PART_CD 		= aPrgList.get(jj).get("PART_CD").toString();
+			String SPORTS_CD 	= aPrgList.get(jj).get("SPORTS_CD").toString();
+			String ITEM_CD 		= aPrgList.get(jj).get("ITEM_CD").toString();
+
 			
-			int SALE_AMT = aPrgList.getJSONObject(jj).getInt("SALE_AMT"); //판매금액
+			String SALE_AMT 	= aPrgList.get(jj).get("SALE_AMT").toString(); //판매금액
 			
-			String SALE_NUM = aPrgList.getJSONObject(jj).getString("SALE_NUM").toString(); //판매수량
+			String SALE_NUM 	= aPrgList.get(jj).get("SALE_NUM").toString(); //판매수량
 			int USE_CNT = 0; //aPrgList.getJSONObject(jj).getInt("USE_CNT"); //이용기간내횟수 = 0; //이용횟수
 			int DC_AMT = 0; //aPrgList.getJSONObject(jj).getInt("DC_AMT"); //할인금액
-			String VAT_YN = aPrgList.getJSONObject(jj).getString("VAT_YN").toString(); //부가세여부YN
-			int VAT_AMT = aPrgList.getJSONObject(jj).getInt("VAT_AMT"); //부가세금액
-			String CALMEM_NO = MEM_NO; //aPrgList.getJSONObject(jj).getString("CALMEM_NO").toString(); //이용회원번호
+			String VAT_YN 		= aPrgList.get(jj).get("VAT_YN").toString(); //부가세여부YN
+			String VAT_AMT 		= aPrgList.get(jj).get("VAT_AMT").toString(); //부가세금액
+			String CALMEM_NO 	= MEM_NO; //aPrgList.get(jj).get("CALMEM_NO").toString(); //이용회원번호
 			//int DEPOSIT_AMT = aPrgList.getJSONObject(jj).getInt("DEPOSIT_AMT"); // 보증금
 			//String REMARK 	=  arrayREMARK[jj]; //비고
 			
@@ -563,7 +609,7 @@ public class EtcServiceImpl implements EtcService {
 	    	
 	    	maps.put("CARD_SEC", METHOD_CD);//카드사 코드
 	    	maps.put("CARD_SEC2", "");//
-	    	maps.put("CARD_INFO", REAL_CARD_CD);//실제 결제 카드사정보
+	    	maps.put("CARD_INFO", REAL_CARD_CD +"00"+ CARD_NAME);//실제 결제 카드사정보
 	    	maps.put("HALBU_CNT", HALBU_CNT);//카드사 할부
 			maps.put("PAY_AMT", SALE_AMT);//결제금액
 	    	maps.put("APP_AMT", SALE_AMT);//결제금액
@@ -625,7 +671,6 @@ public class EtcServiceImpl implements EtcService {
 	  		
 	  		String NEXT_SALE_SEQ = maps.get("NEXT_SALE_SEQ").toString();
 	  		
-	  		
 	  		//Map<String, Object> requestMapTrainHist = new HashMap<String, Object>();
 
   		
@@ -642,24 +687,32 @@ public class EtcServiceImpl implements EtcService {
     	  	mapper.setTrainHist(maps);
   		
     		//결제완료 후 일일 입장 처리 ##################################################
-      		requestMap.put("ENTR_DATE", yyyymmdd);
+      		//requestMap.put("ENTR_DATE", yyyymmdd);
       		mapper.setMemCheckIn(maps);
 
-  		}
+  		} //end for
    		
-		//requestMap.put("COMCD", comCd);
-		//requestMap.put("USER_ID", userId);
-  		//requestMap.put("ITEM_CD", ITEM_CD);//품목코드
-  		//requestMap.put("CLASS_CD", CLASS_CD);//강습반코드:일일회원은 강습반이 없음
-   		
-		return null;
+  		Map<String, Object> rtnMap = new HashMap<>();
+  		rtnMap.put("msg", "ok");//강습반코드:일일회원은 강습반이 없음
+  		String rtn = new Gson().toJson(rtnMap);
+  		return rtn;
 		
+		} catch (Exception e) {
+			e.printStackTrace();
+			StringWriter errors = new StringWriter();
+	        e.printStackTrace(new PrintWriter(errors));
+	        
+	        Map<String, Object> rtnMap = new HashMap<>();
+	        rtnMap.put("msg", errors.toString());//강습반코드:일일회원은 강습반이 없음
+			String rtn = new Gson().toJson(rtnMap);
+			return rtn;
+		}
 
 	}
 	
 	
 	
-	//일일권 매출 발생시 귀사의 DB에 등록할 수 있도록 매출 정보를 전송할 API가 필요합니
+	//일일권 매출 취소 API가 필요합니다.
 	@Override
 	@Transactional
 	public String kioskDayCancel(Map<String, Object> requestMap, HttpServletRequest request) {

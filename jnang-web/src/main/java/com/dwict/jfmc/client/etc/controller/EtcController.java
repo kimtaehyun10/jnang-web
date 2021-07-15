@@ -1,5 +1,6 @@
 package com.dwict.jfmc.client.etc.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -150,16 +151,16 @@ public class EtcController {
 	}
 	
 	//일일권 매출 발생시 귀사의 DB에 등록할 수 있도록 매출 정보를 전송할 API가 필요합니
-	@GetMapping(value = "/kiosk/dayInsert.do")
+	@RequestMapping(value = "/kiosk/dayInsert.do")
 	public ModelAndView kioskDayInsert(Map<String, Object> requestMap, HttpServletRequest request, ModelAndView modelAndView) {
-		String rtnMSG = etcService.kioskDayInsert(requestMap, request);
+		String rtnMSG = etcService.kioskDayInsert(request);
 		modelAndView.addObject("rtnMSG",rtnMSG);
 		modelAndView.setViewName("etc/sccAPI.none");
 		return modelAndView;
 	}
 	
 	//일일권 매출 취소 API가 필요합니다.
-	@GetMapping(value = "/kiosk/dayCancel.do")
+	@RequestMapping(value = "/kiosk/dayCancel.do")
 	public ModelAndView kioskDayCancel(Map<String, Object> requestMap, HttpServletRequest request, ModelAndView modelAndView) {
 		String rtnMSG = etcService.kioskDayCancel(requestMap, request);
 		modelAndView.addObject("rtnMSG",rtnMSG);
