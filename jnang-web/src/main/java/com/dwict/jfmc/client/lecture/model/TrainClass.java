@@ -154,6 +154,9 @@ public class TrainClass {
 	@Column(name = "REP_EDATE")
 	private String repEdate;
 	
+	@Column(name = "WEB_TRAIN_ADD_TTL")
+	private String webTrainAddTtl;
+	
 	private int saleCount;
 
 	private List<ProgramItem> programItem;

@@ -169,7 +169,8 @@
                      		 ) AS orderCnt
                      		 ,(select count(*) from mem_cart as cart where COMCD = A.COMCD and CLASS_CD = A.CLASS_CD) as cartCnt
                      	,C.REC_SDATE
-                        ,C.REC_EDATE                        
+                        ,C.REC_EDATE
+                        ,IFNULL(A.WEB_TRAIN_ADD_TTL,'') AS WEB_TRAIN_ADD_TTL                         
                  FROM TRAIN_CLASS A LEFT OUTER JOIN COT_GRPCD C ON A.COMCD = C.COMCD
                   WHERE A.USE_YN = 'Y'
                    AND C.USE_YN = 'Y'
