@@ -7,7 +7,29 @@
 
 'use strict'
 $(function(){
-	setMenuTitle('bg_01', '시설 통합예약', '수강신청', true);
+	setMenuTitle('bg_01', '시설 통합예약', '프로그램 안내 및 수강신청', true);
+	$('#emptyDep1').on('click',function(){
+		if($('.sub_navi1 .bg1').css('display')==='none'){
+			var idx_n=$(this).parent().parent().index();
+			$('.sub_navi1 .navi1 .dp1').each(function(){
+				if(idx_n!=$(this).index()){
+					$(this).find('ul').slideUp(100);
+				}
+			});
+			$(this).next().slideToggle(150);
+		}else{
+			$(this).next().slideToggle(150);
+		}
+	});
+	let cont = '';
+	cont += '<li><a href="/lecture/list/JUNGNANG01">중랑구민체육센터</a></li>';
+	cont += '<li><a href="/lecture/list/JUNGNANG02">중랑문화체육관</a></li>';
+	cont += '<li><a href="/lecture/list/JUNGNANG03">면목2동체육관</a></li>';
+	cont += '<li><a href="/lecture/list/JUNGNANG04">신내다목적체육관</a></li>';
+	cont += '<li><a href="/lecture/list/JUNGNANG05">묵동다목적체육관</a></li>';
+	cont += '<li><a href="/lecture/list/JUNGNANG07">중랑구립테니스장</a></li>';
+	$(".mbx1:eq(0)>ul").empty().append(cont);
+	
 	setCondition();
 	addOnChangeEvent('sb1');
 	addOnChangeEvent('sb2');
