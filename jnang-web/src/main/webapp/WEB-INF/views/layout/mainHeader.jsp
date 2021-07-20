@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
-<script type="text/javascript" src="${pageContext.request.contextPath}/resource/js/page/header.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resource/js/page/header.js"></script>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resource/css/header.min.css">
 <div class='fr_head'>
 	<div class='head_goto1 responsive_p'>

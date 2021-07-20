@@ -60,8 +60,8 @@ import com.dwict.jfmc.client.com.util.SHA256PasswordEncoder;
 import com.dwict.jfmc.client.etc.mapper.EtcMapper;
 
 import lombok.extern.slf4j.Slf4j;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
+//import net.sf.json.JSONArray;
+//import net.sf.json.JSONObject;
 
 @Slf4j
 @Service("etcService")
@@ -198,14 +198,17 @@ public class EtcServiceImpl implements EtcService {
 			}
 		}
 		
-		try {
+		/*try {
 			final HashMap<String, String> airInfo = getAirInfo();
 			weatherInfo.put("pm10Value", airInfo.get("pm10Value"));
 			weatherInfo.put("airStatus", airInfo.get("airStatus"));
 		} catch (Exception e) {
 			weatherInfo.put("pm10Value", "80");
 			weatherInfo.put("airStatus", "보통");
-		}
+		}*/
+		weatherInfo.put("pm10Value", "80");
+		weatherInfo.put("airStatus", "보통");
+		
 		return weatherInfo;
 	}
 

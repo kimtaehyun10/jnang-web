@@ -7,7 +7,7 @@
 'use strict'
 $(function(){
 	//날씨 오류 주석처리
-	//var weatherInfo = getWeatherInfo();
+	var weatherInfo = getWeatherInfo();
 });
 
 function getWeatherInfo(){
@@ -26,7 +26,7 @@ function getWeatherInfo(){
 			var nDateDiffB = dNow.getHours();
 			if(nDateDiffA < nDateDiffB){
 				requestWeatherInfo();
-			}else{
+			}else{				
 				var sTemp = localStorage.getItem('temp');
 				var sPty = localStorage.getItem('pty');
 				var sSky = localStorage.getItem('sky');
@@ -60,7 +60,7 @@ function changeWeatherImage(pty, sky){
 	$('#weatherImg').attr('src',sImageUrl);
 }
 
-function requestWeatherInfo(){
+function requestWeatherInfo(){	
 	$.get('/data/weather', {}, function(data){
 		setWeatherInfoToLocalStorage(data);
 		changeWeatherImage(data.pty, data.sky);
