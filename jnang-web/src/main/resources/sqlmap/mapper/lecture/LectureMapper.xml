@@ -309,6 +309,7 @@
 	     WHERE B.USE_YN = 'Y'
 	       AND A.COMCD = #{comcd}
 	       AND A.CLASS_CD = #{classCd}
+	     ORDER BY B.MENU_ORDER
     </select>
     
     <select id="getProgramInfo" parameterType="programItem" resultType="programItem">
