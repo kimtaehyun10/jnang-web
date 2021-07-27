@@ -122,22 +122,45 @@ var initPage = function(){
 		tableDetail += '<td id="DCREASON_CD"></td>';
 		tableDetail += '</tr>';
 		
-		
-		if(data.sportsCd == "18" || data.sportsCd == "27"){
-			tableDetail += '<tr>';
-			tableDetail += '<th>즉시감면</th>';
-			tableDetail += '<td><p style="color:red">※ 피아노와 기구필라테스는 할인이 불가능합니다.</p></td>';
-		}else if(data.sportsCd == "01" && data.msportsCd == "102"){
-			//수영종목에 분류가 장애인소그룹이라면
-			tableDetail += '<tr>';
-			tableDetail += '<th>즉시감면</th>';
-			tableDetail += '<td><p style="color:red">※ 할인 적용된 금액으로 중복 할인 불가능합니다.</p></td>';
-		}else {
+		if(data.grpcd.comcd == 'JUNGNANG01'){
+			//센터가 중랑구민체육센터라면
+			if(data.sportsCd == "18" || data.sportsCd == "27"){
+				tableDetail += '<tr>';
+				tableDetail += '<th>즉시감면</th>';
+				tableDetail += '<td><p style="color:red">※ 피아노와 기구필라테스는 할인이 불가능합니다.</p></td>';
+				tableDetail += '</tr>';
+			}else if(data.sportsCd == "01" && data.msportsCd == "102"){
+				//수영종목에 분류가 장애인소그룹이라면
+				tableDetail += '<tr>';
+				tableDetail += '<th>즉시감면</th>';
+				tableDetail += '<td><p style="color:red">※ 할인 적용된 금액으로 중복 할인 불가능합니다.</p></td>';
+				tableDetail += '</tr>';
+			}else {
+				tableDetail += '<tr>';
+				tableDetail += '<th>즉시감면</th>';
+				tableDetail += '<td><a class="size_m2 btn_gray2" onclick="popImre();">할인항목 조회하기</a></td>';
+				tableDetail += '</tr>';		
+			}
+		}else if(data.grpcd.comcd == 'JUNGNANG02'){
+			//센터가 중랑문화체육관이라면
+			if(data.sportsCd == "01" && data.msportsCd == "68"){
+				//수영종목에 분류가 장애인소그룹이라면
+				tableDetail += '<tr>';
+				tableDetail += '<th>즉시감면</th>';
+				tableDetail += '<td><p style="color:red">※ 할인 적용된 금액으로 중복 할인 불가능합니다.</p></td>';
+				tableDetail += '</tr>';
+			}else{
+				tableDetail += '<tr>';
+				tableDetail += '<th>즉시감면</th>';
+				tableDetail += '<td><a class="size_m2 btn_gray2" onclick="popImre();">할인항목 조회하기</a></td>';
+				tableDetail += '</tr>';
+			}
+		}else{
 			tableDetail += '<tr>';
 			tableDetail += '<th>즉시감면</th>';
 			tableDetail += '<td><a class="size_m2 btn_gray2" onclick="popImre();">할인항목 조회하기</a></td>';
-			tableDetail += '</tr>';		
-		}
+			tableDetail += '</tr>';
+		}		
 		
 
 		tableDetail += '<br>';
@@ -172,80 +195,86 @@ var initPage = function(){
 		console.log('만나이'+manAge);
 		console.log('gender'+gender);
 		console.log('한국나이'+koreaAge);
-		if(data.sportsCd == "18" || data.sportsCd == "27"){
-			var html1 = '';
-			$("#DCREASON_CD").html(html1);
-		}else if(koreaAge >= '13' && koreaAge <= '55' && gender == 'F'){
-			
-			if(data.grpcd.cd == '01'){
-				if(data.msportsCd == "102"){
-					//수강 종목이 수영이고 분류가 장애인소그룹이라면
-					
-				}else{
-					//수강 종목이 수영이라면
-					//가임여성
-					var html1 = '';
-			    	var html2 = '';
-			    	var html3 = '';
-			    	var beforeCost = '';
-			    	var afterCost = '';
-			    	var resultCost = '';    	    	    					
-
-		    		html1 = '가임여성 13~55세(10%)';    		
-		    		beforeCost = $('#lectureCost').val();
-		    		afterCost = Math.round((beforeCost*0.1)/100)*100;
-		    		resultCost = beforeCost - afterCost;
-		    		html2 += '수강료 : '+comma_str_y(resultCost)+'원(할인가격 : '+comma_str_y(afterCost)+'원)';   			    	
-			    	
-			    	html3 += '<a class="size_m2 btn_gray2" href="/lecture/list">목록</a>';
-			    	html3 += "<a class='size_m2 btn_red2' onclick=\"goBtn('"+ SEQ +"','"+ resultCost +"','"+ data.classNm +"','"+ data.comcd +"');\">결제</a>";
-			    	$('#costAmt').val(resultCost);
-			    	
-			    	$("#DCREASON_CD").html(html1);		
-					$("#costHtml").html(html2);
-					$('#insertLecture').empty().append(html3);
-				}
-				
-			}else {
-				var html1 = '';
-				html1 = '가임여성 13~55세(10%) 할인 대상자 입니다.(수영 종목 이외의 강좌는 가임여성 할인을 받을 수 없습니다.)';
-				$("#DCREASON_CD").html(html1);
-			}			
-			
-		}else if(manAge >= '65'){
-			if(data.sportsCd == "18" || data.sportsCd == "27"){
-				var html1 = '';
-				html1 = '※ 피아노와 기구필라테스는 할인이 불가능합니다.';
-				$("#DCREASON_CD").html(html1);
-			}else {
-				if(data.msportsCd == "102"){
-					//수강 종목이 수영이고 분류가 장애인소그룹이라면
-					
-				}else{
-					//경로우대
-					var html1 = '';
-			    	var html2 = '';
-			    	var html3 = '';
-			    	var beforeCost = '';
-			    	var afterCost = '';
-			    	var resultCost = '';    	    	    					
 		
-		    		html1 = '경로우대(30%)';    		
-		    		beforeCost = $('#lectureCost').val();
-		    		afterCost = Math.round((beforeCost*0.3)/100)*100;
-		    		resultCost = beforeCost - afterCost;
-		    		html2 += '수강료 : '+comma_str_y(resultCost)+'원(할인가격 : '+comma_str_y(afterCost)+'원)';   			    	
-			    	
-			    	html3 += '<a class="size_m2 btn_gray2" href="/lecture/list">목록</a>';
-			    	html3 += "<a class='size_m2 btn_red2' onclick=\"goBtn('"+ SEQ +"','"+ resultCost +"','"+ data.classNm +"','"+ data.comcd +"');\">결제</a>";
+		if(data.grpcd.comcd == 'JUNGNANG01'){
+			//센처가 중랑구민체육센터라면
+			if(data.sportsCd == "18" || data.sportsCd == "27"){ // 피아노, 기구필라테스
+				var html1 = '';
+				$("#DCREASON_CD").html(html1);
+			}else if(koreaAge >= '13' && koreaAge <= '55' && gender == 'F'){
+				
+				if(data.grpcd.cd == '01'){
+					if(data.msportsCd == "102"){
+						//수강 종목이 수영이고 분류가 장애인소그룹이라면 가임여성 할인x
+						
+					}else{
+						//수강 종목이 수영이라면
+						//가임여성
+						var html1 = '';
+				    	var html2 = '';
+				    	var html3 = '';
+				    	var beforeCost = '';
+				    	var afterCost = '';
+				    	var resultCost = '';    	    	    					
+
+			    		html1 = '가임여성 13~55세(10%)';    		
+			    		beforeCost = $('#lectureCost').val();
+			    		afterCost = Math.round((beforeCost*0.1)/100)*100;
+			    		resultCost = beforeCost - afterCost;
+			    		html2 += '수강료 : '+comma_str_y(resultCost)+'원(할인가격 : '+comma_str_y(afterCost)+'원)';   			    	
+				    	
+				    	html3 += '<a class="size_m2 btn_gray2" href="/lecture/list">목록</a>';
+				    	html3 += "<a class='size_m2 btn_red2' onclick=\"goBtn('"+ SEQ +"','"+ resultCost +"','"+ data.classNm +"','"+ data.comcd +"');\">결제</a>";
+				    	$('#costAmt').val(resultCost);
+				    	
+				    	$("#DCREASON_CD").html(html1);		
+						$("#costHtml").html(html2);
+						$('#insertLecture').empty().append(html3);
+					}
 					
-			    	$('#costAmt').val(resultCost);
-			    	$("#DCREASON_CD").html(html1);		
-					$("#costHtml").html(html2);
-					$('#insertLecture').empty().append(html3);	
+				}else {
+					var html1 = '';
+					html1 = '가임여성 13~55세(10%) 할인 대상자 입니다.(수영 종목 이외의 강좌는 가임여성 할인을 받을 수 없습니다.)';
+					$("#DCREASON_CD").html(html1);
+				}			
+				
+			}else if(manAge >= '65'){
+				if(data.sportsCd == "18" || data.sportsCd == "27"){
+					var html1 = '';
+					html1 = '※ 피아노와 기구필라테스는 할인이 불가능합니다.';
+					$("#DCREASON_CD").html(html1);
+				}else {
+					if(data.msportsCd == "102"){
+						//수강 종목이 수영이고 분류가 장애인소그룹이라면 가임여성 할인x
+						
+					}else{
+						//경로우대
+						var html1 = '';
+				    	var html2 = '';
+				    	var html3 = '';
+				    	var beforeCost = '';
+				    	var afterCost = '';
+				    	var resultCost = '';    	    	    					
+			
+			    		html1 = '경로우대(30%)';    		
+			    		beforeCost = $('#lectureCost').val();
+			    		afterCost = Math.round((beforeCost*0.3)/100)*100;
+			    		resultCost = beforeCost - afterCost;
+			    		html2 += '수강료 : '+comma_str_y(resultCost)+'원(할인가격 : '+comma_str_y(afterCost)+'원)';   			    	
+				    	
+				    	html3 += '<a class="size_m2 btn_gray2" href="/lecture/list">목록</a>';
+				    	html3 += "<a class='size_m2 btn_red2' onclick=\"goBtn('"+ SEQ +"','"+ resultCost +"','"+ data.classNm +"','"+ data.comcd +"');\">결제</a>";
+						
+				    	$('#costAmt').val(resultCost);
+				    	$("#DCREASON_CD").html(html1);		
+						$("#costHtml").html(html2);
+						$('#insertLecture').empty().append(html3);	
+					}
+						
 				}
-					
 			}
+		}else if(data.grpcd.comcd == 'JUNGNANG02'){
+			//센터가 중랑문화체육관 이라면
 		}
 		
 		
