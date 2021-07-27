@@ -580,7 +580,8 @@ var lecturePaymentDetail = function(comcd, classCd, itemCd, sold, eold, recSdate
 		var memBirth = new Date(beforeBirth.substr(0,4)+'/'+beforeBirth.substr(4,2)+'/'+beforeBirth.substr(6,2));
 		var age = date.getFullYear() - memBirth.getFullYear();
 		age = age + 1;		
-		if(age <= sold || age >= eold){
+		
+		if(age < sold || age > eold){  // !(age >= sold && age <= eold)
 			alert('해당강좌는 '+sold+'세 ~ '+eold +'세 까지 신청할 수 있습니다.');
 			return;
 		}
