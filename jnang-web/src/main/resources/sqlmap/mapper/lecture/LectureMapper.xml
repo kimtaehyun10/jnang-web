@@ -349,6 +349,7 @@
    		     , C.CHILD_YN
    		     , C.CLASS_PHOTO
    		     , C.TDATE_USE_YN
+   		     , C.MSPORTS_CD
 	         , 0 AS SALE_COUNT
 	            , (SELECT  count(*)
                              FROM train_hist D,  MEM_SALE f

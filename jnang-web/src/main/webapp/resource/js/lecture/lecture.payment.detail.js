@@ -127,6 +127,11 @@ var initPage = function(){
 			tableDetail += '<tr>';
 			tableDetail += '<th>즉시감면</th>';
 			tableDetail += '<td><p style="color:red">※ 피아노와 기구필라테스는 할인이 불가능합니다.</p></td>';
+		}else if(data.sportsCd == "01" && data.msportsCd == "102"){
+			//수영종목에 분류가 장애인소그룹이라면
+			tableDetail += '<tr>';
+			tableDetail += '<th>즉시감면</th>';
+			tableDetail += '<td><p style="color:red">※ 할인 적용된 금액으로 중복 할인 불가능합니다.</p></td>';
 		}else {
 			tableDetail += '<tr>';
 			tableDetail += '<th>즉시감면</th>';
@@ -173,28 +178,34 @@ var initPage = function(){
 		}else if(koreaAge >= '13' && koreaAge <= '55' && gender == 'F'){
 			
 			if(data.grpcd.cd == '01'){
-				//수강 종목이 수영이라면
-				//가임여성
-				var html1 = '';
-		    	var html2 = '';
-		    	var html3 = '';
-		    	var beforeCost = '';
-		    	var afterCost = '';
-		    	var resultCost = '';    	    	    					
+				if(data.msportsCd == "102"){
+					//수강 종목이 수영이고 분류가 장애인소그룹이라면
+					
+				}else{
+					//수강 종목이 수영이라면
+					//가임여성
+					var html1 = '';
+			    	var html2 = '';
+			    	var html3 = '';
+			    	var beforeCost = '';
+			    	var afterCost = '';
+			    	var resultCost = '';    	    	    					
 
-	    		html1 = '가임여성 13~55세(10%)';    		
-	    		beforeCost = $('#lectureCost').val();
-	    		afterCost = Math.round((beforeCost*0.1)/100)*100;
-	    		resultCost = beforeCost - afterCost;
-	    		html2 += '수강료 : '+comma_str_y(resultCost)+'원(할인가격 : '+comma_str_y(afterCost)+'원)';   			    	
-		    	
-		    	html3 += '<a class="size_m2 btn_gray2" href="/lecture/list">목록</a>';
-		    	html3 += "<a class='size_m2 btn_red2' onclick=\"goBtn('"+ SEQ +"','"+ resultCost +"','"+ data.classNm +"','"+ data.comcd +"');\">결제</a>";
-		    	$('#costAmt').val(resultCost);
-		    	
-		    	$("#DCREASON_CD").html(html1);		
-				$("#costHtml").html(html2);
-				$('#insertLecture').empty().append(html3);
+		    		html1 = '가임여성 13~55세(10%)';    		
+		    		beforeCost = $('#lectureCost').val();
+		    		afterCost = Math.round((beforeCost*0.1)/100)*100;
+		    		resultCost = beforeCost - afterCost;
+		    		html2 += '수강료 : '+comma_str_y(resultCost)+'원(할인가격 : '+comma_str_y(afterCost)+'원)';   			    	
+			    	
+			    	html3 += '<a class="size_m2 btn_gray2" href="/lecture/list">목록</a>';
+			    	html3 += "<a class='size_m2 btn_red2' onclick=\"goBtn('"+ SEQ +"','"+ resultCost +"','"+ data.classNm +"','"+ data.comcd +"');\">결제</a>";
+			    	$('#costAmt').val(resultCost);
+			    	
+			    	$("#DCREASON_CD").html(html1);		
+					$("#costHtml").html(html2);
+					$('#insertLecture').empty().append(html3);
+				}
+				
 			}else {
 				var html1 = '';
 				html1 = '가임여성 13~55세(10%) 할인 대상자 입니다.(수영 종목 이외의 강좌는 가임여성 할인을 받을 수 없습니다.)';
@@ -207,27 +218,33 @@ var initPage = function(){
 				html1 = '※ 피아노와 기구필라테스는 할인이 불가능합니다.';
 				$("#DCREASON_CD").html(html1);
 			}else {
-				//경로우대
-				var html1 = '';
-		    	var html2 = '';
-		    	var html3 = '';
-		    	var beforeCost = '';
-		    	var afterCost = '';
-		    	var resultCost = '';    	    	    					
-	
-	    		html1 = '경로우대(30%)';    		
-	    		beforeCost = $('#lectureCost').val();
-	    		afterCost = Math.round((beforeCost*0.3)/100)*100;
-	    		resultCost = beforeCost - afterCost;
-	    		html2 += '수강료 : '+comma_str_y(resultCost)+'원(할인가격 : '+comma_str_y(afterCost)+'원)';   			    	
-		    	
-		    	html3 += '<a class="size_m2 btn_gray2" href="/lecture/list">목록</a>';
-		    	html3 += "<a class='size_m2 btn_red2' onclick=\"goBtn('"+ SEQ +"','"+ resultCost +"','"+ data.classNm +"','"+ data.comcd +"');\">결제</a>";
-				
-		    	$('#costAmt').val(resultCost);
-		    	$("#DCREASON_CD").html(html1);		
-				$("#costHtml").html(html2);
-				$('#insertLecture').empty().append(html3);		
+				if(data.msportsCd == "102"){
+					//수강 종목이 수영이고 분류가 장애인소그룹이라면
+					
+				}else{
+					//경로우대
+					var html1 = '';
+			    	var html2 = '';
+			    	var html3 = '';
+			    	var beforeCost = '';
+			    	var afterCost = '';
+			    	var resultCost = '';    	    	    					
+		
+		    		html1 = '경로우대(30%)';    		
+		    		beforeCost = $('#lectureCost').val();
+		    		afterCost = Math.round((beforeCost*0.3)/100)*100;
+		    		resultCost = beforeCost - afterCost;
+		    		html2 += '수강료 : '+comma_str_y(resultCost)+'원(할인가격 : '+comma_str_y(afterCost)+'원)';   			    	
+			    	
+			    	html3 += '<a class="size_m2 btn_gray2" href="/lecture/list">목록</a>';
+			    	html3 += "<a class='size_m2 btn_red2' onclick=\"goBtn('"+ SEQ +"','"+ resultCost +"','"+ data.classNm +"','"+ data.comcd +"');\">결제</a>";
+					
+			    	$('#costAmt').val(resultCost);
+			    	$("#DCREASON_CD").html(html1);		
+					$("#costHtml").html(html2);
+					$('#insertLecture').empty().append(html3);	
+				}
+					
 			}
 		}
 		
